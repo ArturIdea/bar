@@ -1,0 +1,37 @@
+'use client'
+import {ActionIcon, Flex, Image, Text} from "@mantine/core";
+import {useMobileBreakpoint} from "@/hooks/useMobileBreakPoint";
+import ActionIcons from "@/components/ValidationPage/ActionIcons";
+
+const IconSection = () => {
+  const isMobile = useMobileBreakpoint(600)
+
+  return (
+    <Flex w="100%" direction="row" justify={isMobile ? "center" : 'space-between'} align="center">
+      <ActionIcons />
+      {!isMobile && <Flex direction="column" rowGap={4}>
+        <Text style={{fontSize: 10, textAlign: "end"}} c='dimmed' size="xs">Download the Baraka app for more
+          details</Text>
+        <Flex columnGap={8} justify="end">
+          <Flex h={30} w={103}>
+            <Image
+              src="/google.svg"
+              width={103}
+              height={30}
+              fit="cover"
+            />
+          </Flex>
+          <Flex h={30} w={103}>
+            <Image
+              src="/apple.svg"
+              width={103}
+              height={30}
+              fit="cover"
+            />
+          </Flex>
+        </Flex>
+      </Flex>}
+    </Flex>
+  )
+}
+export default IconSection
