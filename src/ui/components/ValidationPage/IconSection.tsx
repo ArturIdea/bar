@@ -1,7 +1,7 @@
 'use client'
 import {ActionIcon, Flex, Image, Text} from "@mantine/core";
-import {useMobileBreakpoint} from "@/src/ui/hooks/ui/useMobileBreakPoint";
-import ActionIcons from "@/src/ui/components/ValidationPage/ActionIcons";
+import {useMobileBreakpoint} from "@/ui/hooks/ui/useMobileBreakPoint";
+import ActionIcons from "@/ui/components/ValidationPage/ActionIcons";
 
 const IconSection = () => {
   const isMobile = useMobileBreakpoint(600)

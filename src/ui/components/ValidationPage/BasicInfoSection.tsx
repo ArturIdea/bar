@@ -1,6 +1,6 @@
 'use client';
 import {Flex, SimpleGrid, Text} from "@mantine/core";
-import {useMobileBreakpoint} from "@/src/ui/hooks/ui/useMobileBreakPoint";
+import {useMobileBreakpoint} from "@/ui/hooks/ui/useMobileBreakPoint";
 
 const BasicInfoSection = () => {
   const isMobile = useMobileBreakpoint(600)

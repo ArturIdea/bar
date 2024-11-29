@@ -1,13 +1,13 @@
 'use client';
 
 import { Flex } from '@mantine/core';
-import BadgeSection from '@/src/ui/components/ValidationPage/Badge';
-import BasicInfoSection from '@/src/ui/components/ValidationPage/BasicInfoSection';
-import BottomSection from '@/src/ui/components/ValidationPage/BottomSection';
-import IconSection from '@/src/ui/components/ValidationPage/IconSection';
-import ProfileImage from '@/src/ui/components/ValidationPage/ProfileImage';
-import StoreIconsMobile from '@/src/ui/components/ValidationPage/StoreIconsMobile';
-import { useMobileBreakpoint } from '@/src/ui/hooks/ui/useMobileBreakPoint';
+import BadgeSection from '@/ui/components/ValidationPage/Badge';
+import BasicInfoSection from '@/ui/components/ValidationPage/BasicInfoSection';
+import BottomSection from '@/ui/components/ValidationPage/BottomSection';
+import IconSection from '@/ui/components/ValidationPage/IconSection';
+import ProfileImage from '@/ui/components/ValidationPage/ProfileImage';
+import StoreIconsMobile from '@/ui/components/ValidationPage/StoreIconsMobile';
+import { useMobileBreakpoint } from '@/ui/hooks/ui/useMobileBreakPoint';
 
 export default function CitizenDetails() {
   const isMobile = useMobileBreakpoint(600);

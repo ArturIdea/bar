@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
-import { API_URL } from '@/src/core/config';
+import { API_URL } from '@/core/config';
 
 export class ApiClient {
   private axiosInstance: AxiosInstance;
