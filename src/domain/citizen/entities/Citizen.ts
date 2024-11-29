@@ -1,13 +1,33 @@
 export class Citizen {
   constructor(
     public id: string,
-    public name: string
+    public socialNumber: string,
+    public pinfl: string,
+    public firstName: string,
+    public lastName: string,
+    public gender: string,
+    public nationality: string,
+    public dateOfIssue: string,
+    public placeOfBirth: string,
+    public version: number,
+    public fingerprint: string | null,
+    public image: string | null
   ) {}
 
   toJson() {
     return {
       id: this.id,
-      name: this.name,
+      socialNumber: this.socialNumber,
+      pinfl: this.pinfl,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      gender: this.gender,
+      nationality: this.nationality,
+      dateOfIssue: this.dateOfIssue,
+      placeOfBirth: this.placeOfBirth,
+      version: this.version,
+      fingerprint: this.fingerprint,
+      image: this.image,
     } as Citizen;
   }
 }

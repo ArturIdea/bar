@@ -15,7 +15,7 @@ const IconSection = () => {
         <Flex columnGap={8} justify="end">
           <Flex h={30} w={103}>
             <Image
-              src="/images/google.svg"
+              src="/images/logos/google.svg"
               width={103}
               height={30}
               fit="cover"
@@ -23,7 +23,7 @@ const IconSection = () => {
           </Flex>
           <Flex h={30} w={103}>
             <Image
-              src="/images/apple.svg"
+              src="/images/logos/apple.svg"
               width={103}
               height={30}
               fit="cover"

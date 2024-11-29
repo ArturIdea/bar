@@ -1,5 +1,5 @@
 import {ActionIcon, Flex, Image} from "@mantine/core";
-const paths = ["/images/download.svg", "/images/share.svg", "/images/printer.svg"]
+const paths = ["/images/icons/download.svg", "/images/icons/share.svg", "/images/icons/printer.svg"]
 
 const ActionIcons = () => {
   return (

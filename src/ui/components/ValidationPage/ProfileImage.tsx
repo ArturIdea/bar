@@ -6,7 +6,7 @@ interface ProfileImageProps {
   citizen: Citizen;
 }
 
-const ProfileImage= () => {
+const ProfileImage = ({ citizen }: ProfileImageProps) => {
   return (
     <Flex mt={64} direction="column" align="center" rowGap={16}>
       <Flex
@@ -15,14 +15,14 @@ const ProfileImage= () => {
         style={{ borderRadius: '50%', overflow: 'hidden', border: '1px solid #ECEEF4' }}
       >
         <Image
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          src={citizen.image}
           width={160}
           height={160}
           fit="cover"
         />
       </Flex>
       <Text fw={700} size="xl">
-        name
+        {citizen.firstName}
       </Text>
     </Flex>
   );

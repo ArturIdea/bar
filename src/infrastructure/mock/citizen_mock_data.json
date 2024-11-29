@@ -1,4 +1,14 @@
 {
-  "id": "xxxxx",
-  "name": "Pelopidas"
+  "id": "eee48a7d-3f3d-43e6-8301-af14669d7808",
+  "socialNumber": "986024423112939",
+  "pinfl": "31203860540015",
+  "firstName": "Giorgos",
+  "lastName": "Papadopoulos",
+  "gender": "Male",
+  "nationality": "Greek",
+  "dateOfIssue": "2024-11-28",
+  "placeOfBirth": "Athens",
+  "version": 1,
+  "fingerprint": null,
+  "image": "https://picsum.photos/200"
 }
