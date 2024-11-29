@@ -1,5 +1,5 @@
 'use client'
-import {ActionIcon, Flex, Image, Text} from "@mantine/core";
+import {Flex, Image, Text} from "@mantine/core";
 import {useMobileBreakpoint} from "@/ui/hooks/ui/useMobileBreakPoint";
 import ActionIcons from "@/ui/components/ValidationPage/ActionIcons";
 
@@ -15,7 +15,7 @@ const IconSection = () => {
         <Flex columnGap={8} justify="end">
           <Flex h={30} w={103}>
             <Image
-              src="/google.svg"
+              src="/images/google.svg"
               width={103}
               height={30}
               fit="cover"
@@ -23,7 +23,7 @@ const IconSection = () => {
           </Flex>
           <Flex h={30} w={103}>
             <Image
-              src="/apple.svg"
+              src="/images/apple.svg"
               width={103}
               height={30}
               fit="cover"

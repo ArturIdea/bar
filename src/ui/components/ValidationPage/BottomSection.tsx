@@ -12,7 +12,7 @@ const BottomSection = () => {
       </Flex>
       {!isMobile && <Flex h={30} w={120}>
         <Image
-          src="/baraka_logo.svg"
+          src="/images/baraka_logo.svg"
           width={120}
           height={30}
           fit="cover"

@@ -5,7 +5,7 @@ const BadgeSection = () => {
   return (
     <Flex direction="row" bg="#169A3C" style={{borderRadius: 20}} w={100} align="center" justify="space-evenly" py={2} px={4}>
       <Image
-        src="/shield-tick.svg"
+        src="/images/shield-tick.svg"
         width={16}
         height={16}
         fit="cover"

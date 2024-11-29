@@ -5,7 +5,7 @@ import {useMobileBreakpoint} from "@/ui/hooks/ui/useMobileBreakPoint";
 const BasicInfoSection = () => {
   const isMobile = useMobileBreakpoint(600)
   return (
-    <Flex w={isMobile ? "90%" : "100%"} style={{borderRadius: 10, border: "1px solid #ECEEF4"}} p={32} direction="column">
+    <Flex bg={isMobile ? 'white' : "transparent"} w={isMobile ? "90%" : "100%"} style={{borderRadius: 10, border: "1px solid #ECEEF4"}} p={32} direction="column">
       <SimpleGrid cols={isMobile? 1 : 2}>
         <Flex direction="column" rowGap={8}>
           <Text c='dimmed' size="sm">Gender</Text>

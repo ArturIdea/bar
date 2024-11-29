@@ -6,9 +6,9 @@ interface ProfileImageProps {
   citizen: Citizen;
 }
 
-const ProfileImage: FC<ProfileImageProps> = ({ citizen }) => {
+const ProfileImage= () => {
   return (
-    <Flex direction="column" align="center" rowGap={16}>
+    <Flex mt={64} direction="column" align="center" rowGap={16}>
       <Flex
         h={160}
         w={160}
@@ -22,7 +22,7 @@ const ProfileImage: FC<ProfileImageProps> = ({ citizen }) => {
         />
       </Flex>
       <Text fw={700} size="xl">
-        {citizen.name}
+        name
       </Text>
     </Flex>
   );

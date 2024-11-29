@@ -3,7 +3,7 @@ import { API_URL } from '@/core/config';
 
 export class ApiClient {
   private axiosInstance: AxiosInstance;
-  public static shared = new ApiClient(API_URL!);
+  public static shared = new ApiClient(API_URL);
   private cancelTokenSources: Map<string, CancelTokenSource>;
 
   private constructor(baseURL: string) {
