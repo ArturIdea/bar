@@ -1,11 +1,13 @@
 import { Box, Container, Stack, Title } from '@mantine/core';
+import Image from 'next/image';
 
 export default function HomePage() {
   return (
     <Box pos="fixed" w="100%" top={0} style={{ overflow: 'hidden', height: '100vh' }}>
       <Container h="100vh" display="flex" style={{ alignItems: 'center' }}>
         <Stack align="center" gap="xl" style={{ width: '100%' }}>
-          <Title ta="center" order={1} size="h1">
+          <Image src="/images/logos/brand-logo.png" alt="logo" width={230} height={139} />
+          <Title ta="center" order={1} size="h4">
             Coming Soon...
           </Title>
 
