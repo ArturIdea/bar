@@ -51,7 +51,6 @@ export class ApiClient {
     requestKey?: string
   ): Promise<AxiosResponse<T>> {
     const cancelTokenSource = requestKey ? this.setupCancelToken(requestKey) : undefined;
-
     try {
       return await this.axiosInstance.get<T>(url, {
         ...config,

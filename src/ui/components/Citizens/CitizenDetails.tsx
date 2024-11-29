@@ -1,6 +1,7 @@
 'use client';
 
 import { Flex } from '@mantine/core';
+import { Citizen } from '@/domain/citizen/entities/Citizen';
 import BadgeSection from '@/ui/components/ValidationPage/Badge';
 import BasicInfoSection from '@/ui/components/ValidationPage/BasicInfoSection';
 import BottomSection from '@/ui/components/ValidationPage/BottomSection';
@@ -9,12 +10,16 @@ import ProfileImage from '@/ui/components/ValidationPage/ProfileImage';
 import StoreIconsMobile from '@/ui/components/ValidationPage/StoreIconsMobile';
 import { useMobileBreakpoint } from '@/ui/hooks/ui/useMobileBreakPoint';
 
-export default function CitizenDetails() {
+interface CitizenDetailsProps {
+  citizen: Citizen;
+}
+
+export default function CitizenDetails({ citizen }: CitizenDetailsProps): JSX.Element {
   const isMobile = useMobileBreakpoint(600);
 
   return (
     <Flex maw={800} direction="column" align="center" m="0 auto">
-      <ProfileImage />
+      <ProfileImage citizen={citizen} />
       <Flex mb={16} />
       <BadgeSection />
       <Flex mb={32} />

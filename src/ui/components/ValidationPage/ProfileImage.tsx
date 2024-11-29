@@ -1,12 +1,18 @@
-import {Flex, Image, Text} from "@mantine/core";
+import { FC } from 'react';
+import { Flex, Image, Text } from '@mantine/core';
+import { Citizen } from '@/domain/citizen/entities/Citizen';
 
-const ProfileImage = () => {
+interface ProfileImageProps {
+  citizen: Citizen;
+}
+
+const ProfileImage: FC<ProfileImageProps> = ({ citizen }) => {
   return (
     <Flex direction="column" align="center" rowGap={16}>
       <Flex
         h={160}
         w={160}
-        style={{borderRadius: '50%', overflow: 'hidden', border: '1px solid #ECEEF4'}}
+        style={{ borderRadius: '50%', overflow: 'hidden', border: '1px solid #ECEEF4' }}
       >
         <Image
           src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -15,8 +21,10 @@ const ProfileImage = () => {
           fit="cover"
         />
       </Flex>
-      <Text fw={700} size="xl">Imron Karimov</Text>
+      <Text fw={700} size="xl">
+        {citizen.name}
+      </Text>
     </Flex>
-  )
-}
-export default ProfileImage
+  );
+};
+export default ProfileImage;
