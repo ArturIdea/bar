@@ -1,6 +1,6 @@
 'use client'
 import {Flex, Image, Text} from "@mantine/core";
-import {useMobileBreakpoint} from "@/hooks/useMobileBreakPoint";
+import {useMobileBreakpoint} from "@/src/ui/hooks/ui/useMobileBreakPoint";
 
 const BottomSection = () => {
   const isMobile = useMobileBreakpoint(600)
