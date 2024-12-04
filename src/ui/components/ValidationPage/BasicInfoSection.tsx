@@ -12,8 +12,8 @@ const BasicInfoSection = ({ citizen }: ProfileImageProps) => {
   const isMobile = useMobileBreakpoint(600);
   return (
     <Card w="100%" withBorder radius="lg">
-      <Flex w="100%" p={32} direction="column">
-        <SimpleGrid cols={isMobile ? 1 : 2}>
+      <Flex w="100%" p={32}>
+        <SimpleGrid cols={isMobile ? 1 : 2} m="auto" style={{ columnGap: 80 }}>
           <Flex direction="column" rowGap={8}>
             <Text c="dimmed" size="sm">
               Gender
@@ -60,11 +60,11 @@ const BasicInfoSection = ({ citizen }: ProfileImageProps) => {
               py={2}
               w="fit-content"
               size="xs"
-              bg={citizen.fingerprint ? "yellow" : "transparent"}
+              bg={citizen.fingerprint ? 'yellow' : 'transparent'}
               c="white"
               fw={500}
             >
-              {citizen.fingerprint ?? "-"}
+              {citizen.fingerprint ?? '-'}
             </Text>
           </Flex>
         </SimpleGrid>
