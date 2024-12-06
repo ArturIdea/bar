@@ -148,11 +148,11 @@ export default function Page() {
           <p>IP address;</p>
         </li>
         <li>
-          <p>Information from cookies (text files stored in the User’s browser);</p>
+          <p>Information from cookies (text files stored in the User’s br/owser);</p>
         </li>
         <li>
           <p>
-            Data about the User's browser (or other software used to access the “Baraka” mobile
+            Data about the User's br/owser (or other software used to access the “Baraka” mobile
             application);
           </p>
         </li>
@@ -191,7 +191,7 @@ export default function Page() {
           <p>User-Agent;</p>
         </li>
         <li>
-          <p>ClientID (browser identifier obtained from cookies);</p>
+          <p>ClientID (br/owser identifier obtained from cookies);</p>
         </li>
         <li>
           <p>Screen resolution;</p>
@@ -255,8 +255,8 @@ export default function Page() {
         Fingerprint data.Supports authentication based on fingerprints for app login or transaction
         approval.
         <br />
-        Vibration.Provides haptic feedback for user interactions, such as notifications or responses
-        to certain actions.
+        Vibr/ation.Provides haptic feedback for user interactions, such as notifications or
+        responses to certain actions.
         <br />
         Notification delivery.Allows the application to send notifications, including updates,
         reminders, and important alerts.
@@ -291,7 +291,7 @@ export default function Page() {
         the User agrees that Baraka may use statistical data and cookies for further processing by
         its systems and may transfer them to third parties for research, task execution, or service
         provision in Baraka's interests. The User has the ability to manage cookies independently by
-        changing the browser settings on their device. However, changes that block cookies may
+        changing the br/owser settings on their device. However, changes that block cookies may
         result in limited access to certain components of the mobile application.
         <br />
         &nbsp;
@@ -447,7 +447,7 @@ export default function Page() {
           <p>Device ID/type;</p>
         </li>
         <li>
-          <p>Access channel (browser or application);</p>
+          <p>Access channel (br/owser or application);</p>
         </li>
         <li>
           <p>Payment authorization;</p>
