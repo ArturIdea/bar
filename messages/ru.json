@@ -1,0 +1,11 @@
+{
+  "ProfilePage": {
+    "verified": "Верифицировано",
+    "gender": "Пол",
+    "social_number": "Номер социального страхования",
+    "date_of_issue": "Дата выдачи",
+    "fingerprint": "Отпечаток пальца",
+    "nationality": "Гражданство",
+    "place_of_birth": "Место рождения"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "ProfilePage": {
+    "verified": "Tasdiqlangan",
+    "gender": "Jinsi",
+    "social_number": "Ijtimoiy raqam",
+    "date_of_issue": "Berilgan sana",
+    "fingerprint": "Barmoq izi",
+    "nationality": "Fuqaroligi",
+    "place_of_birth": "Tug‘ilgan joy"
+  }
+}

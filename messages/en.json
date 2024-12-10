@@ -1,0 +1,11 @@
+{
+  "ProfilePage": {
+    "verified": "Verified",
+    "gender": "Gender",
+    "social_number": "Social Number",
+    "date_of_issue": "Date of Issue",
+    "fingerprint": "Fingerprint",
+    "nationality": "Nationality",
+    "place_of_birth": "Place of birth"
+  }
+}

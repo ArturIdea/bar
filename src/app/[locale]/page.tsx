@@ -1,5 +1,5 @@
-import { Box, Container, Stack, Title } from '@mantine/core';
 import Image from 'next/image';
+import { Box, Container, Stack, Title } from '@mantine/core';
 
 export default function HomePage() {
   return (

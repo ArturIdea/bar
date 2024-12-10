@@ -1,0 +1,11 @@
+{
+  "ProfilePage": {
+    "verified": "Тасдиқланган",
+    "gender": "Жинси",
+    "social_number": "Ijtimoiy суғурта рақами",
+    "date_of_issue": "Берилган сана",
+    "fingerprint": "Бармоқ изи",
+    "nationality": "Фуқаролиги",
+    "place_of_birth": "Туғилган жой"
+  }
+}

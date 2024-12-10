@@ -1,1 +1,1 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "baraka.gov.ux"
+export const API_URL = 'https://baraka-app-api-development.uz-pay-dev.ox.one';
