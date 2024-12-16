@@ -1,4 +1,3 @@
-import { getTranslations } from 'next-intl/server';
 import { GetCitizenUseCase } from '@/domain/citizen/useCases/GetCitizenUseCase';
 import { CitizenRepositoryAPI } from '@/infrastructure/api/CitizenRepositoryAPI';
 import CitizenDetails from '@/ui/components/Citizens/CitizenDetails';
