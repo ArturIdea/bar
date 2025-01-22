@@ -22,13 +22,16 @@
   "dependencies": {
     "@mantine/core": "7.14.2",
     "@mantine/hooks": "7.14.2",
+    "@mantine/notifications": "7.14.2",
     "@next/bundle-analyzer": "^14.2.4",
     "@tabler/icons-react": "^3.6.0",
     "axios": "^1.7.8",
     "next": "15.0.1",
     "next-intl": "^3.26.0",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "universal-cookie": "^7.2.2",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

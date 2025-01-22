@@ -1,10 +1,35 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
+import Cookies from 'universal-cookie';
 import { API_URL } from '@/core/config';
+import { setServerCookie } from './utils/setCookies';
+
+const cookies = new Cookies();
+
+export const getToken = () => {
+  if (cookies.get('accessToken')) {
+    return cookies.get('accessToken');
+  }
+  return null;
+};
+
+export type RefreshTokenType = {
+  access_token: string;
+  expires_in: number;
+  refresh_expires_in: number;
+  refresh_token: string;
+  token_type: string;
+  'not-before-policy': number;
+  session_state: string;
+};
 
 export class ApiClient {
   private axiosInstance: AxiosInstance;
   public static shared = new ApiClient(API_URL);
   private cancelTokenSources: Map<string, CancelTokenSource>;
+  private isRefreshing = false;
+  private refreshSubscribers: ((token: string) => void)[] = [];
+  private refreshTokenURL =
+    'https://baraka-app-api-development.uz-pay-dev.ox.one/api-public/refresh-token';
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -13,6 +38,7 @@ export class ApiClient {
       headers: this.getDefaultHeaders(),
     });
     this.cancelTokenSources = new Map<string, CancelTokenSource>();
+    this.setupInterceptors();
   }
 
   // Private method to get default headers
@@ -22,6 +48,109 @@ export class ApiClient {
       // You can add other default headers here
       // Authorization: this.getAuthToken()
     };
+  }
+
+  //interceptor to refresh the token
+  private setupInterceptors() {
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = this.getAuthToken();
+        console.log('token', token);
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response?.status === 401 && !error.config._retry) {
+          const originalRequest = error.config;
+          originalRequest._retry = true;
+
+          try {
+            const newAccessToken = await this.refreshAccessToken();
+            this.onTokenRefreshed(newAccessToken);
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return this.axiosInstance(originalRequest);
+          } catch (refreshError) {
+            this.logout();
+            return Promise.reject(refreshError);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  public getAuthToken(): string | null {
+    if (cookies.get('accessToken')) {
+      return cookies.get('accessToken');
+    }
+    return null;
+  }
+
+  public getRefreshToken(): string | null {
+    if (cookies.get('refreshToken')) {
+      return cookies.get('refreshToken');
+    }
+    return null;
+  }
+
+  private async refreshAccessToken(): Promise<string> {
+    if (this.isRefreshing) {
+      return new Promise<string>((resolve) => {
+        this.refreshSubscribers.push(resolve);
+      });
+    }
+
+    this.isRefreshing = true;
+
+    try {
+      const refreshToken = this.getRefreshToken();
+      if (!refreshToken) {
+        throw new Error('No refresh token available.');
+      }
+
+      const response = await this.axiosInstance.post<RefreshTokenType>(
+        this.refreshTokenURL,
+        { refreshToken },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const { access_token, refresh_token } = response.data;
+
+      await setServerCookie({ name: 'accessToken', value: access_token });
+      await setServerCookie({ name: 'refreshToken', value: refresh_token });
+
+      this.refreshSubscribers.forEach((callback) => callback(access_token));
+      this.refreshSubscribers = [];
+
+      return access_token;
+    } catch (error) {
+      console.error('Error refreshing access token:', error);
+      this.logout();
+      throw error;
+    } finally {
+      this.isRefreshing = false;
+    }
+  }
+
+  private onTokenRefreshed(token: string) {
+    this.refreshSubscribers.forEach((callback) => callback(token));
+  }
+
+  private logout() {
+    cookies.remove('accessToken');
+    cookies.remove('refreshToken');
+    window.location.href = '/en';
   }
 
   // Method to handle cancellation of previous requests
