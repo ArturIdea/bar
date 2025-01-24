@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '../globals.css';
 
 import React from 'react';
 import { notFound } from 'next/navigation';
