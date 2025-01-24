@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import chevronVerticalIcon from '@/../public/images/icons/dashboard/signupRequests/chevronVertical.svg';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
@@ -30,7 +31,7 @@ export const SignUpRequestsTable: React.FC = () => {
 
   const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(event.target.value));
-    setPage(0); // Reset to first page
+    setPage(0);
   };
 
   if (loading) {
@@ -107,11 +108,11 @@ export const SignUpRequestsTable: React.FC = () => {
 
       {/* Pagination */}
       {pathname === '/en/dashboard/signup-requests' && (
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center justify-between px-2 pt-4">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>Showing</span>
             <select
-              className="border border-gray-300 rounded px-2 py-1"
+              className="border border-gray-300 rounded-xl px-4 py-2"
               value={pageSize}
               onChange={handlePageSizeChange}
             >
@@ -125,35 +126,86 @@ export const SignUpRequestsTable: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Previous Page Button */}
             <button
               type="button"
               disabled={page === 0}
               onClick={() => handlePageChange(page - 1)}
-              className={`px-3 py-1 border rounded ${page === 0 ? 'text-gray-300' : 'text-blue-600'}`}
+              className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600'} cursor-pointer`}
             >
-              &lt;
+              <ChevronLeft />
             </button>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                type="button"
-                key={index}
-                onClick={() => handlePageChange(index)}
-                className={`px-3 py-1 border rounded ${
-                  page === index ? 'bg-blue-600 text-white' : 'text-blue-600'
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
+
+            {/* Dynamic Page Numbers */}
+            {(() => {
+              const totalVisiblePages = 5;
+              const startPage = Math.max(
+                0,
+                Math.min(page - Math.floor(totalVisiblePages / 2), totalPages - totalVisiblePages)
+              );
+              const endPage = Math.min(startPage + totalVisiblePages, totalPages);
+
+              const pageButtons = [];
+              if (startPage > 0) {
+                pageButtons.push(
+                  <button
+                    key="start-ellipsis"
+                    type="button"
+                    onClick={() => handlePageChange(0)}
+                    className="px-3 py-1 rounded-xl bg-gray-100 text-[#08678E] cursor-pointer"
+                  >
+                    1
+                  </button>,
+                  <span key="ellipsis-start" className="px-2">
+                    ...
+                  </span>
+                );
+              }
+
+              for (let i = startPage; i < endPage; i++) {
+                pageButtons.push(
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={() => handlePageChange(i)}
+                    className={`px-3 py-1 rounded-xl ${
+                      page === i
+                        ? 'bg-[#08678E] text-white'
+                        : 'bg-gray-100 text-[#08678E] cursor-pointer'
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                );
+              }
+
+              if (endPage < totalPages) {
+                pageButtons.push(
+                  <span key="ellipsis-end" className="px-2">
+                    ...
+                  </span>,
+                  <button
+                    key="end-ellipsis"
+                    type="button"
+                    onClick={() => handlePageChange(totalPages - 1)}
+                    className=" px-3 py-1 bg-gray-100 rounded-xl text-[#08678E] cursor-pointer"
+                  >
+                    {totalPages}
+                  </button>
+                );
+              }
+
+              return pageButtons;
+            })()}
+
+            {/* Next Page Button */}
             <button
               type="button"
               disabled={page === totalPages - 1}
               onClick={() => handlePageChange(page + 1)}
-              className={`px-3 py-1 border rounded ${
-                page === totalPages - 1 ? 'text-gray-300' : 'text-blue-600'
-              }`}
+              className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300' : 'text-blue-600'} cursor-pointer`}
             >
-              &gt;
+              <ChevronRight />
             </button>
           </div>
         </div>
