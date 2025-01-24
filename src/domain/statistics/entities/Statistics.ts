@@ -1,7 +1,7 @@
 export class Statistics {
   constructor(
-    public newAccountsSince: string,
-    public newFundsDisbursedSince: string,
-    public cardsIssuedSince: string
+    public newAccountsSince: number,
+    public newFundsDisbursedSince: number,
+    public cardsIssuedSince: number
   ) {}
 }

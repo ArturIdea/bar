@@ -18,7 +18,7 @@ export const UserAdapter = {
       raw.firstName,
       raw.lastName,
       raw.phoneNumber,
-      raw.email,
+      raw.email || 'N/A',
       role,
       raw.createdAt
     );

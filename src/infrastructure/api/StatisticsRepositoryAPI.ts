@@ -7,12 +7,22 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
   private apiClient = ApiClient.shared;
   private apiUrl = '/api/admin/statistics';
 
-  async getStatistics(): Promise<Statistics> {
-    const response = await this.apiClient.post<{
+  async getStatistics(
+    newAccountsSince: string,
+    newFundsDisbursedSince: string,
+    cardsIssuedSince: string
+  ): Promise<Statistics> {
+    const params = {
+      newAccountsSince,
+      newFundsDisbursedSince,
+      cardsIssuedSince,
+    };
+
+    const response = await this.apiClient.get<{
       newAccounts: number;
       fundsDisbursed: number;
       newCards: number;
-    }>(this.apiUrl, {});
+    }>(this.apiUrl, { params });
 
     return StatisticsAdapter.toDomain(response.data);
   }
