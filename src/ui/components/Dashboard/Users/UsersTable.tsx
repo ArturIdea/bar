@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import chevronVerticalIcon from '@/../public/images/icons/dashboard/signupRequests/chevronVertical.svg';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 
 export const UsersTable: React.FC = () => {
-  //   const [page, setPage] = useState(0);
-  const { users, loading } = useUsers(0, 10);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const { users, total, loading } = useUsers(page, pageSize);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const totalPages = Math.ceil(total / pageSize);
 
   const sortedUsers = [...users].sort((a, b) => {
     if (sortOrder === 'asc') {
@@ -20,6 +27,15 @@ export const UsersTable: React.FC = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPageSize(Number(event.target.value));
+    setPage(0); // Reset to first page
+  };
+
   if (loading) {
     return <div className="text-center text-gray-500">Loading...</div>;
   }
@@ -29,12 +45,15 @@ export const UsersTable: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h4 className="font-semibold text-[#0B0B22]">User Management</h4>
-        <button
-          type="button"
-          className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer "
-        >
-          View details
-        </button>
+        {pathname === '/en/dashboard' && (
+          <button
+            type="button"
+            className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer"
+            onClick={() => router.push('/en/dashboard/user-management')}
+          >
+            View details
+          </button>
+        )}
       </div>
 
       {/* Table */}
@@ -62,20 +81,15 @@ export const UsersTable: React.FC = () => {
 
           {/* Table Body */}
           <tbody>
-            {sortedUsers.map((user, index) => (
-              <tr
-                key={user.userId}
-                className={`${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                } hover:bg-gray-100 transition-colors`}
-              >
-                <td className="px-6 py-4 text-gray-600 text-sm">
+            {sortedUsers.map((user) => (
+              <tr key={user.userId} className={` hover:bg-gray-100 transition-colors`}>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {user.firstName} {user.lastName}
                 </td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{user.email}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{user.phoneNumber}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{user.role}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.role || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-end">
@@ -90,27 +104,106 @@ export const UsersTable: React.FC = () => {
       </div>
 
       {/* Pagination */}
-      {/* <div className="flex justify-between mt-4">
-        <button
-          type="button"
-          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-          disabled={page === 0}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span className="text-gray-500">
-          Page {page + 1} of {Math.ceil(total / 10)}
-        </span>
-        <button
-          type="button"
-          onClick={() => setPage((prev) => (users.length === 10 ? prev + 1 : prev))}
-          disabled={users.length < 10}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div> */}
+      {pathname === '/en/dashboard/user-management' && (
+        <div className="flex items-center justify-between px-2 pt-4">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <span>Showing</span>
+            <select
+              className="border border-gray-300 rounded-xl px-4 py-2"
+              value={pageSize}
+              onChange={handlePageSizeChange}
+            >
+              {[10, 20, 30, 50].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+            <span>items of {total} entries</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              disabled={page === 0}
+              onClick={() => handlePageChange(page - 1)}
+              className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
+            >
+              <ChevronLeft />
+            </button>
+
+            {(() => {
+              const totalVisiblePages = 5;
+              const startPage = Math.max(
+                0,
+                Math.min(page - Math.floor(totalVisiblePages / 2), totalPages - totalVisiblePages)
+              );
+              const endPage = Math.min(startPage + totalVisiblePages, totalPages);
+
+              const pageButtons = [];
+              if (startPage > 0) {
+                pageButtons.push(
+                  <button
+                    key="start-ellipsis"
+                    type="button"
+                    onClick={() => handlePageChange(0)}
+                    className="px-3 py-1 bg-gray-100 text-[#08678E] cursor-pointer"
+                  >
+                    1
+                  </button>,
+                  <span key="ellipsis-start" className="px-2">
+                    ...
+                  </span>
+                );
+              }
+
+              for (let i = startPage; i < endPage; i++) {
+                pageButtons.push(
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={() => handlePageChange(i)}
+                    className={`px-3 py-1 rounded-xl ${
+                      page === i
+                        ? 'bg-[#08678E] text-white'
+                        : 'bg-gray-100 text-[#08678E] cursor-pointer'
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                );
+              }
+
+              if (endPage < totalPages) {
+                pageButtons.push(
+                  <span key="ellipsis-end" className="px-2">
+                    ...
+                  </span>,
+                  <button
+                    key="end-ellipsis"
+                    type="button"
+                    onClick={() => handlePageChange(totalPages - 1)}
+                    className="px-3 py-1 bg-gray-100 rounded-xl text-[#08678E] cursor-pointer"
+                  >
+                    {totalPages}
+                  </button>
+                );
+              }
+
+              return pageButtons;
+            })()}
+
+            <button
+              type="button"
+              disabled={page === totalPages - 1}
+              onClick={() => handlePageChange(page + 1)}
+              className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300 ' : 'text-blue-600 cursor-pointer'}`}
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

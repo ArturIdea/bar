@@ -79,20 +79,15 @@ export const SignUpRequestsTable: React.FC = () => {
 
           {/* Table Body */}
           <tbody>
-            {sortedRequests.map((req, index) => (
-              <tr
-                key={req.id}
-                className={`${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                } hover:bg-gray-100 transition-colors`}
-              >
-                <td className="px-6 py-4 text-gray-600 text-sm">
+            {sortedRequests.map((req) => (
+              <tr key={req.id} className={`  hover:bg-gray-100 transition-colors`}>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {`${req.firstName || ''} ${req.lastName || ''}`}
                 </td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{req.email || 'N/A'}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{req.phoneNumber || 'N/A'}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">{req.pinfl || 'N/A'}</td>
-                <td className="px-6 py-4 text-gray-600 text-sm">
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.email || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.phoneNumber || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {new Date(req.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-end">
@@ -131,7 +126,7 @@ export const SignUpRequestsTable: React.FC = () => {
               type="button"
               disabled={page === 0}
               onClick={() => handlePageChange(page - 1)}
-              className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600'} cursor-pointer`}
+              className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'} `}
             >
               <ChevronLeft />
             </button>
@@ -203,7 +198,7 @@ export const SignUpRequestsTable: React.FC = () => {
               type="button"
               disabled={page === totalPages - 1}
               onClick={() => handlePageChange(page + 1)}
-              className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300' : 'text-blue-600'} cursor-pointer`}
+              className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'} `}
             >
               <ChevronRight />
             </button>

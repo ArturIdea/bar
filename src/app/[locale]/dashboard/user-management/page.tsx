@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
+import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 
 const SignUpRequestsPage = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const SignUpRequestsPage = () => {
     router.push('/en/dashboard');
   };
   return (
-    <div className=" min-h-screen">
+    <div className="min-h-screen">
       <div className="p-6">
         <button
           type="button"
@@ -22,7 +22,7 @@ const SignUpRequestsPage = () => {
           <ArrowLeft /> Back
         </button>
       </div>
-      <SignUpRequestsTable />
+      <UsersTable />
     </div>
   );
 };
