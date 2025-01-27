@@ -3,27 +3,14 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
-import chevronVerticalIcon from '@/../public/images/icons/dashboard/signupRequests/chevronVertical.svg';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 
 export const SignUpRequestsTable: React.FC = () => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const { requests, loading, totalPages, totalElements } = useSignUpRequests(page, pageSize);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const pathname = usePathname();
   const router = useRouter();
-
-  const sortedRequests = [...requests].sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    }
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
-
-  const toggleSortOrder = () => {
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -42,7 +29,7 @@ export const SignUpRequestsTable: React.FC = () => {
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h4 className="font-semibold text-[#0B0B22]">Sign up Requests</h4>
+        <h4 className="font-semibold text-[#0B0B22]">Latest Sign up Requests</h4>
         {pathname === '/en/dashboard' && (
           <button
             type="button"
@@ -64,22 +51,14 @@ export const SignUpRequestsTable: React.FC = () => {
               <th className="px-6 py-3 font-normal">Email</th>
               <th className="px-6 py-3 font-normal">Mobile</th>
               <th className="px-6 py-3 font-normal">Pinfl</th>
-              <th
-                className="px-6 py-3 font-normal cursor-pointer flex items-center"
-                onClick={toggleSortOrder}
-              >
-                Created at
-                <span className={`ml-2 transform ${sortOrder === 'asc' ? '' : 'rotate-180'}`}>
-                  <Image src={chevronVerticalIcon} alt="Sort icon" width={16} height={16} />
-                </span>
-              </th>
+              <th className="px-6 py-3 font-normal">Created at</th>
               <th className="px-6 py-3 font-normal" />
             </tr>
           </thead>
 
           {/* Table Body */}
           <tbody>
-            {sortedRequests.map((req) => (
+            {requests.map((req) => (
               <tr key={req.id} className={`  hover:bg-gray-100 transition-colors`}>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {`${req.firstName || ''} ${req.lastName || ''}`}

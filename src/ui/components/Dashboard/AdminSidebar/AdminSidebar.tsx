@@ -14,6 +14,7 @@ const data = [
   { link: '/en/dashboard', label: 'Insights', icon: InsightsIcon },
   // { link: '', label: 'Benefits', icon: BenefitsIcon },
   { link: '/en/dashboard/user-management', label: 'User Management', icon: UserManagementIcon },
+  { link: '/en/dashboard/signup-requests', label: 'Sign up Requests', icon: UserManagementIcon },
   // { link: '', label: 'More Services', icon: MoreServicesIcon },
   // { link: '', label: 'Activity History', icon: ActivityHistoryIcon },
   // { link: '', label: 'Settings', icon: SettingsIcon },

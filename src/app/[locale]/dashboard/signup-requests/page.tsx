@@ -11,9 +11,10 @@ const SignUpRequestsPage = () => {
   const handleGoBack = () => {
     router.push('/en/dashboard');
   };
+
   return (
-    <div className=" min-h-screen">
-      <div className="p-6">
+    <div className="min-h-screen">
+      <div className="p-6 flex justify-between items-center">
         <button
           type="button"
           className="flex items-center gap-2 cursor-pointer"
