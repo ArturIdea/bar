@@ -83,12 +83,13 @@ export const SignUpRequestsTable: React.FC<{
           {/* Table Header */}
           <thead>
             <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3 font-normal">Name</th>
-              <th className="px-6 py-3 font-normal">Email</th>
-              <th className="px-6 py-3 font-normal">Mobile</th>
-              <th className="px-6 py-3 font-normal">Pinfl</th>
-              <th className="px-6 py-3 font-normal">Created at</th>
-              <th className="px-6 py-3 font-normal" />
+              <th className="px-6 py-3">Name</th>
+              <th className="px-6 py-3">Email</th>
+              <th className="px-6 py-3">Mobile</th>
+              <th className="px-6 py-3">Pinfl</th>
+              <th className="px-6 py-3">Created at</th>
+              <th className="px-6 py-3">Status</th>
+              <th className="px-6 py-3" />
             </tr>
           </thead>
 
@@ -104,6 +105,35 @@ export const SignUpRequestsTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {new Date(req.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                  <span
+                    className={`px-3 py-1 rounded-full text-white text-xs ${
+                      req.status === 'CREATED'
+                        ? 'bg-gray-500'
+                        : req.status === 'OTP_SENT'
+                          ? 'bg-blue-500'
+                          : req.status === 'MOBILE_VERIFIED'
+                            ? 'bg-green-700'
+                            : req.status === 'AGREEMENTS_ACCEPTED'
+                              ? 'bg-indigo-500'
+                              : req.status === 'FACE_VERIFICATION_IN_PROGRESS'
+                                ? 'bg-yellow-500'
+                                : req.status === 'VERIFICATION_COMPLETED'
+                                  ? 'bg-green-700'
+                                  : req.status === 'VERIFICATION_FAILED'
+                                    ? 'bg-red-500'
+                                    : req.status === 'FAILED_FINALIZATION'
+                                      ? 'bg-red-700'
+                                      : req.status === 'NOT_ELIGIBLE'
+                                        ? 'bg-gray-700'
+                                        : req.status === 'COMPLETED'
+                                          ? 'bg-green-500'
+                                          : 'bg-gray-400'
+                    }`}
+                  >
+                    {req.status ? req.status.replace(/_/g, ' ') : 'UNKNOWN'}
+                  </span>
                 </td>
                 <td className="px-6 py-4 flex items-center justify-end">
                   <button
@@ -127,7 +157,7 @@ export const SignUpRequestsTable: React.FC<{
                           router.push(`/en/dashboard/user-details/${req.id}`);
                         }}
                       >
-                        View User Details
+                        View Signup Details
                       </button>
                     </div>
                   )}
