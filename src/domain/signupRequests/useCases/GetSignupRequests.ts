@@ -5,7 +5,12 @@ import { SignUpRequestsRepository } from '../repositories/SignupRequestRepositor
 export class GetSignUpRequests {
   constructor(private repository: SignUpRequestsRepository) {}
 
-  async execute(page: number, size: number): Promise<PaginatedResponse<SignUpRequest>> {
-    return this.repository.getSignUpRequests(page, size);
+  async execute(
+    page: number,
+    size: number,
+    createdAtFrom?: string,
+    createdAtTo?: string
+  ): Promise<PaginatedResponse<SignUpRequest>> {
+    return this.repository.getSignUpRequests(page, size, createdAtFrom, createdAtTo);
   }
 }

@@ -13,9 +13,14 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
   private apiClient = ApiClient.shared;
   private apiUrl = '/api/admin/signup-requests';
 
-  async getSignUpRequests(page: number, size: number): Promise<PaginatedResponse<SignUpRequest>> {
+  async getSignUpRequests(
+    page: number,
+    size: number,
+    createdAtFrom?: string,
+    createdAtTo?: string
+  ): Promise<PaginatedResponse<SignUpRequest>> {
     const response = await this.apiClient.get<PaginatedResponse<any>>(this.apiUrl, {
-      params: { page, size },
+      params: { page, size, createdAtFrom, createdAtTo },
     });
 
     return {

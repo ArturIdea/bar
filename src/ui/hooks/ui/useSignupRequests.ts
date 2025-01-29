@@ -3,7 +3,12 @@ import { SignUpRequest } from '@/domain/signupRequests/entities/SignupRequest';
 import { GetSignUpRequests } from '@/domain/signupRequests/useCases/GetSignupRequests';
 import { SignUpRequestsRepositoryAPI } from '@/infrastructure/api/SignupRequestRepositoryAPI';
 
-export const useSignUpRequests = (page: number, size: number) => {
+export const useSignUpRequests = (
+  page: number,
+  size: number,
+  createdAtFrom?: string,
+  createdAtTo?: string
+) => {
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(0);
@@ -16,7 +21,12 @@ export const useSignUpRequests = (page: number, size: number) => {
 
       setLoading(true);
       try {
-        const { content, totalPages, totalElements } = await useCase.execute(page, size);
+        const { content, totalPages, totalElements } = await useCase.execute(
+          page,
+          size,
+          createdAtFrom,
+          createdAtTo
+        );
         setRequests(content);
         setTotalPages(totalPages);
         setTotalElements(totalElements);
@@ -28,7 +38,7 @@ export const useSignUpRequests = (page: number, size: number) => {
     };
 
     fetchRequests();
-  }, [page, size]);
+  }, [page, size, createdAtFrom, createdAtTo]);
 
   return { requests, loading, totalPages, totalElements };
 };

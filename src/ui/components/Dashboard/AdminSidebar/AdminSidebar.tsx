@@ -36,7 +36,7 @@ export function AdminSidebar() {
   ));
 
   return (
-    <nav className="sticky top-0 w-64 h-auto bg-white border-r border-gray-200">
+    <nav className="sticky top-0 xl:w-64 w-48 h-auto bg-white border-r border-gray-200">
       <div className="flex flex-col">{links}</div>
     </nav>
   );

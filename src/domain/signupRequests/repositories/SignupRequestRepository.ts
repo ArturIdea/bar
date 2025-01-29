@@ -2,5 +2,10 @@ import { PaginatedResponse } from '@/infrastructure/api/SignupRequestRepositoryA
 import { SignUpRequest } from '../entities/SignupRequest';
 
 export interface SignUpRequestsRepository {
-  getSignUpRequests: (page: number, size: number) => Promise<PaginatedResponse<SignUpRequest>>;
+  getSignUpRequests: (
+    page: number,
+    size: number,
+    createdAtFrom?: string,
+    createdAtTo?: string
+  ) => Promise<PaginatedResponse<SignUpRequest>>;
 }

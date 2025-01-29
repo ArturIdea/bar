@@ -4,6 +4,7 @@ import CardsIssuedIcon from '@/../public/images/icons/dashboard/statistics/cards
 import FundsDisbursedIcon from '@/../public/images/icons/dashboard/statistics/fundsDisbursed.svg';
 import NewAccountsIcon from '@/../public/images/icons/dashboard/statistics/newAccounts.svg';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
+import { StatisticsSkeleton } from './StatisticsSkeleton';
 
 export const StatisticsDashboard = () => {
   const newAccountsSince = '2023-01-01';
@@ -16,10 +17,8 @@ export const StatisticsDashboard = () => {
     cardsIssuedSince
   );
 
-  console.log(statistics);
-
   if (loading) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <StatisticsSkeleton />;
   }
 
   return (

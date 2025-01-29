@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
+import { TableSkeleton } from '../TableSkeleton';
 
-export const SignUpRequestsTable: React.FC = () => {
+export const SignUpRequestsTable: React.FC<{
+  filters?: { createdAtFrom?: string; createdAtTo?: string };
+}> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const { requests, loading, totalPages, totalElements } = useSignUpRequests(page, pageSize);
+  const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
+  const { requests, loading, totalPages, totalElements } = useSignUpRequests(
+    page,
+    pageSize,
+    filters.createdAtFrom,
+    filters.createdAtTo
+  );
   const pathname = usePathname();
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -21,8 +31,28 @@ export const SignUpRequestsTable: React.FC = () => {
     setPage(0);
   };
 
+  const toggleDropdown = (id: string) => {
+    setDropdownOpen((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen({});
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   if (loading) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <TableSkeleton />;
   }
 
   return (
@@ -70,9 +100,31 @@ export const SignUpRequestsTable: React.FC = () => {
                   {new Date(req.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-end">
-                  <button type="button" className="text-gray-500 hover:text-gray-700">
+                  <button
+                    type="button"
+                    className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                    onClick={() => toggleDropdown(req.id)}
+                  >
                     <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
                   </button>
+
+                  {/* Dropdown Menu */}
+                  {dropdownOpen[req.id] && (
+                    <div
+                      ref={dropdownRef}
+                      className="absolute right-20 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                    >
+                      <button
+                        type="button"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          router.push(`/en/dashboard/user-details/${req.id}`);
+                        }}
+                      >
+                        View User Details
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

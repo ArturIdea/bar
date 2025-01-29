@@ -9,7 +9,11 @@ const DashboardPage = () => {
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    return <div>Checking authentication...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+      </div>
+    );
   }
 
   return (
