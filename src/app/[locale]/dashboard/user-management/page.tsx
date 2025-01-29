@@ -8,10 +8,14 @@ import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg'
 import { FilterModal } from '@/ui/components/Dashboard/FilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 
-const SignUpRequestsPage = () => {
+const UserManagementPage = () => {
   const router = useRouter();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [filters, setFilters] = useState<{ createdAtFrom?: string; createdAtTo?: string }>({});
+  const [filters, setFilters] = useState<{
+    createdAtFrom?: string;
+    createdAtTo?: string;
+    pinflSearch?: string;
+  }>({});
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
@@ -21,8 +25,12 @@ const SignUpRequestsPage = () => {
     router.push('/en/dashboard');
   };
 
-  const handleApplyFilters = (createdAtFrom?: string, createdAtTo?: string) => {
-    setFilters({ createdAtFrom, createdAtTo });
+  const handleApplyFilters = (
+    createdAtFrom?: string,
+    createdAtTo?: string,
+    pinflSearch?: string
+  ) => {
+    setFilters({ createdAtFrom, createdAtTo, pinflSearch });
     setIsFilterModalOpen(false);
   };
 
@@ -58,4 +66,4 @@ const SignUpRequestsPage = () => {
   );
 };
 
-export default SignUpRequestsPage;
+export default UserManagementPage;

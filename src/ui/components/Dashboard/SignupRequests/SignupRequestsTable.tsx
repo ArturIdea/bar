@@ -7,7 +7,7 @@ import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { TableSkeleton } from '../TableSkeleton';
 
 export const SignUpRequestsTable: React.FC<{
-  filters?: { createdAtFrom?: string; createdAtTo?: string };
+  filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -16,11 +16,17 @@ export const SignUpRequestsTable: React.FC<{
     page,
     pageSize,
     filters.createdAtFrom,
-    filters.createdAtTo
+    filters.createdAtTo,
+    filters.pinflSearch
   );
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  //resets page when filters change
+  useEffect(() => {
+    setPage(0);
+  }, [filters]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);

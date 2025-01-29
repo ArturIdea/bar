@@ -5,6 +5,7 @@ export interface UserRepository {
     page: number,
     size: number,
     createdAtFrom?: string,
-    createdAtTo?: string
+    createdAtTo?: string,
+    pinflSearch?: string
   ) => Promise<{ users: User[]; total: number }>;
 }

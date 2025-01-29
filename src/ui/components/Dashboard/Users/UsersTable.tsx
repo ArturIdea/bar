@@ -7,7 +7,7 @@ import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { TableSkeleton } from '../TableSkeleton';
 
 export const UsersTable: React.FC<{
-  filters?: { createdAtFrom?: string; createdAtTo?: string };
+  filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -16,7 +16,8 @@ export const UsersTable: React.FC<{
     page,
     pageSize,
     filters.createdAtFrom,
-    filters.createdAtTo
+    filters.createdAtTo,
+    filters.pinflSearch
   );
   const pathname = usePathname();
   const router = useRouter();

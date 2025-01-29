@@ -11,7 +11,7 @@ export const FilterModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onApply: (createdAtFrom?: string, createdAtTo?: string) => void;
+  onApply: (createdAtFrom?: string, createdAtTo?: string, pinfl?: string) => void;
 }) => {
   const [dateRange, setDateRange] = useState<{
     startDate: Date | undefined;
@@ -22,6 +22,7 @@ export const FilterModal = ({
     endDate: undefined,
     key: 'selection',
   });
+  const [pinfl, setPinfl] = useState<string>('');
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -47,8 +48,10 @@ export const FilterModal = ({
     const createdAtFrom = dateRange.startDate ? formatLocalDate(dateRange.startDate) : undefined;
     const createdAtTo = dateRange.endDate ? formatLocalDate(dateRange.endDate) : undefined;
 
-    onApply(createdAtFrom, createdAtTo);
-    onClose();
+    if (pinfl || (createdAtFrom && createdAtTo)) {
+      onApply(createdAtFrom, createdAtTo, pinfl || undefined);
+      onClose();
+    }
   };
 
   const handleClearFilters = () => {
@@ -57,7 +60,8 @@ export const FilterModal = ({
       endDate: undefined,
       key: 'selection',
     });
-    onApply(undefined, undefined);
+    setPinfl('');
+    onApply(undefined, undefined, undefined);
     onClose();
   };
 
@@ -74,8 +78,13 @@ export const FilterModal = ({
           <div className="flex flex-col gap-6">
             {/* PINFL Input */}
             <div>
-              <label className=" text-gray-400 mb-2">Pinfl</label>
-              <input type="text" className="w-full border border-gray-300 rounded-xl p-2" />
+              <label className="text-gray-400 mb-2">Pinfl</label>
+              <input
+                value={pinfl}
+                onChange={(e) => setPinfl(e.target.value)}
+                type="text"
+                className="w-full border border-gray-300 rounded-xl p-2"
+              />
             </div>
 
             {/* Date Range Picker */}

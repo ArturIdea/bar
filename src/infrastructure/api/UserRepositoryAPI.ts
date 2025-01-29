@@ -11,12 +11,13 @@ export class UserRepositoryAPI implements UserRepository {
     page: number,
     size: number,
     createdAtFrom?: string,
-    createdAtTo?: string
+    createdAtTo?: string,
+    pinflSearch?: string
   ): Promise<{ users: User[]; total: number }> {
     const response = await this.apiClient.get<{ content: any[]; totalElements: number }>(
       this.ApiUrl,
       {
-        params: { page, size, createdAtFrom, createdAtTo },
+        params: { page, size, createdAtFrom, createdAtTo, pinflSearch },
       }
     );
 

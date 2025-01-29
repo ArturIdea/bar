@@ -11,7 +11,11 @@ import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/Si
 const SignUpRequestsPage = () => {
   const router = useRouter();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [filters, setFilters] = useState<{ createdAtFrom?: string; createdAtTo?: string }>({});
+  const [filters, setFilters] = useState<{
+    createdAtFrom?: string;
+    createdAtTo?: string;
+    pinflSearch?: string;
+  }>({});
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
@@ -21,8 +25,12 @@ const SignUpRequestsPage = () => {
     router.push('/en/dashboard');
   };
 
-  const handleApplyFilters = (createdAtFrom?: string, createdAtTo?: string) => {
-    setFilters({ createdAtFrom, createdAtTo });
+  const handleApplyFilters = (
+    createdAtFrom?: string,
+    createdAtTo?: string,
+    pinflSearch?: string
+  ) => {
+    setFilters({ createdAtFrom, createdAtTo, pinflSearch });
     setIsFilterModalOpen(false);
   };
 

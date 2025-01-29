@@ -17,10 +17,11 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
     page: number,
     size: number,
     createdAtFrom?: string,
-    createdAtTo?: string
+    createdAtTo?: string,
+    pinflSearch?: string
   ): Promise<PaginatedResponse<SignUpRequest>> {
     const response = await this.apiClient.get<PaginatedResponse<any>>(this.apiUrl, {
-      params: { page, size, createdAtFrom, createdAtTo },
+      params: { page, size, createdAtFrom, createdAtTo, pinflSearch },
     });
 
     return {

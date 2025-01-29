@@ -9,8 +9,9 @@ export class GetSignUpRequests {
     page: number,
     size: number,
     createdAtFrom?: string,
-    createdAtTo?: string
+    createdAtTo?: string,
+    pinflSearch?: string
   ): Promise<PaginatedResponse<SignUpRequest>> {
-    return this.repository.getSignUpRequests(page, size, createdAtFrom, createdAtTo);
+    return this.repository.getSignUpRequests(page, size, createdAtFrom, createdAtTo, pinflSearch);
   }
 }
