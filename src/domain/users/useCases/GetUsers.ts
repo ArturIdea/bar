@@ -4,7 +4,12 @@ import { UserRepository } from '@/domain/users/repositories/UserRepository';
 export class GetUsers {
   constructor(private userRepository: UserRepository) {}
 
-  async execute(page: number, size: number): Promise<{ users: User[]; total: number }> {
-    return this.userRepository.fetchUsers(page, size);
+  async execute(
+    page: number,
+    size: number,
+    createdAtFrom?: string,
+    createdAtTo?: string
+  ): Promise<{ users: User[]; total: number }> {
+    return this.userRepository.fetchUsers(page, size, createdAtFrom, createdAtTo);
   }
 }

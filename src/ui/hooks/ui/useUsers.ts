@@ -3,7 +3,12 @@ import { User } from '@/domain/users/entities/User';
 import { GetUsers } from '@/domain/users/useCases/GetUsers';
 import { UserRepositoryAPI } from '@/infrastructure/api/UserRepositoryAPI';
 
-export const useUsers = (page: number, size: number) => {
+export const useUsers = (
+  page: number,
+  size: number,
+  createdAtFrom?: string,
+  createdAtTo?: string
+) => {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -15,7 +20,7 @@ export const useUsers = (page: number, size: number) => {
       const getUsers = new GetUsers(userRepository);
 
       try {
-        const { users, total } = await getUsers.execute(page, size);
+        const { users, total } = await getUsers.execute(page, size, createdAtFrom, createdAtTo);
         setUsers(users);
         setTotal(total);
       } catch (error) {
@@ -28,5 +33,5 @@ export const useUsers = (page: number, size: number) => {
     fetchUsers();
   }, [page, size]);
 
-  return { users, total, loading };
+  return { users, total, loading, createdAtFrom, createdAtTo };
 };

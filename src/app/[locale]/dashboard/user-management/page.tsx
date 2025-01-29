@@ -11,6 +11,7 @@ import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 const SignUpRequestsPage = () => {
   const router = useRouter();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [filters, setFilters] = useState<{ createdAtFrom?: string; createdAtTo?: string }>({});
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
@@ -19,6 +20,12 @@ const SignUpRequestsPage = () => {
   const handleGoBack = () => {
     router.push('/en/dashboard');
   };
+
+  const handleApplyFilters = (createdAtFrom?: string, createdAtTo?: string) => {
+    setFilters({ createdAtFrom, createdAtTo });
+    setIsFilterModalOpen(false);
+  };
+
   return (
     <div className="min-h-screen">
       <div className="p-6 flex justify-between items-center">
@@ -39,10 +46,14 @@ const SignUpRequestsPage = () => {
           </button>
         </div>
       </div>
-      <UsersTable />
+      <UsersTable filters={filters} />
 
       {/* Filter Modal */}
-      <FilterModal isOpen={isFilterModalOpen} onClose={toggleFilterModal} />
+      <FilterModal
+        isOpen={isFilterModalOpen}
+        onClose={toggleFilterModal}
+        onApply={handleApplyFilters}
+      />
     </div>
   );
 };

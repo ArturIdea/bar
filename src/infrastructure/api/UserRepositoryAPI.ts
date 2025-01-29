@@ -7,11 +7,16 @@ export class UserRepositoryAPI implements UserRepository {
   private apiClient = ApiClient.shared;
   private ApiUrl = '/api/admin/users';
 
-  async fetchUsers(page: number, size: number): Promise<{ users: User[]; total: number }> {
+  async fetchUsers(
+    page: number,
+    size: number,
+    createdAtFrom?: string,
+    createdAtTo?: string
+  ): Promise<{ users: User[]; total: number }> {
     const response = await this.apiClient.get<{ content: any[]; totalElements: number }>(
       this.ApiUrl,
       {
-        params: { page, size },
+        params: { page, size, createdAtFrom, createdAtTo },
       }
     );
 

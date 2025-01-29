@@ -6,11 +6,18 @@ import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.sv
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { TableSkeleton } from '../TableSkeleton';
 
-export const UsersTable: React.FC = () => {
+export const UsersTable: React.FC<{
+  filters?: { createdAtFrom?: string; createdAtTo?: string };
+}> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
-  const { users, total, loading } = useUsers(page, pageSize);
+  const { users, total, loading } = useUsers(
+    page,
+    pageSize,
+    filters.createdAtFrom,
+    filters.createdAtTo
+  );
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
