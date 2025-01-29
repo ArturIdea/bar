@@ -17,7 +17,7 @@ export class UserRepositoryAPI implements UserRepository {
     const response = await this.apiClient.get<{ content: any[]; totalElements: number }>(
       this.ApiUrl,
       {
-        params: { page, size, createdAtFrom, createdAtTo, pinflSearch },
+        params: { page, size, createdAtFrom, createdAtTo, pinflSearch, sort: 'createdAt,DESC' },
       }
     );
 

@@ -21,7 +21,14 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
     pinflSearch?: string
   ): Promise<PaginatedResponse<SignUpRequest>> {
     const response = await this.apiClient.get<PaginatedResponse<any>>(this.apiUrl, {
-      params: { page, size, createdAtFrom, createdAtTo, pinflSearch },
+      params: {
+        page,
+        size,
+        createdAtFrom,
+        createdAtTo,
+        pinflSearch,
+        sort: 'createdAt,DESC',
+      },
     });
 
     return {
