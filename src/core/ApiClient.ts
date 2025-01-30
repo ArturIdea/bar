@@ -55,7 +55,6 @@ export class ApiClient {
     this.axiosInstance.interceptors.request.use(
       (config) => {
         const token = this.getAuthToken();
-        console.log('token', token);
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }

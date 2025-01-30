@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { TableSkeleton } from '../TableSkeleton';
+import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
   filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
@@ -12,6 +13,7 @@ export const SignUpRequestsTable: React.FC<{
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
+  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
   const { requests, loading, totalPages, totalElements } = useSignUpRequests(
     page,
     pageSize,
@@ -42,6 +44,15 @@ export const SignUpRequestsTable: React.FC<{
       ...prevState,
       [id]: !prevState[id],
     }));
+  };
+
+  const openModal = (id: string) => {
+    setSelectedRequestId(id);
+    setDropdownOpen({});
+  };
+
+  const closeModal = () => {
+    setSelectedRequestId(null);
   };
 
   useEffect(() => {
@@ -153,9 +164,7 @@ export const SignUpRequestsTable: React.FC<{
                       <button
                         type="button"
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => {
-                          router.push(`/en/dashboard/user-details/${req.id}`);
-                        }}
+                        onClick={() => openModal(req.id)}
                       >
                         View Signup Details
                       </button>
@@ -167,6 +176,11 @@ export const SignUpRequestsTable: React.FC<{
           </tbody>
         </table>
       </div>
+
+      {/* Render Modal */}
+      {selectedRequestId && (
+        <SignupRequestDetailModal id={selectedRequestId} onClose={closeModal} />
+      )}
 
       {/* Pagination */}
       {pathname === '/en/dashboard/signup-requests' && (
