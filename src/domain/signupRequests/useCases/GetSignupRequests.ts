@@ -11,7 +11,7 @@ export class GetSignUpRequests {
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    statuses?: string[]
+    statuses?: string
   ): Promise<PaginatedResponse<SignUpRequest>> {
     return this.repository.getSignUpRequests(
       page,

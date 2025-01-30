@@ -15,7 +15,7 @@ export const SignupRequestsFilterModal = ({
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    statuses?: string[]
+    statuses?: string
   ) => void;
 }) => {
   const [dateRange, setDateRange] = useState<{
@@ -46,9 +46,9 @@ export const SignupRequestsFilterModal = ({
     const createdAtFrom = dateRange.startDate ? formatLocalDate(dateRange.startDate) : undefined;
     const createdAtTo = dateRange.endDate ? formatLocalDate(dateRange.endDate) : undefined;
 
-    let statuses: string[] | undefined;
+    let statuses: string | undefined;
     if (statusFilter === 'completed') {
-      statuses = ['COMPLETED'];
+      statuses = 'COMPLETED';
     } else if (statusFilter === 'notCompleted') {
       statuses = [
         'CREATED',
@@ -60,7 +60,7 @@ export const SignupRequestsFilterModal = ({
         'VERIFICATION_FAILED',
         'FAILED_FINALIZATION',
         'NOT_ELIGIBLE',
-      ];
+      ].join(',');
     }
 
     onApply(createdAtFrom, createdAtTo, pinfl || undefined, statuses);

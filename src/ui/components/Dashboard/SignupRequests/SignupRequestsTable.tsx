@@ -12,7 +12,7 @@ export const SignUpRequestsTable: React.FC<{
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
-    statuses?: string[];
+    statuses?: string;
   };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);

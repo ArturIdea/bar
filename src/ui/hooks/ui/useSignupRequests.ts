@@ -9,7 +9,7 @@ export const useSignUpRequests = (
   createdAtFrom?: string,
   createdAtTo?: string,
   pinflSearch?: string,
-  statuses?: string[]
+  statuses?: string
 ) => {
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
   const [loading, setLoading] = useState(true);
