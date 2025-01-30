@@ -10,6 +10,8 @@ export class UserDetail {
     public documentNumber: string,
     public dateOfBirth: string,
     public socialNumber: string,
+    public createdAt: string,
+    public authorities: string[] = [],
     public nationalityName?: string,
     public citizenshipName?: string,
     public birthCountryName?: string,
@@ -17,14 +19,30 @@ export class UserDetail {
     public region?: string,
     public district?: string,
     public address?: string,
-    public authorities: string[] = [],
-    public createdAt: string,
+    public photoUrl?: string,
+    public identityProviderData?: {
+      personDataLatin?: {
+        socialNumber?: string;
+        genderName?: string;
+        nationalityName?: string;
+        citizenshipName?: string;
+        birthCountryName?: string;
+        address?: {
+          country?: string;
+          region?: string;
+          district?: string;
+          address?: string;
+        };
+      };
+    },
     public agentData?: {
       firstName?: string;
       lastName?: string;
       jobTitle?: string;
       dateOfBirth?: string;
-      pinfl?: string;
+      pinfl?: {
+        id?: string;
+      };
       insonCenterDistrict?: string;
       insonCenterBranchCode?: string;
       personalPhone?: {
@@ -40,7 +58,6 @@ export class UserDetail {
         phoneCode?: string;
         phoneNumber?: string;
       }[];
-    },
-    public photoUrl?: string
+    }
   ) {}
 }
