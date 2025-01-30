@@ -15,7 +15,7 @@ const SignUpRequestsPage = () => {
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
-    statuses?: string[];
+    statuses?: string;
   }>({});
 
   const toggleFilterModal = () => {
@@ -30,7 +30,7 @@ const SignUpRequestsPage = () => {
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    statuses?: string[]
+    statuses?: string
   ) => {
     setFilters({ createdAtFrom, createdAtTo, pinflSearch, statuses });
     setIsFilterModalOpen(false);
