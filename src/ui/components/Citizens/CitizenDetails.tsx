@@ -1,6 +1,7 @@
 'use client';
 
-import {BackgroundImage, Container, Flex} from '@mantine/core';
+import React, { JSX } from 'react';
+import { BackgroundImage, Container, Flex } from '@mantine/core';
 import { Citizen } from '@/domain/citizen/entities/Citizen';
 import BadgeSection from '@/ui/components/ValidationPage/Badge';
 import BasicInfoSection from '@/ui/components/ValidationPage/BasicInfoSection';
@@ -22,11 +23,11 @@ export default function CitizenDetails({ citizen }: CitizenDetailsProps): JSX.El
       <BackgroundImage src="/images/background/background_profile.png" radius="sm">
         <Container size="md">
           <Flex maw="100%" direction="column" align="center">
-            <ProfileImage citizen={citizen}/>
+            <ProfileImage citizen={citizen} />
             <Flex mb={16} />
             <BadgeSection />
             <Flex mb={32} />
-            <BasicInfoSection citizen={citizen}/>
+            <BasicInfoSection citizen={citizen} />
             <Flex mb={32} />
             <Flex w="100%" maw={800} direction={isMobile ? 'column-reverse' : 'column'}>
               <IconSection />
