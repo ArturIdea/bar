@@ -9,8 +9,16 @@ export class GetUsers {
     size: number,
     createdAtFrom?: string,
     createdAtTo?: string,
-    pinflSearch?: string
+    pinflSearch?: string,
+    usernameSearch?: string
   ): Promise<{ users: User[]; total: number }> {
-    return this.userRepository.fetchUsers(page, size, createdAtFrom, createdAtTo, pinflSearch);
+    return this.userRepository.fetchUsers(
+      page,
+      size,
+      createdAtFrom,
+      createdAtTo,
+      pinflSearch,
+      usernameSearch
+    );
   }
 }

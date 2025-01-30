@@ -18,7 +18,8 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
     size: number,
     createdAtFrom?: string,
     createdAtTo?: string,
-    pinflSearch?: string
+    pinflSearch?: string,
+    statuses?: string[]
   ): Promise<PaginatedResponse<SignUpRequest>> {
     const response = await this.apiClient.get<PaginatedResponse<any>>(this.apiUrl, {
       params: {
@@ -27,6 +28,7 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
         createdAtFrom,
         createdAtTo,
         pinflSearch,
+        statuses,
         sort: 'createdAt,DESC',
       },
     });

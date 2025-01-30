@@ -8,7 +8,12 @@ import { TableSkeleton } from '../TableSkeleton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
-  filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
+  filters?: {
+    createdAtFrom?: string;
+    createdAtTo?: string;
+    pinflSearch?: string;
+    statuses?: string[];
+  };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -19,7 +24,8 @@ export const SignUpRequestsTable: React.FC<{
     pageSize,
     filters.createdAtFrom,
     filters.createdAtTo,
-    filters.pinflSearch
+    filters.pinflSearch,
+    filters.statuses
   );
   const pathname = usePathname();
   const router = useRouter();
