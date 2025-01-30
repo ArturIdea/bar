@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
-import { FilterModal } from '@/ui/components/Dashboard/FilterModal';
+import { UserFilterModal } from '@/ui/components/Dashboard/Users/UserFilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 
 const UserManagementPage = () => {
@@ -15,6 +15,7 @@ const UserManagementPage = () => {
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
+    usernameSearch?: string;
   }>({});
 
   const toggleFilterModal = () => {
@@ -28,9 +29,10 @@ const UserManagementPage = () => {
   const handleApplyFilters = (
     createdAtFrom?: string,
     createdAtTo?: string,
-    pinflSearch?: string
+    pinflSearch?: string,
+    usernameSearch?: string
   ) => {
-    setFilters({ createdAtFrom, createdAtTo, pinflSearch });
+    setFilters({ createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
     setIsFilterModalOpen(false);
   };
 
@@ -56,10 +58,9 @@ const UserManagementPage = () => {
       </div>
       <UsersTable filters={filters} />
 
-      {/* Filter Modal */}
-      <FilterModal
+      <UserFilterModal
         isOpen={isFilterModalOpen}
-        onClose={toggleFilterModal}
+        onClose={() => setIsFilterModalOpen(false)}
         onApply={handleApplyFilters}
       />
     </div>

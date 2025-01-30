@@ -6,6 +6,7 @@ export interface UserRepository {
     size: number,
     createdAtFrom?: string,
     createdAtTo?: string,
-    pinflSearch?: string
+    pinflSearch?: string,
+    usernameSearch?: string
   ) => Promise<{ users: User[]; total: number }>;
 }

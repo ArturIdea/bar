@@ -8,7 +8,8 @@ export const useUsers = (
   size: number,
   createdAtFrom?: string,
   createdAtTo?: string,
-  pinflSearch?: string
+  pinflSearch?: string,
+  usernameSearch?: string
 ) => {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
@@ -26,7 +27,8 @@ export const useUsers = (
           size,
           createdAtFrom,
           createdAtTo,
-          pinflSearch
+          pinflSearch,
+          usernameSearch
         );
         setUsers(users);
         setTotal(total);
@@ -38,7 +40,7 @@ export const useUsers = (
     };
 
     fetchUsers();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch]);
+  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, usernameSearch]);
 
-  return { users, total, loading, createdAtFrom, createdAtTo, pinflSearch };
+  return { users, total, loading };
 };

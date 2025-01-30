@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
-import { FilterModal } from '@/ui/components/Dashboard/FilterModal';
+import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
 
 const SignUpRequestsPage = () => {
@@ -15,6 +15,7 @@ const SignUpRequestsPage = () => {
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
+    statuses?: string[];
   }>({});
 
   const toggleFilterModal = () => {
@@ -28,9 +29,10 @@ const SignUpRequestsPage = () => {
   const handleApplyFilters = (
     createdAtFrom?: string,
     createdAtTo?: string,
-    pinflSearch?: string
+    pinflSearch?: string,
+    statuses?: string[]
   ) => {
-    setFilters({ createdAtFrom, createdAtTo, pinflSearch });
+    setFilters({ createdAtFrom, createdAtTo, pinflSearch, statuses });
     setIsFilterModalOpen(false);
   };
 
@@ -57,9 +59,9 @@ const SignUpRequestsPage = () => {
       <SignUpRequestsTable filters={filters} />
 
       {/* Filter Modal */}
-      <FilterModal
+      <SignupRequestsFilterModal
         isOpen={isFilterModalOpen}
-        onClose={toggleFilterModal}
+        onClose={() => setIsFilterModalOpen(false)}
         onApply={handleApplyFilters}
       />
     </div>

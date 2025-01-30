@@ -8,7 +8,12 @@ import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
-  filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
+  filters?: {
+    createdAtFrom?: string;
+    createdAtTo?: string;
+    pinflSearch?: string;
+    usernameSearch?: string;
+  };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -19,7 +24,8 @@ export const UsersTable: React.FC<{
     pageSize,
     filters.createdAtFrom,
     filters.createdAtTo,
-    filters.pinflSearch
+    filters.pinflSearch,
+    filters.usernameSearch
   );
   const pathname = usePathname();
   const router = useRouter();

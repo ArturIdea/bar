@@ -8,7 +8,8 @@ export const useSignUpRequests = (
   size: number,
   createdAtFrom?: string,
   createdAtTo?: string,
-  pinflSearch?: string
+  pinflSearch?: string,
+  statuses?: string
 ) => {
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,8 @@ export const useSignUpRequests = (
           size,
           createdAtFrom,
           createdAtTo,
-          pinflSearch
+          pinflSearch,
+          statuses
         );
         setRequests(content);
         setTotalPages(totalPages);
@@ -40,7 +42,7 @@ export const useSignUpRequests = (
     };
 
     fetchRequests();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch]);
+  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses]);
 
   return { requests, loading, totalPages, totalElements };
 };
