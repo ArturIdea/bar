@@ -15,6 +15,14 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'baraka-s3.uz-pay-dev.ox.one',
+      },
+    ],
+  },
 };
 
 export default withBundleAnalyzer(withNextIntl(nextConfig));

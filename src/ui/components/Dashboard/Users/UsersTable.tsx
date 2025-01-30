@@ -5,12 +5,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { TableSkeleton } from '../TableSkeleton';
+import UserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
   filters?: { createdAtFrom?: string; createdAtTo?: string; pinflSearch?: string };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const { users, total, loading } = useUsers(
     page,
@@ -39,6 +41,11 @@ export const UsersTable: React.FC<{
       ...prevState,
       [id]: !prevState[id],
     }));
+  };
+
+  const handleViewDetails = (userId: string) => {
+    setSelectedUserId(userId);
+    setDropdownOpen({});
   };
 
   useEffect(() => {
@@ -120,9 +127,7 @@ export const UsersTable: React.FC<{
                       <button
                         type="button"
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => {
-                          router.push(`/en/dashboard/user-details/${user.userId}`);
-                        }}
+                        onClick={() => handleViewDetails(user.userId)}
                       >
                         View User Details
                       </button>
@@ -134,6 +139,11 @@ export const UsersTable: React.FC<{
           </tbody>
         </table>
       </div>
+
+      {/* User Details Modal */}
+      {selectedUserId && (
+        <UserDetailsModal userId={selectedUserId} onClose={() => setSelectedUserId(null)} />
+      )}
 
       {/* Pagination */}
       {pathname === '/en/dashboard/user-management' && (
