@@ -23,6 +23,22 @@
     "fundsDisbursed": "Funds Disbursed",
     "cardsIssued": "Cards Issued"
   },
+  "Filter": {
+    "filterBy": "Filter By",
+    "pinfl": "PINFL",
+    "status": {
+      "title": "Status",
+      "all": "All",
+      "completed": "Completed",
+      "notCompleted": "Not Completed"
+    },
+    "date": "Date",
+    "username": "Username",
+    "cancel": "Cancel",
+    "applyFilters": "Apply Filters",
+    "clearFilters": "Clear",
+    "done": "Done"
+  },
   "SignupRequests": {
     "title": "Latest Signup Requests",
     "title2": "Signup Requests",
@@ -43,8 +59,11 @@
     "gender": "Gender",
     "birthCountry": "Birth Country",
     "address": "Address",
+    "finalizedAt": "Finalized at",
     "termsOfServices": "Terms of Services",
-    "privacyPolicy": " Privacy Policy"
+    "privacyPolicy": " Privacy Policy",
+    "accepted": "Accepted",
+    "rejected": "Rejected"
   },
   "UserRegistration": {
     "title": "Latest User Registrations",
@@ -75,9 +94,14 @@
       "insonCenterDistrict": "Inson Center District",
       "insonCenterBranchCode": "Inson Center Branch Code",
       "personalPhone": "Personal Phone",
-      "personalemail": "Personal Email",
+      "personalEmail": "Personal Email",
       "agreementEmail": "Agreement Email",
       "location": "Location"
     }
+  },
+  "Pagination": {
+    "showing": "Showing",
+    "itemsOf": "items of",
+    "entries": "entries"
   }
 }

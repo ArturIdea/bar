@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { DateRange } from 'react-date-range';
 
 import 'react-date-range/dist/styles.css';
@@ -31,6 +32,7 @@ export const SignupRequestsFilterModal = ({
   const [pinfl, setPinfl] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'notCompleted'>('all');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const t = useTranslations();
 
   const handleRangeChange = (ranges: any) => {
     setDateRange({
@@ -82,12 +84,12 @@ export const SignupRequestsFilterModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 bg-opacity-50">
       <div className="bg-white w-[450px] rounded-4xl p-6 shadow-lg">
-        <h2 className="text-center text-xl pb-4">Filter By:</h2>
+        <h2 className="text-center text-xl pb-4">{t('Filter.filterBy')}:</h2>
 
         <div className="flex flex-col gap-6">
           {/* PINFL Input */}
           <div>
-            <label className="text-gray-400 mb-2">Pinfl</label>
+            <label className="text-gray-400 mb-2">{t('Filter.pinfl')}</label>
             <input
               value={pinfl}
               onChange={(e) => setPinfl(e.target.value)}
@@ -98,7 +100,7 @@ export const SignupRequestsFilterModal = ({
 
           {/* Status Filter */}
           <div>
-            <label className="text-gray-400 mb-2">Status</label>
+            <label className="text-gray-400 mb-2">{t('Filter.status.title')}</label>
             <select
               value={statusFilter}
               onChange={(e) =>
@@ -106,15 +108,15 @@ export const SignupRequestsFilterModal = ({
               }
               className="w-full border border-gray-300 rounded-xl p-2"
             >
-              <option value="all">All</option>
-              <option value="completed">Completed</option>
-              <option value="notCompleted">Not Completed</option>
+              <option value="all">{t('Filter.status.all')}</option>
+              <option value="completed">{t('Filter.status.completed')}</option>
+              <option value="notCompleted">{t('Filter.status.notCompleted')}</option>
             </select>
           </div>
 
           {/* Date Range Picker */}
           <div className="relative">
-            <label className="text-gray-400 mb-2">Date</label>
+            <label className="text-gray-400 mb-2">{t('Filter.date')}</label>
             <input
               type="text"
               value={
@@ -135,21 +137,21 @@ export const SignupRequestsFilterModal = ({
             className="border-2 border-gray-300 px-4 py-2 rounded-full cursor-pointer"
             onClick={onClose}
           >
-            Cancel
+            {t('Filter.cancel')}
           </button>
           <button
             type="button"
-            className="border-2 bg-blue-600 text-white px-4 py-2 rounded-full cursor-pointer"
+            className="border-2 bg-[#08678e] text-white px-4 py-2 rounded-full cursor-pointer"
             onClick={handleApply}
           >
-            Apply Filters
+            {t('Filter.applyFilters')}
           </button>
           <button
             type="button"
             className="border-2 border-red-500 text-red-500 px-4 py-2 rounded-full cursor-pointer"
             onClick={handleClearFilters}
           >
-            Clear
+            {t('Filter.clearFilters')}
           </button>
         </div>
 
@@ -167,9 +169,9 @@ export const SignupRequestsFilterModal = ({
               <button
                 type="button"
                 onClick={() => setIsDatePickerOpen(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer"
+                className="px-4 py-2 bg-[#08678e] text-white rounded-full cursor-pointer"
               >
-                Done
+                {t('Filter.done')}
               </button>
             </div>
           </div>

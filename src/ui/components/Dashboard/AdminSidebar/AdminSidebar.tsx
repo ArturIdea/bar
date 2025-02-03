@@ -1,27 +1,32 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 // import ActivityHistoryIcon from '@/../public/images/icons/dashboard/sidebar/activityHistoryIcon.svg';
 // import BenefitsIcon from '@/../public/images/icons/dashboard/sidebar/benefitsIcon.svg';
 import InsightsIcon from '@/../public/images/icons/dashboard/sidebar/insightsIcon.svg';
 // import MoreServicesIcon from '@/../public/images/icons/dashboard/sidebar/moreServicesIcon.svg';
 // import SettingsIcon from '@/../public/images/icons/dashboard/sidebar/settingsIcon.svg';
 import UserManagementIcon from '@/../public/images/icons/dashboard/sidebar/userManagementIcon.svg';
-
-const data = [
-  { link: '/en/dashboard', label: 'Insights', icon: InsightsIcon },
-  // { link: '', label: 'Benefits', icon: BenefitsIcon },
-  { link: '/en/dashboard/user-management', label: 'User Management', icon: UserManagementIcon },
-  { link: '/en/dashboard/signup-requests', label: 'Sign up Requests', icon: UserManagementIcon },
-  // { link: '', label: 'More Services', icon: MoreServicesIcon },
-  // { link: '', label: 'Activity History', icon: ActivityHistoryIcon },
-  // { link: '', label: 'Settings', icon: SettingsIcon },
-];
+import { Link, usePathname } from '@/i18n/routing';
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const t = useTranslations();
+
+  const data = [
+    { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
+    {
+      link: '/dashboard/user-management',
+      label: t('Sidebar.userManagement'),
+      icon: UserManagementIcon,
+    },
+    {
+      link: '/dashboard/signup-requests',
+      label: t('Sidebar.signupRequests'),
+      icon: UserManagementIcon,
+    },
+  ];
 
   const links = data.map((item) => (
     <Link

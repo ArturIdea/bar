@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+import { usePathname, useRouter } from '@/i18n/routing';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { TableSkeleton } from '../TableSkeleton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
@@ -30,6 +31,7 @@ export const SignUpRequestsTable: React.FC<{
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const t = useTranslations();
 
   //resets page when filters change
   useEffect(() => {
@@ -82,18 +84,18 @@ export const SignUpRequestsTable: React.FC<{
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        {pathname === '/en/dashboard/signup-requests' ? (
-          <h4 className="font-semibold text-[#0B0B22]">Signup Requests</h4>
+        {pathname === '/dashboard/signup-requests' ? (
+          <h4 className="font-semibold text-[#0B0B22]">{t('SignupRequests.title2')}</h4>
         ) : (
-          <h4 className="font-semibold text-[#0B0B22]">Latest Signup Requests</h4>
+          <h4 className="font-semibold text-[#0B0B22]">{t('SignupRequests.title')}</h4>
         )}
-        {pathname === '/en/dashboard' && (
+        {pathname === '/dashboard' && (
           <button
             type="button"
             className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer"
-            onClick={() => router.push('/en/dashboard/signup-requests')}
+            onClick={() => router.push('/dashboard/signup-requests')}
           >
-            View details
+            {t('Buttons.viewDetails')}
           </button>
         )}
       </div>
@@ -104,12 +106,12 @@ export const SignUpRequestsTable: React.FC<{
           {/* Table Header */}
           <thead>
             <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Email</th>
-              <th className="px-6 py-3">Mobile</th>
-              <th className="px-6 py-3">Pinfl</th>
-              <th className="px-6 py-3">Created at</th>
-              <th className="px-6 py-3">Status</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.name')}</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.email')}</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.mobile')}</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.pinfl')}</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.createdAt')}</th>
+              <th className="px-6 py-3 font-normal">{t('SignupRequests.status')}</th>
               <th className="px-6 py-3" />
             </tr>
           </thead>
@@ -176,7 +178,7 @@ export const SignUpRequestsTable: React.FC<{
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                         onClick={() => openModal(req.id)}
                       >
-                        View Signup Details
+                        {t('Buttons.viewSignupDetails')}
                       </button>
                     </div>
                   )}
@@ -193,10 +195,10 @@ export const SignUpRequestsTable: React.FC<{
       )}
 
       {/* Pagination */}
-      {pathname === '/en/dashboard/signup-requests' && (
+      {pathname === '/dashboard/signup-requests' && (
         <div className="flex items-center justify-between px-2 pt-4">
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>Showing</span>
+            <span>{t('Pagination.showing')}</span>
             <select
               className="border border-gray-300 rounded-xl px-4 py-2"
               value={pageSize}
@@ -208,7 +210,9 @@ export const SignUpRequestsTable: React.FC<{
                 </option>
               ))}
             </select>
-            <span>items of {totalElements} entries</span>
+            <span>
+              {t('Pagination.itemsOf')} {totalElements} {t('Pagination.entries')}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">

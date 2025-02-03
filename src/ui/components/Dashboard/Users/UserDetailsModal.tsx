@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
 interface UserDetailsModalProps {
@@ -10,6 +11,7 @@ interface UserDetailsModalProps {
 
 const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) => {
   const { user, loading, error } = useUserDetail(userId);
+  const t = useTranslations();
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md transition-opacity">
@@ -26,7 +28,6 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) 
         {loading && (
           <div className="flex flex-col items-center justify-center py-10">
             <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
-            <p className="text-gray-600 mt-2">Loading user details...</p>
           </div>
         )}
 
@@ -58,86 +59,99 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) 
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <p>
-                <strong>Email:</strong> {user.email ?? 'N/A'}
+                <strong>{t('UserRegistration.name')}:</strong> {user.email ?? 'N/A'}
               </p>
               <p>
-                <strong>Phone:</strong> {user.phoneNumber ?? 'N/A'}
+                <strong>{t('UserRegistration.phone')}:</strong> {user.phoneNumber ?? 'N/A'}
               </p>
               <p>
-                <strong>Nationality:</strong> {user.nationalityName ?? 'N/A'}
+                <strong>{t('UserRegistration.nationality')}:</strong>{' '}
+                {user.nationalityName ?? 'N/A'}
               </p>
               <p>
-                <strong>Citizenship:</strong> {user.citizenshipName ?? 'N/A'}
+                <strong>{t('UserRegistration.citizenship')}:</strong>{' '}
+                {user.citizenshipName ?? 'N/A'}
               </p>
               <p>
-                <strong>Birth Country:</strong> {user.birthCountryName ?? 'N/A'}
+                <strong>{t('UserRegistration.birthCountry')}:</strong>{' '}
+                {user.birthCountryName ?? 'N/A'}
               </p>
               <p>
-                <strong>Date of Birth:</strong> {user.dateOfBirth ?? 'N/A'}
+                <strong>{t('UserRegistration.dob')}:</strong> {user.dateOfBirth ?? 'N/A'}
               </p>
               <p>
-                <strong>Social Number:</strong> {user.socialNumber ?? 'N/A'}
+                <strong>{t('UserRegistration.socialNumber')}:</strong> {user.socialNumber ?? 'N/A'}
               </p>
               <p>
-                <strong>PINFL:</strong> {user.pinfl ?? 'N/A'}
+                <strong>{t('UserRegistration.pinfl')}:</strong> {user.pinfl ?? 'N/A'}
               </p>
               <p>
-                <strong>Address:</strong> {user.address ?? 'N/A'}
+                <strong>{t('UserRegistration.address')}:</strong> {user.address ?? 'N/A'}
               </p>
               <p>
-                <strong>Created At:</strong>{' '}
+                <strong>{t('UserRegistration.createdAt')}:</strong>{' '}
                 {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}
               </p>
             </div>
 
             {user.agentData && (
               <div className="mt-6">
-                <h3 className="text-lg font-semibold">Agent Data</h3>
+                <h3 className="text-lg font-semibold">{t('UserRegistration.agentData.title')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <p>
-                    <strong>First Name:</strong> {user.agentData.firstName ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.firstName')}:</strong>{' '}
+                    {user.agentData.firstName ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Last Name:</strong> {user.agentData.lastName ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.lastName')}:</strong>{' '}
+                    {user.agentData.lastName ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Job Title:</strong> {user.agentData.jobTitle ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.jobTitle')}:</strong>{' '}
+                    {user.agentData.jobTitle ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Date of Birth:</strong> {user.agentData.dateOfBirth ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.dob')}:</strong>{' '}
+                    {user.agentData.dateOfBirth ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>PINFL:</strong> {user.agentData.pinfl?.id ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.pinfl')}:</strong>{' '}
+                    {user.agentData.pinfl?.id ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Address:</strong> {user.agentData.address ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.address')}:</strong>{' '}
+                    {user.agentData.address ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Responsible Person:</strong> {user.agentData.responsiblePerson}
+                    <strong>{t('UserRegistration.agentData.responsiblePerson')}:</strong>{' '}
+                    {user.agentData.responsiblePerson}
                   </p>
                   <p>
-                    <strong>Inson Center District:</strong>{' '}
+                    <strong>{t('UserRegistration.agentData.insonCenterDistrict')}:</strong>{' '}
                     {user.agentData.insonCenterDistrict ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Inson Center Branch Code:</strong>{' '}
+                    <strong>{t('UserRegistration.agentData.insonCenterBranchCode')}</strong>{' '}
                     {user.agentData.insonCenterBranchCode ?? 'N/A'}
                   </p>
                   {user.agentData.personalPhone && (
                     <p>
-                      <strong>Personal Phone:</strong> {user.agentData.personalPhone.phoneCode}-
+                      <strong>{t('UserRegistration.agentData.personalPhone')}:</strong>{' '}
+                      {user.agentData.personalPhone.phoneCode}-
                       {user.agentData.personalPhone.phoneNumber}
                     </p>
                   )}
                   <p>
-                    <strong>Personal Email:</strong> {user.agentData.personalEmailAddress ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.personalEmail')}:</strong>{' '}
+                    {user.agentData.personalEmailAddress ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Agreement Email:</strong>{' '}
+                    <strong>{t('UserRegistration.agentData.agreementEmail')}:</strong>{' '}
                     {user.agentData.agreementEmailAddress ?? 'N/A'}
                   </p>
                   <p>
-                    <strong>Location:</strong> {user.agentData.location ?? 'N/A'}
+                    <strong>{t('UserRegistration.agentData.location')}:</strong>{' '}
+                    {user.agentData.location ?? 'N/A'}
                   </p>
                 </div>
               </div>

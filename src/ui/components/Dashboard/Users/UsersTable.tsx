@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+import { usePathname, useRouter } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from './UserDetailsModal';
@@ -30,6 +31,7 @@ export const UsersTable: React.FC<{
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const t = useTranslations();
 
   const totalPages = Math.ceil(total / pageSize);
 
@@ -75,18 +77,18 @@ export const UsersTable: React.FC<{
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        {pathname === '/en/dashboard/signup-requests' ? (
-          <h4 className="font-semibold text-[#0B0B22]">User Registrations</h4>
+        {pathname === '/dashboard/signup-requests' ? (
+          <h4 className="font-semibold text-[#0B0B22]">{t('UserRegistration.title2')}</h4>
         ) : (
-          <h4 className="font-semibold text-[#0B0B22]">Latest User Registrations</h4>
+          <h4 className="font-semibold text-[#0B0B22]">{t('UserRegistration.title')}</h4>
         )}
-        {pathname === '/en/dashboard' && (
+        {pathname === '/dashboard' && (
           <button
             type="button"
             className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer"
-            onClick={() => router.push('/en/dashboard/user-management')}
+            onClick={() => router.push('/dashboard/user-management')}
           >
-            View details
+            {t('Buttons.viewDetails')}
           </button>
         )}
       </div>
@@ -97,11 +99,11 @@ export const UsersTable: React.FC<{
           {/* Table Header */}
           <thead>
             <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3 font-normal">Name</th>
-              <th className="px-6 py-3 font-normal">Email</th>
-              <th className="px-6 py-3 font-normal">Mobile</th>
-              <th className="px-6 py-3 font-normal">Role</th>
-              <th className="px-6 py-3 font-normal">Created At</th>
+              <th className="px-6 py-3 font-normal">{t('UserRegistration.name')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserRegistration.email')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserRegistration.mobile')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserRegistration.role')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserRegistration.createdAt')}</th>
               <th className="px-6 py-3 font-normal" />
             </tr>
           </thead>
@@ -139,7 +141,7 @@ export const UsersTable: React.FC<{
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                         onClick={() => handleViewDetails(user.userId)}
                       >
-                        View User Details
+                        {t('Buttons.viewUserDetails')}
                       </button>
                     </div>
                   )}
@@ -156,10 +158,10 @@ export const UsersTable: React.FC<{
       )}
 
       {/* Pagination */}
-      {pathname === '/en/dashboard/user-management' && (
+      {pathname === '/dashboard/user-management' && (
         <div className="flex items-center justify-between px-2 pt-4">
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>Showing</span>
+            <span>{t('Pagination.showing')}</span>
             <select
               className="border border-gray-300 rounded-xl px-4 py-2"
               value={pageSize}
@@ -171,7 +173,9 @@ export const UsersTable: React.FC<{
                 </option>
               ))}
             </select>
-            <span>items of {total} entries</span>
+            <span>
+              {t('Pagination.itemsOf')} {total} {t('Pagination.entries')}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
