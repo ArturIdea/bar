@@ -1,4 +1,9 @@
 {
+  "Sidebar": {
+    "insights": "Insights",
+    "userManagement": "User Management",
+    "signupRequests": "Signup Requests"
+  },
   "ProfilePage": {
     "verified": "Verified",
     "gender": "Gender",
@@ -7,5 +12,72 @@
     "fingerprint": "Fingerprint",
     "nationality": "Nationality",
     "place_of_birth": "Place of birth"
+  },
+  "Buttons": {
+    "viewDetails": "View Details",
+    "viewSignupDetails": "View Signup Details",
+    "viewUserDetails": "View User Details"
+  },
+  "Statistics": {
+    "newAccounts": "New Accounts",
+    "fundsDisbursed": "Funds Disbursed",
+    "cardsIssued": "Cards Issued"
+  },
+  "SignupRequests": {
+    "title": "Latest Signup Requests",
+    "title2": "Signup Requests",
+    "name": "Name",
+    "email": "Email",
+    "mobile": "Mobile",
+    "pinfl": "Pinfl",
+    "createdAt": "Created at",
+    "status": "Status",
+    "nationality": "Nationality",
+    "registrationNumber": "Registration Number",
+    "docNumber": "Document Number",
+    "docType": "Document Type",
+    "citizenship": "Citizenship",
+    "issuedBy": "Issued By",
+    "issueDate": "Issue Date",
+    "expiryDate": "Expiry Date",
+    "gender": "Gender",
+    "birthCountry": "Birth Country",
+    "address": "Address",
+    "termsOfServices": "Terms of Services",
+    "privacyPolicy": " Privacy Policy"
+  },
+  "UserRegistration": {
+    "title": "Latest User Registrations",
+    "title2": "User Registrations",
+    "name": "Name",
+    "email": "Email",
+    "mobile": "Mobile",
+    "role": "Role",
+    "createdAt": "Created at",
+    "phone": "Phone",
+    "nationality": "Nationality",
+    "citizenship": "Citizenship",
+    "birthCountry": "Birth Country",
+    "dob": "Date of Birth",
+    "docNumber": "Document Number",
+    "socialNumber": "Social Number",
+    "pinfl": "PINFL",
+    "address": "Address",
+    "agentData": {
+      "title": "Agent Data",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "jobTitle": "Job Title",
+      "dob": "Date of Birth",
+      "pinfl": "PINFL",
+      "address": "Address",
+      "responsiblePerson": "Responsible Person",
+      "insonCenterDistrict": "Inson Center District",
+      "insonCenterBranchCode": "Inson Center Branch Code",
+      "personalPhone": "Personal Phone",
+      "personalemail": "Personal Email",
+      "agreementEmail": "Agreement Email",
+      "location": "Location"
+    }
   }
 }

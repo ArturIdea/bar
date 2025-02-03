@@ -79,9 +79,6 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) 
                 <strong>Social Number:</strong> {user.socialNumber ?? 'N/A'}
               </p>
               <p>
-                <strong>Document Number:</strong> {user.documentNumber ?? 'N/A'}
-              </p>
-              <p>
                 <strong>PINFL:</strong> {user.pinfl ?? 'N/A'}
               </p>
               <p>

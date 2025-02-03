@@ -75,7 +75,11 @@ export const UsersTable: React.FC<{
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h4 className="font-semibold text-[#0B0B22]">Latest User Registrations</h4>
+        {pathname === '/en/dashboard/signup-requests' ? (
+          <h4 className="font-semibold text-[#0B0B22]">User Registrations</h4>
+        ) : (
+          <h4 className="font-semibold text-[#0B0B22]">Latest User Registrations</h4>
+        )}
         {pathname === '/en/dashboard' && (
           <button
             type="button"
