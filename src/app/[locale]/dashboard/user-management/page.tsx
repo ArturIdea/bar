@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
+import { Link } from '@/i18n/routing';
 import { UserFilterModal } from '@/ui/components/Dashboard/Users/UserFilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 
 const UserManagementPage = () => {
-  const router = useRouter();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
     createdAtFrom?: string;
@@ -20,10 +19,6 @@ const UserManagementPage = () => {
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
-  };
-
-  const handleGoBack = () => {
-    router.push('/en/dashboard');
   };
 
   const handleApplyFilters = (
@@ -39,13 +34,9 @@ const UserManagementPage = () => {
   return (
     <div className="min-h-screen">
       <div className="p-6 flex justify-between items-center">
-        <button
-          type="button"
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={handleGoBack}
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
           <ArrowLeft /> Back
-        </button>
+        </Link>
         <div>
           <button
             type="button"

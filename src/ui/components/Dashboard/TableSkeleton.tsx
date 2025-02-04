@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/i18n/routing';
 
 export const TableSkeleton: React.FC = () => {
   const pathname = usePathname();
@@ -9,7 +9,7 @@ export const TableSkeleton: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="h-4 bg-gray-200 rounded-md animate-pulse w-52" />
-        {pathname === '/en/dashboard' && (
+        {pathname === '/dashboard' && (
           <div className="h-9 w-32 bg-gray-200 rounded-full animate-pulse" />
         )}
       </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { AuthRepositoryAPI } from '@/infrastructure/api/AuthRepositoryAPI';
+import { useSearchParams } from 'next/navigation';
 import { setServerCookie } from '@/core/utils/setCookies';
+import { useRouter } from '@/i18n/routing';
+import { AuthRepositoryAPI } from '@/infrastructure/api/AuthRepositoryAPI';
 
 export const useCallbackHandler = () => {
   const searchParams = useSearchParams();
@@ -38,11 +39,11 @@ export const useCallbackHandler = () => {
         const authRepo = new AuthRepositoryAPI();
         const tokenData = await authRepo.getToken(code, codeVerifier, state);
 
-        await setServerCookie({name: 'accessToken', value: tokenData.accessToken});
-        await setServerCookie({name: 'refreshToken', value: tokenData.refreshToken});
+        await setServerCookie({ name: 'accessToken', value: tokenData.accessToken });
+        await setServerCookie({ name: 'refreshToken', value: tokenData.refreshToken });
         // await setServerCookie('idToken', tokenData.idToken);
 
-        router.push('/en/dashboard');
+        router.push('/dashboard');
       } catch (err: any) {
         console.error('Error during callback handling:', err.message || err);
         setError(err.message || 'Unknown error occurred.');

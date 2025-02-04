@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { generateCodeChallenge, generateCodeVerifier } from '@/core/utils/oauth';
+import { useRouter } from '@/i18n/routing';
 
 const LoginPage = () => {
   const router = useRouter();
