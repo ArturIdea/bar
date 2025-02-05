@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { KEYCLOAK_URL } from '@/core/config';
 import { generateCodeChallenge, generateCodeVerifier } from '@/core/utils/oauth';
 import { useRouter } from '@/i18n/routing';
 
@@ -16,9 +17,7 @@ const LoginPage = () => {
       sessionStorage.setItem('oauth_state', state);
       sessionStorage.setItem('code_verifier', codeVerifier);
 
-      const authUrl = new URL(
-        'https://kc-dev.uz-pay-dev.ox.one/realms/datawise/protocol/openid-connect/auth'
-      );
+      const authUrl = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/auth`);
 
       authUrl.searchParams.set('response_type', 'code');
       authUrl.searchParams.set('client_id', 'baraka');
