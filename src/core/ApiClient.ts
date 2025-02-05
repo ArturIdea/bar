@@ -28,8 +28,7 @@ export class ApiClient {
   private cancelTokenSources: Map<string, CancelTokenSource>;
   private isRefreshing = false;
   private refreshSubscribers: ((token: string) => void)[] = [];
-  private refreshTokenURL =
-    'https://baraka-app-api-development.uz-pay-dev.ox.one/api-public/refresh-token';
+  private refreshTokenURL = `${API_URL}/api-public/refresh-token`;
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -149,7 +148,7 @@ export class ApiClient {
   private logout() {
     cookies.remove('accessToken');
     cookies.remove('refreshToken');
-    window.location.href = '/en';
+    // window.location.href = '/en';
   }
 
   // Method to handle cancellation of previous requests

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { diContainer } from '@/core/di/setup';
 import { UserDetail } from '@/domain/users/entities/UserDetail';
-import { GetUserDetail } from '@/domain/users/useCases/GetUserDetail';
-import { UserDetailRepositoryAPI } from '@/infrastructure/api/UserDetailRepositoryAPI';
+import { GetUserDetailUseCase } from '@/domain/users/useCases/GetUserDetail';
 
 export const useUserDetail = (userId: string) => {
   const [user, setUser] = useState<UserDetail | null>(null);
@@ -16,11 +16,10 @@ export const useUserDetail = (userId: string) => {
     const fetchUser = async () => {
       setLoading(true);
       setError(null);
-      const userDetailRepository = new UserDetailRepositoryAPI();
-      const getUserUseCase = new GetUserDetail(userDetailRepository);
+      const useCase = diContainer.get<GetUserDetailUseCase>('GetUserDetail');
 
       try {
-        const userData = await getUserUseCase.execute(userId);
+        const userData = await useCase.execute(userId);
         setUser(userData);
       } catch (err) {
         setError('Failed to fetch user data');

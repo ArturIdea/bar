@@ -3,7 +3,7 @@
 import { SignupRequestDetail } from '../entities/SignupRequestDetail';
 import { SignupRequestDetailRepository } from '../repositories/SignupRequestDetailRepository';
 
-export class GetSignupRequestDetailById {
+export class GetSignupRequestDetailByIdUseCase {
   constructor(private repository: SignupRequestDetailRepository) {}
 
   async execute(id: string): Promise<SignupRequestDetail> {

@@ -2,7 +2,7 @@ import { PaginatedResponse } from '@/infrastructure/api/SignupRequestRepositoryA
 import { SignUpRequest } from '../entities/SignupRequest';
 import { SignUpRequestsRepository } from '../repositories/SignupRequestRepository';
 
-export class GetSignUpRequests {
+export class GetSignUpRequestsUseCase {
   constructor(private repository: SignUpRequestsRepository) {}
 
   async execute(

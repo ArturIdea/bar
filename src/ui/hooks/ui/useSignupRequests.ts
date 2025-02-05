@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { diContainer } from '@/core/di/setup';
 import { SignUpRequest } from '@/domain/signupRequests/entities/SignupRequest';
-import { GetSignUpRequests } from '@/domain/signupRequests/useCases/GetSignupRequests';
-import { SignUpRequestsRepositoryAPI } from '@/infrastructure/api/SignupRequestRepositoryAPI';
+import { GetSignUpRequestsUseCase } from '@/domain/signupRequests/useCases/GetSignupRequests';
 
 export const useSignUpRequests = (
   page: number,
@@ -18,8 +18,7 @@ export const useSignUpRequests = (
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const api = new SignUpRequestsRepositoryAPI();
-      const useCase = new GetSignUpRequests(api);
+      const useCase = diContainer.get<GetSignUpRequestsUseCase>('GetSignupRequests');
 
       setLoading(true);
       try {

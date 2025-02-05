@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { API_URL } from '@/core/config';
 import { AuthRepository } from '@/domain/auth/repositories/AuthRepository';
 
 export class AuthRepositoryAPI implements AuthRepository {
-  private apiUrl =
-    'https://baraka-app-api-development.uz-pay-dev.ox.one/api-public/token-for-callback';
+  private apiUrl = `${API_URL}/api-public/token-for-callback`;
 
   async getToken(code: string, codeVerifier: string, state: string): Promise<any> {
     const payload = {

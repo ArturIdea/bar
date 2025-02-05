@@ -7,7 +7,7 @@ export class UserRepositoryAPI implements UserRepository {
   private apiClient = ApiClient.shared;
   private ApiUrl = '/api/admin/users';
 
-  async fetchUsers(
+  async getUsers(
     page: number,
     size: number,
     createdAtFrom?: string,

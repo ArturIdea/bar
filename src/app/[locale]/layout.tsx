@@ -6,9 +6,13 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { setupDependencies } from '@/core/di/setup';
 import { routing } from '@/i18n/routing';
 import Navbar from '@/ui/components/Navbar';
 import { theme } from '../../core/theme';
+import { Providers } from '../providers';
+
+setupDependencies();
 
 export const metadata = {
   title: 'Baraka',
@@ -49,7 +53,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <MantineProvider theme={theme}>
             <Navbar />
-            {children}
+            <Providers>{children}</Providers>
           </MantineProvider>
         </NextIntlClientProvider>
       </body>

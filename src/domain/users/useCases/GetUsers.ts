@@ -1,7 +1,7 @@
 import { User } from '@/domain/users/entities/User';
 import { UserRepository } from '@/domain/users/repositories/UserRepository';
 
-export class GetUsers {
+export class GetUsersUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(
@@ -12,7 +12,7 @@ export class GetUsers {
     pinflSearch?: string,
     usernameSearch?: string
   ): Promise<{ users: User[]; total: number }> {
-    return this.userRepository.fetchUsers(
+    return this.userRepository.getUsers(
       page,
       size,
       createdAtFrom,

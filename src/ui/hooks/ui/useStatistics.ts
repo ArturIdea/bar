@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { diContainer } from '@/core/di/setup';
 import { Statistics } from '@/domain/statistics/entities/Statistics';
-import { GetStatistics } from '@/domain/statistics/useCases/GetStatistics';
-import { StatisticsRepositoryAPI } from '@/infrastructure/api/StatisticsRepositoryAPI';
+import { GetStatisticsUseCase } from '@/domain/statistics/useCases/GetStatistics';
 
 export const useStatistics = (
   newAccountsSince: string,
@@ -14,11 +14,10 @@ export const useStatistics = (
 
   useEffect(() => {
     const fetchStatistics = async () => {
-      const repository = new StatisticsRepositoryAPI();
-      const getStatistics = new GetStatistics(repository);
+      const useCase = diContainer.get<GetStatisticsUseCase>('GetStatistics');
 
       try {
-        const result = await getStatistics.execute(
+        const result = await useCase.execute(
           newAccountsSince,
           newFundsDisbursedSince,
           cardsIssuedSince

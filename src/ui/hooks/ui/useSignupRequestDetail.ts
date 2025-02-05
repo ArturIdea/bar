@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { diContainer } from '@/core/di/setup';
 import { SignupRequestDetail } from '@/domain/signupRequests/entities/SignupRequestDetail';
-import { GetSignupRequestDetailById } from '@/domain/signupRequests/useCases/GetSignupRequestDetailById';
-import { SignupRequestDetailRepositoryAPI } from '@/infrastructure/api/SignupRequestDetailRepositoryAPI';
+import { GetSignupRequestDetailByIdUseCase } from '@/domain/signupRequests/useCases/GetSignupRequestDetailById';
 
 export const useSignupRequestDetail = (id: string | null) => {
   const [signupRequest, setSignupRequest] = useState<SignupRequestDetail | null>(null);
@@ -16,8 +16,10 @@ export const useSignupRequestDetail = (id: string | null) => {
     const fetchSignupRequest = async () => {
       setLoading(true);
       setError(null);
-      const repository = new SignupRequestDetailRepositoryAPI();
-      const useCase = new GetSignupRequestDetailById(repository);
+
+      const useCase = diContainer.get<GetSignupRequestDetailByIdUseCase>(
+        'GetSignupRequestDetailById'
+      );
 
       try {
         const result = await useCase.execute(id);

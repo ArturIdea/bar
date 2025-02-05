@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { diContainer } from '@/core/di/setup';
 import { User } from '@/domain/users/entities/User';
-import { GetUsers } from '@/domain/users/useCases/GetUsers';
-import { UserRepositoryAPI } from '@/infrastructure/api/UserRepositoryAPI';
+import { GetUsersUseCase } from '@/domain/users/useCases/GetUsers';
 
 export const useUsers = (
   page: number,
@@ -18,11 +18,10 @@ export const useUsers = (
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
-      const userRepository = new UserRepositoryAPI();
-      const getUsers = new GetUsers(userRepository);
+      const useCase = diContainer.get<GetUsersUseCase>('GetUsers');
 
       try {
-        const { users, total } = await getUsers.execute(
+        const { users, total } = await useCase.execute(
           page,
           size,
           createdAtFrom,

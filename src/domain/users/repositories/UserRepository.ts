@@ -1,7 +1,7 @@
 import { User } from '@/domain/users/entities/User';
 
 export interface UserRepository {
-  fetchUsers: (
+  getUsers: (
     page: number,
     size: number,
     createdAtFrom?: string,

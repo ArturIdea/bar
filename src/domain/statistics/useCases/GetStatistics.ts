@@ -1,7 +1,7 @@
 import { Statistics } from '../entities/Statistics';
 import { StatisticsRepository } from '../repositories/StatisticsRepository';
 
-export class GetStatistics {
+export class GetStatisticsUseCase {
   constructor(private statisticsRepository: StatisticsRepository) {}
 
   async execute(
