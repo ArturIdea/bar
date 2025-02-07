@@ -1,47 +1,40 @@
-import Image from 'next/image';
-import { Box, Container, Stack, Title } from '@mantine/core';
+'use client';
+
+import { useEffect } from 'react';
+import { KEYCLOAK_URL, REDIRECT_URI } from '@/core/config';
+import { generateCodeChallenge, generateCodeVerifier } from '@/core/utils/oauth';
+import { useRouter } from '@/i18n/routing';
 
 export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const initiateLogin = async () => {
+      const state = crypto.randomUUID();
+      const codeVerifier = generateCodeVerifier();
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+      sessionStorage.setItem('oauth_state', state);
+      sessionStorage.setItem('code_verifier', codeVerifier);
+
+      const authUrl = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/auth`);
+
+      authUrl.searchParams.set('response_type', 'code');
+      authUrl.searchParams.set('client_id', 'baraka');
+      authUrl.searchParams.set('redirect_uri', `${REDIRECT_URI}`);
+      authUrl.searchParams.set('scope', 'openid profile');
+      authUrl.searchParams.set('state', state);
+      authUrl.searchParams.set('code_challenge', codeChallenge);
+      authUrl.searchParams.set('code_challenge_method', 'S256');
+
+      window.location.href = authUrl.toString();
+    };
+
+    initiateLogin();
+  }, [router]);
   return (
-    <Box pos="fixed" w="100%" top={0} style={{ overflow: 'hidden', height: '100vh' }}>
-      <Container h="100vh" display="flex" style={{ alignItems: 'center' }}>
-        <Stack align="center" gap="xl" style={{ width: '100%' }}>
-          <Image src="/images/logos/brand-logo.png" alt="logo" width={230} height={139} />
-          <Title ta="center" order={1} size="h4">
-            Coming Soon...
-          </Title>
-
-          <Box
-            pos="fixed"
-            bottom={0}
-            left={0}
-            w={200}
-            h={200}
-            style={{
-              background: 'var(--mantine-color-blue-1)',
-              borderRadius: '100%',
-              transform: 'translate(-50%, 50%)',
-              opacity: 0.5,
-              zIndex: -1,
-            }}
-          />
-
-          <Box
-            pos="fixed"
-            top={0}
-            right={0}
-            w={300}
-            h={300}
-            style={{
-              background: 'var(--mantine-color-red-1)',
-              borderRadius: '100%',
-              transform: 'translate(50%, -50%)',
-              opacity: 0.5,
-              zIndex: -1,
-            }}
-          />
-        </Stack>
-      </Container>
-    </Box>
+    <div className="flex items-center justify-center h-screen">
+      <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+    </div>
   );
 }
