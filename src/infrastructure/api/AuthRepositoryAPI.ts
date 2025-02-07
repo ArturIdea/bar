@@ -18,7 +18,6 @@ export class AuthRepositoryAPI implements AuthRepository {
         osVersion: navigator.userAgent,
       },
       userType: 'ADMIN',
-      clientId: 'baraka',
     };
 
     const headers = {
