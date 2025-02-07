@@ -23,6 +23,7 @@ export const UserDetailAdapter = {
       raw.identityProviderData?.personDataLatin?.address?.district,
       raw.identityProviderData?.personDataLatin?.address?.address,
       raw.photoUrl,
+      raw.signupRequestId,
       raw.identityProviderData
         ? {
             personDataLatin: {

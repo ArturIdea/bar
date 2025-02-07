@@ -5,12 +5,19 @@ import { useTranslations } from 'next-intl';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
 interface UserDetailsModalProps {
-  userId: string;
+  userId?: string;
+  pinfl?: string;
   onClose: () => void;
+  onOpenSignupRequest: (signupRequestId: string) => void;
 }
 
-const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) => {
-  const { user, loading, error } = useUserDetail(userId);
+const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
+  userId,
+  pinfl,
+  onClose,
+  onOpenSignupRequest,
+}) => {
+  const { user, loading, error } = useUserDetail(userId, pinfl);
   const t = useTranslations();
 
   return (
@@ -154,6 +161,18 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ userId, onClose }) 
                     {user.agentData.location ?? 'N/A'}
                   </p>
                 </div>
+              </div>
+            )}
+
+            {user.signupRequestId && (
+              <div className="mt-6 text-center ">
+                <button
+                  type="button"
+                  className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
+                  onClick={() => user.signupRequestId && onOpenSignupRequest(user.signupRequestId)}
+                >
+                  {t('Buttons.viewSignupDetails')}
+                </button>
               </div>
             )}
           </div>

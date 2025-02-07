@@ -17,7 +17,7 @@ export class AuthRepositoryAPI implements AuthRepository {
         platform: 'Browser',
         osVersion: navigator.userAgent,
       },
-      userType: 'ADMIN',
+      userType: 'AGENT',
     };
 
     const headers = {

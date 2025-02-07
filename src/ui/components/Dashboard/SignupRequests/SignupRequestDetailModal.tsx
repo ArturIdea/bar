@@ -6,9 +6,14 @@ import { useSignupRequestDetail } from '@/ui/hooks/ui/useSignupRequestDetail';
 interface SignupRequestDetailModalProps {
   id: string | null;
   onClose: () => void;
+  onOpenUserDetails: (pinfl: string) => void;
 }
 
-const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({ id, onClose }) => {
+const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
+  id,
+  onClose,
+  onOpenUserDetails,
+}) => {
   const { signupRequest, loading, error } = useSignupRequestDetail(id);
   const t = useTranslations();
 
@@ -140,6 +145,20 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({ id,
                   : t('SignupRequests.rejected')}
               </p>
             </div>
+            {signupRequest.status === 'COMPLETED' && signupRequest.pinfl && (
+              <div className="mt-6 text-center ">
+                <button
+                  type="button"
+                  className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
+                  onClick={() => {
+                    onClose();
+                    onOpenUserDetails(signupRequest.pinfl);
+                  }}
+                >
+                  {t('Buttons.viewSignupDetails')}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

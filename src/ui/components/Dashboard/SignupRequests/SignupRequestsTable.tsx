@@ -6,6 +6,7 @@ import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.sv
 import { Link, usePathname } from '@/i18n/routing';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { TableSkeleton } from '../TableSkeleton';
+import UserDetailsModal from '../Users/UserDetailsModal';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
@@ -20,6 +21,7 @@ export const SignUpRequestsTable: React.FC<{
   const [pageSize, setPageSize] = useState(10);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
+  const [selectedPinfl, setSelectedPinfl] = useState<string | null>(null);
   const { requests, loading, totalPages, totalElements } = useSignUpRequests(
     page,
     pageSize,
@@ -37,6 +39,17 @@ export const SignUpRequestsTable: React.FC<{
     setPage(0);
   }, [filters]);
 
+  const openSignupModal = (id: string) => {
+    setSelectedRequestId(id);
+    setSelectedPinfl(null);
+    setDropdownOpen({});
+  };
+
+  const openUserDetails = (pinfl: string) => {
+    setSelectedPinfl(pinfl);
+    setSelectedRequestId(null);
+  };
+
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -51,15 +64,6 @@ export const SignUpRequestsTable: React.FC<{
       ...prevState,
       [id]: !prevState[id],
     }));
-  };
-
-  const openModal = (id: string) => {
-    setSelectedRequestId(id);
-    setDropdownOpen({});
-  };
-
-  const closeModal = () => {
-    setSelectedRequestId(null);
   };
 
   useEffect(() => {
@@ -174,7 +178,7 @@ export const SignUpRequestsTable: React.FC<{
                       <button
                         type="button"
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => openModal(req.id)}
+                        onClick={() => openSignupModal(req.id)}
                       >
                         {t('Buttons.viewSignupDetails')}
                       </button>
@@ -187,9 +191,20 @@ export const SignUpRequestsTable: React.FC<{
         </table>
       </div>
 
-      {/* Render Modal */}
       {selectedRequestId && (
-        <SignupRequestDetailModal id={selectedRequestId} onClose={closeModal} />
+        <SignupRequestDetailModal
+          id={selectedRequestId}
+          onClose={() => setSelectedRequestId(null)}
+          onOpenUserDetails={openUserDetails}
+        />
+      )}
+
+      {selectedPinfl && (
+        <UserDetailsModal
+          pinfl={selectedPinfl}
+          onClose={() => setSelectedPinfl(null)}
+          onOpenSignupRequest={openSignupModal}
+        />
       )}
 
       {/* Pagination */}

@@ -4,7 +4,7 @@ import { UserDetailRepository } from '../repositories/UserDetailRepository';
 export class GetUserDetailUseCase {
   constructor(private userRepository: UserDetailRepository) {}
 
-  async execute(userId: string): Promise<UserDetail> {
-    return await this.userRepository.getUserDetails(userId);
+  async execute(userId?: string, pinfl?: string): Promise<UserDetail> {
+    return await this.userRepository.getUserDetails(userId, pinfl);
   }
 }

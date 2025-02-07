@@ -20,6 +20,7 @@ export class UserDetail {
     public district?: string,
     public address?: string,
     public photoUrl?: string,
+    public signupRequestId?: string,
     public identityProviderData?: {
       personDataLatin?: {
         socialNumber?: string;

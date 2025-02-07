@@ -3,13 +3,13 @@ import { diContainer } from '@/core/di/setup';
 import { UserDetail } from '@/domain/users/entities/UserDetail';
 import { GetUserDetailUseCase } from '@/domain/users/useCases/GetUserDetail';
 
-export const useUserDetail = (userId: string) => {
+export const useUserDetail = (userId?: string, pinfl?: string) => {
   const [user, setUser] = useState<UserDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId && !pinfl) {
       return;
     }
 
@@ -19,7 +19,7 @@ export const useUserDetail = (userId: string) => {
       const useCase = diContainer.get<GetUserDetailUseCase>('GetUserDetail');
 
       try {
-        const userData = await useCase.execute(userId);
+        const userData = await useCase.execute(userId, pinfl);
         setUser(userData);
       } catch (err) {
         setError('Failed to fetch user data');
@@ -29,7 +29,7 @@ export const useUserDetail = (userId: string) => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, pinfl]);
 
   return { user, loading, error };
 };

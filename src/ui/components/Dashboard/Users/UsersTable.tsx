@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { Link, usePathname } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
+import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from './UserDetailsModal';
 
@@ -19,6 +20,7 @@ export const UsersTable: React.FC<{
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedSignupRequestId, setSelectedSignupRequestId] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const { users, total, loading } = useUsers(
     page,
@@ -39,6 +41,17 @@ export const UsersTable: React.FC<{
     setPage(0);
   }, [filters]);
 
+  const handleViewDetails = (userId: string) => {
+    setSelectedUserId(userId);
+    setDropdownOpen({});
+    setSelectedSignupRequestId(null);
+  };
+
+  const handleOpenSignupRequest = (signupRequestId: string) => {
+    setSelectedSignupRequestId(signupRequestId);
+    setSelectedUserId(null);
+  };
+
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -53,11 +66,6 @@ export const UsersTable: React.FC<{
       ...prevState,
       [id]: !prevState[id],
     }));
-  };
-
-  const handleViewDetails = (userId: string) => {
-    setSelectedUserId(userId);
-    setDropdownOpen({});
   };
 
   useEffect(() => {
@@ -157,7 +165,19 @@ export const UsersTable: React.FC<{
 
       {/* User Details Modal */}
       {selectedUserId && (
-        <UserDetailsModal userId={selectedUserId} onClose={() => setSelectedUserId(null)} />
+        <UserDetailsModal
+          userId={selectedUserId}
+          onClose={() => setSelectedUserId(null)}
+          onOpenSignupRequest={handleOpenSignupRequest}
+        />
+      )}
+
+      {selectedSignupRequestId && (
+        <SignupRequestDetailModal
+          id={selectedSignupRequestId}
+          onClose={() => setSelectedSignupRequestId(null)}
+          onOpenUserDetails={handleViewDetails}
+        />
       )}
 
       {/* Pagination */}
