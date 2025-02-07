@@ -16,22 +16,29 @@ export default function HomePage() {
       sessionStorage.setItem('oauth_state', state);
       sessionStorage.setItem('code_verifier', codeVerifier);
 
-      const authUrl = new URL(
-        `https://kc-staging.uz-pay-dev.ox.one/realms/datawise/protocol/openid-connect/auth`
-      );
+      try {
+        const authUrl = new URL(
+          `https://kc-staging.uz-pay-dev.ox.one/realms/datawise/protocol/openid-connect/auth`
+        );
 
-      authUrl.searchParams.set('response_type', 'code');
-      authUrl.searchParams.set('client_id', 'baraka');
-      authUrl.searchParams.set(
-        'redirect_uri',
-        `https://baraka-app-webapp-staging.uz-pay-dev.ox.one/en/callback`
-      );
-      authUrl.searchParams.set('scope', 'openid profile');
-      authUrl.searchParams.set('state', state);
-      authUrl.searchParams.set('code_challenge', codeChallenge);
-      authUrl.searchParams.set('code_challenge_method', 'S256');
+        authUrl.searchParams.set('response_type', 'code');
+        authUrl.searchParams.set('client_id', 'baraka');
+        authUrl.searchParams.set(
+          'redirect_uri',
+          `https://baraka-app-webapp-staging.uz-pay-dev.ox.one/en/callback`
+        );
+        authUrl.searchParams.set('scope', 'openid profile');
+        authUrl.searchParams.set('state', state);
+        authUrl.searchParams.set('code_challenge', codeChallenge);
+        authUrl.searchParams.set('code_challenge_method', 'S256');
 
-      window.location.href = authUrl.toString();
+        console.log('Final auth URL:', authUrl.toString());
+        const redirectUrl = authUrl.toString();
+        console.log('Redirecting to:', redirectUrl);
+        window.location.href = redirectUrl;
+      } catch (error) {
+        console.error('Error constructing auth URL:', error);
+      }
     };
 
     initiateLogin();
