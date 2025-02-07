@@ -34,6 +34,11 @@ export const UsersTable: React.FC<{
 
   const totalPages = Math.ceil(total / pageSize);
 
+  //resets page when filters change
+  useEffect(() => {
+    setPage(0);
+  }, [filters]);
+
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
