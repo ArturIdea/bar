@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { KEYCLOAK_URL, REDIRECT_URI } from '@/core/config';
-import { generateCodeChallenge, generateCodeVerifier } from '@/core/utils/oauth';
+import { KEYCLOAK_URL } from '@/core/config';
+import { generateCodeChallenge, generateCodeVerifier, getRedirectURI } from '@/core/utils/oauth';
 import { useRouter } from '@/i18n/routing';
 
 export default function HomePage() {
@@ -21,7 +21,7 @@ export default function HomePage() {
 
       authUrl.searchParams.set('response_type', 'code');
       authUrl.searchParams.set('client_id', 'baraka');
-      authUrl.searchParams.set('redirect_uri', `${REDIRECT_URI}`);
+      authUrl.searchParams.set('redirect_uri', getRedirectURI());
       authUrl.searchParams.set('scope', 'openid profile');
       authUrl.searchParams.set('state', state);
       authUrl.searchParams.set('code_challenge', codeChallenge);

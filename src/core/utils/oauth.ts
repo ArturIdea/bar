@@ -1,3 +1,6 @@
+import Cookies from 'universal-cookie';
+import { REDIRECT_URI } from '@/core/config';
+
 export const generateCodeVerifier = () => {
   const randomArray = new Uint8Array(32);
   window.crypto.getRandomValues(randomArray);
@@ -16,3 +19,9 @@ export const generateCodeChallenge = async (verifier: string) => {
     .replace(/\//g, '_')
     .replace(/=+$/, '');
 };
+
+export function getRedirectURI(): string {
+  const cookies = new Cookies();
+  const locale = cookies.get('NEXT_LOCALE') || 'en';
+  return `${REDIRECT_URI}/${locale}/callback`;
+}

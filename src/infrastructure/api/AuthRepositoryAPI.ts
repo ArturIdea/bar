@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '@/core/config';
+import { getRedirectURI } from '@/core/utils/oauth';
 import { AuthRepository } from '@/domain/auth/repositories/AuthRepository';
 
 export class AuthRepositoryAPI implements AuthRepository {
@@ -7,7 +8,7 @@ export class AuthRepositoryAPI implements AuthRepository {
 
   async getToken(code: string, codeVerifier: string, state: string): Promise<any> {
     const payload = {
-      redirectUrl: 'http://localhost:3000/en/callback',
+      redirectUrl: getRedirectURI(),
       state,
       code,
       codeVerifier,
