@@ -14,6 +14,7 @@ export const UserAdapter = {
 
     return new User(
       raw.userId,
+      raw.pinfl,
       raw.username,
       raw.firstName,
       raw.lastName,

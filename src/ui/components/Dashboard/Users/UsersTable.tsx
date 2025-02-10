@@ -20,6 +20,7 @@ export const UsersTable: React.FC<{
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedPinfl, setSelectedPinfl] = useState<string | null>(null);
   const [selectedSignupRequestId, setSelectedSignupRequestId] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const { users, total, loading } = useUsers(
@@ -41,15 +42,18 @@ export const UsersTable: React.FC<{
     setPage(0);
   }, [filters]);
 
-  const handleViewDetails = (userId: string) => {
-    setSelectedUserId(userId);
+  const handleViewDetails = (pinfl?: string, userId?: string) => {
+    setSelectedUserId(userId || null);
+    setSelectedPinfl(pinfl || null);
     setDropdownOpen({});
     setSelectedSignupRequestId(null);
   };
 
   const handleOpenSignupRequest = (signupRequestId: string) => {
     setSelectedSignupRequestId(signupRequestId);
+    setDropdownOpen({});
     setSelectedUserId(null);
+    setSelectedPinfl(null);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -150,7 +154,9 @@ export const UsersTable: React.FC<{
                       <button
                         type="button"
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleViewDetails(user.userId)}
+                        onClick={() => {
+                          handleViewDetails(user.pinfl, user.userId);
+                        }}
                       >
                         {t('Buttons.viewUserDetails')}
                       </button>
@@ -164,10 +170,14 @@ export const UsersTable: React.FC<{
       </div>
 
       {/* User Details Modal */}
-      {selectedUserId && (
+      {(selectedPinfl || selectedUserId) && (
         <UserDetailsModal
-          userId={selectedUserId}
-          onClose={() => setSelectedUserId(null)}
+          userId={selectedUserId || undefined}
+          pinfl={selectedPinfl || undefined}
+          onClose={() => {
+            setSelectedPinfl(null);
+            setSelectedUserId(null);
+          }}
           onOpenSignupRequest={handleOpenSignupRequest}
         />
       )}

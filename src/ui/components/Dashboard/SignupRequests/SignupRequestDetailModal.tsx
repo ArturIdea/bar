@@ -155,7 +155,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
                     onOpenUserDetails(signupRequest.pinfl);
                   }}
                 >
-                  {t('Buttons.viewSignupDetails')}
+                  {t('Buttons.viewUserDetails')}
                 </button>
               </div>
             )}
