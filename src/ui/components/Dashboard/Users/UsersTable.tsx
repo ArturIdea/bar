@@ -236,7 +236,7 @@ export const UsersTable: React.FC<{
                     key="start-ellipsis"
                     type="button"
                     onClick={() => handlePageChange(0)}
-                    className="px-3 py-1 bg-gray-100 text-[#08678E] cursor-pointer"
+                    className="px-3 py-1 rounded-full text-[#08678E] cursor-pointer"
                   >
                     1
                   </button>,
@@ -252,10 +252,8 @@ export const UsersTable: React.FC<{
                     type="button"
                     key={i}
                     onClick={() => handlePageChange(i)}
-                    className={`px-3 py-1 rounded-xl ${
-                      page === i
-                        ? 'bg-[#08678E] text-white'
-                        : 'bg-gray-100 text-[#08678E] cursor-pointer'
+                    className={`px-3 py-1 rounded-full ${
+                      page === i ? 'bg-[#08678E] text-white' : ' text-[#08678E] cursor-pointer'
                     }`}
                   >
                     {i + 1}
@@ -272,7 +270,7 @@ export const UsersTable: React.FC<{
                     key="end-ellipsis"
                     type="button"
                     onClick={() => handlePageChange(totalPages - 1)}
-                    className="px-3 py-1 bg-gray-100 rounded-xl text-[#08678E] cursor-pointer"
+                    className="px-3 py-1 bg-gray-100 rounded-full text-[#08678E] cursor-pointer"
                   >
                     {totalPages}
                   </button>

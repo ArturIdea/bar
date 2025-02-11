@@ -21,17 +21,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   const t = useTranslations();
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md transition-opacity">
-      <div className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl p-6 rounded-xl shadow-xl overflow-y-auto max-h-[80vh]">
-        <button
-          type="button"
-          className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          ✕
-        </button>
-
+    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
+      <div className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full">
         {loading && (
           <div className="flex flex-col items-center justify-center py-10">
             <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
@@ -46,135 +37,196 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
         )}
 
         {!loading && !error && user && (
-          <div className="text-gray-900">
-            {user.photoUrl && (
-              <div className="flex justify-center mb-6">
-                <Image
-                  src={user.photoUrl}
-                  width={128}
-                  height={128}
-                  alt="User Avatar"
-                  className="w-32 h-32 rounded-full shadow-md object-cover"
-                />
-              </div>
-            )}
-
-            <h2 className="text-2xl font-semibold text-center mb-2">
-              {user.firstName} {user.lastName}
-            </h2>
-            <p className="text-center text-gray-500 mb-4">@{user.username}</p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <p>
-                <strong>{t('UserRegistration.name')}:</strong> {user.email ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.phone')}:</strong> {user.phoneNumber ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.nationality')}:</strong>{' '}
-                {user.nationalityName ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.citizenship')}:</strong>{' '}
-                {user.citizenshipName ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.birthCountry')}:</strong>{' '}
-                {user.birthCountryName ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.dob')}:</strong> {user.dateOfBirth ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.socialNumber')}:</strong> {user.socialNumber ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.pinfl')}:</strong> {user.pinfl ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.address')}:</strong> {user.address ?? 'N/A'}
-              </p>
-              <p>
-                <strong>{t('UserRegistration.createdAt')}:</strong>{' '}
-                {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}
-              </p>
-            </div>
-
-            {user.agentData && (
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold">{t('UserRegistration.agentData.title')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <p>
-                    <strong>{t('UserRegistration.agentData.firstName')}:</strong>{' '}
-                    {user.agentData.firstName ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.lastName')}:</strong>{' '}
-                    {user.agentData.lastName ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.jobTitle')}:</strong>{' '}
-                    {user.agentData.jobTitle ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.dob')}:</strong>{' '}
-                    {user.agentData.dateOfBirth ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.pinfl')}:</strong>{' '}
-                    {user.agentData.pinfl?.id ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.address')}:</strong>{' '}
-                    {user.agentData.address ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.responsiblePerson')}:</strong>{' '}
-                    {user.agentData.responsiblePerson}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.insonCenterDistrict')}:</strong>{' '}
-                    {user.agentData.insonCenterDistrict ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.insonCenterBranchCode')}</strong>{' '}
-                    {user.agentData.insonCenterBranchCode ?? 'N/A'}
-                  </p>
-                  {user.agentData.personalPhone && (
-                    <p>
-                      <strong>{t('UserRegistration.agentData.personalPhone')}:</strong>{' '}
-                      {user.agentData.personalPhone.phoneCode}-
-                      {user.agentData.personalPhone.phoneNumber}
-                    </p>
-                  )}
-                  <p>
-                    <strong>{t('UserRegistration.agentData.personalEmail')}:</strong>{' '}
-                    {user.agentData.personalEmailAddress ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.agreementEmail')}:</strong>{' '}
-                    {user.agentData.agreementEmailAddress ?? 'N/A'}
-                  </p>
-                  <p>
-                    <strong>{t('UserRegistration.agentData.location')}:</strong>{' '}
-                    {user.agentData.location ?? 'N/A'}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {user.signupRequestId && (
-              <div className="mt-6 text-center ">
+          <div className="flex flex-col justify-between h-full p-10">
+            <div>
+              <div>
+                <h1 className="text-xl">Profile</h1>
                 <button
                   type="button"
-                  className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
-                  onClick={() => user.signupRequestId && onOpenSignupRequest(user.signupRequestId)}
+                  className="cursor-pointer absolute top-10 right-10 text-gray-500 hover:text-gray-700 transition"
+                  onClick={onClose}
+                  aria-label="Close modal"
                 >
-                  {t('Buttons.viewSignupDetails')}
+                  ✕
                 </button>
               </div>
-            )}
+              <div className="flex items-center gap-8 pt-10">
+                {user.photoUrl && (
+                  <div className="flex justify-center">
+                    <Image
+                      src={user.photoUrl}
+                      width={128}
+                      height={128}
+                      alt="User Avatar"
+                      className="w-28 h-28 rounded-full shadow-md object-cover"
+                    />
+                  </div>
+                )}
+
+                <h2 className="text-2xl font-semibold text-center">
+                  {user.firstName} {user.lastName}
+                </h2>
+              </div>
+
+              <div className="py-10">
+                <div className="border-b border-gray-100" />
+              </div>
+
+              <div className="h-[35vh] overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.email')}</p>
+                    {user.email ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.phone')}</p>{' '}
+                    {user.phoneNumber ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.nationality')}</p>{' '}
+                    {user.nationalityName ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.citizenship')}</p>{' '}
+                    {user.citizenshipName ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">
+                      {t('UserRegistration.birthCountry')}
+                    </p>{' '}
+                    {user.birthCountryName ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.dob')}</p>{' '}
+                    {user.dateOfBirth ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">
+                      {t('UserRegistration.socialNumber')}
+                    </p>{' '}
+                    {user.socialNumber ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.pinfl')}</p>{' '}
+                    {user.pinfl ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.address')}</p>{' '}
+                    {user.address ?? 'N/A'}
+                  </div>
+                  <div>
+                    <p className="text-gray-400 font-normal">{t('UserRegistration.createdAt')}</p>{' '}
+                    {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}
+                  </div>
+                </div>
+
+                {user.agentData && (
+                  <div className="py-8">
+                    <h3 className="pb-2 text-lg text-gray-400 font-semibold">
+                      {t('UserRegistration.agentData.title')}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.firstName')}
+                        </p>{' '}
+                        {user.agentData.firstName ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.lastName')}
+                        </p>{' '}
+                        {user.agentData.lastName ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.jobTitle')}
+                        </p>{' '}
+                        {user.agentData.jobTitle ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.dob')}
+                        </p>{' '}
+                        {user.agentData.dateOfBirth ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.pinfl')}
+                        </p>{' '}
+                        {user.agentData.pinfl?.id ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.address')}
+                        </p>{' '}
+                        {user.agentData.address ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.responsiblePerson')}
+                        </p>{' '}
+                        {user.agentData.responsiblePerson}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.insonCenterDistrict')}
+                        </p>{' '}
+                        {user.agentData.insonCenterDistrict ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.insonCenterBranchCode')}
+                        </p>{' '}
+                        {user.agentData.insonCenterBranchCode ?? 'N/A'}
+                      </div>
+                      {user.agentData.personalPhone && (
+                        <div>
+                          <p className="text-gray-400 font-normal">
+                            {t('UserRegistration.agentData.personalPhone')}
+                          </p>{' '}
+                          {user.agentData.personalPhone.phoneCode}-
+                          {user.agentData.personalPhone.phoneNumber}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.personalEmail')}
+                        </p>{' '}
+                        {user.agentData.personalEmailAddress ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.agreementEmail')}
+                        </p>{' '}
+                        {user.agentData.agreementEmailAddress ?? 'N/A'}
+                      </div>
+                      <div>
+                        <p className="text-gray-400 font-normal">
+                          {t('UserRegistration.agentData.location')}
+                        </p>{' '}
+                        {user.agentData.location ?? 'N/A'}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div>
+              {user.signupRequestId && (
+                <div className=" text-center ">
+                  <button
+                    type="button"
+                    className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
+                    onClick={() =>
+                      user.signupRequestId && onOpenSignupRequest(user.signupRequestId)
+                    }
+                  >
+                    {t('Buttons.viewSignupDetails')}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
