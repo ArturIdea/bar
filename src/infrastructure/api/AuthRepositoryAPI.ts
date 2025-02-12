@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '@/core/config';
+import { API_URL, USER_TYPE } from '@/core/config';
 import { getRedirectURI } from '@/core/utils/oauth';
 import { AuthRepository } from '@/domain/auth/repositories/AuthRepository';
 
@@ -18,7 +18,7 @@ export class AuthRepositoryAPI implements AuthRepository {
         platform: 'Browser',
         osVersion: navigator.userAgent,
       },
-      userType: 'AGENT',
+      userType: USER_TYPE,
     };
 
     const headers = {
