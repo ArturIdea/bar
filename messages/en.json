@@ -35,6 +35,8 @@
     },
     "date": "Date",
     "username": "Username",
+    "startTime": "Start Time",
+    "endTime": "End Time",
     "cancel": "Cancel",
     "applyFilters": "Apply Filters",
     "clearFilters": "Clear",

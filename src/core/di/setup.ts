@@ -13,7 +13,14 @@ import { loadUserstRepositories, loadUsersUseCases } from './modules/Users.modul
 
 export const diContainer = new Container();
 
+let isDependenciesSetup = false;
+
 export const setupDependencies = () => {
+  if (isDependenciesSetup) {
+    return;
+  }
+  isDependenciesSetup = true;
+
   //repositories
   loadSignupRequestRepositories(diContainer);
   loadSignupRequestDetailRepositories(diContainer);

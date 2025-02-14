@@ -1,12 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { setupDependencies } from '@/core/di/setup';
 
+setupDependencies();
 export function Providers({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    setupDependencies();
-  }, []);
-
   return <>{children}</>;
 }

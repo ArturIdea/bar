@@ -31,6 +31,9 @@ export const UserFilterModal = ({
     key: 'selection',
   });
 
+  const [startTime, setStartTime] = useState<string>('00:00');
+  const [endTime, setEndTime] = useState<string>('23:59');
+
   const [pinfl, setPinfl] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -48,9 +51,15 @@ export const UserFilterModal = ({
   const formatLocalDate = (date: Date) => date.toLocaleDateString('en-CA');
 
   const handleApply = () => {
-    const createdAtFrom = dateRange.startDate ? formatLocalDate(dateRange.startDate) : undefined;
-    const createdAtTo = dateRange.endDate ? formatLocalDate(dateRange.endDate) : undefined;
-    onApply(createdAtFrom, createdAtTo, pinfl || undefined, username || undefined);
+    if (dateRange.startDate && dateRange.endDate) {
+      const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
+      const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
+
+      onApply(createdAtFrom, createdAtTo, pinfl || undefined, username || undefined);
+    } else {
+      onApply(undefined, undefined, pinfl || undefined, username || undefined);
+    }
+
     onClose();
   };
 
@@ -109,16 +118,32 @@ export const UserFilterModal = ({
               className="w-full border border-gray-300 rounded-xl p-2 cursor-pointer"
             />
           </div>
+
+          {/* Time Range Selection */}
+          <div className="flex gap-4">
+            <div className="flex flex-col">
+              <label className="text-gray-400 mb-1">{t('Filter.startTime')}</label>
+              <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full border border-gray-300 rounded-xl p-2"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-gray-400 mb-1">{t('Filter.endTime')}</label>
+              <input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="w-full border border-gray-300 rounded-xl p-2"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6 flex justify-center items-center gap-3">
-          <button
-            type="button"
-            className="border-2 border-gray-300 px-4 py-2 rounded-full cursor-pointer"
-            onClick={onClose}
-          >
-            {t('Filter.cancel')}
-          </button>
+        <div className="mt-6 flex justify-end items-center gap-3">
           <button
             type="button"
             className="border-2 bg-[#08678e] text-white px-4 py-2 rounded-full cursor-pointer"

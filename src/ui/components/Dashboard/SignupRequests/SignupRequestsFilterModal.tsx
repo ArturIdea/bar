@@ -31,6 +31,9 @@ export const SignupRequestsFilterModal = ({
     key: 'selection',
   });
 
+  const [startTime, setStartTime] = useState<string>('00:00');
+  const [endTime, setEndTime] = useState<string>('23:59');
+
   const [pinfl, setPinfl] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'notCompleted'>('all');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -48,32 +51,39 @@ export const SignupRequestsFilterModal = ({
   const formatLocalDate = (date: Date) => date.toLocaleDateString('en-CA');
 
   const handleApply = () => {
-    const createdAtFrom = dateRange.startDate ? formatLocalDate(dateRange.startDate) : undefined;
-    const createdAtTo = dateRange.endDate ? formatLocalDate(dateRange.endDate) : undefined;
+    if (dateRange.startDate && dateRange.endDate) {
+      const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
+      const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
 
-    let statuses: string | undefined;
-    if (statusFilter === 'completed') {
-      statuses = 'COMPLETED';
-    } else if (statusFilter === 'notCompleted') {
-      statuses = [
-        'CREATED',
-        'OTP_SENT',
-        'MOBILE_VERIFIED',
-        'AGREEMENTS_ACCEPTED',
-        'FACE_VERIFICATION_IN_PROGRESS',
-        'VERIFICATION_COMPLETED',
-        'VERIFICATION_FAILED',
-        'FAILED_FINALIZATION',
-        'NOT_ELIGIBLE',
-      ].join(',');
+      let statuses: string | undefined;
+      if (statusFilter === 'completed') {
+        statuses = 'COMPLETED';
+      } else if (statusFilter === 'notCompleted') {
+        statuses = [
+          'CREATED',
+          'OTP_SENT',
+          'MOBILE_VERIFIED',
+          'AGREEMENTS_ACCEPTED',
+          'FACE_VERIFICATION_IN_PROGRESS',
+          'VERIFICATION_COMPLETED',
+          'VERIFICATION_FAILED',
+          'FAILED_FINALIZATION',
+          'NOT_ELIGIBLE',
+        ].join(',');
+      }
+
+      onApply(createdAtFrom, createdAtTo, pinfl || undefined, statuses);
+    } else {
+      onApply(undefined, undefined, pinfl || undefined, undefined);
     }
 
-    onApply(createdAtFrom, createdAtTo, pinfl || undefined, statuses);
     onClose();
   };
 
   const handleClearFilters = () => {
     setDateRange({ startDate: undefined, endDate: undefined, key: 'selection' });
+    setStartTime('00:00');
+    setEndTime('23:59');
     setPinfl('');
     setStatusFilter('all');
     onApply(undefined, undefined, undefined, undefined);
@@ -130,6 +140,29 @@ export const SignupRequestsFilterModal = ({
               onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
               readOnly
               className="w-full border border-gray-300 rounded-xl p-2 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        {/* Time Range Selection */}
+        <div className="flex gap-4">
+          <div className="flex flex-col">
+            <label className="text-gray-400 mb-1">{t('Filter.startTime')}</label>
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl p-2"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-gray-400 mb-1">{t('Filter.endTime')}</label>
+            <input
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl p-2"
             />
           </div>
         </div>
