@@ -16,7 +16,8 @@
   "Buttons": {
     "viewDetails": "View Details",
     "viewSignupDetails": "View Signup Details",
-    "viewUserDetails": "View User Details"
+    "viewUserDetails": "View User Details",
+    "history": "History"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
@@ -65,7 +66,7 @@
     "accepted": "Accepted",
     "rejected": "Rejected"
   },
-  "UserRegistration": {
+  "UserManagement": {
     "title": "Latest User Registrations",
     "title2": "User Registrations",
     "name": "Name",
@@ -83,7 +84,7 @@
     "pinfl": "PINFL",
     "address": "Address",
     "agentData": {
-      "title": "Agent Data",
+      "title": "Agent",
       "firstName": "First Name",
       "lastName": "Last Name",
       "jobTitle": "Job Title",
@@ -97,7 +98,8 @@
       "personalEmail": "Personal Email",
       "agreementEmail": "Agreement Email",
       "location": "Location"
-    }
+    },
+    "modalTitle": "Profile"
   },
   "Pagination": {
     "showing": "Showing",

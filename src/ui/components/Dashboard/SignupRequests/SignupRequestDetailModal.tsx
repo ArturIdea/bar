@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSignupRequestDetail } from '@/ui/hooks/ui/useSignupRequestDetail';
@@ -16,6 +16,19 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
 }) => {
   const { signupRequest, loading, error } = useSignupRequestDetail(id);
   const t = useTranslations();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
 
   if (!id) {
     return null;
@@ -23,7 +36,10 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
 
   return (
     <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
-      <div className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full">
+      <div
+        ref={modalRef}
+        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full"
+      >
         {loading && (
           <div className="flex flex-col items-center justify-center py-10">
             <Loader2 className="animate-spin h-8 w-8 text-gray-600" />

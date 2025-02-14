@@ -94,9 +94,9 @@ export const UsersTable: React.FC<{
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         {pathname === '/dashboard/user-management' ? (
-          <h4 className="font-semibold text-[#0B0B22]">{t('UserRegistration.title2')}</h4>
+          <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title2')}</h4>
         ) : (
-          <h4 className="font-semibold text-[#0B0B22]">{t('UserRegistration.title')}</h4>
+          <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
         )}
         {pathname === '/dashboard' && (
           <Link
@@ -114,11 +114,11 @@ export const UsersTable: React.FC<{
           {/* Table Header */}
           <thead>
             <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3 font-normal">{t('UserRegistration.name')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserRegistration.email')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserRegistration.mobile')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserRegistration.role')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserRegistration.createdAt')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserManagement.name')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserManagement.email')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserManagement.mobile')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserManagement.role')}</th>
+              <th className="px-6 py-3 font-normal">{t('UserManagement.createdAt')}</th>
               <th className="px-6 py-3 font-normal" />
             </tr>
           </thead>

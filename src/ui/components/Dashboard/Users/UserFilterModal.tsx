@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DateRange } from 'react-date-range';
 
@@ -33,6 +33,19 @@ export const UserFilterModal = ({
   const [username, setUsername] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const t = useTranslations();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleRangeChange = (ranges: any) => {
     setDateRange({
@@ -65,7 +78,7 @@ export const UserFilterModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 bg-opacity-50">
-      <div className="bg-white w-[450px] rounded-4xl p-6 shadow-lg">
+      <div ref={modalRef} className="bg-white w-[450px] rounded-4xl p-6 shadow-lg">
         <h2 className="text-center text-xl pb-4">{t('Filter.filterBy')}:</h2>
 
         <div className="flex flex-col gap-6">

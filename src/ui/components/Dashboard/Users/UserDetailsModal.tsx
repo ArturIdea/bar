@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
@@ -19,10 +19,26 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
 }) => {
   const { user, loading, error } = useUserDetail(userId, pinfl);
   const t = useTranslations();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
     <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
-      <div className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full">
+      <div
+        ref={modalRef}
+        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full"
+      >
         {loading && (
           <div className="flex flex-col items-center justify-center py-10">
             <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
@@ -40,7 +56,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           <div className="flex flex-col justify-between h-full p-10">
             <div>
               <div>
-                <h1 className="text-xl">Profile</h1>
+                <h1 className="text-xl">{t('UserManagement.modalTitle')}</h1>
                 <button
                   type="button"
                   className="cursor-pointer absolute top-10 right-10 text-gray-500 hover:text-gray-700 transition"
@@ -75,115 +91,111 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               <div className="h-[35vh] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.email')}</p>
+                    <p className="text-gray-400 font-normal">{t('UserManagement.email')}</p>
                     {user.email ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.phone')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.phone')}</p>{' '}
                     {user.phoneNumber ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.nationality')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.nationality')}</p>{' '}
                     {user.nationalityName ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.citizenship')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.citizenship')}</p>{' '}
                     {user.citizenshipName ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">
-                      {t('UserRegistration.birthCountry')}
-                    </p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.birthCountry')}</p>{' '}
                     {user.birthCountryName ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.dob')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.dob')}</p>{' '}
                     {user.dateOfBirth ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">
-                      {t('UserRegistration.socialNumber')}
-                    </p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.socialNumber')}</p>{' '}
                     {user.socialNumber ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.pinfl')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.pinfl')}</p>{' '}
                     {user.pinfl ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.address')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.address')}</p>{' '}
                     {user.address ?? 'N/A'}
                   </div>
                   <div>
-                    <p className="text-gray-400 font-normal">{t('UserRegistration.createdAt')}</p>{' '}
+                    <p className="text-gray-400 font-normal">{t('UserManagement.createdAt')}</p>{' '}
                     {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}
                   </div>
                 </div>
 
-                {user.agentData && (
+                {/* {user.agentData && (
                   <div className="py-8">
                     <h3 className="pb-2 text-lg text-gray-400 font-semibold">
-                      {t('UserRegistration.agentData.title')}
+                      {t('UserManagement.agentData.title')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.firstName')}
+                          {t('UserManagement.agentData.firstName')}
                         </p>{' '}
                         {user.agentData.firstName ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.lastName')}
+                          {t('UserManagement.agentData.lastName')}
                         </p>{' '}
                         {user.agentData.lastName ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.jobTitle')}
+                          {t('UserManagement.agentData.jobTitle')}
                         </p>{' '}
                         {user.agentData.jobTitle ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.dob')}
+                          {t('UserManagement.agentData.dob')}
                         </p>{' '}
                         {user.agentData.dateOfBirth ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.pinfl')}
+                          {t('UserManagement.agentData.pinfl')}
                         </p>{' '}
                         {user.agentData.pinfl?.id ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.address')}
+                          {t('UserManagement.agentData.address')}
                         </p>{' '}
                         {user.agentData.address ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.responsiblePerson')}
+                          {t('UserManagement.agentData.responsiblePerson')}
                         </p>{' '}
                         {user.agentData.responsiblePerson}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.insonCenterDistrict')}
+                          {t('UserManagement.agentData.insonCenterDistrict')}
                         </p>{' '}
                         {user.agentData.insonCenterDistrict ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.insonCenterBranchCode')}
+                          {t('UserManagement.agentData.insonCenterBranchCode')}
                         </p>{' '}
                         {user.agentData.insonCenterBranchCode ?? 'N/A'}
                       </div>
                       {user.agentData.personalPhone && (
                         <div>
                           <p className="text-gray-400 font-normal">
-                            {t('UserRegistration.agentData.personalPhone')}
+                            {t('UserManagement.agentData.personalPhone')}
                           </p>{' '}
                           {user.agentData.personalPhone.phoneCode}-
                           {user.agentData.personalPhone.phoneNumber}
@@ -191,28 +203,51 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                       )}
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.personalEmail')}
+                          {t('UserManagement.agentData.personalEmail')}
                         </p>{' '}
                         {user.agentData.personalEmailAddress ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.agreementEmail')}
+                          {t('UserManagement.agentData.agreementEmail')}
                         </p>{' '}
                         {user.agentData.agreementEmailAddress ?? 'N/A'}
                       </div>
                       <div>
                         <p className="text-gray-400 font-normal">
-                          {t('UserRegistration.agentData.location')}
+                          {t('UserManagement.agentData.location')}
                         </p>{' '}
                         {user.agentData.location ?? 'N/A'}
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-12 ">
+              <div>
+                {user.agentData && (
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h1 className="text-xl font-semibold text-left">
+                        {user.agentData.firstName} {user.agentData.lastName}
+                      </h1>
+                      <h1 className="text-md font-normal text-gray-400">
+                        {t('UserManagement.agentData.title')}
+                      </h1>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer flex items-center gap-1"
+                      >
+                        {t('Buttons.history')}
+                        <ArrowRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
               {user.signupRequestId && (
                 <div className=" text-center ">
                   <button

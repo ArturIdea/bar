@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DateRange } from 'react-date-range';
 
@@ -33,6 +33,19 @@ export const SignupRequestsFilterModal = ({
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'notCompleted'>('all');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const t = useTranslations();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleRangeChange = (ranges: any) => {
     setDateRange({
@@ -83,7 +96,7 @@ export const SignupRequestsFilterModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 bg-opacity-50">
-      <div className="bg-white w-[450px] rounded-4xl p-6 shadow-lg">
+      <div ref={modalRef} className="bg-white w-[450px] rounded-4xl p-6 shadow-lg">
         <h2 className="text-center text-xl pb-4">{t('Filter.filterBy')}:</h2>
 
         <div className="flex flex-col gap-6">
@@ -131,14 +144,7 @@ export const SignupRequestsFilterModal = ({
           </div>
         </div>
 
-        <div className="mt-6 flex justify-center items-center gap-3">
-          <button
-            type="button"
-            className="border-2 border-gray-300 px-4 py-2 rounded-full cursor-pointer"
-            onClick={onClose}
-          >
-            {t('Filter.cancel')}
-          </button>
+        <div className="mt-6 flex justify-end items-center gap-3">
           <button
             type="button"
             className="border-2 bg-[#08678e] text-white px-4 py-2 rounded-full cursor-pointer"
