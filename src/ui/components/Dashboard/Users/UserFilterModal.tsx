@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DateRange } from 'react-date-range';
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+
+import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 
 export const UserFilterModal = ({
   isOpen,
@@ -33,19 +35,7 @@ export const UserFilterModal = ({
   const [username, setUsername] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const t = useTranslations();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  const modalRef = useClickOutside<HTMLDivElement>(onClose);
 
   const handleRangeChange = (ranges: any) => {
     setDateRange({

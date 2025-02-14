@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
 interface UserDetailsModalProps {
@@ -19,19 +20,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
 }) => {
   const { user, loading, error } = useUserDetail(userId, pinfl);
   const t = useTranslations();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  const modalRef = useClickOutside<HTMLDivElement>(onClose);
 
   return (
     <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">

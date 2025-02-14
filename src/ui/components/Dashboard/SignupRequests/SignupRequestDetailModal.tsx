@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useSignupRequestDetail } from '@/ui/hooks/ui/useSignupRequestDetail';
 
 interface SignupRequestDetailModalProps {
@@ -16,19 +17,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
 }) => {
   const { signupRequest, loading, error } = useSignupRequestDetail(id);
   const t = useTranslations();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  const modalRef = useClickOutside<HTMLDivElement>(onClose);
 
   if (!id) {
     return null;
