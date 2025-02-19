@@ -4,6 +4,7 @@ import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/Si
 import { StatisticsDashboard } from '@/ui/components/Dashboard/Statistics/StatisticsDashboard';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 import { useAuth } from '@/ui/hooks/ui/useAuth';
+import Charts from './Charts/page';
 
 const DashboardPage = () => {
   const { isAuthenticated } = useAuth();
@@ -19,6 +20,7 @@ const DashboardPage = () => {
   return (
     <div>
       <StatisticsDashboard />
+      <Charts />
       <SignUpRequestsTable />
       <UsersTable />
     </div>
