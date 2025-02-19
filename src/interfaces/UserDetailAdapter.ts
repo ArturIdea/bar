@@ -70,6 +70,31 @@ export const UserDetailAdapter = {
                 )
               : undefined,
           }
+        : undefined,
+      raw.createdBy
+        ? {
+            firstName: raw.createdBy.firstName || 'N/A',
+            lastName: raw.createdBy.lastName || 'N/A',
+            photoUrl: raw.createdBy.photoUrl,
+          }
+        : undefined,
+      raw.benefits
+        ? raw.benefits.map((benefit: any) => ({
+            status: benefit.status || 'N/A',
+            benefitType: benefit.benefitType
+              ? {
+                  id: benefit.benefitType.id,
+                  name: {
+                    qr: benefit.benefitType.name?.qr || 'N/A',
+                    ru: benefit.benefitType.name?.ru || 'N/A',
+                    uzCyrl: benefit.benefitType.name?.uzCyrl || 'N/A',
+                    uzLatn: benefit.benefitType.name?.uzLatn || 'N/A',
+                  },
+                }
+              : undefined,
+            amount: benefit.amount,
+            deductionAmount: benefit.deductionAmount,
+          }))
         : undefined
     );
   },

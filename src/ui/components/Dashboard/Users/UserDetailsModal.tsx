@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Cookies from 'universal-cookie';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
@@ -21,6 +22,24 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   const { user, loading, error } = useUserDetail(userId, pinfl);
   const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
+  const cookies = new Cookies();
+  const locale = cookies.get('NEXT_LOCALE') || 'en';
+
+  const getBenefitName = (benefitType: any, locale: string) => {
+    switch (locale) {
+      case 'uz-latn':
+        return benefitType?.name?.uzLatn || 'N/A';
+      case 'uz-cyrl':
+        return benefitType?.name?.uzCyrl || 'N/A';
+      case 'kaa':
+        return benefitType?.name?.qr || 'N/A';
+      case 'ru':
+        return benefitType?.name?.ru || 'N/A';
+      case 'en':
+      default:
+        return benefitType?.name?.uzLatn || 'N/A'; // Fallback to Uzbek Latin if English is missing
+    }
+  };
 
   return (
     <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
@@ -72,12 +91,12 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                   {user.firstName} {user.lastName}
                 </h2>
               </div>
-
               <div className="py-10">
                 <div className="border-b border-gray-100" />
               </div>
 
-              <div className="h-[35vh] overflow-y-auto">
+              {/* user */}
+              <div className="h-[28vh] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                   <div>
                     <p className="text-gray-400 font-normal">{t('UserManagement.email')}</p>
@@ -121,7 +140,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                   </div>
                 </div>
 
-                {/* {user.agentData && (
+                {user.agentData && (
                   <div className="py-8">
                     <h3 className="pb-2 text-lg text-gray-400 font-semibold">
                       {t('UserManagement.agentData.title')}
@@ -210,16 +229,69 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                       </div>
                     </div>
                   </div>
-                )} */}
+                )}
+              </div>
+
+              {/* benefits */}
+              <div className="h-[28vh] overflow-y-auto">
+                <h1 className="text-lg font-normal text-gray-500 pb-2">
+                  {t('UserManagement.benefits.title')}
+                </h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                  {user.benefits && user.benefits.length > 0 ? (
+                    user.benefits.map((benefit, index) => (
+                      <div key={index} className="p-4 border rounded-lg shadow-sm">
+                        <p className="text-gray-400 font-normal">
+                          {t('UserManagement.benefits.benefitType')}
+                        </p>
+                        <p className="text-gray-700 font-medium">
+                          {getBenefitName(benefit.benefitType, locale)}
+                        </p>
+
+                        <p className="text-gray-400 font-normal mt-2">
+                          {t('UserManagement.benefits.benefitStatus')}
+                        </p>
+                        <p className="text-gray-700">{benefit.status || 'N/A'}</p>
+
+                        <p className="text-gray-400 font-normal mt-2">
+                          {t('UserManagement.benefits.benefitAmount')}
+                        </p>
+                        <p className="text-gray-700">
+                          {benefit.amount ? `${benefit.amount} UZS` : 'N/A'}
+                        </p>
+
+                        <p className="text-gray-400 font-normal mt-2">
+                          {t('UserManagement.benefits.deductionAmount')}
+                        </p>
+                        <p className="text-gray-700">
+                          {benefit.deductionAmount ? `${benefit.deductionAmount} UZS` : 'N/A'}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">N/A</p>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-12 ">
               <div>
-                {user.agentData && (
+                {user.createdBy && (
                   <div className="flex justify-between items-center">
+                    {user.createdBy.photoUrl && (
+                      <div className="flex justify-center">
+                        <Image
+                          src={user.createdBy.photoUrl}
+                          width={128}
+                          height={128}
+                          alt="User Avatar"
+                          className="w-20 h-20 rounded-full shadow-md object-cover"
+                        />
+                      </div>
+                    )}
                     <div>
                       <h1 className="text-xl font-semibold text-left">
-                        {user.agentData.firstName} {user.agentData.lastName}
+                        {user.createdBy.firstName} {user.createdBy.lastName}
                       </h1>
                       <h1 className="text-md font-normal text-gray-400">
                         {t('UserManagement.agentData.title')}
