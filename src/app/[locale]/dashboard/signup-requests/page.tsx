@@ -32,7 +32,7 @@ const SignUpRequestsPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       <div className="p-6 flex justify-between items-center">
         <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
           <ArrowLeft /> Back
