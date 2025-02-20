@@ -38,7 +38,10 @@ export function NewAccountsBarChart() {
         <CardTitle>New Accounts</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
+        <ChartContainer
+          className="h-[25vh] w-full aspect-square min-h-[300px] "
+          config={chartConfig}
+        >
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <YAxis
@@ -50,7 +53,7 @@ export function NewAccountsBarChart() {
                 angle: -90,
                 position: 'insideLeft',
                 dy: -10,
-                style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' }, // Optional styling
+                style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
               }}
             />
             <XAxis

@@ -1,6 +1,6 @@
 'use client';
 
-import { Pie, PieChart } from 'recharts';
+import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -13,6 +13,8 @@ const chartData = [
   { cardType: 'Physical', holders: 275, fill: 'var(--color-physical)' },
   { cardType: 'Virtual', holders: 200, fill: 'var(--color-virtual)' },
 ];
+
+const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
 
 const chartConfig = {
   holders: {
@@ -28,6 +30,47 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+//helper function to position the percentages inside the slices
+const renderLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  value,
+}: PieLabelRenderProps) => {
+  if (
+    cx === undefined ||
+    cy === undefined ||
+    midAngle === undefined ||
+    innerRadius === undefined ||
+    outerRadius === undefined ||
+    value === undefined
+  ) {
+    return null;
+  }
+
+  const RADIAN = Math.PI / 180;
+  const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) / 2;
+  const x = Number(cx) + radius * Math.cos(-Number(midAngle) * RADIAN);
+  const y = Number(cy) + radius * Math.sin(-Number(midAngle) * RADIAN);
+  const percentage = ((Number(value) / totalHolders) * 100).toFixed(1);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor="middle"
+      dominantBaseline="central"
+      fontSize={12}
+      fontWeight="semibold"
+    >
+      {percentage}%
+    </text>
+  );
+};
+
 export function CardTypesPieChart() {
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0  rounded-none shadow-none">
@@ -41,7 +84,18 @@ export function CardTypesPieChart() {
               cursor={false}
               content={<ChartTooltipContent hideIndicator hideLabel />}
             />
-            <Pie data={chartData} dataKey="holders" nameKey="cardType" innerRadius={85} />
+            <Pie
+              data={chartData}
+              dataKey="holders"
+              nameKey="cardType"
+              innerRadius={85}
+              label={renderLabel}
+              labelLine={false}
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">

@@ -1,8 +1,8 @@
-import { AppUsageAgeDistributionRadialChart } from '@/ui/components/Dashboard/Graphs/AppUsageAgeDistribution/AppUsageAgeDistributionRadialChart';
-import { CardTypesPieChart } from '@/ui/components/Dashboard/Graphs/CardTypes/CardTypesPieChart';
-import { NewAccountsBarChart } from '@/ui/components/Dashboard/Graphs/NewAccounts/NewAccountsBarChart';
-import { OnboardingChannelPieChart } from '@/ui/components/Dashboard/Graphs/OnboardingChannel/OnboardingChannelPieChart';
-import { RegistrationRequestsAreaChart } from '@/ui/components/Dashboard/Graphs/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
+import { AppUsageAgeDistributionRadialChart } from '@/ui/components/Dashboard/Charts/AppUsageAgeDistribution/AppUsageAgeDistributionRadialChart';
+import { CardTypesPieChart } from '@/ui/components/Dashboard/Charts/CardTypes/CardTypesPieChart';
+import { NewAccountsBarChart } from '@/ui/components/Dashboard/Charts/NewAccounts/NewAccountsBarChart';
+import { OnboardingChannelPieChart } from '@/ui/components/Dashboard/Charts/OnboardingChannel/OnboardingChannelPieChart';
+import { RegistrationRequestsAreaChart } from '@/ui/components/Dashboard/Charts/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
 
 export default function Charts() {
   return (

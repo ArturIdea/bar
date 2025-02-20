@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -76,6 +76,19 @@ export function RegistrationRequestsAreaChart() {
         <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
           <AreaChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              label={{
+                value: 'Registrations',
+                angle: -90,
+                position: 'insideLeft',
+                dy: -10,
+                style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
+              }}
+              domain={[0, (dataMax: number) => dataMax * 1.2]}
+            />
             <XAxis
               dataKey="month"
               tickLine={false}
@@ -108,7 +121,6 @@ export function RegistrationRequestsAreaChart() {
               fill="url(#fillFailed)"
               fillOpacity={0.4}
               stroke="red"
-              stackId="a"
             />
             <Area
               dataKey="successfulRequests"
@@ -116,7 +128,6 @@ export function RegistrationRequestsAreaChart() {
               fill="url(#fillSuccessful)"
               fillOpacity={0.4}
               stroke="green"
-              stackId="a"
             />
             <Area
               dataKey="totalRequests"
@@ -124,7 +135,6 @@ export function RegistrationRequestsAreaChart() {
               fill="url(#fillTotal)"
               fillOpacity={0.4}
               stroke="blue"
-              stackId="a"
             />
           </AreaChart>
         </ChartContainer>
