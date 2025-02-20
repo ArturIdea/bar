@@ -10,29 +10,39 @@ import {
 } from '@/components/ui/chart';
 
 const chartData = [
-  { cardType: 'Physical', holders: 275, fill: 'var(--color-physical)' },
-  { cardType: 'Virtual', holders: 200, fill: 'var(--color-virtual)' },
+  { onboardingChannel: 'app', holders: 275, fill: 'var(--color-app)' },
+  { onboardingChannel: 'naspCenters', holders: 200, fill: 'var(--color-naspCenters)' },
+  { onboardingChannel: 'aloqaBank', holders: 200, fill: 'var(--color-aloqaBank)' },
+  { onboardingChannel: 'xalqBank', holders: 200, fill: 'var(--color-xalqBank)' },
 ];
 
 const chartConfig = {
   holders: {
-    label: 'Card Holders',
+    label: 'Channels',
   },
-  physical: {
-    label: 'Physical Card',
+  app: {
+    label: 'App',
+    color: '#2157E2',
+  },
+  naspCenters: {
+    label: 'NASP Centers',
     color: '#13AB3F',
   },
-  virtual: {
-    label: 'Virtual Card',
-    color: '#2157E2',
+  aloqaBank: {
+    label: 'Aloqa Bank',
+    color: '#DC1B25',
+  },
+  xalqBank: {
+    label: 'Xalq Bank',
+    color: '#FFB700',
   },
 } satisfies ChartConfig;
 
-export function CardTypesPieChart() {
+export function OnboardingChannelPieChart() {
   return (
-    <Card className="w-1/2 flex flex-col border-r-0 border-t-0  rounded-none shadow-none">
+    <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none">
       <CardHeader className="pb-0">
-        <CardTitle>Card Types</CardTitle>
+        <CardTitle>Onboarding Channel</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
@@ -41,7 +51,7 @@ export function CardTypesPieChart() {
               cursor={false}
               content={<ChartTooltipContent hideIndicator hideLabel />}
             />
-            <Pie data={chartData} dataKey="holders" nameKey="cardType" innerRadius={85} />
+            <Pie data={chartData} dataKey="holders" nameKey="onboardingChannel" innerRadius={85} />
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">

@@ -1,15 +1,7 @@
 'use client';
 
-import { TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -35,12 +27,12 @@ const chartConfig = {
 
 export function NewAccountsBarChart() {
   return (
-    <Card className="w-1/2 rounded-none border-0">
+    <Card className=" w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
       <CardHeader>
         <CardTitle>New Accounts</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -50,8 +42,11 @@ export function NewAccountsBarChart() {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Bar dataKey="accounts" fill="green" radius={8} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideIndicator hideLabel />}
+            />
+            <Bar className="rounded-t-full" dataKey="accounts" fill="#679436" radius={0} />
           </BarChart>
         </ChartContainer>
       </CardContent>

@@ -1,15 +1,8 @@
 'use client';
 
-// import { TrendingUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
-import {
-  Card,
-  CardContent,
-  // CardDescription,
-  // CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -43,12 +36,44 @@ const chartConfig = {
 
 export function RegistrationRequestsAreaChart() {
   return (
-    <Card className=" rounded-none border-0">
-      <CardHeader>
-        <CardTitle>Registration Requests Overview</CardTitle>
-      </CardHeader>
+    <Card className=" rounded-none border-b border-l-0 border-r-0">
+      <div className="grid grid-cols-2 grid-rows-2 pr-8">
+        <div>
+          <CardHeader>
+            <CardTitle>Registration Requests Overview</CardTitle>
+          </CardHeader>
+        </div>
+        <div className="place-content-center place-items-end">
+          <button
+            type="button"
+            className="rounded-full border border-gray-300 px-4 py-1 flex items-center gap-1 cursor-pointer"
+          >
+            Week
+            <ChevronDown size={16} />
+          </button>
+        </div>
+        <div />
+        <div className="place-content-center place-items-end ">
+          <div className="flex gap-5">
+            {Object.entries(chartConfig).map(([key, value]) => {
+              if (key === 'people') {
+                return null;
+              }
+              return (
+                <div key={key} className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded-full"
+                    style={{ backgroundColor: (value as { color: string }).color }}
+                  />
+                  <CardDescription>{(value as { label: string }).label}</CardDescription>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
       <CardContent>
-        <ChartContainer className="h-[35vh] w-full" config={chartConfig}>
+        <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
           <AreaChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -59,7 +84,10 @@ export function RegistrationRequestsAreaChart() {
               tickFormatter={(value) => value.slice(0, 3)}
             />
 
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent className="w-[15em]" hideIndicator />}
+            />
             <defs>
               <linearGradient id="fillFailed" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="var(--color-failedRequests)" stopOpacity={0.8} />
