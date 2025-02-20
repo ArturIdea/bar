@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -15,7 +15,13 @@ const chartData = [
   { month: 'March', accounts: 237 },
   { month: 'April', accounts: 73 },
   { month: 'May', accounts: 209 },
-  { month: 'June', accounts: 214 },
+  { month: 'June', accounts: 150 },
+  { month: 'July', accounts: 220 },
+  { month: 'August', accounts: 180 },
+  { month: 'September', accounts: 240 },
+  { month: 'October', accounts: 300 },
+  { month: 'November', accounts: 190 },
+  { month: 'December', accounts: 210 },
 ];
 
 const chartConfig = {
@@ -35,18 +41,36 @@ export function NewAccountsBarChart() {
         <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              label={{
+                value: 'Registrations',
+                angle: -90,
+                position: 'insideLeft',
+                dy: -10,
+                style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' }, // Optional styling
+              }}
+            />
             <XAxis
               dataKey="month"
               tickLine={false}
+              orientation="top"
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
-              cursor={false}
+              cursor={{ fill: '#D3D3D3' }}
               content={<ChartTooltipContent hideIndicator hideLabel />}
             />
-            <Bar className="rounded-t-full" dataKey="accounts" fill="#679436" radius={0} />
+            <Bar
+              dataKey="accounts"
+              fill="#679436"
+              radius={[9999, 9999, 0, 0]}
+              activeBar={{ fill: '#A5BE19 ' }}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>
