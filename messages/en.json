@@ -1,4 +1,9 @@
 {
+  "Navbar": {
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
   "Sidebar": {
     "insights": "Insights",
     "userManagement": "User Management",
