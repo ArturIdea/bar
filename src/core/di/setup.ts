@@ -9,6 +9,7 @@ import {
 } from './modules/SignupRequestDetail.module';
 import { loadStatisticsRepositories, loadStatisticsUseCases } from './modules/Statistics.module';
 import { loadUserDetailsRepositories, loadUserDetailsUseCases } from './modules/UserDetails.module';
+import { loadUserProfileRepositories, loadUserProfileUseCases } from './modules/UserProfile.module';
 import { loadUserstRepositories, loadUsersUseCases } from './modules/Users.module';
 
 export const diContainer = new Container();
@@ -27,6 +28,7 @@ export const setupDependencies = () => {
   loadUserstRepositories(diContainer);
   loadUserDetailsRepositories(diContainer);
   loadStatisticsRepositories(diContainer);
+  loadUserProfileRepositories(diContainer);
 
   //use cases
   loadSignupRequestUseCases(diContainer);
@@ -34,4 +36,5 @@ export const setupDependencies = () => {
   loadUsersUseCases(diContainer);
   loadUserDetailsUseCases(diContainer);
   loadStatisticsUseCases(diContainer);
+  loadUserProfileUseCases(diContainer);
 };
