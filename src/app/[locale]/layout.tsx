@@ -8,7 +8,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { setupDependencies } from '@/core/di/setup';
 import { routing } from '@/i18n/routing';
-import Navbar from '@/ui/components/Navbar';
 import { theme } from '../../core/theme';
 import { Providers } from '../providers';
 
@@ -52,7 +51,6 @@ export default async function RootLayout({
       <body style={{ minHeight: '100vh', overflow: 'auto' }}>
         <NextIntlClientProvider messages={messages}>
           <MantineProvider theme={theme}>
-            <Navbar />
             <Providers>{children}</Providers>
           </MantineProvider>
         </NextIntlClientProvider>
