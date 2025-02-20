@@ -21,6 +21,7 @@ export const LocaleSwitcher = () => {
   return (
     <Select
       w={150}
+      radius="xl"
       data={LOCALES.map((locale) => ({
         value: locale.code,
         label: locale.label,
