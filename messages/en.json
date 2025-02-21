@@ -29,6 +29,38 @@
     "fundsDisbursed": "Funds Disbursed",
     "cardsIssued": "Cards Issued"
   },
+  "Charts": {
+    "registrationOverview": "Registration Requests Overview",
+    "totalRequests": "Total Requests",
+    "successfulRequests": "Successful Requests",
+    "failedRequests": "Failed Requests",
+    "newAccounts": "New Accounts",
+    "accounts": "Accounts",
+    "registrations": "Registrations",
+    "cardTypes": "Card Types",
+    "physicalCard": "Physical Card",
+    "virtualCard": "Virtual Card",
+    "onboardingChannel": "Onboarding Channel",
+    "App": "App",
+    "naspCenter": "NASP Center",
+    "aloqaBank": "Aloqa Bank",
+    "xalqBank": "Xalq Bank",
+    "appUsageAgeDistribution": "App Usage Age Distribution",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  },
   "Filter": {
     "filterBy": "Filter By",
     "pinfl": "PINFL",
