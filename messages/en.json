@@ -7,7 +7,7 @@
   "Sidebar": {
     "insights": "Insights",
     "userManagement": "User Management",
-    "signupRequests": "Signup Requests"
+    "signupRequests": "Sign Up Requests"
   },
   "ProfilePage": {
     "verified": "Verified",
@@ -20,7 +20,7 @@
   },
   "Buttons": {
     "viewDetails": "View Details",
-    "viewSignupDetails": "View Signup Details",
+    "viewSignupDetails": "View Sign Up Details",
     "viewUserDetails": "View User Details",
     "history": "History"
   },
@@ -48,8 +48,8 @@
     "done": "Done"
   },
   "SignupRequests": {
-    "title": "Latest Signup Requests",
-    "title2": "Signup Requests",
+    "title": "Latest Sign Up Requests",
+    "title2": "Sign Up Requests",
     "name": "Name",
     "email": "Email",
     "mobile": "Mobile",
@@ -74,6 +74,7 @@
     "rejected": "Rejected"
   },
   "UserManagement": {
+    "navbarTitle": "User Management",
     "title": "Latest User Registrations",
     "title2": "User Registrations",
     "name": "Name",
