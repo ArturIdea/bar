@@ -59,6 +59,28 @@ export class UserDetail {
         phoneCode?: string;
         phoneNumber?: string;
       }[];
-    }
+    },
+    public createdBy?: {
+      userId?: string;
+      firstName?: string;
+      lastName?: string;
+      photoUrl?: string;
+    },
+    public benefits?: [
+      {
+        status?: string;
+        benefitType?: {
+          id?: string;
+          name?: {
+            qr?: string;
+            ru?: string;
+            uzCyrl?: string;
+            uzLatn?: string;
+          };
+        };
+        amount?: number;
+        deductionAmount?: number;
+      },
+    ]
   ) {}
 }
