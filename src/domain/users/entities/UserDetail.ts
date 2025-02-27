@@ -61,6 +61,7 @@ export class UserDetail {
       }[];
     },
     public createdBy?: {
+      userId?: string;
       firstName?: string;
       lastName?: string;
       photoUrl?: string;

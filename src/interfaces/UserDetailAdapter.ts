@@ -73,6 +73,7 @@ export const UserDetailAdapter = {
         : undefined,
       raw.createdBy
         ? {
+            userId: raw.createdBy.userId || 'N/A',
             firstName: raw.createdBy.firstName || 'N/A',
             lastName: raw.createdBy.lastName || 'N/A',
             photoUrl: raw.createdBy.photoUrl,

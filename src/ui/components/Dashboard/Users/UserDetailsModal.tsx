@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
+import { useRouter } from '@/i18n/routing';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
@@ -24,6 +25,13 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
   const cookies = new Cookies();
   const locale = cookies.get('NEXT_LOCALE') || 'en';
+  const router = useRouter();
+
+  const handleHistoryClick = () => {
+    if (user?.createdBy?.userId) {
+      router.push(`/dashboard/history?userId=${user.createdBy.userId}`);
+    }
+  };
 
   const getBenefitName = (benefitType: any, locale: string) => {
     switch (locale) {
@@ -237,10 +245,10 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 <h1 className="text-lg font-normal text-gray-500 pb-2">
                   {t('UserManagement.benefits.title')}
                 </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <div>
                   {user.benefits && user.benefits.length > 0 ? (
                     user.benefits.map((benefit, index) => (
-                      <div key={index} className="p-4 border rounded-lg shadow-sm">
+                      <div key={index}>
                         <p className="text-gray-400 font-normal">
                           {t('UserManagement.benefits.benefitType')}
                         </p>
@@ -300,6 +308,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                     <div>
                       <button
                         type="button"
+                        onClick={() => {
+                          handleHistoryClick();
+                        }}
                         className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer flex items-center gap-1"
                       >
                         {t('Buttons.history')}
