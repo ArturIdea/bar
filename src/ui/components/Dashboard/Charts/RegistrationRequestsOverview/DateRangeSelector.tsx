@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { format, subDays } from 'date-fns';
 import { Check, ChevronDown } from 'lucide-react';
+import DateRangePicker from '@/components/ui/DateRangePicker';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DateRangePicker from './DateRangePicker';
 
 type DateRangeOption = 'day' | 'week' | 'month' | 'custom';
 
@@ -30,7 +30,7 @@ export function DateRangeSelector({ onDateChange }: DateRangeSelectorProps) {
     switch (selectedOption) {
       case 'day':
         // today
-        fromDate = format(today, 'yyyy-MM-dd');
+        fromDate = format(subDays(today, 1), 'yyyy-MM-dd');
         toDate = format(today, 'yyyy-MM-dd');
         onDateChange(fromDate, toDate);
         setShowCustomPicker(false);

@@ -3,46 +3,52 @@
 import { useTranslations } from 'next-intl';
 import { Pie, PieChart, PieLabelRenderProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
 
 export function OnboardingChannelPieChart() {
   const t = useTranslations();
+  const { metrics, loading, error } = useChannelMetrics();
 
-  const chartData = [
-    { onboardingChannel: t('Charts.App'), holders: 275, fill: 'var(--color-app)' },
-    { onboardingChannel: t('Charts.naspCenter'), holders: 200, fill: 'var(--color-naspCenters)' },
-    { onboardingChannel: t('Charts.aloqaBank'), holders: 200, fill: 'var(--color-aloqaBank)' },
-    { onboardingChannel: t('Charts.xalqBank'), holders: 200, fill: 'var(--color-xalqBank)' },
-  ];
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-  const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
+  interface ChannelConfig {
+    label: string;
+    color?: string;
+  }
 
-  const chartConfig = {
+  const chartConfig: Record<string, ChannelConfig> = {
     holders: {
       label: 'Channels',
     },
-    app: {
-      label: t('Charts.App'),
+    CITIZEN_APP: {
+      label: t('Charts.CITIZEN_APP'),
       color: '#2157E2',
     },
-    naspCenters: {
-      label: t('Charts.naspCenter'),
+    AGENT_APP: {
+      label: t('Charts.AGENT_APP'),
       color: '#13AB3F',
     },
-    aloqaBank: {
-      label: t('Charts.aloqaBank'),
+    BANK_PORTAL: {
+      label: t('Charts.BANK_PORTAL'),
       color: '#DC1B25',
     },
-    xalqBank: {
-      label: t('Charts.xalqBank'),
-      color: '#FFB700',
-    },
-  } satisfies ChartConfig;
+  };
+
+  type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'BANK_PORTAL';
+
+  const chartData = Object.entries(metrics?.channels || {}).map(([key, value]) => ({
+    onboardingChannel: t(`Charts.${key as ChartKeys}`),
+    holders: value,
+    fill: chartConfig[key]?.color || '#000',
+  }));
+
+  const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
 
   //helper function to position the percentages inside the slices
   const renderLabel = ({

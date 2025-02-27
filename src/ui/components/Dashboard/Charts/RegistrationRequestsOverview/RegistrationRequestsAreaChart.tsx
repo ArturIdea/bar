@@ -11,8 +11,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { DateRangeSelector } from '@/components/ui/DateRangeSelector';
 import { useSignupMetrics } from '@/ui/hooks/ui/useSignupMetrics';
+import { DateRangeSelector } from './DateRangeSelector';
 
 export function RegistrationRequestsAreaChart() {
   const t = useTranslations();
