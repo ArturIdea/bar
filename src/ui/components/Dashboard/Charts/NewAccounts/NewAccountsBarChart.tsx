@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { format, subMonths } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,24 +11,26 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useUserMetrics } from '@/ui/hooks/ui/useUserMetrics';
+import { DateRangeSelector } from './DateRangeSelector';
+
+type DateGranularity = 'day' | 'week' | 'month';
 
 export function NewAccountsBarChart() {
   const t = useTranslations();
+  const [granularity, setGranularity] = useState<DateGranularity>('month');
+  const [fromDate, setFromDate] = useState<string>(format(subMonths(new Date(), 11), 'yyyy-MM-01'));
+  const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
 
-  const chartData = [
-    { month: t('Charts.months.january'), accounts: 186 },
-    { month: t('Charts.months.february'), accounts: 305 },
-    { month: t('Charts.months.march'), accounts: 237 },
-    { month: t('Charts.months.april'), accounts: 73 },
-    { month: t('Charts.months.may'), accounts: 209 },
-    { month: t('Charts.months.june'), accounts: 150 },
-    { month: t('Charts.months.july'), accounts: 220 },
-    { month: t('Charts.months.august'), accounts: 180 },
-    { month: t('Charts.months.september'), accounts: 240 },
-    { month: t('Charts.months.october'), accounts: 300 },
-    { month: t('Charts.months.november'), accounts: 190 },
-    { month: t('Charts.months.december'), accounts: 210 },
-  ];
+  const { metrics, loading, error } = useUserMetrics(fromDate, toDate, granularity);
+
+  const chartData = metrics.map((metric) => ({
+    period: format(
+      new Date(metric.date),
+      granularity === 'day' ? 'MMM dd' : granularity === 'week' ? "'Week' wo" : 'MMM yyyy'
+    ),
+    accounts: metric.users,
+  }));
 
   const chartConfig = {
     accounts: {
@@ -37,9 +41,25 @@ export function NewAccountsBarChart() {
 
   return (
     <Card className=" w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
-      <CardHeader>
-        <CardTitle>{t('Charts.newAccounts')}</CardTitle>
-      </CardHeader>
+      <div className="flex justify-between pr-8">
+        <CardHeader>
+          <CardTitle>{t('Charts.registrationOverview')}</CardTitle>
+        </CardHeader>
+        {/* Date Range Selector Component */}
+        <div className="place-content-center place-items-end">
+          <DateRangeSelector
+            onDateChange={(start, end, selectedGranularity) => {
+              setFromDate(start);
+              setToDate(end);
+              setGranularity(selectedGranularity);
+            }}
+          />
+        </div>
+      </div>
+
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
       <CardContent>
         <ChartContainer
           className="h-[25vh] w-full aspect-square min-h-[300px] "
@@ -60,12 +80,12 @@ export function NewAccountsBarChart() {
               }}
             />
             <XAxis
-              dataKey="month"
+              dataKey="period"
               tickLine={false}
-              orientation="top"
-              tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              interval={0}
+              tickMargin={10}
+              orientation="top"
             />
             <ChartTooltip
               cursor={{ fill: '#D3D3D3' }}
