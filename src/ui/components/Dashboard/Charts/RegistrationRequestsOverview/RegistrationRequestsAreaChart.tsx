@@ -82,7 +82,9 @@ export function RegistrationRequestsAreaChart() {
       </div>
       <CardContent>
         {loading ? (
-          <p>Loading metrics...</p>
+          <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
+            <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+          </div>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (

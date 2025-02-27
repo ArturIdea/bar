@@ -62,5 +62,7 @@ function aggregateMetrics(data: UserMetric[], granularity: 'day' | 'week' | 'mon
     groupedData[key] += metric.users;
   });
 
-  return Object.entries(groupedData).map(([date, users]) => ({ date, users }));
+  return Object.entries(groupedData)
+    .map(([date, users]) => ({ date, users }))
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
