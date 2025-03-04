@@ -1,4 +1,8 @@
 import { Container } from 'inversify';
+import {
+  loadAgeDistributionMetricsRepositories,
+  loadAgeDistributionMetricsUseCases,
+} from './modules/AgeDistributionMetrics.module';
 import { loadCardMetricsRepositories, loadCardMetricsUseCases } from './modules/CardMetrics.module';
 import {
   loadChannelMetricsRepositories,
@@ -41,6 +45,7 @@ export const setupDependencies = () => {
   loadUserMetricsRepositories(diContainer);
   loadChannelMetricsRepositories(diContainer);
   loadCardMetricsRepositories(diContainer);
+  loadAgeDistributionMetricsRepositories(diContainer);
 
   //use cases
   loadSignupRequestUseCases(diContainer);
@@ -52,4 +57,5 @@ export const setupDependencies = () => {
   loadUserMetricsUseCases(diContainer);
   loadChannelMetricsUseCases(diContainer);
   loadCardMetricsUseCases(diContainer);
+  loadAgeDistributionMetricsUseCases(diContainer);
 };

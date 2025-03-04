@@ -9,17 +9,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useAgeDistribution } from '@/ui/hooks/ui/useAgeDistributionMetrics';
 
 export function AppUsageAgeDistributionRadialChart() {
   const t = useTranslations();
-
-  const chartData = [
-    { ageGroup: 'teens', people: 145, fill: 'var(--color-teens)' },
-    { ageGroup: 'twenties', people: 200, fill: 'var(--color-twenties)' },
-    { ageGroup: 'thirtiesForties', people: 187, fill: 'var(--color-thirtiesForties)' },
-    { ageGroup: 'fiftiesSixties', people: 173, fill: 'var(--color-fiftiesSixties)' },
-    { ageGroup: 'seventiesPlus', people: 90, fill: 'var(--color-seventiesPlus)' },
-  ];
+  const { data, loading, error } = useAgeDistribution();
 
   const chartConfig = {
     people: {
@@ -46,6 +40,25 @@ export function AppUsageAgeDistributionRadialChart() {
       color: '#F4743B',
     },
   } satisfies ChartConfig;
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (!data) {
+    return null;
+  }
+
+  const chartData = [
+    { ageGroup: 'teens', people: data.R14_19, fill: chartConfig.teens.color },
+    { ageGroup: 'twenties', people: data.R20_29, fill: chartConfig.twenties.color },
+    { ageGroup: 'thirtiesForties', people: data.R30_49, fill: chartConfig.thirtiesForties.color },
+    { ageGroup: 'fiftiesSixties', people: data.R50_69, fill: chartConfig.fiftiesSixties.color },
+    { ageGroup: 'seventiesPlus', people: data.R70_PLUS, fill: chartConfig.seventiesPlus.color },
+  ];
+
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
       <CardHeader className=" pb-0">

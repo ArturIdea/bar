@@ -10,10 +10,10 @@ export class ChannelMetricsRepositoryAPI implements ChannelMetricsRepository {
   async getChannelMetrics(): Promise<ChannelMetric> {
     const response = await this.apiClient.get(this.apiUrl);
 
-    if (!Array.isArray(response.data)) {
-      throw new Error('API response is not an array');
+    if (!response.data || typeof response.data !== 'object' || !('channels' in response.data)) {
+      throw new Error('Invalid API response format');
     }
 
-    return ChannelMetricsAdapter.toDomain(response.data[0]);
+    return ChannelMetricsAdapter.toDomain(response.data);
   }
 }
