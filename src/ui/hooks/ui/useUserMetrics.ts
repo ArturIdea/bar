@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { format, startOfMonth, startOfWeek } from 'date-fns';
-import { UserMetric } from '@/domain/users/entities/UserMetric';
-import { UserMetricsRepositoryAPI } from '@/infrastructure/api/UserMetricsRepositoryAPI';
+import { diContainer } from '@/core/di/setup';
+import { UserMetric } from '@/domain/metrics/userMetrics/entities/UserMetric';
+import { GetUserMetrics } from '@/domain/metrics/userMetrics/useCases/GetUserMetric';
 
 export function useUserMetrics(
   fromDate?: string,
@@ -18,11 +19,10 @@ export function useUserMetrics(
     const fetchMetrics = async () => {
       setLoading(true);
       setError(null);
-      const repository = new UserMetricsRepositoryAPI();
+      const useCase = diContainer.get<GetUserMetrics>('GetUserMetrics');
 
       try {
-        const data = await repository.getUserMetrics(fromDate, toDate);
-
+        const data = await useCase.execute(fromDate, toDate);
         const aggregatedData = aggregateMetrics(data, granularity);
         setMetrics(aggregatedData);
       } catch (err) {

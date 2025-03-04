@@ -1,4 +1,4 @@
-import { CardMetrics } from '@/domain/cards/entities/CardMetrics';
+import { CardMetrics } from '@/domain/metrics/cardMetrics/entities/CardMetrics';
 
 export const CardMetricsAdapter = {
   toDomain(raw: any): CardMetrics {

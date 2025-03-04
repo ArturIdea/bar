@@ -1,4 +1,4 @@
-import { ChannelMetric } from '@/domain/onboardingChannels/entities/ChannelMetric';
+import { ChannelMetric } from '@/domain/metrics/onboardingChannelsMetrics/entities/ChannelMetric';
 
 export const ChannelMetricsAdapter = {
   toDomain(raw: any): ChannelMetric {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { SignupMetric } from '@/domain/signupRequests/entities/SignupMetric';
-import { GetSignupMetrics } from '@/domain/signupRequests/useCases/GetSignupMetric';
-import { SignupRequestMetricsRepositoryAPI } from '@/infrastructure/api/SignupMetricsRepositoryAPI';
+import { diContainer } from '@/core/di/setup';
+import { SignupMetric } from '@/domain/metrics/signupMetrics/entities/SignupMetric';
+import { GetSignupMetrics } from '@/domain/metrics/signupMetrics/useCases/GetSignupMetric';
 
 export const useSignupMetrics = (fromDate?: string, toDate?: string) => {
   const [metrics, setMetrics] = useState<SignupMetric[]>([]);
@@ -13,10 +13,10 @@ export const useSignupMetrics = (fromDate?: string, toDate?: string) => {
       setLoading(true);
       setError(null);
 
+      const useCase = diContainer.get<GetSignupMetrics>('GetSignupMetrics');
+
       try {
-        const repository = new SignupRequestMetricsRepositoryAPI();
-        const getSignupMetrics = new GetSignupMetrics(repository);
-        const data = await getSignupMetrics.execute(fromDate, toDate);
+        const data = await useCase.execute(fromDate, toDate);
         setMetrics(data);
       } catch (err) {
         setError('Failed to fetch metrics');

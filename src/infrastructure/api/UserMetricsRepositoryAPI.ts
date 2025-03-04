@@ -1,6 +1,6 @@
 import { ApiClient } from '@/core/ApiClient';
-import { UserMetric } from '@/domain/users/entities/UserMetric';
-import { UserMetricsRepository } from '@/domain/users/repositories/UserMetricsRepository';
+import { UserMetric } from '@/domain/metrics/userMetrics/entities/UserMetric';
+import { UserMetricsRepository } from '@/domain/metrics/userMetrics/repositories/UserMetricsRepository';
 import { UserMetricsAdapter } from '@/interfaces/UserMetricsAdapter';
 
 export class UserMetricsRepositoryAPI implements UserMetricsRepository {

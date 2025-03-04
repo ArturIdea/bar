@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { CardMetrics } from '@/domain/cards/entities/CardMetrics';
-import { GetCardMetrics } from '@/domain/cards/useCases/GetCardMetrics';
-import { CardMetricsRepositoryAPI } from '@/infrastructure/api/CardMetricsRepositoryAPI';
+import { diContainer } from '@/core/di/setup';
+import { CardMetrics } from '@/domain/metrics/cardMetrics/entities/CardMetrics';
+import { GetCardMetrics } from '@/domain/metrics/cardMetrics/useCases/GetCardMetrics';
 
 export const useCardMetrics = () => {
   const [metrics, setMetrics] = useState<CardMetrics | null>(null);
@@ -12,11 +12,10 @@ export const useCardMetrics = () => {
     const fetchMetrics = async () => {
       setLoading(true);
       setError(null);
+      const useCase = diContainer.get<GetCardMetrics>('GetCardMetrics');
 
       try {
-        const repository = new CardMetricsRepositoryAPI();
-        const getChannelMetrics = new GetCardMetrics(repository);
-        const data = await getChannelMetrics.execute();
+        const data = await useCase.execute();
         setMetrics(data);
       } catch (err) {
         setError('Failed to fetch channel metrics');

@@ -1,6 +1,6 @@
 import { ApiClient } from '@/core/ApiClient';
-import { SignupMetric } from '@/domain/signupRequests/entities/SignupMetric';
-import { SignupMetricsRepository } from '@/domain/signupRequests/repositories/SignupMetricsRepository';
+import { SignupMetric } from '@/domain/metrics/signupMetrics/entities/SignupMetric';
+import { SignupMetricsRepository } from '@/domain/metrics/signupMetrics/repositories/SignupMetricsRepository';
 import { SignupMetricsAdapter } from '@/interfaces/SignupMetricsAdapter';
 
 export class SignupRequestMetricsRepositoryAPI implements SignupMetricsRepository {

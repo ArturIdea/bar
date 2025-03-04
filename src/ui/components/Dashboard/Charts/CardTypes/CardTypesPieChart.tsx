@@ -15,14 +15,12 @@ export function CardTypesPieChart() {
   const t = useTranslations();
   const { metrics, loading, error } = useCardMetrics();
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-  if (error) {
-    return <p>{error}</p>;
-  }
   if (!metrics) {
-    return <p>No data available</p>;
+    return (
+      <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
+        <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+      </div>
+    );
   }
 
   const chartData = [
@@ -67,6 +65,15 @@ export function CardTypesPieChart() {
       <CardHeader className="pb-0">
         <CardTitle>{t('Charts.cardTypes')}</CardTitle>
       </CardHeader>
+
+      {loading && (
+        <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
+          <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+        </div>
+      )}
+
+      {error && <p className="text-red-500">{error}</p>}
+
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>

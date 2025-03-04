@@ -1,4 +1,4 @@
-import { UserMetric } from '@/domain/users/entities/UserMetric';
+import { UserMetric } from '@/domain/metrics/userMetrics/entities/UserMetric';
 
 export const UserMetricsAdapter = {
   toDomain(raw: any): UserMetric {

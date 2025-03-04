@@ -1,6 +1,6 @@
 import { ApiClient } from '@/core/ApiClient';
-import { ChannelMetric } from '@/domain/onboardingChannels/entities/ChannelMetric';
-import { ChannelMetricsRepository } from '@/domain/onboardingChannels/repositories/ChannelMetricRepository';
+import { ChannelMetric } from '@/domain/metrics/onboardingChannelsMetrics/entities/ChannelMetric';
+import { ChannelMetricsRepository } from '@/domain/metrics/onboardingChannelsMetrics/repositories/ChannelMetricRepository';
 import { ChannelMetricsAdapter } from '@/interfaces/ChannelMetricsAdapter';
 
 export class ChannelMetricsRepositoryAPI implements ChannelMetricsRepository {

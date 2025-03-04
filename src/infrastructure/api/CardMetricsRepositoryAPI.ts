@@ -1,6 +1,6 @@
 import { ApiClient } from '@/core/ApiClient';
-import { CardMetrics } from '@/domain/cards/entities/CardMetrics';
-import { CardMetricsRepository } from '@/domain/cards/repositories/CardMetricsRepository';
+import { CardMetrics } from '@/domain/metrics/cardMetrics/entities/CardMetrics';
+import { CardMetricsRepository } from '@/domain/metrics/cardMetrics/repositories/CardMetricsRepository';
 import { CardMetricsAdapter } from '@/interfaces/CardMetricsAdapter';
 
 export class CardMetricsRepositoryAPI implements CardMetricsRepository {

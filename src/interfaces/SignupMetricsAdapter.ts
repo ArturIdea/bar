@@ -1,4 +1,4 @@
-import { SignupMetric } from '@/domain/signupRequests/entities/SignupMetric';
+import { SignupMetric } from '@/domain/metrics/signupMetrics/entities/SignupMetric';
 
 export const SignupMetricsAdapter = {
   toDomain(raw: any): SignupMetric {

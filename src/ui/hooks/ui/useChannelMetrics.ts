@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ChannelMetric } from '@/domain/onboardingChannels/entities/ChannelMetric';
-import { GetChannelMetrics } from '@/domain/onboardingChannels/useCases/GetChannelMetrics';
-import { ChannelMetricsRepositoryAPI } from '@/infrastructure/api/ChannelMetricsRepositoryAPI';
+import { diContainer } from '@/core/di/setup';
+import { ChannelMetric } from '@/domain/metrics/onboardingChannelsMetrics/entities/ChannelMetric';
+import { GetChannelMetrics } from '@/domain/metrics/onboardingChannelsMetrics/useCases/GetChannelMetrics';
 
 export const useChannelMetrics = () => {
   const [metrics, setMetrics] = useState<ChannelMetric | null>(null);
@@ -12,11 +12,10 @@ export const useChannelMetrics = () => {
     const fetchMetrics = async () => {
       setLoading(true);
       setError(null);
+      const useCase = diContainer.get<GetChannelMetrics>('GetChannelMetrics');
 
       try {
-        const repository = new ChannelMetricsRepositoryAPI();
-        const getChannelMetrics = new GetChannelMetrics(repository);
-        const data = await getChannelMetrics.execute();
+        const data = await useCase.execute();
         setMetrics(data);
       } catch (err) {
         setError('Failed to fetch channel metrics');
