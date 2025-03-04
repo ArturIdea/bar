@@ -9,29 +9,34 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useCardMetrics } from '@/ui/hooks/ui/useCardMetrics';
 
 export function CardTypesPieChart() {
   const t = useTranslations();
+  const { metrics, loading, error } = useCardMetrics();
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (!metrics) {
+    return <p>No data available</p>;
+  }
 
   const chartData = [
-    { cardType: t('Charts.physicalCard'), holders: 275, fill: 'var(--color-physical)' },
-    { cardType: t('Charts.virtualCard'), holders: 200, fill: 'var(--color-virtual)' },
+    { cardType: t('Charts.physicalCard'), holders: metrics.physicalCards, fill: '#13AB3F' },
+    { cardType: t('Charts.virtualCard'), holders: metrics.virtualCards, fill: '#2157E2' },
   ];
 
   const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
 
-  const chartConfig = {
-    physical: {
-      label: t('Charts.physicalCard'),
-      color: '#13AB3F',
-    },
-    virtual: {
-      label: t('Charts.virtualCard'),
-      color: '#2157E2',
-    },
-  } satisfies ChartConfig;
+  const chartConfig: ChartConfig = {
+    physical: { label: t('Charts.physicalCard'), color: '#13AB3F' },
+    virtual: { label: t('Charts.virtualCard'), color: '#2157E2' },
+  };
 
-  //helper function to position the percentages inside the slices
   const renderLabel = ({
     cx,
     cy,
@@ -40,14 +45,7 @@ export function CardTypesPieChart() {
     outerRadius,
     value,
   }: PieLabelRenderProps) => {
-    if (
-      cx === undefined ||
-      cy === undefined ||
-      midAngle === undefined ||
-      innerRadius === undefined ||
-      outerRadius === undefined ||
-      value === undefined
-    ) {
+    if (!cx || !cy || !midAngle || !innerRadius || !outerRadius || !value) {
       return null;
     }
 
@@ -58,22 +56,14 @@ export function CardTypesPieChart() {
     const percentage = ((Number(value) / totalHolders) * 100).toFixed(1);
 
     return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={12}
-        fontWeight="semibold"
-      >
+      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12}>
         {percentage}%
       </text>
     );
   };
 
   return (
-    <Card className="w-1/2 flex flex-col border-r-0 border-t-0  rounded-none shadow-none">
+    <Card className="w-1/2 flex flex-col border-r-0 border-t-0 rounded-none shadow-none">
       <CardHeader className="pb-0">
         <CardTitle>{t('Charts.cardTypes')}</CardTitle>
       </CardHeader>
@@ -99,20 +89,12 @@ export function CardTypesPieChart() {
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">
-          {Object.entries(chartConfig).map(([key, value]) => {
-            if (key === 'holders') {
-              return null;
-            }
-            return (
-              <div key={key} className="flex items-center gap-2">
-                <span
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: (value as { color: string }).color }}
-                />
-                <CardDescription>{(value as { label: string }).label}</CardDescription>
-              </div>
-            );
-          })}
+          {Object.entries(chartConfig).map(([key, value]) => (
+            <div key={key} className="flex items-center gap-2">
+              <span className="w-4 h-4 rounded-full" style={{ backgroundColor: value.color }} />
+              <CardDescription>{value.label}</CardDescription>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>

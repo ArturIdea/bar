@@ -129,21 +129,21 @@ export function RegistrationRequestsAreaChart() {
               </defs>
               <Area
                 dataKey="totalRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillTotal)"
                 fillOpacity={0.4}
                 stroke="blue"
               />
               <Area
                 dataKey="successfulRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillSuccessful)"
                 fillOpacity={0.4}
                 stroke="green"
               />
               <Area
                 dataKey="failedRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillFailed)"
                 fillOpacity={0.4}
                 stroke="red"

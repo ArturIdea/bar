@@ -25,7 +25,7 @@ export function DateRangeSelector({ onDateChange }: DateRangeSelectorProps) {
 
     switch (selectedOption) {
       case 'day':
-        fromDate = format(subDays(today, 7), 'yyyy-MM-dd');
+        fromDate = format(subDays(today, 8), 'yyyy-MM-dd');
         break;
       case 'week':
         fromDate = format(subWeeks(today, 8), 'yyyy-MM-dd');

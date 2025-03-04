@@ -43,7 +43,7 @@ export function NewAccountsBarChart() {
     <Card className=" w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
       <div className="flex justify-between pr-8">
         <CardHeader>
-          <CardTitle>{t('Charts.registrationOverview')}</CardTitle>
+          <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>
         {/* Date Range Selector Component */}
         <div className="place-content-center place-items-end">
@@ -83,6 +83,7 @@ export function NewAccountsBarChart() {
                 dy: -10,
                 style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
               }}
+              domain={[0, (dataMax: number) => dataMax * 1.2]}
             />
             <XAxis
               dataKey="period"
