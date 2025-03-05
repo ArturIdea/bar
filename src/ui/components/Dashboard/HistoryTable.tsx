@@ -74,7 +74,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
                 <th className="px-6 py-3 font-normal">{t('UserManagement.name')}</th>
                 <th className="px-6 py-3 font-normal">{t('UserManagement.email')}</th>
                 <th className="px-6 py-3 font-normal">{t('UserManagement.mobile')}</th>
-                <th className="px-6 py-3 font-normal">{t('UserManagement.role')}</th>
+                <th className="px-6 py-3 font-normal">{t('UserManagement.pinfl')}</th>
                 <th className="px-6 py-3 font-normal">{t('UserManagement.createdAt')}</th>
                 <th className="px-6 py-3 font-normal" />
               </tr>
@@ -88,7 +88,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.role || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>

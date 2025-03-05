@@ -241,7 +241,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               </div>
 
               {/* benefits */}
-              <div className="h-[28vh] overflow-y-auto">
+              <div className="py-8 h-[28vh] overflow-y-auto">
                 <h1 className="text-lg font-normal text-gray-500 pb-2">
                   {t('UserManagement.benefits.title')}
                 </h1>
