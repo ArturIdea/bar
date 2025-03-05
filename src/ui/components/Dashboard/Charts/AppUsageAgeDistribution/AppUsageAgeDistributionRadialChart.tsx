@@ -10,6 +10,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useAgeDistribution } from '@/ui/hooks/ui/useAgeDistributionMetrics';
+import { ExportDropdown } from '../../ExportDropdown';
 
 export function AppUsageAgeDistributionRadialChart() {
   const t = useTranslations();
@@ -52,6 +53,14 @@ export function AppUsageAgeDistributionRadialChart() {
     return null;
   }
 
+  const ageGroupLabels = {
+    teens: '14-19 Years Old',
+    twenties: '20-29 Years Old',
+    thirtiesForties: '30-49 Years Old',
+    fiftiesSixties: '50-69 Years Old',
+    seventiesPlus: '70+ Years Old',
+  };
+
   const values = {
     teens: data.R14_19,
     twenties: data.R20_29,
@@ -63,7 +72,7 @@ export function AppUsageAgeDistributionRadialChart() {
   const maxPeople = Math.max(...Object.values(values));
 
   const chartData = Object.entries(values).map(([key, people]) => ({
-    ageGroup: key,
+    ageGroup: ageGroupLabels[key as keyof typeof ageGroupLabels],
     people,
     scaledPeople: (people / maxPeople) * 100,
     fill: chartConfig[key as keyof typeof chartConfig].color,
@@ -71,9 +80,19 @@ export function AppUsageAgeDistributionRadialChart() {
 
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
-      <CardHeader className=" pb-0">
-        <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>
-      </CardHeader>
+      <div className="flex justify-between pr-8">
+        <CardHeader>
+          <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>
+        </CardHeader>
+        <div className="flex justify-center items-center gap-2">
+          <ExportDropdown
+            chartData={chartData}
+            dataToExtract="age-distribution"
+            keysToExclude={['scaledPeople', 'fill']}
+            labelMapping={{ ageGroup: 'Age Group', people: 'People' }}
+          />
+        </div>
+      </div>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <RadialBarChart data={chartData} innerRadius={80} outerRadius={150}>

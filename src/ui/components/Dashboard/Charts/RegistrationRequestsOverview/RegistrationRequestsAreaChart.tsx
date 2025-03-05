@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useSignupMetrics } from '@/ui/hooks/ui/useSignupMetrics';
+import { ExportDropdown } from '../../ExportDropdown';
 import { DateRangeSelector } from './DateRangeSelector';
 
 export function RegistrationRequestsAreaChart() {
@@ -60,12 +61,25 @@ export function RegistrationRequestsAreaChart() {
         </div>
         {/* Date Range Selector Component */}
         <div className="place-content-center place-items-end">
-          <DateRangeSelector
-            onDateChange={(start, end) => {
-              setFromDate(start);
-              setToDate(end);
-            }}
-          />
+          <div className="flex justify-center items-center gap-2">
+            <DateRangeSelector
+              onDateChange={(start, end) => {
+                setFromDate(start);
+                setToDate(end);
+              }}
+            />
+            <ExportDropdown
+              chartData={chartData}
+              dataToExtract="signup_requests"
+              keysToExclude={['month']}
+              labelMapping={{
+                date: 'Date',
+                totalRequests: 'Total Requests',
+                successfulRequests: 'Successful Requests',
+                failedRequests: 'Failed Requests',
+              }}
+            />
+          </div>
         </div>
         <div />
         <div className="flex justify-end gap-5">

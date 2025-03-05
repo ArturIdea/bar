@@ -11,7 +11,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import DateRangePicker from '@/components/ui/DateRangePicker';
 import { useUserMetrics } from '@/ui/hooks/ui/useUserMetrics';
+import { ExportDropdown } from '../../ExportDropdown';
 import { DateRangeSelector } from './DateRangeSelector';
 
 type DateGranularity = 'day' | 'week' | 'month';
@@ -55,14 +57,23 @@ export function NewAccountsBarChart() {
         <CardHeader>
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>
-        {/* Date Range Selector Component */}
-        <div className="place-content-center place-items-end">
+        <div className="flex justify-center items-center gap-2">
+          <div>
+            <div>
+              <DateRangePicker onDateChange={() => {}} />
+            </div>
+          </div>
           <DateRangeSelector
             onDateChange={(start, end, selectedGranularity) => {
               setFromDate(start);
               setToDate(end);
               setGranularity(selectedGranularity);
             }}
+          />
+          <ExportDropdown
+            chartData={chartData}
+            dataToExtract="users"
+            labelMapping={{ period: 'Period', accounts: 'Accounts' }}
           />
         </div>
       </div>

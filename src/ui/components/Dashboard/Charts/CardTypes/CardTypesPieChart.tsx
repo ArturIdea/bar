@@ -10,6 +10,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useCardMetrics } from '@/ui/hooks/ui/useCardMetrics';
+import { ExportDropdown } from '../../ExportDropdown';
 
 export function CardTypesPieChart() {
   const t = useTranslations();
@@ -62,9 +63,18 @@ export function CardTypesPieChart() {
 
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 rounded-none shadow-none">
-      <CardHeader className="pb-0">
-        <CardTitle>{t('Charts.cardTypes')}</CardTitle>
-      </CardHeader>
+      <div className="flex justify-between pr-8">
+        <CardHeader className="">
+          <CardTitle>{t('Charts.cardTypes')}</CardTitle>
+        </CardHeader>
+        <div className="flex justify-center items-center gap-2">
+          <ExportDropdown
+            chartData={chartData}
+            dataToExtract="cards"
+            labelMapping={{ cardType: 'Card Type', holders: 'Holders' }}
+          />
+        </div>
+      </div>
 
       {loading && (
         <div className="flex items-center justify-center h-[25vh] w-full rounded-md">

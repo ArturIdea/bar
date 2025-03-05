@@ -5,6 +5,7 @@ import { Pie, PieChart, PieLabelRenderProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
+import { ExportDropdown } from '../../ExportDropdown';
 
 export function OnboardingChannelPieChart() {
   const t = useTranslations();
@@ -97,9 +98,18 @@ export function OnboardingChannelPieChart() {
   };
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
-      <CardHeader className="pb-0">
-        <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
-      </CardHeader>
+      <div className="flex justify-between pr-8">
+        <CardHeader className="">
+          <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
+        </CardHeader>
+        <div className="flex justify-center items-center gap-2">
+          <ExportDropdown
+            chartData={chartData}
+            dataToExtract="channels"
+            labelMapping={{ onboardingChannel: 'Onboarding Channel', holders: 'Holders' }}
+          />
+        </div>
+      </div>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>

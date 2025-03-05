@@ -15,8 +15,8 @@ interface DateRangePickerProps {
 
 export default function DateRangePicker({ onDateChange }: DateRangePickerProps) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
+    from: undefined,
+    to: undefined,
   });
 
   return (
@@ -44,6 +44,7 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          showOutsideDays={false}
           initialFocus
           mode="range"
           defaultMonth={date?.from}

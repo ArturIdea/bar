@@ -59,6 +59,13 @@ export function DateRangeSelector({ onDateChange }: DateRangeSelectorProps) {
 
   return (
     <div className="flex items-center gap-2">
+      {showCustomPicker && (
+        <DateRangePicker
+          onDateChange={(start, end) => {
+            onDateChange(start, end);
+          }}
+        />
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger className="cursor-pointer flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground">
           {selectedOption === 'day' && 'Day'}
@@ -94,14 +101,6 @@ export function DateRangeSelector({ onDateChange }: DateRangeSelectorProps) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {showCustomPicker && (
-        <DateRangePicker
-          onDateChange={(start, end) => {
-            onDateChange(start, end);
-          }}
-        />
-      )}
     </div>
   );
 }
