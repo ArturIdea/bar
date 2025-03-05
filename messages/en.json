@@ -2,7 +2,8 @@
   "Navbar": {
     "dashboard": "Dashboard",
     "logout": "Logout",
-    "profile": "Profile"
+    "profile": "Profile",
+    "history": "History"
   },
   "Sidebar": {
     "insights": "Insights",

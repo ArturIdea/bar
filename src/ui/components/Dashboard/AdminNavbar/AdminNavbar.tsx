@@ -44,6 +44,8 @@ export default function AdminNavbar() {
         return t('SignupRequests.title2');
       case '/dashboard/profile':
         return t('Navbar.profile');
+      case '/dashboard/history':
+        return t('Navbar.history');
       default:
         return t('Navbar.dashboard');
     }
