@@ -51,30 +51,29 @@ export const SignupRequestsFilterModal = ({
   const formatLocalDate = (date: Date) => date.toLocaleDateString('en-CA');
 
   const handleApply = () => {
+    let statuses: string | undefined;
+    if (statusFilter === 'completed') {
+      statuses = 'COMPLETED';
+    } else if (statusFilter === 'notCompleted') {
+      statuses = [
+        'CREATED',
+        'OTP_SENT',
+        'MOBILE_VERIFIED',
+        'AGREEMENTS_ACCEPTED',
+        'FACE_VERIFICATION_IN_PROGRESS',
+        'VERIFICATION_COMPLETED',
+        'VERIFICATION_FAILED',
+        'FAILED_FINALIZATION',
+        'NOT_ELIGIBLE',
+      ].join(',');
+    }
+
     if (dateRange.startDate && dateRange.endDate) {
       const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
       const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
-
-      let statuses: string | undefined;
-      if (statusFilter === 'completed') {
-        statuses = 'COMPLETED';
-      } else if (statusFilter === 'notCompleted') {
-        statuses = [
-          'CREATED',
-          'OTP_SENT',
-          'MOBILE_VERIFIED',
-          'AGREEMENTS_ACCEPTED',
-          'FACE_VERIFICATION_IN_PROGRESS',
-          'VERIFICATION_COMPLETED',
-          'VERIFICATION_FAILED',
-          'FAILED_FINALIZATION',
-          'NOT_ELIGIBLE',
-        ].join(',');
-      }
-
       onApply(createdAtFrom, createdAtTo, pinfl || undefined, statuses);
     } else {
-      onApply(undefined, undefined, pinfl || undefined, undefined);
+      onApply(undefined, undefined, pinfl || undefined, statuses);
     }
 
     onClose();

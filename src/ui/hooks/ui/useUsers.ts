@@ -9,7 +9,8 @@ export const useUsers = (
   createdAtFrom?: string,
   createdAtTo?: string,
   pinflSearch?: string,
-  usernameSearch?: string
+  usernameSearch?: string,
+  createdBy?: string
 ) => {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
@@ -27,7 +28,8 @@ export const useUsers = (
           createdAtFrom,
           createdAtTo,
           pinflSearch,
-          usernameSearch
+          usernameSearch,
+          createdBy
         );
         setUsers(users);
         setTotal(total);

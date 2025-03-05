@@ -107,6 +107,13 @@
       "agreementEmail": "Agreement Email",
       "location": "Location"
     },
+    "benefits": {
+      "title": "Benefits",
+      "benefitType": "Benefit Type",
+      "benefitAmount": "Benefit Amount",
+      "benefitStatus": "Benefit Status",
+      "deductionAmount": "Deduction Amount"
+    },
     "modalTitle": "Profile"
   },
   "Pagination": {

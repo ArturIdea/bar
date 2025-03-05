@@ -13,7 +13,8 @@ export class UserRepositoryAPI implements UserRepository {
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    usernameSearch?: string
+    usernameSearch?: string,
+    createdBy?: string
   ): Promise<{ users: User[]; total: number }> {
     const response = await this.apiClient.get<{ content: any[]; totalElements: number }>(
       this.ApiUrl,
@@ -25,6 +26,7 @@ export class UserRepositoryAPI implements UserRepository {
           createdAtTo,
           pinflSearch,
           usernameSearch,
+          createdBy,
           sort: 'createdAt,DESC',
         },
       }
