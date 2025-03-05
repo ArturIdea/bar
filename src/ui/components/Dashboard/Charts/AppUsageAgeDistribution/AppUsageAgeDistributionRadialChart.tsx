@@ -18,6 +18,7 @@ export function AppUsageAgeDistributionRadialChart() {
   const chartConfig = {
     people: {
       label: 'Age Group',
+      color: '#00000000',
     },
     teens: {
       label: '14-19',
@@ -51,13 +52,22 @@ export function AppUsageAgeDistributionRadialChart() {
     return null;
   }
 
-  const chartData = [
-    { ageGroup: 'teens', people: data.R14_19, fill: chartConfig.teens.color },
-    { ageGroup: 'twenties', people: data.R20_29, fill: chartConfig.twenties.color },
-    { ageGroup: 'thirtiesForties', people: data.R30_49, fill: chartConfig.thirtiesForties.color },
-    { ageGroup: 'fiftiesSixties', people: data.R50_69, fill: chartConfig.fiftiesSixties.color },
-    { ageGroup: 'seventiesPlus', people: data.R70_PLUS, fill: chartConfig.seventiesPlus.color },
-  ];
+  const values = {
+    teens: data.R14_19,
+    twenties: data.R20_29,
+    thirtiesForties: data.R30_49,
+    fiftiesSixties: data.R50_69,
+    seventiesPlus: data.R70_PLUS,
+  };
+
+  const maxPeople = Math.max(...Object.values(values));
+
+  const chartData = Object.entries(values).map(([key, people]) => ({
+    ageGroup: key,
+    people,
+    scaledPeople: (people / maxPeople) * 100,
+    fill: chartConfig[key as keyof typeof chartConfig].color,
+  }));
 
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
