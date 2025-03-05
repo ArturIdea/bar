@@ -23,6 +23,7 @@ import {
 import { loadStatisticsRepositories, loadStatisticsUseCases } from './modules/Statistics.module';
 import { loadUserDetailsRepositories, loadUserDetailsUseCases } from './modules/UserDetails.module';
 import { loadUserMetricsRepositories, loadUserMetricsUseCases } from './modules/UserMetrics.module';
+import { loadUserProfileRepositories, loadUserProfileUseCases } from './modules/UserProfile.module';
 import { loadUserstRepositories, loadUsersUseCases } from './modules/Users.module';
 
 export const diContainer = new Container();
@@ -46,6 +47,7 @@ export const setupDependencies = () => {
   loadChannelMetricsRepositories(diContainer);
   loadCardMetricsRepositories(diContainer);
   loadAgeDistributionMetricsRepositories(diContainer);
+  loadUserProfileRepositories(diContainer);
 
   //use cases
   loadSignupRequestUseCases(diContainer);
@@ -58,4 +60,5 @@ export const setupDependencies = () => {
   loadChannelMetricsUseCases(diContainer);
   loadCardMetricsUseCases(diContainer);
   loadAgeDistributionMetricsUseCases(diContainer);
+  loadUserProfileUseCases(diContainer);
 };
