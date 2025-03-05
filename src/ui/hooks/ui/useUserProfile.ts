@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { diContainer } from '@/core/di/setup';
-import { UserDetail } from '@/domain/users/entities/UserDetail';
+import { UserProfile } from '@/domain/users/entities/UserProfile';
 import { GetUserProfileUseCase } from '@/domain/users/useCases/GetUserProfile';
 
 export const useUserProfile = () => {
-  const [userProfile, setUserProfile] = useState<UserDetail | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

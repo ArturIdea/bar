@@ -1,19 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-
-// import { useUserProfile } from "@/hooks/useUserProfile";
+import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 
 export default function ProfilePage() {
-  //   const { userProfile, loading } = useUserProfile();
+  const { userProfile, loading } = useUserProfile();
 
-  //   if (loading) {
-  //     return <div className="text-center py-10 text-lg">Loading...</div>;
-  //   }
+  if (loading) {
+    return <div className="text-center py-10 text-lg">Loading...</div>;
+  }
 
-  //   if (!userProfile) {
-  //     return <div className="text-center py-10 text-lg text-red-400">User data not available.</div>;
-  //   }
+  if (!userProfile) {
+    return <div className="text-center py-10 text-lg text-red-400">User data not available.</div>;
+  }
 
   return (
     <div>
@@ -27,8 +26,10 @@ export default function ProfilePage() {
           className="w-32 h-32 rounded-full border border-gray-300"
         />
         <div>
-          {/* <h1 className="text-2xl font-semibold">{userProfile.firstName} {userProfile.lastName}</h1> */}
-          <p className="font-semibold text-3xl">Ya’qub Shahzodbek</p>
+          <h1 className="text-2xl font-semibold">
+            {userProfile.firstName} {userProfile.lastName}
+          </h1>
+          {/* <p className="font-semibold text-3xl">Ya’qub Shahzodbek</p> */}
         </div>
       </div>
 
@@ -40,85 +41,80 @@ export default function ProfilePage() {
           {/* Left Column */}
           <div>
             <p className="text-sm text-gray-400">First name</p>
-            {/* <p className="text-lg font-medium">{userProfile.firstName || "-"}</p> */}
-            test
+            <p className="text-lg font-normal ">{userProfile.firstName || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Last Name</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.lastName || "-"}</p> */}
+            <p className="text-lg font-normal">{userProfile.lastName || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Patronym</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.identityProviderData?.personDataLatin?.middleName || "-"}</p> */}
+            <p className="text-lg font-normal">
+              {userProfile.identityProviderData?.personDataLatin?.middleName || '-'}
+            </p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Birth date</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.dateOfBirth || "-"}</p> */}
+            <p className="text-lg font-normal">{userProfile.dateOfBirth || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Job Title</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.agentData?.jobTitle || "-"}</p> */}
+            <p className="text-lg font-normal">{userProfile.agentData?.jobTitle || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">PINFL</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.pinfl || "-"}</p> */}
+            <p className="text-lg font-normal">{userProfile.pinfl || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">District of Inson Center</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.agentData?.insonCenterDistrict || "-"}</p> */}
+            <p className="text-lg font-normal">
+              {userProfile.agentData?.insonCenterDistrict || '-'}
+            </p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Branch Code of "Inson Center"</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.agentData?.insonCenterBranchCode || "-"}</p> */}
+            <p className="text-lg font-normal">
+              {userProfile.agentData?.insonCenterBranchCode || '-'}
+            </p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Phone Number</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.phoneNumber || "-"}</p> */}
+            <p className="text-lg font-normal">{userProfile.phoneNumber || '-'}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Personal Email Address</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.agentData?.personalEmailAddress || "-"}</p> */}
+            <p className="text-lg font-normal">
+              {userProfile.agentData?.personalEmailAddress || '-'}
+            </p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Username</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.username || "-"}</p> */}
+            {/* <p className="text-lg font-normal">{userProfile.username || "-"}</p> */}
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Print Email Address</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.tosAgreementEmail || "-"}</p> */}
+            {/* <p className="text-lg font-normal">{userProfile.tosAgreementEmail || "-"}</p> */}
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Address</p>
-            test
-            {/* <p className="text-lg font-medium">{userProfile.agentData?.address || "-"}</p> */}
+            {/* <p className="text-lg font-normal">{userProfile.agentData?.address || "-"}</p> */}
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Password</p>
-            <p className="text-lg font-medium">******</p>
+            <p className="text-lg font-normal">******</p>
           </div>
         </div>
       </div>

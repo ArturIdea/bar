@@ -28,6 +28,7 @@ export class UserProfile {
         nationalityName?: string;
         citizenshipName?: string;
         birthCountryName?: string;
+        middleName?: string;
         address?: {
           country?: string;
           region?: string;
