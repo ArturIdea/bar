@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { format, subMonths } from 'date-fns';
+import { format, subDays, subMonths } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,13 +24,23 @@ export function NewAccountsBarChart() {
 
   const { metrics, loading, error } = useUserMetrics(fromDate, toDate, granularity);
 
-  const chartData = metrics.map((metric) => ({
-    period: format(
-      new Date(metric.date),
-      granularity === 'day' ? 'MMM dd' : granularity === 'week' ? "'Week' wo" : 'MMM yyyy'
-    ),
-    accounts: metric.users,
-  }));
+  const chartData = metrics.map((metric) => {
+    const date = new Date(metric.date);
+
+    let period;
+    if (granularity === 'week') {
+      const startOfWeek = format(date, 'MMM dd');
+      const endOfWeek = format(subDays(date, -6), 'MMM dd');
+      period = `${startOfWeek} - ${endOfWeek}`;
+    } else {
+      period = format(date, granularity === 'day' ? 'MMM dd' : 'MMM yyyy');
+    }
+
+    return {
+      period,
+      accounts: metric.users,
+    };
+  });
 
   const chartConfig = {
     accounts: {
@@ -92,6 +102,7 @@ export function NewAccountsBarChart() {
               interval={0}
               tickMargin={10}
               orientation="top"
+              angle={-10}
             />
             <ChartTooltip
               cursor={{ fill: '#D3D3D3' }}
