@@ -141,7 +141,7 @@ export function OnboardingChannelPieChart() {
         <div className="flex justify-center items-center gap-2">
           <ExportDropdown
             chartData={chartData}
-            dataToExtract="channels"
+            fileName={t('Charts.onboardingChannel')}
             labelMapping={{
               onboardingChannel: t('Charts.onboardingChannel'),
               Total: t('Charts.totalRequests'),

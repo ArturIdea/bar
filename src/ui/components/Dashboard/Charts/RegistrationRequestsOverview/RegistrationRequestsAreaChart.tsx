@@ -70,7 +70,7 @@ export function RegistrationRequestsAreaChart() {
             />
             <ExportDropdown
               chartData={chartData}
-              dataToExtract="signup_requests"
+              fileName={t('Charts.registrationOverview')}
               keysToExclude={['month']}
               labelMapping={{
                 date: 'Date',
@@ -110,7 +110,7 @@ export function RegistrationRequestsAreaChart() {
                 axisLine={false}
                 tickMargin={10}
                 label={{
-                  value: 'Registrations',
+                  value: t('Charts.registrations'),
                   angle: -90,
                   position: 'insideLeft',
                   dy: -10,

@@ -87,7 +87,7 @@ export function AppUsageAgeDistributionRadialChart() {
         <div className="flex justify-center items-center gap-2">
           <ExportDropdown
             chartData={chartData}
-            dataToExtract="age-distribution"
+            fileName={t('Charts.appUsageAgeDistribution')}
             keysToExclude={['scaledPeople', 'fill']}
             labelMapping={{ ageGroup: 'Age Group', people: 'People' }}
           />

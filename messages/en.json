@@ -23,7 +23,9 @@
     "viewDetails": "View Details",
     "viewSignupDetails": "View Sign Up Details",
     "viewUserDetails": "View User Details",
-    "history": "History"
+    "history": "History",
+    "exportToPDF": "Export to PDF",
+    "exportToExcel": "Export to Excel"
   },
   "Statistics": {
     "newAccounts": "New Accounts",

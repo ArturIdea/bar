@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { exportToExcel } from '@/core/utils/exportToExcel';
 import { exportToPDF } from '@/core/utils/exportToPdf';
@@ -9,14 +10,14 @@ import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 
 interface ExportDropdownProps {
   chartData: any[];
-  dataToExtract: string;
+  fileName: string;
   keysToExclude?: string[];
   labelMapping?: Record<string, string>;
 }
 
 export function ExportDropdown({
   chartData,
-  dataToExtract,
+  fileName,
   keysToExclude = ['fill'],
   labelMapping = {},
 }: ExportDropdownProps) {
@@ -24,6 +25,7 @@ export function ExportDropdown({
   const dropdownRef = useClickOutside<HTMLDivElement>(() => {
     setDropdownOpen(false);
   });
+  const t = useTranslations();
 
   // function to filter out unwanted keys
   const prepareDataForExport = (data: any[]) => {
@@ -47,13 +49,13 @@ export function ExportDropdown({
 
   const exportToExcelHandler = () => {
     const exportData = prepareDataForExport(chartData);
-    exportToExcel(exportData, dataToExtract);
+    exportToExcel(exportData, fileName);
     setDropdownOpen(false);
   };
 
   const exportToPDFHandler = () => {
     const exportData = prepareDataForExport(chartData);
-    exportToPDF(exportData, dataToExtract);
+    exportToPDF(exportData, fileName);
     setDropdownOpen(false);
   };
 
@@ -73,14 +75,14 @@ export function ExportDropdown({
             onClick={exportToExcelHandler}
             className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
           >
-            Export to Excel
+            {t('Buttons.exportToExcel')}
           </button>
           <button
             type="button"
             onClick={exportToPDFHandler}
             className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer"
           >
-            Export to PDF
+            {t('Buttons.exportToPDF')}
           </button>
         </div>
       )}

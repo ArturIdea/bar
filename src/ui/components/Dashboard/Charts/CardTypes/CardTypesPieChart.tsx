@@ -70,7 +70,7 @@ export function CardTypesPieChart() {
         <div className="flex justify-center items-center gap-2">
           <ExportDropdown
             chartData={chartData}
-            dataToExtract="cards"
+            fileName={t('Charts.cardTypes')}
             labelMapping={{ cardType: 'Card Type', holders: 'Holders' }}
           />
         </div>
