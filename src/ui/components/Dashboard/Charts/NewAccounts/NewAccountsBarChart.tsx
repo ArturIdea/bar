@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { format, subDays, subMonths } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { addDays, addMonths, addWeeks, format, subDays, subMonths, subWeeks } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,8 +23,51 @@ export function NewAccountsBarChart() {
   const [granularity, setGranularity] = useState<DateGranularity>('month');
   const [fromDate, setFromDate] = useState<string>(format(subMonths(new Date(), 11), 'yyyy-MM-01'));
   const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
-
+  const [customDateRange, setCustomDateRange] = useState<{ from: string; to: string } | null>(null);
   const { metrics, loading, error } = useUserMetrics(fromDate, toDate, granularity);
+
+  const applyDateRangeForGranularity = (selectedGranularity: DateGranularity) => {
+    const today = new Date();
+
+    if (customDateRange) {
+      const startDate = new Date(customDateRange.from);
+      const endDate = new Date(customDateRange.to);
+
+      let paddedStartDate, paddedEndDate;
+
+      if (selectedGranularity === 'day') {
+        paddedStartDate = format(subDays(startDate, 7), 'yyyy-MM-dd');
+        paddedEndDate = format(addDays(endDate, 7), 'yyyy-MM-dd');
+      } else if (selectedGranularity === 'week') {
+        paddedStartDate = format(subWeeks(startDate, 4), 'yyyy-MM-dd');
+        paddedEndDate = format(addWeeks(endDate, 4), 'yyyy-MM-dd');
+      } else {
+        // month
+        paddedStartDate = format(subMonths(startDate, 3), 'yyyy-MM-01');
+        paddedEndDate = format(addMonths(endDate, 3), 'yyyy-MM-dd');
+      }
+
+      setFromDate(paddedStartDate);
+      setToDate(paddedEndDate);
+    } else {
+      let defaultFromDate;
+
+      if (selectedGranularity === 'day') {
+        defaultFromDate = format(subDays(today, 14), 'yyyy-MM-dd');
+      } else if (selectedGranularity === 'week') {
+        defaultFromDate = format(subWeeks(today, 8), 'yyyy-MM-dd');
+      } else {
+        defaultFromDate = format(subMonths(today, 11), 'yyyy-MM-01');
+      }
+
+      setFromDate(defaultFromDate);
+      setToDate(format(today, 'yyyy-MM-dd'));
+    }
+  };
+
+  useEffect(() => {
+    applyDateRangeForGranularity(granularity);
+  }, [granularity]);
 
   const chartData = metrics.map((metric) => {
     const date = new Date(metric.date);
@@ -51,6 +94,11 @@ export function NewAccountsBarChart() {
     },
   } satisfies ChartConfig;
 
+  const handleDateRangeChange = (start: string, end: string) => {
+    setCustomDateRange({ from: start, to: end });
+    applyDateRangeForGranularity(granularity);
+  };
+
   return (
     <Card className=" w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
       <div className="flex justify-between pr-8">
@@ -60,13 +108,15 @@ export function NewAccountsBarChart() {
         <div className="flex justify-center items-center gap-2">
           <div>
             <div>
-              <DateRangePicker onDateChange={() => {}} />
+              <DateRangePicker onDateChange={handleDateRangeChange} />
             </div>
           </div>
           <DateRangeSelector
             onDateChange={(start, end, selectedGranularity) => {
-              setFromDate(start);
-              setToDate(end);
+              if (!customDateRange) {
+                setFromDate(start);
+                setToDate(end);
+              }
               setGranularity(selectedGranularity);
             }}
           />
