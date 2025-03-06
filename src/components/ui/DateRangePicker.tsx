@@ -1,8 +1,7 @@
-// components/ui/date-range-picker.tsx
 'use client';
 
 import * as React from 'react';
-import { format } from 'date-fns';
+import { format, isSameMonth } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { Button } from '@/components/ui/button';
@@ -18,6 +17,14 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
     from: undefined,
     to: undefined,
   });
+
+  const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date());
+
+  const jumpToToday = () => {
+    setCurrentMonth(new Date());
+  };
+
+  const isCurrentMonthDisplayed = isSameMonth(currentMonth, new Date());
 
   return (
     <Popover>
@@ -48,6 +55,8 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
           initialFocus
           mode="range"
           defaultMonth={date?.from}
+          month={currentMonth}
+          onMonthChange={setCurrentMonth}
           selected={date}
           onSelect={(newDate) => {
             setDate(newDate);
@@ -57,6 +66,18 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
           }}
           numberOfMonths={2}
         />
+        {!isCurrentMonthDisplayed && (
+          <div className="flex justify-end p-2 border-b">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={jumpToToday}
+              className="text-xs rounded-full cursor-pointer"
+            >
+              Today
+            </Button>
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   );

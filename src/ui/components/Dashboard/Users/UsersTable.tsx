@@ -3,10 +3,11 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
-import { Link, usePathname } from '@/i18n/routing';
+import { usePathname } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../TableSkeleton';
+import ViewDetailsButton from '../ViewDetailsButton';
 import UserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
@@ -98,14 +99,8 @@ export const UsersTable: React.FC<{
         ) : (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
         )}
-        {pathname === '/dashboard' && (
-          <Link
-            href="/dashboard/user-management"
-            className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer"
-          >
-            {t('Buttons.viewDetails')}
-          </Link>
-        )}
+
+        <ViewDetailsButton href="user-management" />
       </div>
 
       {/* Table */}

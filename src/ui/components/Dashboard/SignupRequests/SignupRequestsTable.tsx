@@ -3,10 +3,11 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
-import { Link, usePathname } from '@/i18n/routing';
+import { usePathname } from '@/i18n/routing';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from '../Users/UserDetailsModal';
+import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
@@ -92,14 +93,8 @@ export const SignUpRequestsTable: React.FC<{
         ) : (
           <h4 className="font-semibold text-[#0B0B22]">{t('SignupRequests.title')}</h4>
         )}
-        {pathname === '/dashboard' && (
-          <Link
-            href="/dashboard/signup-requests"
-            className="border border-gray-300 py-2 px-3 rounded-full cursor-pointer"
-          >
-            {t('Buttons.viewDetails')}
-          </Link>
-        )}
+
+        <ViewDetailsButton href="signup-requests" />
       </div>
 
       {/* Table */}
@@ -173,7 +168,7 @@ export const SignUpRequestsTable: React.FC<{
                   {dropdownOpen[req.id] && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-20 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      className="absolute right-20 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                     >
                       <button
                         type="button"
