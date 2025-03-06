@@ -1,9 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { format, isSameMonth } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { format, isSameMonth, subMonths } from 'date-fns';
+import { Calendar as CalendarIcon, InfoIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
+import { useTranslations } from 'use-intl';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -17,14 +18,15 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
     from: undefined,
     to: undefined,
   });
-
   const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date());
+  const t = useTranslations();
 
   const jumpToToday = () => {
     setCurrentMonth(new Date());
   };
-
   const isCurrentMonthDisplayed = isSameMonth(currentMonth, new Date());
+  const today = new Date();
+  const sixMonthsAgo = subMonths(today, 6);
 
   return (
     <Popover>
@@ -44,7 +46,7 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
                 format(date.from, 'dd/MM/yyyy')
               )
             ) : (
-              'Pick a date range'
+              t('Buttons.pickDate')
             )}
           </span>
         </Button>
@@ -65,19 +67,28 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
             }
           }}
           numberOfMonths={2}
+          disabled={(date) => date >= today || date < sixMonthsAgo}
         />
-        {!isCurrentMonthDisplayed && (
-          <div className="flex justify-end p-2 border-b">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={jumpToToday}
-              className="text-xs rounded-full cursor-pointer"
-            >
-              Today
-            </Button>
+        <div>
+          <div className="flex justify-between items-center px-4 pb-3 ">
+            <div className="relative group">
+              <InfoIcon className="h-4 w-4 text-gray-500 cursor-pointer" />
+              <div className="absolute bottom-full mb-2 hidden w-max rounded-md bg-black text-white text-xs p-1 group-hover:block">
+                {t('Buttons.doubleClickToReset')}
+              </div>
+            </div>
+            {!isCurrentMonthDisplayed && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={jumpToToday}
+                className="text-xs rounded-full cursor-pointer"
+              >
+                {t('Buttons.today')}
+              </Button>
+            )}
           </div>
-        )}
+        </div>
       </PopoverContent>
     </Popover>
   );

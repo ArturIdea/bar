@@ -63,7 +63,7 @@ export function ExportDropdown({
     <div className="relative" ref={dropdownRef}>
       <button
         type="button"
-        className="text-gray-500 hover:text-gray-700 cursor-pointer"
+        className="text-gray-500 hover:text-gray-700 cursor-pointer flex items-center"
         onClick={toggleDropdown}
       >
         <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />

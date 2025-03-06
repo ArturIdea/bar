@@ -25,7 +25,10 @@
     "viewUserDetails": "View User Details",
     "history": "History",
     "exportToPDF": "Export to PDF",
-    "exportToExcel": "Export to Excel"
+    "exportToExcel": "Export to Excel",
+    "today": "Today",
+    "pickDate": "Pick a date range",
+    "doubleClickToReset": "Double tap on a day to reset the range"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
