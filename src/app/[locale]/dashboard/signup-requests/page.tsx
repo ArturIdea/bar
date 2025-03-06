@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
+import { useTranslations } from 'use-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
 import { Link } from '@/i18n/routing';
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
@@ -16,6 +17,7 @@ const SignUpRequestsPage = () => {
     pinflSearch?: string;
     statuses?: string;
   }>({});
+  const t = useTranslations();
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
@@ -35,7 +37,7 @@ const SignUpRequestsPage = () => {
     <div>
       <div className="p-6 flex justify-between items-center">
         <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
-          <ArrowLeft /> Back
+          <ArrowLeft /> {t('Buttons.back')}
         </Link>
         <div>
           <button

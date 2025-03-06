@@ -123,7 +123,7 @@ export function NewAccountsBarChart() {
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.newAccounts')}
-            labelMapping={{ period: 'Period', accounts: 'Accounts' }}
+            labelMapping={{ period: t('Charts.period'), accounts: t('Charts.accounts') }}
           />
         </div>
       </div>

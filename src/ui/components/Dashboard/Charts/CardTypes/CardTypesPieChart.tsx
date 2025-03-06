@@ -71,7 +71,7 @@ export function CardTypesPieChart() {
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.cardTypes')}
-            labelMapping={{ cardType: 'Card Type', holders: 'Holders' }}
+            labelMapping={{ cardType: t('Charts.cardTypes'), holders: t('Charts.holders') }}
           />
         </div>
       </div>

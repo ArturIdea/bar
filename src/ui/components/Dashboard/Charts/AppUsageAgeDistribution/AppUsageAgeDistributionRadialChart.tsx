@@ -18,7 +18,7 @@ export function AppUsageAgeDistributionRadialChart() {
 
   const chartConfig = {
     people: {
-      label: 'Age Group',
+      label: t('Charts.people'),
       color: '#00000000',
     },
     teens: {
@@ -89,7 +89,7 @@ export function AppUsageAgeDistributionRadialChart() {
             chartData={chartData}
             fileName={t('Charts.appUsageAgeDistribution')}
             keysToExclude={['scaledPeople', 'fill']}
-            labelMapping={{ ageGroup: 'Age Group', people: 'People' }}
+            labelMapping={{ ageGroup: t('Charts.ageGroup'), people: t('Charts.people') }}
           />
         </div>
       </div>
@@ -98,7 +98,7 @@ export function AppUsageAgeDistributionRadialChart() {
           <RadialBarChart data={chartData} innerRadius={80} outerRadius={150}>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel nameKey="ageGroup" />}
+              content={<ChartTooltipContent hideLabel nameKey="people" />}
             />
             <RadialBar dataKey="people" background />
           </RadialBarChart>

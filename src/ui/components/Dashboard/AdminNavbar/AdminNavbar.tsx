@@ -100,16 +100,10 @@ export default function AdminNavbar() {
                   <div>
                     <p className="font-semibold text-lg text-gray-800">
                       {userProfile?.firstName} {userProfile?.lastName}
-                      {/* George Karountzos */}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Last login: {new Date().toLocaleDateString()}{' '}
-                      {/* Replace with actual last login date */}
                     </p>
                   </div>
                 </div>
 
-                {/* Divider */}
                 <div className="border-t border-gray-200 pb-4" />
 
                 {/* Menu Items */}
@@ -128,7 +122,6 @@ export default function AdminNavbar() {
                   </div>
                 </div>
 
-                {/* Divider */}
                 <div className="border-b border-gray-200 pt-4" />
 
                 {/* Logout Button */}
