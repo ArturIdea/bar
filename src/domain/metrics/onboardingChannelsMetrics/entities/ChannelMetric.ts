@@ -1,3 +1,5 @@
 export class ChannelMetric {
-  constructor(public channels: Record<string, number>) {}
+  constructor(
+    public channels: Record<string, { Total: number; Failed: number; Success: number }>
+  ) {}
 }

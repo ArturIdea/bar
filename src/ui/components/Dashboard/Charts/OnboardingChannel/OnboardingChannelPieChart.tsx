@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Pie, PieChart, PieLabelRenderProps } from 'recharts';
+import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
 
@@ -29,8 +29,8 @@ export function OnboardingChannelPieChart() {
   }
 
   const chartConfig: Record<string, ChannelConfig> = {
-    holders: {
-      label: 'Channels',
+    Total: {
+      label: 'Total',
     },
     CITIZEN_APP: {
       label: t('Charts.CITIZEN_APP'),
@@ -48,13 +48,17 @@ export function OnboardingChannelPieChart() {
 
   type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'BANK_PORTAL';
 
-  const chartData = Object.entries(metrics?.channels || {}).map(([key, value]) => ({
-    onboardingChannel: t(`Charts.${key as ChartKeys}`),
-    holders: value,
-    fill: chartConfig[key]?.color || '#000',
-  }));
+  const chartData = metrics
+    ? Object.entries(metrics.channels).map(([key, value]) => ({
+        onboardingChannel: t(`Charts.${key as ChartKeys}`),
+        Total: value.Total,
+        Failed: value.Failed,
+        Success: value.Success,
+        fill: chartConfig[key]?.color || '#000',
+      }))
+    : [];
 
-  const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
+  const totalHolders = chartData.reduce((sum, entry) => sum + entry.Total, 0);
 
   //helper function to position the percentages inside the slices
   const renderLabel = ({
@@ -80,8 +84,13 @@ export function OnboardingChannelPieChart() {
     const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) / 2;
     const x = Number(cx) + radius * Math.cos(-Number(midAngle) * RADIAN);
     const y = Number(cy) + radius * Math.sin(-Number(midAngle) * RADIAN);
-    const percentage = ((Number(value) / totalHolders) * 100).toFixed(1);
 
+    // Only show percentage if totalHolders is greater than 0
+    if (totalHolders === 0) {
+      return null;
+    }
+
+    const percentage = ((Number(value) / totalHolders) * 100).toFixed(1);
     return (
       <text
         x={x}
@@ -96,6 +105,33 @@ export function OnboardingChannelPieChart() {
       </text>
     );
   };
+
+  const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-42">
+          <p className="font-semibold pb-1">{data.onboardingChannel}</p>
+          <div className="">
+            <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.totalRequests')}</p>
+              <p className="text-gray-500 ">{data.Total}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.successfulRequests')}</p>
+              <p className="text-gray-500">{data.Success}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.failedRequests')}</p>
+              <p className="text-gray-500">{data.Failed}</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
       <div className="flex justify-between pr-8">
@@ -106,22 +142,24 @@ export function OnboardingChannelPieChart() {
           <ExportDropdown
             chartData={chartData}
             dataToExtract="channels"
-            labelMapping={{ onboardingChannel: 'Onboarding Channel', holders: 'Holders' }}
+            labelMapping={{
+              onboardingChannel: t('Charts.onboardingChannel'),
+              Total: t('Charts.totalRequests'),
+              Failed: t('Charts.successfulRequests'),
+              Success: t('Charts.failedRequests'),
+            }}
           />
         </div>
       </div>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideIndicator hideLabel />}
-            />
+            <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
               label={renderLabel}
               labelLine={false}
               data={chartData}
-              dataKey="holders"
+              dataKey="Total"
               nameKey="onboardingChannel"
               innerRadius={85}
             />
@@ -129,7 +167,7 @@ export function OnboardingChannelPieChart() {
         </ChartContainer>
         <div className="flex flex-col gap-2">
           {Object.entries(chartConfig).map(([key, value]) => {
-            if (key === 'holders') {
+            if (key === 'Total') {
               return null;
             }
             return (
