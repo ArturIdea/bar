@@ -45,7 +45,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
         return benefitType?.name?.ru || 'N/A';
       case 'en':
       default:
-        return benefitType?.name?.uzLatn || 'N/A'; // Fallback to Uzbek Latin if English is missing
+        return benefitType?.name?.uzLatn || 'N/A';
     }
   };
 
@@ -245,35 +245,41 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 <h1 className="text-lg font-normal text-gray-500 pb-2">
                   {t('UserManagement.benefits.title')}
                 </h1>
-                <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                   {user.benefits && user.benefits.length > 0 ? (
                     user.benefits.map((benefit, index) => (
-                      <div key={index}>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.benefits.benefitType')}
-                        </p>
-                        <p className="text-gray-700 font-medium">
-                          {getBenefitName(benefit.benefitType, locale)}
-                        </p>
-
-                        <p className="text-gray-400 font-normal mt-2">
-                          {t('UserManagement.benefits.benefitStatus')}
-                        </p>
-                        <p className="text-gray-700">{benefit.status || 'N/A'}</p>
-
-                        <p className="text-gray-400 font-normal mt-2">
-                          {t('UserManagement.benefits.benefitAmount')}
-                        </p>
-                        <p className="text-gray-700">
-                          {benefit.amount ? `${benefit.amount} UZS` : 'N/A'}
-                        </p>
-
-                        <p className="text-gray-400 font-normal mt-2">
-                          {t('UserManagement.benefits.deductionAmount')}
-                        </p>
-                        <p className="text-gray-700">
-                          {benefit.deductionAmount ? `${benefit.deductionAmount} UZS` : 'N/A'}
-                        </p>
+                      <div key={index} className="flex flex-col gap-6">
+                        <div>
+                          <p className="text-gray-400 font-normal">
+                            {t('UserManagement.benefits.benefitType')}
+                          </p>
+                          <p className="text-gray-700 font-medium">
+                            {getBenefitName(benefit.benefitType, locale)}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 font-normal">
+                            {t('UserManagement.benefits.benefitStatus')}
+                          </p>
+                          <p className="text-gray-700">{benefit.status || 'N/A'}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 font-normal">
+                            {t('UserManagement.benefits.benefitAmount')}
+                          </p>
+                          <p className="text-gray-700">
+                            {benefit.amount ? `${benefit.amount} UZS` : 'N/A'}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 font-normal">
+                            {t('UserManagement.benefits.deductionAmount')}
+                          </p>
+                          <p className="text-gray-700">
+                            {benefit.deductionAmount ? `${benefit.deductionAmount} UZS` : 'N/A'}
+                          </p>
+                        </div>
+                        <div className="mt-3 border border-b w-32" />
                       </div>
                     ))
                   ) : (
@@ -286,24 +292,26 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
               <div>
                 {user.createdBy && (
                   <div className="flex justify-between items-center">
-                    {user.createdBy.photoUrl && (
-                      <div className="flex justify-center">
-                        <Image
-                          src={user.createdBy.photoUrl}
-                          width={128}
-                          height={128}
-                          alt="User Avatar"
-                          className="w-20 h-20 rounded-full shadow-md object-cover"
-                        />
+                    <div className="flex items-center gap-4">
+                      {user.createdBy.photoUrl && (
+                        <div className="flex justify-center">
+                          <Image
+                            src={user.createdBy.photoUrl}
+                            width={128}
+                            height={128}
+                            alt="User Avatar"
+                            className="w-20 h-20 rounded-full shadow-md object-cover"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <h1 className="text-xl font-semibold text-left">
+                          {user.createdBy.firstName} {user.createdBy.lastName}
+                        </h1>
+                        <h1 className="text-md font-normal text-gray-400">
+                          {t('UserManagement.agentData.title')}
+                        </h1>
                       </div>
-                    )}
-                    <div>
-                      <h1 className="text-xl font-semibold text-left">
-                        {user.createdBy.firstName} {user.createdBy.lastName}
-                      </h1>
-                      <h1 className="text-md font-normal text-gray-400">
-                        {t('UserManagement.agentData.title')}
-                      </h1>
                     </div>
                     <div>
                       <button

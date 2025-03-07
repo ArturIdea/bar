@@ -19,6 +19,23 @@
     "nationality": "Nationality",
     "place_of_birth": "Place of birth"
   },
+  "UserProfile": {
+    "personalInfo": "Personal Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "patronym": "Patronym",
+    "birthDate": "Birth date",
+    "jobTitle": "Job Title",
+    "pinfl": "PINFL",
+    "districtInsonCenter": "District of Inson Center",
+    "branchCodeInsonCenter": "Branch Code of Inson Center",
+    "phoneNumber": "Phone Number",
+    "personalEmail": "Personal Email Address",
+    "username": "Username",
+    "printEmail": "Print Email Address",
+    "address": "Address",
+    "password": "Password"
+  },
   "Buttons": {
     "viewDetails": "View Details",
     "viewSignupDetails": "View Sign Up Details",
