@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 
 export default function ProfilePage() {
@@ -21,7 +22,7 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <div className="flex items-center gap-6 border-b border-gray-200 p-6">
         <Image
-          src="/default-avatar.png"
+          src={userProfile.photoUrl || placeholderUserImage}
           width={120}
           height={120}
           alt="Profile Picture"
@@ -31,7 +32,6 @@ export default function ProfilePage() {
           <h1 className="text-2xl font-semibold">
             {userProfile.firstName} {userProfile.lastName}
           </h1>
-          {/* <p className="font-semibold text-3xl">Ya’qub Shahzodbek</p> */}
         </div>
       </div>
 

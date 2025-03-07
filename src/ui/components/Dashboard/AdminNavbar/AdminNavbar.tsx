@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { LanguagesIcon, UserCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
+import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { KEYCLOAK_URL } from '@/core/config';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
@@ -65,9 +67,11 @@ export default function AdminNavbar() {
                 onClick={() => setDropdownOpen(!isDropdownOpen)}
                 className="focus:outline-none cursor-pointer"
               >
-                <img
-                  src="https://randomuser.me/api/portraits"
+                <Image
+                  src={userProfile.photoUrl || placeholderUserImage}
                   alt="User Avatar"
+                  width={40}
+                  height={40}
                   className="w-10 h-10 rounded-full border border-gray-300"
                 />
               </button>
@@ -92,11 +96,14 @@ export default function AdminNavbar() {
 
                 {/* User Info */}
                 <div className="flex items-center gap-4 py-6">
-                  <img
-                    src="https://randomuser.me/api/portraits"
+                  <Image
+                    src={userProfile.photoUrl || placeholderUserImage}
                     alt="User Avatar"
-                    className="w-12 h-12 rounded-full border border-gray-300"
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full border border-gray-300"
                   />
+
                   <div>
                     <p className="font-semibold text-lg text-gray-800">
                       {userProfile?.firstName} {userProfile?.lastName}

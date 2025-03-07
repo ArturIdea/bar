@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
+import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useRouter } from '@/i18n/routing';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
@@ -86,7 +87,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 {user.photoUrl && (
                   <div className="flex justify-center">
                     <Image
-                      src={user.photoUrl}
+                      src={user.photoUrl || placeholderUserImage}
                       width={128}
                       height={128}
                       alt="User Avatar"
@@ -296,7 +297,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                       {user.createdBy.photoUrl && (
                         <div className="flex justify-center">
                           <Image
-                            src={user.createdBy.photoUrl}
+                            src={user.createdBy.photoUrl || placeholderUserImage}
                             width={128}
                             height={128}
                             alt="User Avatar"
