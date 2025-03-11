@@ -4,6 +4,9 @@ export interface StatisticsRepository {
   getStatistics: (
     newAccountsSince: string,
     newFundsDisbursedSince: string,
-    cardsIssuedSince: string
+    cardsIssuedSince: string,
+    requestsSince: string,
+    successfulRequestsSince: string,
+    failedRequestsSince: string
   ) => Promise<Statistics>;
 }

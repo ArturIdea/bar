@@ -7,12 +7,22 @@ export class GetStatisticsUseCase {
   async execute(
     newAccountsSince: string,
     newFundsDisbursedSince: string,
-    cardsIssuedSince: string
+    cardsIssuedSince: string,
+    requestsSince?: string,
+    successfulRequestsSince?: string,
+    failedRequestsSince?: string
   ): Promise<Statistics> {
+    const requestsDate = requestsSince || newAccountsSince;
+    const successfulRequestsDate = successfulRequestsSince || newAccountsSince;
+    const failedRequestsDate = failedRequestsSince || newAccountsSince;
+
     return this.statisticsRepository.getStatistics(
       newAccountsSince,
       newFundsDisbursedSince,
-      cardsIssuedSince
+      cardsIssuedSince,
+      requestsDate,
+      successfulRequestsDate,
+      failedRequestsDate
     );
   }
 }

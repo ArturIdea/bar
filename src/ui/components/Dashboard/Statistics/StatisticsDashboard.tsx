@@ -4,6 +4,8 @@ import { useTranslations } from 'next-intl';
 import CardsIssuedIcon from '@/../public/images/icons/dashboard/statistics/cardsIssued.svg';
 import FundsDisbursedIcon from '@/../public/images/icons/dashboard/statistics/fundsDisbursed.svg';
 import NewAccountsIcon from '@/../public/images/icons/dashboard/statistics/newAccounts.svg';
+import RejectedRequestsIcon from '@/../public/images/icons/dashboard/statistics/rejectedRequests.svg';
+import SuccessfulRequestsIcon from '@/../public/images/icons/dashboard/statistics/successfulRequests.svg';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
 
@@ -33,52 +35,103 @@ export const StatisticsDashboard = () => {
     );
   };
 
+  const StatItem = ({
+    icon,
+    label,
+    currentValue,
+    previousValue,
+    reverseColor = false,
+  }: {
+    icon: string;
+    label: string;
+    currentValue: number;
+    previousValue: number;
+    reverseColor?: boolean;
+  }) => (
+    <div className="flex items-center gap-4">
+      <Image src={icon} alt={`${label} Icon`} className="w-12 h-12" />
+      <div>
+        <h4 className="text-gray-400">{label}</h4>
+        <p className="text-4xl font-bold">{currentValue}</p>
+        <div className="flex gap-2">
+          {previousStats &&
+            (reverseColor ? (
+              <span
+                className={`text-sm font-semibold ${currentValue <= previousValue ? 'text-green-500' : 'text-red-500'}`}
+              >
+                {currentValue <= previousValue ? '▼' : '▲'}{' '}
+                {getPercentageChange(currentValue, previousValue)}%
+              </span>
+            ) : (
+              renderChangeIndicator(currentValue, previousValue)
+            ))}{' '}
+          <p className="text-sm">{t('Statistics.thisWeek')}</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Divider = () => <div className="border-l border-gray-300 h-16" />;
+
   return (
-    <div className="flex items-center gap-12 p-6">
+    <div className="flex items-center justify-center gap-12 p-6">
       {/* New Accounts */}
-      <div className="flex items-center gap-4">
-        <Image src={NewAccountsIcon} alt="New Accounts Icon" className="w-12 h-12" />
-        <div>
-          <h4 className="text-gray-400">{t('Statistics.newAccounts')}</h4>
-          <p className="text-4xl font-bold">{currentStats?.newAccountsSince || 0}</p>
-          {previousStats &&
-            renderChangeIndicator(
-              currentStats?.newAccountsSince || 0,
-              previousStats?.newAccountsSince || 0
-            )}
-        </div>
+      <div className="flex items-center justify-between w-1/5">
+        <StatItem
+          icon={NewAccountsIcon}
+          label={t('Statistics.newAccounts')}
+          currentValue={currentStats?.newAccountsSince || 0}
+          previousValue={previousStats?.newAccountsSince || 0}
+        />
+
+        <Divider />
       </div>
 
-      <div className="border-l border-gray-300 h-16" />
+      {/* Requests */}
+      <div className="flex items-center justify-between w-1/5">
+        <StatItem
+          icon={FundsDisbursedIcon}
+          label={t('Statistics.requests')}
+          currentValue={currentStats?.requestsSince || 0}
+          previousValue={previousStats?.requestsSince || 0}
+        />
 
-      {/* Funds Disbursed */}
-      <div className="flex items-center gap-4">
-        <Image src={FundsDisbursedIcon} alt="Funds Disbursed Icon" className="w-12 h-12" />
-        <div>
-          <h4 className="text-gray-400">{t('Statistics.fundsDisbursed')}</h4>
-          <p className="text-4xl font-bold">{currentStats?.newFundsDisbursedSince || 0}</p>
-          {previousStats &&
-            renderChangeIndicator(
-              currentStats?.newFundsDisbursedSince || 0,
-              previousStats?.newFundsDisbursedSince || 0
-            )}
-        </div>
+        <Divider />
       </div>
 
-      <div className="border-l border-gray-300 h-16" />
+      {/* Successful Requests */}
+      <div className="flex items-center justify-between w-1/5">
+        <StatItem
+          icon={SuccessfulRequestsIcon}
+          label={t('Statistics.successfulRequests')}
+          currentValue={currentStats?.successfulRequestsSince || 0}
+          previousValue={previousStats?.successfulRequestsSince || 0}
+        />
+
+        <Divider />
+      </div>
+
+      {/* Failed Requests */}
+      <div className="flex items-center justify-between w-1/5">
+        <StatItem
+          icon={RejectedRequestsIcon}
+          label={t('Statistics.failedRequests')}
+          currentValue={currentStats?.failedRequestsSince || 0}
+          previousValue={previousStats?.failedRequestsSince || 0}
+          reverseColor
+        />
+
+        <Divider />
+      </div>
 
       {/* Cards Issued */}
-      <div className="flex items-center gap-4">
-        <Image src={CardsIssuedIcon} alt="Cards Issued Icon" className="w-12 h-12" />
-        <div>
-          <h4 className="text-gray-400">{t('Statistics.cardsIssued')}</h4>
-          <p className="text-4xl font-bold">{currentStats?.cardsIssuedSince || 0}</p>
-          {previousStats &&
-            renderChangeIndicator(
-              currentStats?.cardsIssuedSince || 0,
-              previousStats?.cardsIssuedSince || 0
-            )}
-        </div>
+      <div className="flex items-center justify-between w-1/5">
+        <StatItem
+          icon={CardsIssuedIcon}
+          label={t('Statistics.cardsIssued')}
+          currentValue={currentStats?.cardsIssuedSince || 0}
+          previousValue={previousStats?.cardsIssuedSince || 0}
+        />
       </div>
     </div>
   );

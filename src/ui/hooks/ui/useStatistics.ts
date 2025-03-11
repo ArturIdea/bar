@@ -3,8 +3,14 @@ import { diContainer } from '@/core/di/setup';
 import { Statistics } from '@/domain/statistics/entities/Statistics';
 import { GetStatisticsUseCase } from '@/domain/statistics/useCases/GetStatistics';
 
-const getFirstDayOfMonth = (date: Date) => {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`;
+const getDateString = (date: Date) => {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
+
+const getStartOfWeek = (date: Date) => {
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  return getDateString(new Date(date.setDate(diff)));
 };
 
 export const useStatistics = () => {
@@ -16,18 +22,33 @@ export const useStatistics = () => {
   useEffect(() => {
     const fetchStatistics = async () => {
       const useCase = diContainer.get<GetStatisticsUseCase>('GetStatistics');
-
       const now = new Date();
-      const currentMonth = getFirstDayOfMonth(now);
 
-      const previousMonth = getFirstDayOfMonth(new Date(now.getFullYear(), now.getMonth() - 1, 1));
+      const currentWeek = getStartOfWeek(now);
+
+      const lastWeek = new Date();
+      lastWeek.setDate(lastWeek.getDate() - 7);
+      const previousWeek = getStartOfWeek(lastWeek);
 
       try {
         const [currentResult, previousResult] = await Promise.all([
-          useCase.execute(currentMonth, currentMonth, currentMonth),
-          useCase.execute(previousMonth, previousMonth, previousMonth),
+          useCase.execute(
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            currentWeek
+          ),
+          useCase.execute(
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            previousWeek
+          ),
         ]);
-
         setCurrentStats(currentResult);
         setPreviousStats(previousResult);
       } catch (err) {
@@ -36,7 +57,6 @@ export const useStatistics = () => {
         setLoading(false);
       }
     };
-
     fetchStatistics();
   }, []);
 

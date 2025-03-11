@@ -51,7 +51,11 @@
   "Statistics": {
     "newAccounts": "New Accounts",
     "fundsDisbursed": "Funds Disbursed",
-    "cardsIssued": "Cards Issued"
+    "cardsIssued": "Cards Issued",
+    "requests": "Registration Requests",
+    "successfulRequests": "Successful Requests",
+    "failedRequests": "Rejected Requests",
+    "thisWeek": "this week"
   },
   "Charts": {
     "registrationOverview": "Registration Requests Overview",
