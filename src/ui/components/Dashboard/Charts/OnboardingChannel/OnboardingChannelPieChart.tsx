@@ -41,12 +41,12 @@ export function OnboardingChannelPieChart() {
       color: '#13AB3F',
     },
     BANK_PORTAL: {
-      label: t('Charts.BANK_PORTAL'),
+      label: t('Charts.WEB_PORTAL'),
       color: '#DC1B25',
     },
   };
 
-  type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'BANK_PORTAL';
+  type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'WEB_PORTAL';
 
   const chartData = metrics
     ? Object.entries(metrics.channels).map(([key, value]) => ({

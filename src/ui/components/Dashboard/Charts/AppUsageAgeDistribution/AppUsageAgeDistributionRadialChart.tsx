@@ -95,7 +95,13 @@ export function AppUsageAgeDistributionRadialChart() {
       </div>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
-          <RadialBarChart data={chartData} innerRadius={80} outerRadius={150}>
+          <RadialBarChart
+            data={chartData}
+            innerRadius={75}
+            outerRadius={150}
+            startAngle={90}
+            endAngle={-270}
+          >
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel nameKey="people" />}
