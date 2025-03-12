@@ -2,11 +2,9 @@
 
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-// import ActivityHistoryIcon from '@/../public/images/icons/dashboard/sidebar/activityHistoryIcon.svg';
-// import BenefitsIcon from '@/../public/images/icons/dashboard/sidebar/benefitsIcon.svg';
+import BenefitsIcon from '@/../public/images/icons/dashboard/sidebar/benefitsIcon.svg';
 import InsightsIcon from '@/../public/images/icons/dashboard/sidebar/insightsIcon.svg';
-// import MoreServicesIcon from '@/../public/images/icons/dashboard/sidebar/moreServicesIcon.svg';
-// import SettingsIcon from '@/../public/images/icons/dashboard/sidebar/settingsIcon.svg';
+import signupRequestsIcon from '@/../public/images/icons/dashboard/sidebar/signupRequestsIcon.svg';
 import UserManagementIcon from '@/../public/images/icons/dashboard/sidebar/userManagementIcon.svg';
 import { Link, usePathname } from '@/i18n/routing';
 
@@ -17,6 +15,11 @@ export function AdminSidebar() {
   const data = [
     { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
     {
+      link: '/dashboard/benefits',
+      label: t('Sidebar.benefits'),
+      icon: BenefitsIcon,
+    },
+    {
       link: '/dashboard/user-management',
       label: t('Sidebar.userManagement'),
       icon: UserManagementIcon,
@@ -24,7 +27,7 @@ export function AdminSidebar() {
     {
       link: '/dashboard/signup-requests',
       label: t('Sidebar.signupRequests'),
-      icon: UserManagementIcon,
+      icon: signupRequestsIcon,
     },
   ];
 

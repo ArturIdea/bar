@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import SignupRequestDetailModal from '@/ui/components/Dashboard/SignupRequests/SignupRequestDetailModal';
 import UserDetailsModal from '@/ui/components/Dashboard/Users/UserDetailsModal';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
+import { Pagination } from './Pagination';
+import { TableSkeleton } from './TableSkeleton';
 
 interface HistoryTableProps {
   createdBy: string;
@@ -31,8 +32,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
     undefined,
     createdBy
   );
-
-  const totalPages = Math.ceil(total / pageSize);
 
   const handlePageChange = (newPage: number) => setPage(newPage);
   const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,7 +62,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
 
   return (
     <div className="p-6 overflow-x-auto rounded-t-lg">
-      {loading && <p>Loading...</p>}
+      {loading && <TableSkeleton />}
       {!loading && users.length === 0 && <p>No users found.</p>}
 
       {!loading && users.length > 0 && (
@@ -122,49 +121,13 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
           </table>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-2 pt-4">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span>{t('Pagination.showing')}</span>
-              <select
-                className="border border-gray-300 rounded-xl px-4 py-2"
-                value={pageSize}
-                onChange={handlePageSizeChange}
-              >
-                {[10, 20, 30, 50].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-              <span>
-                {t('Pagination.itemsOf')} {total} {t('Pagination.entries')}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled={page === 0}
-                onClick={() => handlePageChange(page - 1)}
-                className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
-              >
-                <ChevronLeft />
-              </button>
-
-              <span>
-                Page {page + 1} of {totalPages}
-              </span>
-
-              <button
-                type="button"
-                disabled={page === totalPages - 1}
-                onClick={() => handlePageChange(page + 1)}
-                className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
-              >
-                <ChevronRight />
-              </button>
-            </div>
-          </div>
+          <Pagination
+            page={page}
+            pageSize={pageSize}
+            total={total}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
         </>
       )}
 

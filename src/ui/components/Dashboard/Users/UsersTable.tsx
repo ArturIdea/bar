@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
+import { Pagination } from '../Pagination';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
@@ -35,8 +35,6 @@ export const UsersTable: React.FC<{
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations();
-
-  const totalPages = Math.ceil(total / pageSize);
 
   //resets page when filters change
   useEffect(() => {
@@ -187,104 +185,13 @@ export const UsersTable: React.FC<{
 
       {/* Pagination */}
       {pathname === '/dashboard/user-management' && (
-        <div className="flex items-center justify-between px-2 pt-4">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>{t('Pagination.showing')}</span>
-            <select
-              className="border border-gray-300 rounded-xl px-4 py-2"
-              value={pageSize}
-              onChange={handlePageSizeChange}
-            >
-              {[10, 20, 30, 50].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <span>
-              {t('Pagination.itemsOf')} {total} {t('Pagination.entries')}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={page === 0}
-              onClick={() => handlePageChange(page - 1)}
-              className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
-            >
-              <ChevronLeft />
-            </button>
-
-            {(() => {
-              const totalVisiblePages = 5;
-              const startPage = Math.max(
-                0,
-                Math.min(page - Math.floor(totalVisiblePages / 2), totalPages - totalVisiblePages)
-              );
-              const endPage = Math.min(startPage + totalVisiblePages, totalPages);
-
-              const pageButtons = [];
-              if (startPage > 0) {
-                pageButtons.push(
-                  <button
-                    key="start-ellipsis"
-                    type="button"
-                    onClick={() => handlePageChange(0)}
-                    className="px-3 py-1 rounded-full text-[#08678E] cursor-pointer"
-                  >
-                    1
-                  </button>,
-                  <span key="ellipsis-start" className="px-2">
-                    ...
-                  </span>
-                );
-              }
-
-              for (let i = startPage; i < endPage; i++) {
-                pageButtons.push(
-                  <button
-                    type="button"
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    className={`px-3 py-1 rounded-full ${
-                      page === i ? 'bg-[#08678E] text-white' : ' text-[#08678E] cursor-pointer'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                );
-              }
-
-              if (endPage < totalPages) {
-                pageButtons.push(
-                  <span key="ellipsis-end" className="px-2">
-                    ...
-                  </span>,
-                  <button
-                    key="end-ellipsis"
-                    type="button"
-                    onClick={() => handlePageChange(totalPages - 1)}
-                    className="px-3 py-1 bg-gray-100 rounded-full text-[#08678E] cursor-pointer"
-                  >
-                    {totalPages}
-                  </button>
-                );
-              }
-
-              return pageButtons;
-            })()}
-
-            <button
-              type="button"
-              disabled={page === totalPages - 1}
-              onClick={() => handlePageChange(page + 1)}
-              className={`px-3 py-1 ${page === totalPages - 1 ? 'text-gray-300 ' : 'text-blue-600 cursor-pointer'}`}
-            >
-              <ChevronRight />
-            </button>
-          </div>
-        </div>
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
       )}
     </div>
   );

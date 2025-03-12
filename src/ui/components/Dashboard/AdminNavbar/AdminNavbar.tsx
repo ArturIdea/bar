@@ -48,6 +48,8 @@ export default function AdminNavbar() {
         return t('Navbar.profile');
       case '/dashboard/history':
         return t('Navbar.history');
+      case '/dashboard/benefits':
+        return t('Sidebar.benefits');
       default:
         return t('Navbar.dashboard');
     }

@@ -9,20 +9,19 @@ export const useSignUpRequests = (
   createdAtFrom?: string,
   createdAtTo?: string,
   pinflSearch?: string,
-  statuses?: string
+  statuses?: string,
+  createdBy?: string
 ) => {
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const useCase = diContainer.get<GetSignUpRequestsUseCase>('GetSignupRequests');
-
       setLoading(true);
+      const useCase = diContainer.get<GetSignUpRequestsUseCase>('GetSignupRequests');
       try {
-        const { content, totalPages, totalElements } = await useCase.execute(
+        const { content, totalElements } = await useCase.execute(
           page,
           size,
           createdAtFrom,
@@ -31,17 +30,15 @@ export const useSignUpRequests = (
           statuses
         );
         setRequests(content);
-        setTotalPages(totalPages);
-        setTotalElements(totalElements);
+        setTotal(totalElements);
       } catch (error) {
-        console.error('Error fetching sign-up requests', error);
+        console.error('Error fetching sign-up requests:', error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchRequests();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses]);
+  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy]);
 
-  return { requests, loading, totalPages, totalElements };
+  return { requests, total, loading };
 };

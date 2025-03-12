@@ -8,7 +8,8 @@
   "Sidebar": {
     "insights": "Insights",
     "userManagement": "User Management",
-    "signupRequests": "Sign Up Requests"
+    "signupRequests": "Sign Up Requests",
+    "benefits": "Benefits"
   },
   "ProfilePage": {
     "verified": "Verified",
