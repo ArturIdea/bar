@@ -34,19 +34,22 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     }
   };
 
-  const getBenefitName = (benefitType: any, locale: string) => {
+  const getBenefitName = (benefitType: any) => {
+    if (!benefitType || !benefitType.name) {
+      return 'N/A';
+    }
     switch (locale) {
       case 'uz-latn':
-        return benefitType?.name?.uzLatn || 'N/A';
+        return benefitType.name.uzLatn || 'N/A';
       case 'uz-cyrl':
-        return benefitType?.name?.uzCyrl || 'N/A';
+        return benefitType.name.uzCyrl || 'N/A';
       case 'kaa':
-        return benefitType?.name?.qr || 'N/A';
+        return benefitType.name.qr || 'N/A';
       case 'ru':
-        return benefitType?.name?.ru || 'N/A';
+        return benefitType.name.ru || 'N/A';
       case 'en':
       default:
-        return benefitType?.name?.uzLatn || 'N/A';
+        return benefitType.name.uzLatn || 'N/A';
     }
   };
 
@@ -255,7 +258,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                             {t('UserManagement.benefits.benefitType')}
                           </p>
                           <p className="text-gray-700 font-medium">
-                            {getBenefitName(benefit.benefitType, locale)}
+                            {getBenefitName(benefit.benefitType)}
                           </p>
                         </div>
                         <div>

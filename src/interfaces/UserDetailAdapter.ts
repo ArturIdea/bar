@@ -86,10 +86,10 @@ export const UserDetailAdapter = {
               ? {
                   id: benefit.benefitType.id,
                   name: {
-                    qr: benefit.benefitType.name?.qr || 'N/A',
-                    ru: benefit.benefitType.name?.ru || 'N/A',
-                    uzCyrl: benefit.benefitType.name?.uzCyrl || 'N/A',
-                    uzLatn: benefit.benefitType.name?.uzLatn || 'N/A',
+                    qr: benefit.benefitType.name.qr || 'N/A',
+                    ru: benefit.benefitType.name.ru || 'N/A',
+                    uzCyrl: benefit.benefitType.name['uz-cyrl'] || 'N/A',
+                    uzLatn: benefit.benefitType.name['uz-latn'] || 'N/A',
                   },
                 }
               : undefined,
