@@ -1,5 +1,6 @@
 'use client';
 
+import { Users2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -171,50 +172,40 @@ export function AppUsageAgeDistributionRadialChart() {
               labelLine={false}
             />
             {/* Center text showing total people */}
-            <text
-              x="50%"
-              y="50%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-xl font-bold"
-            >
-              {formattedTotal}
-            </text>
-            {/* Label below the number */}
-            <text
-              x="50%"
-              y="58%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-sm text-gray-500"
-            >
-              {t('Charts.appUsers')}
-            </text>
           </PieChart>
         </ChartContainer>
-        <div className="flex flex-col gap-2">
-          {Object.entries(values).map(([key, people]) => {
-            if (key === 'people') {
-              return null;
-            }
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <Users2 className="w-4 h-4 text-gray-500" />{' '}
+            <p className="text-gray-500 text-sm">
+              {t('Charts.appUsers')}: {formattedTotal}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            {Object.entries(values).map(([key, people]) => {
+              if (key === 'people') {
+                return null;
+              }
 
-            const percentage = totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
+              const percentage =
+                totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
 
-            const configEntry = chartConfig[key as keyof typeof chartConfig];
+              const configEntry = chartConfig[key as keyof typeof chartConfig];
 
-            return (
-              <div key={key} className="flex items-center gap-2">
-                <span
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: configEntry.color }}
-                />
-                <CardDescription className="flex items-center">
-                  <span>{configEntry.label}</span>
-                  <span className="ml-2 text-gray-500">({percentage}%)</span>
-                </CardDescription>
-              </div>
-            );
-          })}
+              return (
+                <div key={key} className="flex items-center gap-2">
+                  <span
+                    className="w-4 h-4 rounded-full"
+                    style={{ backgroundColor: configEntry.color }}
+                  />
+                  <CardDescription className="flex items-center">
+                    <span>{configEntry.label}</span>
+                    <span className="ml-2 text-gray-500">({percentage}%)</span>
+                  </CardDescription>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </CardContent>
     </Card>
