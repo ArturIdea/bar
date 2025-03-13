@@ -2,7 +2,7 @@
 
 import { useCallbackHandler } from '@/ui/hooks/ui/useCallbackHandler';
 
-const CallbackPage = () => {
+const Callback = () => {
   const { isLoading, error } = useCallbackHandler();
 
   if (isLoading) {
@@ -20,4 +20,4 @@ const CallbackPage = () => {
   return null;
 };
 
-export default CallbackPage;
+export default Callback;

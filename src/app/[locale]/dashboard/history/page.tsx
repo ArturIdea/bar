@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import HistoryTable from '@/ui/components/Dashboard/HistoryTable';
 
-const HistoryPage = () => {
+const History = () => {
   const searchParams = useSearchParams();
   const createdBy = searchParams.get('userId');
 
@@ -21,4 +21,4 @@ const HistoryPage = () => {
   );
 };
 
-export default HistoryPage;
+export default History;

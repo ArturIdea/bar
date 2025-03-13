@@ -9,7 +9,7 @@ import { Link } from '@/i18n/routing';
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
 
-const SignUpRequestsPage = () => {
+const SignUpRequests = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
     createdAtFrom?: string;
@@ -61,4 +61,4 @@ const SignUpRequestsPage = () => {
   );
 };
 
-export default SignUpRequestsPage;
+export default SignUpRequests;

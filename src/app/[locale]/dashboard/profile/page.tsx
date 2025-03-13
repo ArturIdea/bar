@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 
-export default function ProfilePage() {
+export default function Profile() {
   const { userProfile, loading } = useUserProfile();
   const t = useTranslations();
 

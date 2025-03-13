@@ -9,7 +9,7 @@ import { Link } from '@/i18n/routing';
 import { UserFilterModal } from '@/ui/components/Dashboard/Users/UserFilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 
-const UserManagementPage = () => {
+const UserManagement = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
     createdAtFrom?: string;
@@ -60,4 +60,4 @@ const UserManagementPage = () => {
   );
 };
 
-export default UserManagementPage;
+export default UserManagement;

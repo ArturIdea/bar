@@ -47,7 +47,9 @@
     "exportToExcel": "Export to Excel",
     "today": "Today",
     "pickDate": "Pick a date range",
-    "doubleClickToReset": "Double tap on a day to reset the range"
+    "doubleClickToReset": "Double tap on a day to reset the range",
+    "active": "Active",
+    "expired": "Expired"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
