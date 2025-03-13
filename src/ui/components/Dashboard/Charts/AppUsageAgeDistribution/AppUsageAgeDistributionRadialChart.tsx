@@ -1,14 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { RadialBar, RadialBarChart } from 'recharts';
+import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
+import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useAgeDistribution } from '@/ui/hooks/ui/useAgeDistributionMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
 
@@ -44,21 +39,27 @@ export function AppUsageAgeDistributionRadialChart() {
   } satisfies ChartConfig;
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
+        <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
+      </div>
+    );
   }
+
   if (error) {
     return <p>{error}</p>;
   }
+
   if (!data) {
     return null;
   }
 
   const ageGroupLabels = {
-    teens: '14-19 Years Old',
-    twenties: '20-29 Years Old',
-    thirtiesForties: '30-49 Years Old',
-    fiftiesSixties: '50-69 Years Old',
-    seventiesPlus: '70+ Years Old',
+    teens: '14-19',
+    twenties: '20-29',
+    thirtiesForties: '30-49',
+    fiftiesSixties: '50-69',
+    seventiesPlus: '70+',
   };
 
   const values = {
@@ -69,14 +70,78 @@ export function AppUsageAgeDistributionRadialChart() {
     seventiesPlus: data.R70_PLUS,
   };
 
-  const maxPeople = Math.max(...Object.values(values));
+  const totalPeople = Object.values(values).reduce((sum, value) => sum + value, 0);
+  const formattedTotal = totalPeople.toLocaleString();
 
   const chartData = Object.entries(values).map(([key, people]) => ({
     ageGroup: ageGroupLabels[key as keyof typeof ageGroupLabels],
     people,
-    scaledPeople: (people / maxPeople) * 100,
     fill: chartConfig[key as keyof typeof chartConfig].color,
   }));
+
+  // Helper function to position the percentages inside the slices
+  const renderLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    value,
+  }: PieLabelRenderProps) => {
+    if (
+      cx === undefined ||
+      cy === undefined ||
+      midAngle === undefined ||
+      innerRadius === undefined ||
+      outerRadius === undefined ||
+      value === undefined
+    ) {
+      return null;
+    }
+
+    const RADIAN = Math.PI / 180;
+    const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) / 2;
+    const x = Number(cx) + radius * Math.cos(-Number(midAngle) * RADIAN);
+    const y = Number(cy) + radius * Math.sin(-Number(midAngle) * RADIAN);
+
+    // Only show percentage if totalPeople is greater than 0
+    if (totalPeople === 0) {
+      return null;
+    }
+
+    const percentage = ((Number(value) / totalPeople) * 100).toFixed(1);
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={12}
+        fontWeight="semibold"
+      >
+        {percentage}%
+      </text>
+    );
+  };
+
+  const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-20">
+          <p className="font-semibold pb-1">{data.ageGroup}</p>
+          <div className="">
+            <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.people')}</p>
+              <p className="text-gray-500">{data.people.toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
@@ -88,39 +153,65 @@ export function AppUsageAgeDistributionRadialChart() {
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.appUsageAgeDistribution')}
-            keysToExclude={['scaledPeople', 'fill']}
+            keysToExclude={['fill']}
             labelMapping={{ ageGroup: t('Charts.ageGroup'), people: t('Charts.people') }}
           />
         </div>
       </div>
       <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
-          <RadialBarChart
-            data={chartData}
-            innerRadius={75}
-            outerRadius={150}
-            startAngle={90}
-            endAngle={-270}
-          >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel nameKey="people" />}
+          <PieChart>
+            <ChartTooltip cursor={false} content={<CustomTooltip />} />
+            <Pie
+              data={chartData}
+              dataKey="people"
+              nameKey="ageGroup"
+              innerRadius={85}
+              label={renderLabel}
+              labelLine={false}
             />
-            <RadialBar dataKey="people" background />
-          </RadialBarChart>
+            {/* Center text showing total people */}
+            <text
+              x="50%"
+              y="50%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-xl font-bold"
+            >
+              {formattedTotal}
+            </text>
+            {/* Label below the number */}
+            <text
+              x="50%"
+              y="58%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-sm text-gray-500"
+            >
+              {t('Charts.appUsers')}
+            </text>
+          </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">
-          {Object.entries(chartConfig).map(([key, value]) => {
+          {Object.entries(values).map(([key, people]) => {
             if (key === 'people') {
               return null;
             }
+
+            const percentage = totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
+
+            const configEntry = chartConfig[key as keyof typeof chartConfig];
+
             return (
               <div key={key} className="flex items-center gap-2">
                 <span
                   className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: (value as { color: string }).color }}
+                  style={{ backgroundColor: configEntry.color }}
                 />
-                <CardDescription>{(value as { label: string }).label}</CardDescription>
+                <CardDescription className="flex items-center">
+                  <span>{configEntry.label}</span>
+                  <span className="ml-2 text-gray-500">({percentage}%)</span>
+                </CardDescription>
               </div>
             );
           })}
