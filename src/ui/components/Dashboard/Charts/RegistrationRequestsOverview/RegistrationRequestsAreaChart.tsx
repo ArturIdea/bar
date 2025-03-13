@@ -19,6 +19,7 @@ export function RegistrationRequestsAreaChart() {
   const t = useTranslations();
   const [fromDate, setFromDate] = useState<string>(format(new Date(), 'yyyy-MM-01'));
   const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
+
   const { metrics, loading, error } = useSignupMetrics(fromDate, toDate);
 
   const sortedMetrics = [...metrics].sort((a, b) => {
@@ -116,7 +117,6 @@ export function RegistrationRequestsAreaChart() {
                   style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
                 }}
                 domain={[0, (dataMax: number) => dataMax * 1.2]}
-                allowDataOverflow={false}
               />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
               <ChartTooltip
@@ -143,33 +143,24 @@ export function RegistrationRequestsAreaChart() {
               </defs>
               <Area
                 dataKey="totalRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillTotal)"
                 fillOpacity={0.4}
                 stroke="blue"
-                isAnimationActive
-                connectNulls
-                baseValue={0}
               />
               <Area
                 dataKey="successfulRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillSuccessful)"
                 fillOpacity={0.4}
                 stroke="green"
-                isAnimationActive
-                connectNulls
-                baseValue={0}
               />
               <Area
                 dataKey="failedRequests"
-                type="natural"
+                // type="natural"
                 fill="url(#fillFailed)"
                 fillOpacity={0.4}
                 stroke="red"
-                isAnimationActive
-                connectNulls
-                baseValue={0}
               />
             </AreaChart>
           </ChartContainer>
