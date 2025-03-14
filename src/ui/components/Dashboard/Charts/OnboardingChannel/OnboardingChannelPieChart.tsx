@@ -151,7 +151,7 @@ export function OnboardingChannelPieChart() {
           />
         </div>
       </div>
-      <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
+      <CardContent className="flex 2xl:gap-16 gap-8 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />

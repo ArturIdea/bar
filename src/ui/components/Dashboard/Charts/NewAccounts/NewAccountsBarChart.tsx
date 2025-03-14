@@ -161,9 +161,9 @@ export function NewAccountsBarChart() {
               tickLine={false}
               axisLine={false}
               interval={0}
-              tickMargin={10}
+              tickMargin={7}
               orientation="top"
-              angle={-10}
+              angle={-20}
             />
             <ChartTooltip
               cursor={{ fill: '#D3D3D3' }}

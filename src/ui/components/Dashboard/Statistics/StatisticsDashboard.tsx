@@ -48,11 +48,11 @@ export const StatisticsDashboard = () => {
     previousValue: number;
     reverseColor?: boolean;
   }) => (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center 2xl:gap-4 gap-2">
       <Image src={icon} alt={`${label} Icon`} className="w-12 h-12" />
       <div>
-        <h4 className="text-gray-400">{label}</h4>
-        <p className="text-4xl font-bold">{currentValue}</p>
+        <h4 className="2xl:text-md text-sm text-gray-400">{label}</h4>
+        <p className="2xl:text-4xl text-xl font-bold">{currentValue}</p>
         <div className="flex gap-2">
           {previousStats &&
             (reverseColor ? (
@@ -74,9 +74,9 @@ export const StatisticsDashboard = () => {
   const Divider = () => <div className="border-l border-gray-300 h-16" />;
 
   return (
-    <div className="flex items-center justify-center gap-12 p-6">
+    <div className="flex items-center justify-start 2xl:justify-center 2xl:gap-12 gap-4 p-6">
       {/* New Accounts */}
-      <div className="flex items-center justify-between w-1/5">
+      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
         <StatItem
           icon={NewAccountsIcon}
           label={t('Statistics.newAccounts')}
@@ -88,7 +88,7 @@ export const StatisticsDashboard = () => {
       </div>
 
       {/* Requests */}
-      <div className="flex items-center justify-between w-1/5">
+      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
         <StatItem
           icon={FundsDisbursedIcon}
           label={t('Statistics.requests')}
@@ -100,7 +100,7 @@ export const StatisticsDashboard = () => {
       </div>
 
       {/* Successful Requests */}
-      <div className="flex items-center justify-between w-1/5">
+      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
         <StatItem
           icon={SuccessfulRequestsIcon}
           label={t('Statistics.successfulRequests')}
@@ -112,7 +112,7 @@ export const StatisticsDashboard = () => {
       </div>
 
       {/* Failed Requests */}
-      <div className="flex items-center justify-between w-1/5">
+      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
         <StatItem
           icon={RejectedRequestsIcon}
           label={t('Statistics.failedRequests')}
@@ -125,7 +125,7 @@ export const StatisticsDashboard = () => {
       </div>
 
       {/* Cards Issued */}
-      <div className="flex items-center justify-between w-1/5">
+      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
         <StatItem
           icon={CardsIssuedIcon}
           label={t('Statistics.cardsIssued')}
