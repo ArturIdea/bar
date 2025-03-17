@@ -84,7 +84,7 @@ export function CardTypesPieChart() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <CardContent className="flex gap-16 items-center justify-center h-full pb-0">
+      <CardContent className="flex 2xl:gap-16 gap-0 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>
             <ChartTooltip
