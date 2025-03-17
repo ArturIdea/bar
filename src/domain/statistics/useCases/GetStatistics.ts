@@ -6,7 +6,6 @@ export class GetStatisticsUseCase {
 
   async execute(
     newAccountsSince: string,
-    newFundsDisbursedSince: string,
     cardsIssuedSince: string,
     requestsSince?: string,
     successfulRequestsSince?: string,
@@ -18,7 +17,6 @@ export class GetStatisticsUseCase {
 
     return this.statisticsRepository.getStatistics(
       newAccountsSince,
-      newFundsDisbursedSince,
       cardsIssuedSince,
       requestsDate,
       successfulRequestsDate,

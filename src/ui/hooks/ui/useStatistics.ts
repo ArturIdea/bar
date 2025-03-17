@@ -32,22 +32,8 @@ export const useStatistics = () => {
 
       try {
         const [currentResult, previousResult] = await Promise.all([
-          useCase.execute(
-            currentWeek,
-            currentWeek,
-            currentWeek,
-            currentWeek,
-            currentWeek,
-            currentWeek
-          ),
-          useCase.execute(
-            previousWeek,
-            previousWeek,
-            previousWeek,
-            previousWeek,
-            previousWeek,
-            previousWeek
-          ),
+          useCase.execute(currentWeek, currentWeek, currentWeek, currentWeek, currentWeek),
+          useCase.execute(previousWeek, previousWeek, previousWeek, previousWeek, previousWeek),
         ]);
         setCurrentStats(currentResult);
         setPreviousStats(previousResult);

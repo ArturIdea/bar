@@ -9,7 +9,6 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
 
   async getStatistics(
     newAccountsSince: string,
-    newFundsDisbursedSince: string,
     cardsIssuedSince: string,
     requestsSince: string,
     successfulRequestsSince: string,
@@ -17,7 +16,6 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
   ): Promise<Statistics> {
     const params = {
       newAccountsSince,
-      newFundsDisbursedSince,
       cardsIssuedSince,
       requestsSince,
       successfulRequestsSince,
@@ -26,7 +24,6 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
 
     const response = await this.apiClient.get<{
       newAccounts: number;
-      fundsDisbursed: number;
       newCards: number;
       requests: number;
       successfulRequests: number;
