@@ -1,9 +1,8 @@
 import React from 'react';
 
-export default function ProfileSkeleton() {
+export default function ProfilePageSkeleton() {
   return (
     <div>
-      {/* Profile Header Skeleton */}
       <div className="flex items-center gap-6 border-b border-gray-200 p-6">
         <div className="w-32 h-32 rounded-full bg-gray-300 animate-pulse" />
         <div className="flex-1">
@@ -11,7 +10,6 @@ export default function ProfileSkeleton() {
         </div>
       </div>
 
-      {/* Personal Information Section Skeleton */}
       <div className="p-6">
         <div className="h-6 w-56 bg-gray-300 rounded animate-pulse" />
 
