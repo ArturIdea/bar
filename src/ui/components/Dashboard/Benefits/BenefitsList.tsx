@@ -9,6 +9,7 @@ import hugIcon from '@/../public/images/icons/dashboard/hugIcon.svg';
 import { Link, usePathname } from '@/i18n/routing';
 import { useBenefits } from '@/ui/hooks/ui/useBenefits';
 import { Pagination } from '../Pagination';
+import BenefitsSkeleton from './BenefitsSkeleton';
 
 export default function BenefitsList() {
   const t = useTranslations();
@@ -44,18 +45,18 @@ export default function BenefitsList() {
 
       <div className="relative p-6">
         {loading ? (
-          <div className="text-center py-8">Loading...</div>
+          <BenefitsSkeleton />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {benefits.map((benefit) => (
               <div
                 key={benefit.benefitType.id}
-                className="border rounded-xl p-4 flex items-center justify-between bg-white"
+                className="border rounded-xl p-4 flex justify-between bg-white"
               >
                 <div className="flex items-center">
                   <div className="flex items-center gap-4">
                     <div>
-                      <Image src={hugIcon} alt="Hug Icon" />
+                      <Image src={hugIcon} alt="Hug Icon" width={64} height={64} />
                     </div>
                     <div>
                       <h3 className="font-semibold">
@@ -75,7 +76,7 @@ export default function BenefitsList() {
                   <div className="font-bold text-gray-700 w-[87px] ">
                     {(benefit.users / 1000).toFixed(2)}k
                   </div>
-                  <div className="text-gray-500">Users</div>
+                  <div className="text-gray-500">{t('UserProfile.users')}</div>
                 </div>
               </div>
             ))}

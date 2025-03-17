@@ -7,6 +7,7 @@ export class GetUsersUseCase {
   async execute(
     page: number,
     size: number,
+    roles?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
@@ -16,6 +17,7 @@ export class GetUsersUseCase {
     return this.userRepository.getUsers(
       page,
       size,
+      roles,
       createdAtFrom,
       createdAtTo,
       pinflSearch,

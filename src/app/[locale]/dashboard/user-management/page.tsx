@@ -12,6 +12,7 @@ import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 const UserManagement = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
+    roles?: string;
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
@@ -24,12 +25,13 @@ const UserManagement = () => {
   };
 
   const handleApplyFilters = (
+    roles?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
     usernameSearch?: string
   ) => {
-    setFilters({ createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
+    setFilters({ roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
     setIsFilterModalOpen(false);
   };
 

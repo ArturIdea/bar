@@ -6,6 +6,7 @@ import { GetUsersUseCase } from '@/domain/users/useCases/GetUsers';
 export const useUsers = (
   page: number,
   size: number,
+  roles?: string,
   createdAtFrom?: string,
   createdAtTo?: string,
   pinflSearch?: string,
@@ -25,6 +26,7 @@ export const useUsers = (
         const { users, total } = await useCase.execute(
           page,
           size,
+          roles,
           createdAtFrom,
           createdAtTo,
           pinflSearch,
@@ -41,7 +43,7 @@ export const useUsers = (
     };
 
     fetchUsers();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, usernameSearch]);
+  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch]);
 
   return { users, total, loading };
 };

@@ -15,6 +15,7 @@ export const UserFilterModal = ({
   isOpen: boolean;
   onClose: () => void;
   onApply: (
+    roles?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
@@ -33,6 +34,7 @@ export const UserFilterModal = ({
 
   const [startTime, setStartTime] = useState<string>('00:00');
   const [endTime, setEndTime] = useState<string>('23:59');
+  const [roles, setRoles] = useState<string>('');
 
   const [pinfl, setPinfl] = useState<string>('');
   const [username, setUsername] = useState<string>('');
@@ -55,19 +57,26 @@ export const UserFilterModal = ({
       const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
       const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
 
-      onApply(createdAtFrom, createdAtTo, pinfl || undefined, username || undefined);
+      onApply(
+        roles || undefined,
+        createdAtFrom,
+        createdAtTo,
+        pinfl || undefined,
+        username || undefined
+      );
     } else {
-      onApply(undefined, undefined, pinfl || undefined, username || undefined);
+      onApply(roles || undefined, undefined, undefined, pinfl || undefined, username || undefined);
     }
-
+    console.log(roles);
     onClose();
   };
 
   const handleClearFilters = () => {
+    setRoles('');
     setDateRange({ startDate: undefined, endDate: undefined, key: 'selection' });
     setPinfl('');
     setUsername('');
-    onApply(undefined, undefined, undefined, undefined);
+    onApply(undefined, undefined, undefined, undefined, undefined);
     onClose();
   };
 
@@ -81,6 +90,22 @@ export const UserFilterModal = ({
         <h2 className="text-center text-xl pb-4">{t('Filter.filterBy')}:</h2>
 
         <div className="flex flex-col gap-6">
+          {/* Role Selector */}
+          <div>
+            <label className="text-gray-400 mb-2">{t('Filter.roles.title')}</label>
+            <select
+              value={roles}
+              onChange={(e) => setRoles(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl p-2 bg-white"
+            >
+              <option value="">{t('Filter.roles.select')}</option>
+              <option value="USER">{t('Filter.roles.user')}</option>
+              <option value="AGENT">{t('Filter.roles.agent')}</option>
+              <option value="ADMIN">{t('Filter.roles.admin')}</option>
+              <option value="XALQ_AGENT">{t('Filter.roles.xalqAgent')}</option>
+            </select>
+          </div>
+
           {/* Username Input */}
           <div>
             <label className="text-gray-400 mb-2">{t('Filter.username')}</label>

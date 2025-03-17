@@ -4,6 +4,7 @@ export interface UserRepository {
   getUsers: (
     page: number,
     size: number,
+    roles?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,

@@ -21,6 +21,7 @@
     "place_of_birth": "Place of birth"
   },
   "UserProfile": {
+    "users": "Users",
     "personalInfo": "Personal Information",
     "firstName": "First Name",
     "lastName": "Last Name",
@@ -104,6 +105,15 @@
   "Filter": {
     "filterBy": "Filter By",
     "pinfl": "PINFL",
+    "roles": {
+      "title": "Role",
+      "select": "Select Role",
+      "all": "All",
+      "admin": "Admin",
+      "user": "User",
+      "agent": "Agent",
+      "xalqAgent": "Xalq Agent"
+    },
     "status": {
       "title": "Status",
       "all": "All",
