@@ -1,7 +1,12 @@
 export class BenefitType {
   constructor(
     public id: number,
-    public name: Record<string, string>,
+    public name: {
+      qr: string;
+      ru: string;
+      uzCyrl: string;
+      uzLatn: string;
+    },
     public amount: number,
     public docOn: Date
   ) {}

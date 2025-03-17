@@ -13,7 +13,7 @@ import { Pagination } from '../Pagination';
 export default function BenefitsList() {
   const t = useTranslations();
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(16);
   const { benefits, loading, total } = useBenefits(page, pageSize);
   const pathname = usePathname();
   const cookies = new Cookies();
@@ -23,20 +23,7 @@ export default function BenefitsList() {
     if (!benefitType || !benefitType.name) {
       return 'N/A';
     }
-
-    switch (locale) {
-      case 'uz-latn':
-        return benefitType.name['uz-latn'] || 'N/A';
-      case 'uz-cyrl':
-        return benefitType.name['uz-cyrl'] || 'N/A';
-      case 'kaa':
-        return benefitType.name.qr || 'N/A';
-      case 'ru':
-        return benefitType.name.ru || 'N/A';
-      case 'en':
-      default:
-        return benefitType.name['uz-latn'] || 'N/A';
-    }
+    return benefitType.name[locale] || benefitType.name['uz-latn'] || 'N/A';
   };
 
   const handlePageChange = (newPage: number) => {
@@ -49,7 +36,7 @@ export default function BenefitsList() {
   };
   return (
     <div className="">
-      <div className="flex items-center py-4 px-6 justify-between border-b">
+      <div className="flex items-center py-8 px-6 justify-between border-b">
         <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
           <ArrowLeft /> {t('Buttons.back')}
         </Link>
@@ -95,7 +82,7 @@ export default function BenefitsList() {
           </div>
         )}
         {/* Pagination */}
-        {pathname === '/dashboard/benefits' && (
+        {pathname === '/dashboard/benefits' && benefits.length > pageSize && (
           <Pagination
             page={page}
             pageSize={pageSize}

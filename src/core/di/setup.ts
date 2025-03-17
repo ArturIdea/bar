@@ -3,6 +3,7 @@ import {
   loadAgeDistributionMetricsRepositories,
   loadAgeDistributionMetricsUseCases,
 } from './modules/AgeDistributionMetrics.module';
+import { loadBenefitsRepositories, loadBenefitsUseCases } from './modules/Benefits.module';
 import { loadCardMetricsRepositories, loadCardMetricsUseCases } from './modules/CardMetrics.module';
 import {
   loadChannelMetricsRepositories,
@@ -48,7 +49,7 @@ export const setupDependencies = () => {
   loadCardMetricsRepositories(diContainer);
   loadAgeDistributionMetricsRepositories(diContainer);
   loadUserProfileRepositories(diContainer);
-
+  loadBenefitsRepositories(diContainer);
   //use cases
   loadSignupRequestUseCases(diContainer);
   loadSignupRequestDetailUseCases(diContainer);
@@ -61,4 +62,5 @@ export const setupDependencies = () => {
   loadCardMetricsUseCases(diContainer);
   loadAgeDistributionMetricsUseCases(diContainer);
   loadUserProfileUseCases(diContainer);
+  loadBenefitsUseCases(diContainer);
 };

@@ -119,15 +119,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
               ))}
             </tbody>
           </table>
-
-          {/* Pagination */}
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            total={total}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-          />
         </>
       )}
 
@@ -151,6 +142,15 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
           onOpenUserDetails={handleViewDetails}
         />
       )}
+
+      {/* Pagination */}
+      <Pagination
+        page={page}
+        pageSize={pageSize}
+        total={total}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
     </div>
   );
 };
