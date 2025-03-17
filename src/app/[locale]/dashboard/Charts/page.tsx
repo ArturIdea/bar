@@ -8,11 +8,11 @@ export default function Charts() {
   return (
     <div>
       <RegistrationRequestsAreaChart />
-      <div className="flex">
+      <div className="flex flex-col 2xl:flex-row">
         <NewAccountsBarChart />
         <CardTypesPieChart />
       </div>
-      <div className="flex">
+      <div className="flex flex-col 2xl:flex-row">
         <OnboardingChannelPieChart />
         <AppUsageAgeDistributionRadialChart />
       </div>

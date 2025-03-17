@@ -145,7 +145,7 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-1/2 flex flex-col border-r-0 border-t-0 border-b-0 border-l rounded-none shadow-none">
+    <Card className="w-full 2xl:w-1/2 flex flex-col border-l-0 border-b-0 border-t 2xl:border-r-0 2xl:border-t-0 2xl:border-b-0 2xl:border-l rounded-none shadow-none">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>

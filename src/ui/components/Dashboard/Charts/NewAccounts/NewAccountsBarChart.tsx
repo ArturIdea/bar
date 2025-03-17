@@ -100,7 +100,7 @@ export function NewAccountsBarChart() {
   };
 
   return (
-    <Card className=" w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
+    <Card className="w-full 2xl:w-1/2 rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
