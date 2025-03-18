@@ -90,6 +90,14 @@ export const UsersTable: React.FC<{
     return <TableSkeleton />;
   }
 
+  const columns = [
+    { key: 'name', label: t('UserManagement.name') },
+    { key: 'email', label: t('UserManagement.email') },
+    { key: 'mobile', label: t('UserManagement.mobile') },
+    { key: 'role', label: t('UserManagement.role') },
+    { key: 'createdAt', label: t('UserManagement.createdAt') },
+  ];
+
   return (
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
@@ -108,13 +116,13 @@ export const UsersTable: React.FC<{
         <table className="w-full border-collapse border-spacing-0">
           {/* Table Header */}
           <thead>
-            <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3 font-normal">{t('UserManagement.name')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserManagement.email')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserManagement.mobile')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserManagement.role')}</th>
-              <th className="px-6 py-3 font-normal">{t('UserManagement.createdAt')}</th>
-              <th className="px-6 py-3 font-normal" />
+            <tr className="bg-gray-100 text-left text-gray-400">
+              {columns.map((col) => (
+                <th key={col.key} className="px-6 py-3 font-normal">
+                  {col.label}
+                </th>
+              ))}
+              <th className="px-6 py-3" />
             </tr>
           </thead>
 

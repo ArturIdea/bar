@@ -34,24 +34,144 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     }
   };
 
-  const getBenefitName = (benefitType: any) => {
-    if (!benefitType || !benefitType.name) {
-      return 'N/A';
-    }
-    switch (locale) {
-      case 'uz-latn':
-        return benefitType.name.uzLatn || 'N/A';
-      case 'uz-cyrl':
-        return benefitType.name.uzCyrl || 'N/A';
-      case 'kaa':
-        return benefitType.name.qr || 'N/A';
-      case 'ru':
-        return benefitType.name.ru || 'N/A';
-      case 'en':
-      default:
-        return benefitType.name.uzLatn || 'N/A';
-    }
+  const UserInfoSection = ({ user, t }: { user: any; t: any }) => {
+    const fields = [
+      { label: 'email', value: user.email },
+      { label: 'phone', value: user.phoneNumber },
+      { label: 'nationality', value: user.nationalityName },
+      { label: 'citizenship', value: user.citizenshipName },
+      { label: 'birthCountry', value: user.birthCountryName },
+      { label: 'dob', value: user.dateOfBirth },
+      { label: 'socialNumber', value: user.socialNumber },
+      { label: 'pinfl', value: user.pinfl },
+      { label: 'address', value: user.address },
+      {
+        label: 'createdAt',
+        value: user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A',
+      },
+    ];
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+        {fields.map(({ label, value }) => (
+          <div key={label}>
+            <p className="text-gray-400 font-normal">{t(`UserManagement.${label}`)}</p>
+            {value ?? 'N/A'}
+          </div>
+        ))}
+      </div>
+    );
   };
+
+  const AgentDataSection = ({ agentData, t }: { agentData: any; t: any }) => {
+    const fields = [
+      { label: 'firstName', value: agentData.firstName },
+      { label: 'lastName', value: agentData.lastName },
+      { label: 'jobTitle', value: agentData.jobTitle },
+      { label: 'dob', value: agentData.dateOfBirth },
+      { label: 'pinfl', value: agentData.pinfl?.id },
+      { label: 'address', value: agentData.address },
+      { label: 'responsiblePerson', value: agentData.responsiblePerson },
+      { label: 'insonCenterDistrict', value: agentData.insonCenterDistrict },
+      { label: 'insonCenterBranchCode', value: agentData.insonCenterBranchCode },
+      {
+        label: 'personalPhone',
+        value:
+          agentData.personalPhone &&
+          `${agentData.personalPhone.phoneCode}-${agentData.personalPhone.phoneNumber}`,
+      },
+      { label: 'personalEmail', value: agentData.personalEmailAddress },
+      { label: 'agreementEmail', value: agentData.agreementEmailAddress },
+      { label: 'location', value: agentData.location },
+    ];
+    return (
+      <div className="py-8">
+        <h3 className="pb-2 text-lg text-gray-400 font-semibold">
+          {t('UserManagement.agentData.title')}
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          {fields.map(({ label, value }) => (
+            <div key={label}>
+              <p className="text-gray-400 font-normal">{t(`UserManagement.agentData.${label}`)}</p>
+              {value ?? 'N/A'}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const getBenefitName = (benefitType: any) => {
+    const names = benefitType?.name || {};
+    return names[locale] || names.uzLatn || 'N/A';
+  };
+
+  const BenefitsSection = ({
+    benefits,
+    getBenefitName,
+    t,
+  }: {
+    benefits: any;
+    getBenefitName: any;
+    t: any;
+  }) => (
+    <div className="py-8 h-[28vh] overflow-y-auto">
+      <h1 className="text-lg font-normal text-gray-500 pb-2">
+        {t('UserManagement.benefits.title')}
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+        {benefits.map((benefit: any, index: number) => (
+          <div key={index} className="flex flex-col gap-6">
+            {['benefitType', 'benefitStatus', 'benefitAmount', 'deductionAmount'].map((field) => (
+              <div key={field}>
+                <p className="text-gray-400 font-normal">{t(`UserManagement.benefits.${field}`)}</p>
+                <p className="text-gray-700 font-medium">
+                  {field === 'benefitType'
+                    ? getBenefitName(benefit.benefitType)
+                    : (benefit[field] ?? 'N/A')}
+                </p>
+              </div>
+            ))}
+            <div className="border-b w-32" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const CreatedBySection = ({
+    createdBy,
+    handleHistoryClick,
+    t,
+  }: {
+    createdBy: any;
+    handleHistoryClick: () => void;
+    t: any;
+  }) => (
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-4">
+        <Image
+          src={createdBy.photoUrl || placeholderUserImage}
+          width={80}
+          height={80}
+          alt="Agent Image"
+          className="w-20 h-20 rounded-full shadow-md object-cover"
+        />
+        <div>
+          <h1 className="text-xl font-semibold">
+            {createdBy.firstName} {createdBy.lastName}
+          </h1>
+          <p className="text-gray-400">{t('UserManagement.agentData.title')}</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        className="bg-[#08678e] text-white px-4 py-2 rounded-full flex items-center gap-1 cursor-pointer"
+        onClick={handleHistoryClick}
+      >
+        {t('Buttons.history')} <ArrowRight className="w-5 h-5" />
+      </button>
+    </div>
+  );
 
   return (
     <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
@@ -109,227 +229,24 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
 
               {/* user */}
               <div className="h-[28vh] overflow-y-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.email')}</p>
-                    {user.email ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.phone')}</p>{' '}
-                    {user.phoneNumber ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.nationality')}</p>{' '}
-                    {user.nationalityName ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.citizenship')}</p>{' '}
-                    {user.citizenshipName ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.birthCountry')}</p>{' '}
-                    {user.birthCountryName ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.dob')}</p>{' '}
-                    {user.dateOfBirth ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.socialNumber')}</p>{' '}
-                    {user.socialNumber ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.pinfl')}</p>{' '}
-                    {user.pinfl ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.address')}</p>{' '}
-                    {user.address ?? 'N/A'}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('UserManagement.createdAt')}</p>{' '}
-                    {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}
-                  </div>
-                </div>
+                <UserInfoSection user={user} t={t} />
 
-                {user.agentData && (
-                  <div className="py-8">
-                    <h3 className="pb-2 text-lg text-gray-400 font-semibold">
-                      {t('UserManagement.agentData.title')}
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.firstName')}
-                        </p>{' '}
-                        {user.agentData.firstName ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.lastName')}
-                        </p>{' '}
-                        {user.agentData.lastName ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.jobTitle')}
-                        </p>{' '}
-                        {user.agentData.jobTitle ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.dob')}
-                        </p>{' '}
-                        {user.agentData.dateOfBirth ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.pinfl')}
-                        </p>{' '}
-                        {user.agentData.pinfl?.id ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.address')}
-                        </p>{' '}
-                        {user.agentData.address ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.responsiblePerson')}
-                        </p>{' '}
-                        {user.agentData.responsiblePerson}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.insonCenterDistrict')}
-                        </p>{' '}
-                        {user.agentData.insonCenterDistrict ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.insonCenterBranchCode')}
-                        </p>{' '}
-                        {user.agentData.insonCenterBranchCode ?? 'N/A'}
-                      </div>
-                      {user.agentData.personalPhone && (
-                        <div>
-                          <p className="text-gray-400 font-normal">
-                            {t('UserManagement.agentData.personalPhone')}
-                          </p>{' '}
-                          {user.agentData.personalPhone.phoneCode}-
-                          {user.agentData.personalPhone.phoneNumber}
-                        </div>
-                      )}
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.personalEmail')}
-                        </p>{' '}
-                        {user.agentData.personalEmailAddress ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.agreementEmail')}
-                        </p>{' '}
-                        {user.agentData.agreementEmailAddress ?? 'N/A'}
-                      </div>
-                      <div>
-                        <p className="text-gray-400 font-normal">
-                          {t('UserManagement.agentData.location')}
-                        </p>{' '}
-                        {user.agentData.location ?? 'N/A'}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {user.agentData && <AgentDataSection agentData={user.agentData} t={t} />}
               </div>
 
               {/* benefits */}
-              <div className="py-8 h-[28vh] overflow-y-auto">
-                <h1 className="text-lg font-normal text-gray-500 pb-2">
-                  {t('UserManagement.benefits.title')}
-                </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                  {user.benefits && user.benefits.length > 0 ? (
-                    user.benefits.map((benefit, index) => (
-                      <div key={index} className="flex flex-col gap-6">
-                        <div>
-                          <p className="text-gray-400 font-normal">
-                            {t('UserManagement.benefits.benefitType')}
-                          </p>
-                          <p className="text-gray-700 font-medium">
-                            {getBenefitName(benefit.benefitType)}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 font-normal">
-                            {t('UserManagement.benefits.benefitStatus')}
-                          </p>
-                          <p className="text-gray-700">{benefit.status || 'N/A'}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 font-normal">
-                            {t('UserManagement.benefits.benefitAmount')}
-                          </p>
-                          <p className="text-gray-700">
-                            {benefit.amount ? `${benefit.amount} UZS` : 'N/A'}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 font-normal">
-                            {t('UserManagement.benefits.deductionAmount')}
-                          </p>
-                          <p className="text-gray-700">
-                            {benefit.deductionAmount ? `${benefit.deductionAmount} UZS` : 'N/A'}
-                          </p>
-                        </div>
-                        <div className="mt-3 border border-b w-32" />
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500">N/A</p>
-                  )}
-                </div>
-              </div>
+              {user.benefits && user.benefits.length > 0 && (
+                <BenefitsSection benefits={user.benefits} getBenefitName={getBenefitName} t={t} />
+              )}
             </div>
             <div className="flex flex-col gap-12 ">
               <div>
                 {user.createdBy && (
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
-                      {user.createdBy.photoUrl && (
-                        <div className="flex justify-center">
-                          <Image
-                            src={user.createdBy.photoUrl || placeholderUserImage}
-                            width={128}
-                            height={128}
-                            alt="User Avatar"
-                            className="w-20 h-20 rounded-full shadow-md object-cover"
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <h1 className="text-xl font-semibold text-left">
-                          {user.createdBy.firstName} {user.createdBy.lastName}
-                        </h1>
-                        <h1 className="text-md font-normal text-gray-400">
-                          {t('UserManagement.agentData.title')}
-                        </h1>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          handleHistoryClick();
-                        }}
-                        className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer flex items-center gap-1"
-                      >
-                        {t('Buttons.history')}
-                        <ArrowRight className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
+                  <CreatedBySection
+                    createdBy={user.createdBy}
+                    handleHistoryClick={handleHistoryClick}
+                    t={t}
+                  />
                 )}
               </div>
               {user.signupRequestId && (

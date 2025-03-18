@@ -23,18 +23,82 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
     return null;
   }
 
+  const RequestInfoSection = ({ signupRequest, t }: { signupRequest: any; t: any }) => {
+    const fields = [
+      { key: 'name', value: `${signupRequest.firstName} ${signupRequest.lastName}` },
+      { key: 'email', value: signupRequest.email },
+      { key: 'mobile', value: `${signupRequest.phoneCode} ${signupRequest.phoneNumber}` },
+      { key: 'status', value: signupRequest.status },
+      { key: 'nationality', value: signupRequest.nationalityName },
+      { key: 'citizenship', value: signupRequest.citizenshipName },
+      { key: 'registrationNumber', value: signupRequest.registrationNumber },
+      { key: 'docType', value: signupRequest.documentType },
+      { key: 'docNumber', value: `${signupRequest.docSeria} ${signupRequest.documentNumber}` },
+      { key: 'issuedBy', value: signupRequest.docIssueOrganization },
+      {
+        key: 'issueDate',
+        value: signupRequest.docIssueOn
+          ? new Date(signupRequest.docIssueOn).toLocaleDateString()
+          : null,
+      },
+      {
+        key: 'expiryDate',
+        value: signupRequest.docExpireOn
+          ? new Date(signupRequest.docExpireOn).toLocaleDateString()
+          : null,
+      },
+      { key: 'gender', value: signupRequest.genderName },
+      { key: 'birthCountry', value: signupRequest.birthCountryName },
+      { key: 'address', value: signupRequest.address },
+      { key: 'createdAt', value: new Date(signupRequest.createdAt).toLocaleString() },
+      {
+        key: 'finalizedAt',
+        value: signupRequest.finalizedAt
+          ? new Date(signupRequest.finalizedAt).toLocaleString()
+          : null,
+      },
+      {
+        key: 'termsOfServices',
+        value: signupRequest.tosAccepted
+          ? t('SignupRequests.accepted')
+          : t('SignupRequests.rejected'),
+      },
+      {
+        key: 'privacyPolicy',
+        value: signupRequest.privacyPolicyAccepted
+          ? t('SignupRequests.accepted')
+          : t('SignupRequests.rejected'),
+      },
+    ];
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm overflow-y-auto h-[50vh]">
+        {fields
+          .filter((field) => field.value !== undefined && field.value !== null)
+          .map(({ key, value }) => (
+            <div key={key}>
+              <p className="text-gray-400 font-normal">{t(`SignupRequests.${key}`)}</p>
+              {value}
+            </div>
+          ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
+    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md">
       <div
         ref={modalRef}
-        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full"
+        className="relative bg-white w-full max-w-3xl shadow-xl overflow-y-auto h-full p-10"
       >
+        {/* Loading State */}
         {loading && (
-          <div className="flex flex-col items-center justify-center py-10">
+          <div className="flex justify-center py-10">
             <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
           </div>
         )}
 
+        {/* Error State */}
         {error && (
           <div className="text-center py-10">
             <h2 className="text-xl font-bold text-red-600">Error</h2>
@@ -42,133 +106,33 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
           </div>
         )}
 
+        {/* Signup Request Details */}
         {!loading && !error && signupRequest && (
-          <div className="flex flex-col justify-between h-full p-10">
-            <div>
-              <div>
-                <div className="text-xl">Signup Request Details</div>
-                <button
-                  type="button"
-                  className="cursor-pointer absolute top-10 right-10 text-gray-500 hover:text-gray-700 transition"
-                  onClick={onClose}
-                  aria-label="Close modal"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="py-10">
-                <div className="border-b border-gray-100" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.name')}</p>{' '}
-                  {signupRequest.firstName} {signupRequest.lastName}
-                </div>
-                {signupRequest.email && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.email')}</p>{' '}
-                    {signupRequest.email}
-                  </div>
-                )}
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.mobile')}</p>{' '}
-                  {signupRequest.phoneCode} {signupRequest.phoneNumber}
-                </div>
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.status')}</p>{' '}
-                  {signupRequest.status}
-                </div>
-                {signupRequest.nationalityName && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.nationality')}</p>{' '}
-                    {signupRequest.nationalityName}
-                  </div>
-                )}
-                {signupRequest.citizenshipName && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.citizenship')}</p>{' '}
-                    {signupRequest.citizenshipName}
-                  </div>
-                )}
-                <div>
-                  <p className="text-gray-400 font-normal">
-                    {t('SignupRequests.registrationNumber')}
-                  </p>{' '}
-                  {signupRequest.registrationNumber}
-                </div>
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.docType')}</p>{' '}
-                  {signupRequest.documentType}
-                </div>
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.docNumber')}</p>{' '}
-                  {signupRequest.docSeria} {signupRequest.documentNumber}
-                </div>
-                {signupRequest.docIssueOrganization && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.issuedBy')}</p>{' '}
-                    {signupRequest.docIssueOrganization}
-                  </div>
-                )}
-                {signupRequest.docIssueOn && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.issueDate')}</p>{' '}
-                    {new Date(signupRequest.docIssueOn).toLocaleDateString()}
-                  </div>
-                )}
-                {signupRequest.docExpireOn && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.expiryDate')}</p>{' '}
-                    {new Date(signupRequest.docExpireOn).toLocaleDateString()}
-                  </div>
-                )}
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.gender')}:</p>{' '}
-                  {signupRequest.genderName}
-                </div>
-                {signupRequest.birthCountryName && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.birthCountry')}</p>{' '}
-                    {signupRequest.birthCountryName}
-                  </div>
-                )}
-                {signupRequest.address && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.address')}</p>{' '}
-                    {signupRequest.address}
-                  </div>
-                )}
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.createdAt')}</p>{' '}
-                  {new Date(signupRequest.createdAt).toLocaleString()}
-                </div>
-                {signupRequest.finalizedAt && (
-                  <div>
-                    <p className="text-gray-400 font-normal">{t('SignupRequests.finalizedAt')}</p>{' '}
-                    {new Date(signupRequest.finalizedAt).toLocaleString()}
-                  </div>
-                )}
-                <div>
-                  <p className="text-gray-400 font-normal">{t('SignupRequests.termsOfServices')}</p>{' '}
-                  {signupRequest.tosAccepted
-                    ? t('SignupRequests.accepted')
-                    : t('SignupRequests.rejected')}
-                </div>
-                <div>
-                  <p className="text-gray-400 font-normal">Privacy Policy</p>{' '}
-                  {signupRequest.privacyPolicyAccepted
-                    ? t('SignupRequests.accepted')
-                    : t('SignupRequests.rejected')}
-                </div>
-              </div>
+          <>
+            {/* Header */}
+            <div className="flex justify-between items-center">
+              <h1 className="text-xl">{t('SignupRequests.title3')}</h1>
+              <button
+                type="button"
+                className="text-gray-500 hover:text-gray-700"
+                onClick={onClose}
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
             </div>
+
+            <div className="border-b my-10" />
+
+            {/* Signup Request Information */}
+            <RequestInfoSection signupRequest={signupRequest} t={t} />
+
+            {/* View User Details Button */}
             {signupRequest.status === 'COMPLETED' && signupRequest.pinfl && (
-              <div className="mt-6 text-center ">
+              <div className="mt-6 text-center">
                 <button
                   type="button"
-                  className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
+                  className="bg-[#08678e] text-white px-4 py-2 rounded-full transition cursor-pointer"
                   onClick={() => {
                     onClose();
                     onOpenUserDetails(signupRequest.pinfl);
@@ -178,7 +142,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
                 </button>
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </div>

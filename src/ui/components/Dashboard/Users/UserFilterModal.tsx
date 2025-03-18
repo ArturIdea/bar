@@ -67,7 +67,6 @@ export const UserFilterModal = ({
     } else {
       onApply(roles || undefined, undefined, undefined, pinfl || undefined, username || undefined);
     }
-    console.log(roles);
     onClose();
   };
 
@@ -98,7 +97,6 @@ export const UserFilterModal = ({
               onChange={(e) => setRoles(e.target.value)}
               className="w-full border border-gray-300 rounded-xl p-2 bg-white"
             >
-              <option value="">{t('Filter.roles.select')}</option>
               <option value="USER">{t('Filter.roles.user')}</option>
               <option value="AGENT">{t('Filter.roles.agent')}</option>
               <option value="ADMIN">{t('Filter.roles.admin')}</option>

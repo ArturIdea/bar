@@ -16,6 +16,32 @@ export default function ProfilePage() {
     return <div className="text-center py-10 text-lg text-red-400">User data not available.</div>;
   }
 
+  const personalInfo = [
+    { label: t('UserProfile.firstName'), value: userProfile.firstName },
+    { label: t('UserProfile.lastName'), value: userProfile.lastName },
+    {
+      label: t('UserProfile.patronym'),
+      value: userProfile.identityProviderData?.personDataLatin?.middleName,
+    },
+    { label: t('UserProfile.birthDate'), value: userProfile.dateOfBirth },
+    { label: t('UserProfile.jobTitle'), value: userProfile.agentData?.jobTitle },
+    { label: t('UserProfile.pinfl'), value: userProfile.pinfl },
+    {
+      label: t('UserProfile.districtInsonCenter'),
+      value: userProfile.agentData?.insonCenterDistrict,
+    },
+    {
+      label: t('UserProfile.branchCodeInsonCenter'),
+      value: userProfile.agentData?.insonCenterBranchCode,
+    },
+    { label: t('UserProfile.phoneNumber'), value: userProfile.phoneNumber },
+    { label: t('UserProfile.personalEmail'), value: userProfile.agentData?.personalEmailAddress },
+    { label: t('UserProfile.username'), value: userProfile.username },
+    { label: t('UserProfile.printEmail'), value: userProfile.agentData?.agreementEmailAddress },
+    { label: t('UserProfile.address'), value: userProfile.agentData?.address },
+    { label: t('UserProfile.password'), value: '******' },
+  ];
+
   return (
     <div>
       {/* Profile Header */}
@@ -39,86 +65,12 @@ export default function ProfilePage() {
         <h2 className="text-xl font-normal">{t('UserProfile.personalInfo')}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 mt-6">
-          {/* Left Column */}
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.firstName')}</p>
-            <p className="text-lg font-normal ">{userProfile.firstName || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.lastName')}</p>
-            <p className="text-lg font-normal">{userProfile.lastName || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.patronym')}</p>
-            <p className="text-lg font-normal">
-              {userProfile.identityProviderData?.personDataLatin?.middleName || '-'}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.birthDate')}</p>
-            <p className="text-lg font-normal">{userProfile.dateOfBirth || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.jobTitle')}</p>
-            <p className="text-lg font-normal">{userProfile.agentData?.jobTitle || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.pinfl')}</p>
-            <p className="text-lg font-normal">{userProfile.pinfl || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.districtInsonCenter')}</p>
-            <p className="text-lg font-normal">
-              {userProfile.agentData?.insonCenterDistrict || '-'}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.branchCodeInsonCenter')}</p>
-            <p className="text-lg font-normal">
-              {userProfile.agentData?.insonCenterBranchCode || '-'}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.phoneNumber')}</p>
-            <p className="text-lg font-normal">{userProfile.phoneNumber || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.personalEmail')}</p>
-            <p className="text-lg font-normal">
-              {userProfile.agentData?.personalEmailAddress || '-'}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.username')}</p>
-            <p className="text-lg font-normal">{userProfile.username || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.printEmail')}</p>
-            <p className="text-lg font-normal">
-              {userProfile.agentData?.agreementEmailAddress || '-'}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.address')}</p>
-            <p className="text-lg font-normal">{userProfile.agentData?.address || '-'}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-400">{t('UserProfile.password')}</p>
-            <p className="text-lg font-normal">******</p>
-          </div>
+          {personalInfo.map((item, index) => (
+            <div key={index}>
+              <p className="text-sm text-gray-400">{item.label}</p>
+              <p className="text-lg font-normal">{item.value || '-'}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -35,10 +35,7 @@ export const SignUpRequestsTable: React.FC<{
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations();
 
-  //resets page when filters change
-  useEffect(() => {
-    setPage(0);
-  }, [filters]);
+  useEffect(() => setPage(0), [filters]);
 
   const openSignupModal = (id: string) => {
     setSelectedRequestId(id);
@@ -51,9 +48,7 @@ export const SignUpRequestsTable: React.FC<{
     setSelectedRequestId(null);
   };
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const handlePageChange = (newPage: number) => setPage(newPage);
 
   const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(event.target.value));
@@ -75,45 +70,66 @@ export const SignUpRequestsTable: React.FC<{
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   if (loading) {
     return <TableSkeleton />;
   }
 
+  const getStatusClass = (status: string) => {
+    const statusClasses: Record<string, string> = {
+      CREATED: 'bg-blue-300',
+      OTP_SENT: 'bg-blue-400',
+      MOBILE_VERIFIED: 'bg-green-300',
+      AGREEMENTS_ACCEPTED: 'bg-green-400',
+      FACE_VERIFICATION_IN_PROGRESS: 'bg-yellow-500',
+      VERIFICATION_COMPLETED: 'bg-green-400',
+      VERIFICATION_FAILED: 'bg-red-500',
+      FAILED_FINALIZATION: 'bg-red-500',
+      NOT_ELIGIBLE: 'bg-red-500',
+      COMPLETED: 'bg-green-500',
+      DEFAULT: 'bg-gray-400',
+    };
+    return statusClasses[status] || statusClasses.DEFAULT;
+  };
+
+  const columns = [
+    { key: 'name', label: t('SignupRequests.name') },
+    { key: 'email', label: t('SignupRequests.email') },
+    { key: 'mobile', label: t('SignupRequests.mobile') },
+    { key: 'pinfl', label: t('SignupRequests.pinfl') },
+    { key: 'createdAt', label: t('SignupRequests.createdAt') },
+    { key: 'status', label: t('SignupRequests.status') },
+  ];
+
   return (
     <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        {pathname === '/dashboard/signup-requests' ? (
-          <h4 className="font-semibold text-[#0B0B22]">{t('SignupRequests.title2')}</h4>
-        ) : (
-          <h4 className="font-semibold text-[#0B0B22]">{t('SignupRequests.title')}</h4>
-        )}
-
+        <h4 className="font-semibold text-[#0B0B22]">
+          {t(
+            pathname === '/dashboard/signup-requests'
+              ? 'SignupRequests.title2'
+              : 'SignupRequests.title'
+          )}
+        </h4>
         <ViewDetailsButton href="signup-requests" />
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto rounded-t-lg">
         <table className="w-full border-collapse border-spacing-0">
-          {/* Table Header */}
           <thead>
-            <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.name')}</th>
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.email')}</th>
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.mobile')}</th>
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.pinfl')}</th>
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.createdAt')}</th>
-              <th className="px-6 py-3 font-normal">{t('SignupRequests.status')}</th>
+            <tr className="bg-gray-100 text-left text-gray-400">
+              {columns.map((col) => (
+                <th key={col.key} className="px-6 py-3 font-normal">
+                  {col.label}
+                </th>
+              ))}
               <th className="px-6 py-3" />
             </tr>
           </thead>
-
-          {/* Table Body */}
           <tbody>
             {requests.map((req) => (
               <tr key={req.id} className="hover:bg-gray-100 transition-colors">
@@ -126,49 +142,26 @@ export const SignUpRequestsTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {new Date(req.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                <td className="px-6 py-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-white text-xs ${
-                      req.status === 'CREATED'
-                        ? 'bg-blue-300'
-                        : req.status === 'OTP_SENT'
-                          ? 'bg-blue-400'
-                          : req.status === 'MOBILE_VERIFIED'
-                            ? 'bg-green-300'
-                            : req.status === 'AGREEMENTS_ACCEPTED'
-                              ? 'bg-green-400'
-                              : req.status === 'FACE_VERIFICATION_IN_PROGRESS'
-                                ? 'bg-yellow-500'
-                                : req.status === 'VERIFICATION_COMPLETED'
-                                  ? 'bg-green-400'
-                                  : req.status === 'VERIFICATION_FAILED'
-                                    ? 'bg-red-500'
-                                    : req.status === 'FAILED_FINALIZATION'
-                                      ? 'bg-red-500'
-                                      : req.status === 'NOT_ELIGIBLE'
-                                        ? 'bg-red-500'
-                                        : req.status === 'COMPLETED'
-                                          ? 'bg-green-500'
-                                          : 'bg-gray-400'
-                    }`}
+                    className={`px-3 py-1 rounded-full text-white text-xs ${getStatusClass(req.status)}`}
                   >
-                    {req.status ? req.status.replace(/_/g, ' ') : 'UNKNOWN'}
+                    {req.status.replace(/_/g, ' ') || 'UNKNOWN'}
                   </span>
                 </td>
-                <td className="px-6 py-4 flex items-center justify-end">
+                <td className="px-6 py-4 flex items-center justify-end relative">
                   <button
                     type="button"
                     className="text-gray-500 hover:text-gray-700 cursor-pointer"
                     onClick={() => toggleDropdown(req.id)}
                   >
-                    <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                    <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {dropdownOpen[req.id] && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-20 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      className="absolute right-0 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                     >
                       <button
                         type="button"
@@ -186,6 +179,7 @@ export const SignUpRequestsTable: React.FC<{
         </table>
       </div>
 
+      {/* Modals */}
       {selectedRequestId && (
         <SignupRequestDetailModal
           id={selectedRequestId}

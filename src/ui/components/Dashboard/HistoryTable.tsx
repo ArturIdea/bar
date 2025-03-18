@@ -30,6 +30,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
     undefined,
     undefined,
     undefined,
+    undefined,
     createdBy
   );
 
@@ -60,6 +61,14 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
     setSelectedPinfl(null);
   };
 
+  const columns = [
+    { key: 'name', label: t('UserManagement.name') },
+    { key: 'email', label: t('UserManagement.email') },
+    { key: 'mobile', label: t('UserManagement.mobile') },
+    { key: 'pinfl', label: t('UserManagement.pinfl') },
+    { key: 'createdAt', label: t('UserManagement.createdAt') },
+  ];
+
   return (
     <div className="p-6 overflow-x-auto rounded-t-lg">
       {loading && <TableSkeleton />}
@@ -70,11 +79,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
           <table className="w-full border-collapse border-spacing-0">
             <thead>
               <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-                <th className="px-6 py-3 font-normal">{t('UserManagement.name')}</th>
-                <th className="px-6 py-3 font-normal">{t('UserManagement.email')}</th>
-                <th className="px-6 py-3 font-normal">{t('UserManagement.mobile')}</th>
-                <th className="px-6 py-3 font-normal">{t('UserManagement.pinfl')}</th>
-                <th className="px-6 py-3 font-normal">{t('UserManagement.createdAt')}</th>
+                {columns.map((col) => (
+                  <th key={col.key} className="px-6 py-3 font-normal">
+                    {col.label}
+                  </th>
+                ))}
                 <th className="px-6 py-3 font-normal" />
               </tr>
             </thead>

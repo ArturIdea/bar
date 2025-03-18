@@ -48,9 +48,7 @@
     "exportToExcel": "Export to Excel",
     "today": "Today",
     "pickDate": "Pick a date range",
-    "doubleClickToReset": "Double tap on a day to reset the range",
-    "active": "Active",
-    "expired": "Expired"
+    "doubleClickToReset": "Double tap on a day to reset the range"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
@@ -108,7 +106,6 @@
     "roles": {
       "title": "Role",
       "select": "Select Role",
-      "all": "All",
       "admin": "Admin",
       "user": "User",
       "agent": "Agent",
@@ -132,6 +129,7 @@
   "SignupRequests": {
     "title": "Latest Sign Up Requests",
     "title2": "Sign Up Requests",
+    "title3": "Sign Up Request Details",
     "name": "Name",
     "email": "Email",
     "mobile": "Mobile",

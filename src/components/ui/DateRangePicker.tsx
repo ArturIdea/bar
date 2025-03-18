@@ -33,7 +33,7 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-[260px] justify-start text-left font-normal rounded-full cursor-pointer"
+          className="w-full flex justify-start text-left font-normal rounded-full cursor-pointer"
         >
           <CalendarIcon className="mr-2 h-4 w-4 " />
           <span>
