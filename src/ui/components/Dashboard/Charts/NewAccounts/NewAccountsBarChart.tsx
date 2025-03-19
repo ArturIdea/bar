@@ -96,6 +96,8 @@ export function NewAccountsBarChart() {
 
   const handleDateRangeChange = (start: string, end: string) => {
     setCustomDateRange({ from: start, to: end });
+    setFromDate(start);
+    setToDate(end);
     applyDateRangeForGranularity(granularity);
   };
 

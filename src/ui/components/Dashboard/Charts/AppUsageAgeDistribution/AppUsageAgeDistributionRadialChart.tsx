@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Users2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
@@ -12,32 +13,50 @@ export function AppUsageAgeDistributionRadialChart() {
   const t = useTranslations();
   const { data, loading, error } = useAgeDistribution();
 
-  const chartConfig = {
-    people: {
-      label: t('Charts.people'),
-      color: '#00000000',
-    },
-    teens: {
-      label: '14-19',
-      color: '#08678E',
-    },
-    twenties: {
-      label: '20-29',
-      color: '#A5BE19',
-    },
-    thirtiesForties: {
-      label: '30-49',
-      color: '#FAB52D',
-    },
-    fiftiesSixties: {
-      label: '50-69',
-      color: '#A53F2B',
-    },
-    seventiesPlus: {
-      label: '70+',
-      color: '#F4743B',
-    },
-  } satisfies ChartConfig;
+  const chartConfig = useMemo(
+    () =>
+      ({
+        teens: { label: '14-19', color: '#08678E' },
+        twenties: { label: '20-29', color: '#A5BE19' },
+        thirtiesForties: { label: '30-49', color: '#FAB52D' },
+        fiftiesSixties: { label: '50-69', color: '#A53F2B' },
+        seventiesPlus: { label: '70+', color: '#F4743B' },
+      }) satisfies ChartConfig,
+    []
+  );
+
+  const values = useMemo(
+    () =>
+      data
+        ? {
+            teens: data.R14_19,
+            twenties: data.R20_29,
+            thirtiesForties: data.R30_49,
+            fiftiesSixties: data.R50_69,
+            seventiesPlus: data.R70_PLUS,
+          }
+        : null,
+    [data]
+  );
+
+  const totalPeople = useMemo(
+    () => (values ? Object.values(values).reduce((sum, v) => sum + v, 0) : 0),
+    [values]
+  );
+
+  const chartData = useMemo(
+    () =>
+      values
+        ? Object.entries(values).map(([key, people]) => ({
+            ageGroup: chartConfig[key as keyof typeof chartConfig].label,
+            people,
+            fill: chartConfig[key as keyof typeof chartConfig].color,
+          }))
+        : [],
+    [values, chartConfig]
+  );
+
+  const formattedTotal = useMemo(() => totalPeople.toLocaleString(), [totalPeople]);
 
   if (loading) {
     return (
@@ -48,39 +67,13 @@ export function AppUsageAgeDistributionRadialChart() {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="text-red-500">{error}</p>;
   }
 
-  if (!data) {
-    return null;
+  if (!data || totalPeople === 0) {
+    return <p className="text-gray-500">Data Unavailable</p>;
   }
 
-  const ageGroupLabels = {
-    teens: '14-19',
-    twenties: '20-29',
-    thirtiesForties: '30-49',
-    fiftiesSixties: '50-69',
-    seventiesPlus: '70+',
-  };
-
-  const values = {
-    teens: data.R14_19,
-    twenties: data.R20_29,
-    thirtiesForties: data.R30_49,
-    fiftiesSixties: data.R50_69,
-    seventiesPlus: data.R70_PLUS,
-  };
-
-  const totalPeople = Object.values(values).reduce((sum, value) => sum + value, 0);
-  const formattedTotal = totalPeople.toLocaleString();
-
-  const chartData = Object.entries(values).map(([key, people]) => ({
-    ageGroup: ageGroupLabels[key as keyof typeof ageGroupLabels],
-    people,
-    fill: chartConfig[key as keyof typeof chartConfig].color,
-  }));
-
-  // Helper function to position the percentages inside the slices
   const renderLabel = ({
     cx,
     cy,
@@ -89,14 +82,7 @@ export function AppUsageAgeDistributionRadialChart() {
     outerRadius,
     value,
   }: PieLabelRenderProps) => {
-    if (
-      cx === undefined ||
-      cy === undefined ||
-      midAngle === undefined ||
-      innerRadius === undefined ||
-      outerRadius === undefined ||
-      value === undefined
-    ) {
+    if (!(cx && cy && midAngle && innerRadius && outerRadius && value) || totalPeople === 0) {
       return null;
     }
 
@@ -105,43 +91,28 @@ export function AppUsageAgeDistributionRadialChart() {
     const x = Number(cx) + radius * Math.cos(-Number(midAngle) * RADIAN);
     const y = Number(cy) + radius * Math.sin(-Number(midAngle) * RADIAN);
 
-    // Only show percentage if totalPeople is greater than 0
-    if (totalPeople === 0) {
-      return null;
-    }
-
-    const percentage = ((Number(value) / totalPeople) * 100).toFixed(1);
     return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={12}
-        fontWeight="semibold"
-      >
-        {percentage}%
+      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12}>
+        {((Number(value) / totalPeople) * 100).toFixed(1)}%
       </text>
     );
   };
 
   const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-20">
-          <p className="font-semibold pb-1">{data.ageGroup}</p>
-          <div className="">
-            <div className="flex justify-between">
-              <p className="text-gray-500">{t('Charts.people')}</p>
-              <p className="text-gray-500">{data.people.toLocaleString()}</p>
-            </div>
-          </div>
-        </div>
-      );
+    if (!active || !payload?.length) {
+      return null;
     }
-    return null;
+    const data = payload[0].payload;
+
+    return (
+      <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-20">
+        <p className="font-semibold pb-1">{data.ageGroup}</p>
+        <div className="flex justify-between">
+          <p className="text-gray-500">{t('Charts.people')}</p>
+          <p className="text-gray-500">{data.people.toLocaleString()}</p>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -171,35 +142,24 @@ export function AppUsageAgeDistributionRadialChart() {
               label={renderLabel}
               labelLine={false}
             />
-            {/* Center text showing total people */}
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <Users2 className="w-4 h-4 text-gray-500" />{' '}
+            <Users2 className="w-4 h-4 text-gray-500" />
             <p className="text-gray-500 text-sm">
               {t('Charts.appUsers')}: {formattedTotal}
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            {Object.entries(values).map(([key, people]) => {
-              if (key === 'people') {
-                return null;
-              }
-
+            {chartData.map(({ ageGroup, people, fill }) => {
               const percentage =
                 totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
-
-              const configEntry = chartConfig[key as keyof typeof chartConfig];
-
               return (
-                <div key={key} className="flex items-center gap-2">
-                  <span
-                    className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: configEntry.color }}
-                  />
+                <div key={ageGroup} className="flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full" style={{ backgroundColor: fill }} />
                   <CardDescription className="flex items-center">
-                    <span>{configEntry.label}</span>
+                    <span>{ageGroup}</span>
                     <span className="ml-2 text-gray-500">({percentage}%)</span>
                   </CardDescription>
                 </div>

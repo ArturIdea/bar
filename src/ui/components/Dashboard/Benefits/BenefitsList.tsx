@@ -47,34 +47,32 @@ export default function BenefitsList() {
         {loading ? (
           <BenefitsSkeleton />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
             {benefits.map((benefit) => (
               <div
                 key={benefit.benefitType.id}
                 className="border rounded-xl p-4 flex justify-between bg-white"
               >
-                <div className="flex items-center">
+                <div className="flex items-center gap-4">
                   <div className="flex items-center gap-4">
-                    <div>
+                    <div className="w-16 h-16 ">
                       <Image src={hugIcon} alt="Hug Icon" width={64} height={64} />
                     </div>
-                    <div>
-                      <h3 className="font-semibold">
-                        {getBenefitName(benefit.benefitType, locale)}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <p className="font-bold">лв</p>
-                        <div className="border-r-2 h-3" />
-                        <span className="text-green-500">
-                          {benefit.benefitType.amount.toFixed(2)}
-                        </span>
-                      </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{getBenefitName(benefit.benefitType, locale)}</h3>
+                    <div className="flex items-center gap-2">
+                      <p className="font-bold">лв</p>
+                      <div className="border-r-2 h-3" />
+                      <span className="text-green-500">
+                        {benefit.benefitType.amount.toFixed(2)}
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className="text-center bg-gray-100 rounded-xl py-2">
-                  <div className="font-bold text-gray-700 w-[87px] ">
-                    {(benefit.users / 1000).toFixed(2)}k
+                <div className="flex flex-col justify-center items-center bg-gray-100 rounded-xl py-2">
+                  <div className="text-center font-bold text-gray-700 w-[87px] ">
+                    {((benefit.users || 0) / 1000).toFixed(2)}k
                   </div>
                   <div className="text-gray-500">{t('UserProfile.users')}</div>
                 </div>
@@ -83,7 +81,7 @@ export default function BenefitsList() {
           </div>
         )}
         {/* Pagination */}
-        {pathname === '/dashboard/benefits' && benefits.length > pageSize && (
+        {pathname === '/dashboard/benefits' && (benefits?.length || 0) > pageSize && (
           <Pagination
             page={page}
             pageSize={pageSize}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
@@ -22,34 +22,35 @@ export function RegistrationRequestsAreaChart() {
 
   const { metrics, loading, error } = useSignupMetrics(fromDate, toDate);
 
-  const sortedMetrics = [...metrics].sort((a, b) => {
-    const dateA = new Date(a.date).getTime();
-    const dateB = new Date(b.date).getTime();
-    return dateA - dateB;
-  });
+  const sortedMetrics = useMemo(
+    () =>
+      metrics
+        ? [...metrics].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        : [],
+    [metrics]
+  );
 
-  const chartData = sortedMetrics.map((metric) => ({
-    date: metric.date,
-    month: format(new Date(metric.date), 'MMM dd'),
-    totalRequests: metric.totalSignupRequests,
-    successfulRequests: metric.successfulSignupRequests,
-    failedRequests: metric.failedSignupRequests,
-  }));
+  const chartData = useMemo(
+    () =>
+      sortedMetrics.map((metric) => ({
+        date: metric.date,
+        month: format(new Date(metric.date), 'MMM dd'),
+        totalRequests: metric.totalSignupRequests,
+        successfulRequests: metric.successfulSignupRequests,
+        failedRequests: metric.failedSignupRequests,
+      })),
+    [sortedMetrics]
+  );
 
-  const chartConfig = {
-    totalRequests: {
-      label: t('Charts.totalRequests'),
-      color: '#2157E2',
-    },
-    successfulRequests: {
-      label: t('Charts.successfulRequests'),
-      color: '#13AB3F',
-    },
-    failedRequests: {
-      label: t('Charts.failedRequests'),
-      color: '#DC1B25',
-    },
-  } satisfies ChartConfig;
+  const chartConfig = useMemo(
+    () =>
+      ({
+        totalRequests: { label: t('Charts.totalRequests'), color: '#2157E2' },
+        successfulRequests: { label: t('Charts.successfulRequests'), color: '#13AB3F' },
+        failedRequests: { label: t('Charts.failedRequests'), color: '#DC1B25' },
+      }) satisfies ChartConfig,
+    [t]
+  );
 
   return (
     <Card className="rounded-none border-b border-l-0 border-r-0">
@@ -73,10 +74,10 @@ export function RegistrationRequestsAreaChart() {
               fileName={t('Charts.registrationOverview')}
               keysToExclude={['month']}
               labelMapping={{
-                date: 'Date',
-                totalRequests: 'Total Requests',
-                successfulRequests: 'Successful Requests',
-                failedRequests: 'Failed Requests',
+                date: t('Filter.date'),
+                totalRequests: t('Charts.totalRequests'),
+                successfulRequests: t('Charts.successfulRequests'),
+                failedRequests: t('Charts.failedRequests'),
               }}
             />
           </div>
@@ -124,44 +125,22 @@ export function RegistrationRequestsAreaChart() {
                 content={<ChartTooltipContent className="w-[15em]" hideIndicator />}
               />
               <defs>
-                <linearGradient id="fillTotal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-totalRequests)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-totalRequests)" stopOpacity={0.1} />
-                </linearGradient>
-                <linearGradient id="fillSuccessful" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-successfulRequests)" stopOpacity={1} />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-successfulRequests)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-                <linearGradient id="fillFailed" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-failedRequests)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-failedRequests)" stopOpacity={0.1} />
-                </linearGradient>
+                {Object.entries(chartConfig).map(([key, { color }]) => (
+                  <linearGradient key={key} id={`fill${key}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={color} stopOpacity={0.1} />
+                  </linearGradient>
+                ))}
               </defs>
-              <Area
-                dataKey="totalRequests"
-                // type="natural"
-                fill="url(#fillTotal)"
-                fillOpacity={0.4}
-                stroke="blue"
-              />
-              <Area
-                dataKey="successfulRequests"
-                // type="natural"
-                fill="url(#fillSuccessful)"
-                fillOpacity={0.4}
-                stroke="green"
-              />
-              <Area
-                dataKey="failedRequests"
-                // type="natural"
-                fill="url(#fillFailed)"
-                fillOpacity={0.4}
-                stroke="red"
-              />
+              {(Object.keys(chartConfig) as Array<keyof typeof chartConfig>).map((key) => (
+                <Area
+                  key={key}
+                  dataKey={key}
+                  fill={`url(#fill${key})`}
+                  fillOpacity={0.4}
+                  stroke={chartConfig[key].color}
+                />
+              ))}
             </AreaChart>
           </ChartContainer>
         )}

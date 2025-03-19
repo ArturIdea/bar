@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,7 +17,38 @@ export function CardTypesPieChart() {
   const t = useTranslations();
   const { metrics, loading, error } = useCardMetrics();
 
-  if (!metrics) {
+  const chartConfig: ChartConfig = useMemo(
+    () => ({
+      physical: { label: t('Charts.physicalCard'), color: '#13AB3F' },
+      virtual: { label: t('Charts.virtualCard'), color: '#2157E2' },
+    }),
+    [t]
+  );
+
+  const chartData = useMemo(() => {
+    if (!metrics) {
+      return [];
+    }
+    return [
+      {
+        cardType: t('Charts.physicalCard'),
+        holders: metrics.physicalCards,
+        fill: chartConfig.physical.color,
+      },
+      {
+        cardType: t('Charts.virtualCard'),
+        holders: metrics.virtualCards,
+        fill: chartConfig.virtual.color,
+      },
+    ];
+  }, [metrics, t, chartConfig]);
+
+  const totalHolders = useMemo(
+    () => chartData.reduce((sum, entry) => sum + entry.holders, 0),
+    [chartData]
+  );
+
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
         <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
@@ -24,17 +56,13 @@ export function CardTypesPieChart() {
     );
   }
 
-  const chartData = [
-    { cardType: t('Charts.physicalCard'), holders: metrics.physicalCards, fill: '#13AB3F' },
-    { cardType: t('Charts.virtualCard'), holders: metrics.virtualCards, fill: '#2157E2' },
-  ];
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
-  const totalHolders = chartData.reduce((sum, entry) => sum + entry.holders, 0);
-
-  const chartConfig: ChartConfig = {
-    physical: { label: t('Charts.physicalCard'), color: '#13AB3F' },
-    virtual: { label: t('Charts.virtualCard'), color: '#2157E2' },
-  };
+  if (chartData.length === 0) {
+    return <p className="text-gray-500">Data Unavailable</p>;
+  }
 
   const renderLabel = ({
     cx,
@@ -44,7 +72,7 @@ export function CardTypesPieChart() {
     outerRadius,
     value,
   }: PieLabelRenderProps) => {
-    if (!cx || !cy || !midAngle || !innerRadius || !outerRadius || !value) {
+    if (!(cx && cy && midAngle && innerRadius && outerRadius && value) || totalHolders === 0) {
       return null;
     }
 
@@ -52,11 +80,10 @@ export function CardTypesPieChart() {
     const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) / 2;
     const x = Number(cx) + radius * Math.cos(-Number(midAngle) * RADIAN);
     const y = Number(cy) + radius * Math.sin(-Number(midAngle) * RADIAN);
-    const percentage = ((Number(value) / totalHolders) * 100).toFixed(1);
 
     return (
       <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12}>
-        {percentage}%
+        {((Number(value) / totalHolders) * 100).toFixed(1)}%
       </text>
     );
   };
@@ -64,7 +91,7 @@ export function CardTypesPieChart() {
   return (
     <Card className="w-full 2xl:w-1/2 flex flex-col border-l-0 border-t-0 2xl:border-l 2xl:border-r-0 2xl:border-t-0 rounded-none shadow-none">
       <div className="flex justify-between pr-8">
-        <CardHeader className="">
+        <CardHeader>
           <CardTitle>{t('Charts.cardTypes')}</CardTitle>
         </CardHeader>
         <div className="flex justify-center items-center gap-2">
@@ -75,14 +102,6 @@ export function CardTypesPieChart() {
           />
         </div>
       </div>
-
-      {loading && (
-        <div className="flex items-center justify-center h-[25vh] w-full rounded-md">
-          <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
-        </div>
-      )}
-
-      {error && <p className="text-red-500">{error}</p>}
 
       <CardContent className="flex 2xl:gap-16 gap-0 items-center justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
@@ -106,10 +125,10 @@ export function CardTypesPieChart() {
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">
-          {Object.entries(chartConfig).map(([key, value]) => (
+          {Object.entries(chartConfig).map(([key, { label, color }]) => (
             <div key={key} className="flex items-center gap-2">
-              <span className="w-4 h-4 rounded-full" style={{ backgroundColor: value.color }} />
-              <CardDescription>{value.label}</CardDescription>
+              <span className="w-4 h-4 rounded-full" style={{ backgroundColor: color }} />
+              <CardDescription>{label}</CardDescription>
             </div>
           ))}
         </div>

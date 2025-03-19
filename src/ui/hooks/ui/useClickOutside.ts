@@ -1,12 +1,25 @@
 import { useEffect, useRef } from 'react';
 
-export function useClickOutside<T extends HTMLElement>(onOutsideClick: () => void) {
+// Modified useClickOutside hook
+export function useClickOutside<T extends HTMLElement>(
+  callback: () => void,
+  excludeRefs: React.RefObject<HTMLElement>[] = []
+): React.RefObject<T> {
   const ref = useRef<T>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Check if the click is outside the ref element
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        onOutsideClick();
+        // But also check if it's within any of the excluded elements
+        const isWithinExcluded = excludeRefs.some(
+          (excludeRef) => excludeRef.current && excludeRef.current.contains(event.target as Node)
+        );
+
+        // Only trigger callback if not within excluded elements
+        if (!isWithinExcluded) {
+          callback();
+        }
       }
     };
 
@@ -14,7 +27,7 @@ export function useClickOutside<T extends HTMLElement>(onOutsideClick: () => voi
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onOutsideClick]);
+  }, [callback, excludeRefs]);
 
   return ref;
 }
