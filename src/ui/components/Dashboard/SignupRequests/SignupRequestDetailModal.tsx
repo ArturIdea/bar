@@ -108,24 +108,26 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
 
         {/* Signup Request Details */}
         {!loading && !error && signupRequest && (
-          <>
-            {/* Header */}
-            <div className="flex justify-between items-center">
-              <h1 className="text-xl">{t('SignupRequests.title3')}</h1>
-              <button
-                type="button"
-                className="text-gray-500 hover:text-gray-700"
-                onClick={onClose}
-                aria-label="Close modal"
-              >
-                ✕
-              </button>
+          <div className="h-full flex flex-col justify-between">
+            <div>
+              {/* Header */}
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">{t('SignupRequests.title3')}</h1>
+                <button
+                  type="button"
+                  className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                  onClick={onClose}
+                  aria-label="Close modal"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="border-b my-10" />
+
+              {/* Signup Request Information */}
+              <RequestInfoSection signupRequest={signupRequest} t={t} />
             </div>
-
-            <div className="border-b my-10" />
-
-            {/* Signup Request Information */}
-            <RequestInfoSection signupRequest={signupRequest} t={t} />
 
             {/* View User Details Button */}
             {signupRequest.status === 'COMPLETED' && signupRequest.pinfl && (
@@ -142,7 +144,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
                 </button>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>
