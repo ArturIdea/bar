@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { API_URL, USER_TYPE } from '@/core/config';
+import { getDeviceId } from '@/core/utils/deviceUtils';
+import { HEADER_NAMES } from '@/core/utils/headers';
 import { getRedirectURI } from '@/core/utils/oauth';
 import { AuthRepository } from '@/domain/auth/repositories/AuthRepository';
 
 export class AuthRepositoryAPI implements AuthRepository {
   private apiUrl = `${API_URL}/api-public/token-for-callback`;
+  private channelType = 'WEB_PORTAL';
 
   async getToken(code: string, codeVerifier: string, state: string): Promise<any> {
     const payload = {
@@ -23,7 +26,8 @@ export class AuthRepositoryAPI implements AuthRepository {
 
     const headers = {
       'Content-Type': 'application/json',
-      deviceId: this.generateDeviceId(),
+      [HEADER_NAMES.DEVICE_ID]: getDeviceId(),
+      [HEADER_NAMES.CHANNEL_TYPE]: this.channelType,
     };
 
     try {

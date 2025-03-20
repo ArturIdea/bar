@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import Cookies from 'universal-cookie';
 import { API_URL } from '@/core/config';
+import { getDeviceId } from './utils/deviceUtils';
+import { HEADER_NAMES } from './utils/headers';
 import { setServerCookie } from './utils/setCookies';
 
 const cookies = new Cookies();
@@ -29,6 +31,7 @@ export class ApiClient {
   private isRefreshing = false;
   private refreshSubscribers: ((token: string) => void)[] = [];
   private refreshTokenURL = `${API_URL}/api-public/refresh-token`;
+  private channelType = 'WEB_PORTAL';
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -42,11 +45,18 @@ export class ApiClient {
 
   // Private method to get default headers
   private getDefaultHeaders(): Record<string, string> {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       // You can add other default headers here
       // Authorization: this.getAuthToken()
     };
+
+    if (typeof window !== 'undefined') {
+      headers[HEADER_NAMES.DEVICE_ID] = getDeviceId();
+      headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
+    }
+
+    return headers;
   }
 
   //interceptor to refresh the token
@@ -57,6 +67,12 @@ export class ApiClient {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
+
+        if (typeof window !== 'undefined') {
+          config.headers[HEADER_NAMES.DEVICE_ID] = getDeviceId();
+          config.headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
+        }
+
         return config;
       },
       (error) => Promise.reject(error)
@@ -119,6 +135,8 @@ export class ApiClient {
         {
           headers: {
             'Content-Type': 'application/json',
+            [HEADER_NAMES.DEVICE_ID]: getDeviceId(),
+            [HEADER_NAMES.CHANNEL_TYPE]: this.channelType,
           },
         }
       );
