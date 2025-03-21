@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -125,12 +125,39 @@ export function CardTypesPieChart() {
           </PieChart>
         </ChartContainer>
         <div className="flex flex-col gap-2">
-          {Object.entries(chartConfig).map(([key, { label, color }]) => (
-            <div key={key} className="flex items-center gap-2">
-              <span className="w-4 h-4 rounded-full" style={{ backgroundColor: color }} />
-              <CardDescription>{label}</CardDescription>
-            </div>
-          ))}
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                  {t('Charts.cardTypes')}
+                </th>
+
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {chartData.map((entry) => {
+                const percentage =
+                  totalHolders > 0 ? ((entry.holders / totalHolders) * 100).toFixed(1) : '0.0';
+                return (
+                  <tr key={entry.cardType}>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: entry.fill }}
+                        />
+                        <td className="text-sm font-medium">{entry.cardType}</td>
+                      </div>
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                      {percentage}%
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </CardContent>
     </Card>

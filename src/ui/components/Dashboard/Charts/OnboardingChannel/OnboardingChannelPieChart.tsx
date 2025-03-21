@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
@@ -18,7 +18,7 @@ export function OnboardingChannelPieChart() {
     () => ({
       CITIZEN_APP: { label: t('Charts.CITIZEN_APP'), color: '#2157E2' },
       AGENT_APP: { label: t('Charts.AGENT_APP'), color: '#13AB3F' },
-      BANK_PORTAL: { label: t('Charts.WEB_PORTAL'), color: '#DC1B25' },
+      WEB_PORTAL: { label: t('Charts.WEB_PORTAL'), color: '#DC1B25' },
     }),
     [t]
   );
@@ -144,21 +144,41 @@ export function OnboardingChannelPieChart() {
             />
           </PieChart>
         </ChartContainer>
+
         <div className="flex flex-col gap-2">
-          {Object.entries(chartConfig).map(([key, value]) => {
-            if (key === 'Total') {
-              return null;
-            }
-            return (
-              <div key={key} className="flex items-center gap-2">
-                <span
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: (value as { color: string }).color }}
-                />
-                <CardDescription>{(value as { label: string }).label}</CardDescription>
-              </div>
-            );
-          })}
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                  {t('Charts.channels')}
+                </th>
+
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {chartData.map((entry) => {
+                const percentage =
+                  totalHolders > 0 ? ((entry.Total / totalHolders) * 100).toFixed(1) : '0.0';
+                return (
+                  <tr key={entry.onboardingChannel}>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: entry.fill }}
+                        />
+                        <td className="text-sm font-medium">{entry.onboardingChannel}</td>
+                      </div>
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                      {percentage}%
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </CardContent>
     </Card>

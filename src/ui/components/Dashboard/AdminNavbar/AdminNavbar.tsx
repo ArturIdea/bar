@@ -17,21 +17,18 @@ export default function AdminNavbar() {
   const t = useTranslations();
   const { userProfile, loading } = useUserProfile();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-
   const pathname = usePathname();
 
   const logoutUser = () => {
     const logoutURL = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/logout`);
-
     cookies.remove('accessToken');
     cookies.remove('refreshToken');
-
     router.push(logoutURL.toString());
   };
 
   if (loading) {
     return (
-      <div className="p-[18px] flex justify-between items-center border-b border-gray-200">
+      <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
         <h1 className="font-semibold text-4xl text-[#08678E]">{t('Navbar.dashboard')}</h1>
         <LocaleSwitcher />
       </div>
@@ -56,9 +53,8 @@ export default function AdminNavbar() {
   };
 
   return (
-    <div className="p-[18px] flex justify-between items-center border-b border-gray-200 relative">
+    <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
       <h1 className="font-semibold text-4xl text-[#08678E]">{getTitle()}</h1>
-
       <div className="flex items-center gap-4">
         {/* User Profile Dropdown */}
         {userProfile && (
@@ -78,16 +74,15 @@ export default function AdminNavbar() {
                 />
               </button>
             </div>
-
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-[412px]  bg-white border border-gray-200 shadow-lg rounded-2xl p-6 z-50">
+              <div className="absolute right-0 mt-3 w-[412px] bg-white border border-gray-200 shadow-lg rounded-2xl p-6 z-50">
                 <div className="flex justify-between items-center ">
                   <h1 className="font-semibold text-2xl text-[#08678E]">{t('Navbar.profile')}</h1>
                   <div>
                     <button
                       type="button"
-                      className="cursor-pointer  text-gray-500 hover:text-gray-700 transition"
+                      className="cursor-pointer text-gray-500 hover:text-gray-700 transition"
                       onClick={() => setDropdownOpen(false)}
                       aria-label="Close modal"
                     >
@@ -95,7 +90,6 @@ export default function AdminNavbar() {
                     </button>
                   </div>
                 </div>
-
                 {/* User Info */}
                 <div className="flex items-center gap-4 py-6">
                   <Image
@@ -105,16 +99,13 @@ export default function AdminNavbar() {
                     height={40}
                     className="w-10 h-10 rounded-full border border-gray-300"
                   />
-
                   <div>
                     <p className="font-semibold text-lg text-gray-800">
                       {userProfile?.firstName} {userProfile?.lastName}
                     </p>
                   </div>
                 </div>
-
                 <div className="border-t border-gray-200 pb-4" />
-
                 {/* Menu Items */}
                 <div className="flex flex-col gap-3">
                   <Link
@@ -130,9 +121,7 @@ export default function AdminNavbar() {
                     <LocaleSwitcher />
                   </div>
                 </div>
-
                 <div className="border-b border-gray-200 pt-4" />
-
                 {/* Logout Button */}
                 <div className="pt-6">
                   <button
