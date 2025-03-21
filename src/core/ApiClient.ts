@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import Cookies from 'universal-cookie';
 import { API_URL } from '@/core/config';
-import { getDeviceId } from './utils/deviceUtils';
+import { getDeviceIdSync } from './utils/deviceUtils';
 import { HEADER_NAMES } from './utils/headers';
 import { setServerCookie } from './utils/setCookies';
 
@@ -52,7 +52,7 @@ export class ApiClient {
     };
 
     if (typeof window !== 'undefined') {
-      headers[HEADER_NAMES.DEVICE_ID] = getDeviceId();
+      headers[HEADER_NAMES.DEVICE_ID] = getDeviceIdSync();
       headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
     }
 
@@ -69,7 +69,7 @@ export class ApiClient {
         }
 
         if (typeof window !== 'undefined') {
-          config.headers[HEADER_NAMES.DEVICE_ID] = getDeviceId();
+          config.headers[HEADER_NAMES.DEVICE_ID] = getDeviceIdSync();
           config.headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
         }
 
@@ -135,7 +135,7 @@ export class ApiClient {
         {
           headers: {
             'Content-Type': 'application/json',
-            [HEADER_NAMES.DEVICE_ID]: getDeviceId(),
+            [HEADER_NAMES.DEVICE_ID]: getDeviceIdSync(),
             [HEADER_NAMES.CHANNEL_TYPE]: this.channelType,
           },
         }

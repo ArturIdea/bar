@@ -1731,6 +1731,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fingerprintjs/fingerprintjs@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "@fingerprintjs/fingerprintjs@npm:4.6.1"
+  dependencies:
+    tslib: "npm:^2.4.1"
+  checksum: 10c0/bc06928ef414e77c33d2b88666df89a9c80f48060b9548f4be273449a82862a6f309a12d718f00f7c566e68a23e9822988a3610aa238c559196a25840e403446
+  languageName: node
+  linkType: hard
+
 "@floating-ui/core@npm:^1.6.0":
   version: 1.6.9
   resolution: "@floating-ui/core@npm:1.6.9"
@@ -9849,6 +9858,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.24.7"
     "@eslint/js": "npm:^9.15.0"
+    "@fingerprintjs/fingerprintjs": "npm:^4.6.1"
     "@ianvs/prettier-plugin-sort-imports": "npm:^4.3.1"
     "@mantine/core": "npm:^7.16.2"
     "@mantine/dates": "npm:^7.16.2"
@@ -13202,7 +13212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0":
+"tslib@npm:2, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62

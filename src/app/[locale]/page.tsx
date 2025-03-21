@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { KEYCLOAK_URL } from '@/core/config';
+import { getDeviceId } from '@/core/utils/deviceUtils';
 import { generateCodeChallenge, generateCodeVerifier, getRedirectURI } from '@/core/utils/oauth';
 import { useRouter } from '@/i18n/routing';
 
@@ -28,9 +29,7 @@ export default function HomePage() {
         authUrl.searchParams.set('code_challenge', codeChallenge);
         authUrl.searchParams.set('code_challenge_method', 'S256');
 
-        console.log('Final auth URL:', authUrl.toString());
         const redirectUrl = authUrl.toString();
-        console.log('Redirecting to:', redirectUrl);
         window.location.href = redirectUrl;
       } catch (error) {
         console.error('Error constructing auth URL:', error);
@@ -39,6 +38,10 @@ export default function HomePage() {
 
     initiateLogin();
   }, [router]);
+
+  useEffect(() => {
+    getDeviceId();
+  }, []);
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
