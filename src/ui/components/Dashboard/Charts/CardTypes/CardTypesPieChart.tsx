@@ -147,7 +147,7 @@ export function CardTypesPieChart() {
                           className="w-4 h-4 rounded-full"
                           style={{ backgroundColor: entry.fill }}
                         />
-                        <td className="text-sm font-medium">{entry.cardType}</td>
+                        <span className="text-sm font-medium">{entry.cardType}</span>
                       </div>
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
