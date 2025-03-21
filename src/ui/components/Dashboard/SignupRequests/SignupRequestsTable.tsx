@@ -161,7 +161,7 @@ export const SignUpRequestsTable: React.FC<{
                   {dropdownOpen[req.id] && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-0 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      className="absolute right-16 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                     >
                       <button
                         type="button"
