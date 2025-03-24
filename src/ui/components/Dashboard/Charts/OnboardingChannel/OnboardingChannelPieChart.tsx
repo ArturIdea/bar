@@ -152,7 +152,15 @@ export function OnboardingChannelPieChart() {
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
                   {t('Charts.channels')}
                 </th>
-
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                  {t('Charts.totalRequests')}
+                </th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                  {t('Charts.successfulRequests')}
+                </th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                  {t('Charts.failedRequests')}
+                </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
               </tr>
             </thead>
@@ -165,11 +173,20 @@ export function OnboardingChannelPieChart() {
                     <td className="px-4 py-2 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <span
-                          className="w-4 h-4 rounded-full"
+                          className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: entry.fill }}
                         />
                         <span className="text-sm font-medium">{entry.onboardingChannel}</span>
                       </div>
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                      {entry.Total}
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                      {entry.Success}
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                      {entry.Failed}
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                       {percentage}%
