@@ -3,11 +3,11 @@ import { AdminSidebar } from '@/ui/components/Dashboard/AdminSidebar/AdminSideba
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', overflow: 'auto' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <AdminSidebar />
-      <main className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out">
+      <main className="flex-1 flex flex-col overflow-hidden">
         <AdminNavbar />
-        <div>{children}</div>
+        <div className="flex-1 overflow-y-auto">{children}</div>
       </main>
     </div>
   );

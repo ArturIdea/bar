@@ -57,7 +57,7 @@ export const StatisticsDashboard = () => {
           {previousStats &&
             (reverseColor ? (
               <span
-                className={`text-sm font-semibold ${currentValue <= previousValue ? 'text-green-500' : 'text-red-500'}`}
+                className={`text-sm font-semibold ${currentValue >= previousValue ? 'text-green-500' : 'text-red-500'}`}
               >
                 {currentValue <= previousValue ? '▼' : '▲'}{' '}
                 {getPercentageChange(currentValue, previousValue)}%

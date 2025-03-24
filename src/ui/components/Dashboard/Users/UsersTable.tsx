@@ -139,7 +139,7 @@ export const UsersTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 flex items-center justify-end">
+                <td className="px-6 py-4 flex items-center justify-end relative">
                   <button
                     type="button"
                     className="text-gray-500 hover:text-gray-700 cursor-pointer"
@@ -152,7 +152,7 @@ export const UsersTable: React.FC<{
                   {dropdownOpen[user.userId] && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-20 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                     >
                       <button
                         type="button"
