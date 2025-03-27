@@ -31,7 +31,7 @@ export class ApiClient {
   private isRefreshing = false;
   private refreshSubscribers: ((token: string) => void)[] = [];
   private refreshTokenURL = `${API_URL}/api-public/refresh-token`;
-  private channelType = 'WEB_PORTAL';
+  private channelType = 'ADMIN_PORTAL';
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -52,8 +52,8 @@ export class ApiClient {
     };
 
     if (typeof window !== 'undefined') {
-      headers[HEADER_NAMES.DEVICE_ID] = getDeviceIdSync();
-      headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
+      headers[HEADER_NAMES.DEVICE_HEADER] = getDeviceIdSync();
+      headers[HEADER_NAMES.CHANNEL_HEADER] = this.channelType;
     }
 
     return headers;
@@ -69,8 +69,8 @@ export class ApiClient {
         }
 
         if (typeof window !== 'undefined') {
-          config.headers[HEADER_NAMES.DEVICE_ID] = getDeviceIdSync();
-          config.headers[HEADER_NAMES.CHANNEL_TYPE] = this.channelType;
+          config.headers[HEADER_NAMES.DEVICE_HEADER] = getDeviceIdSync();
+          config.headers[HEADER_NAMES.CHANNEL_HEADER] = this.channelType;
         }
 
         return config;
@@ -135,8 +135,8 @@ export class ApiClient {
         {
           headers: {
             'Content-Type': 'application/json',
-            [HEADER_NAMES.DEVICE_ID]: getDeviceIdSync(),
-            [HEADER_NAMES.CHANNEL_TYPE]: this.channelType,
+            [HEADER_NAMES.DEVICE_HEADER]: getDeviceIdSync(),
+            [HEADER_NAMES.CHANNEL_HEADER]: this.channelType,
           },
         }
       );

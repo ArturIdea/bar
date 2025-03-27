@@ -1,4 +1,4 @@
 export const HEADER_NAMES = {
-  CHANNEL_TYPE: 'Channel-Type',
-  DEVICE_ID: 'deviceId',
+  CHANNEL_HEADER: 'Channel-Type',
+  DEVICE_HEADER: 'Device-Id',
 };
