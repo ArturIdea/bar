@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSou
 import Cookies from 'universal-cookie';
 import { API_URL } from '@/core/config';
 import { getDeviceIdSync } from './utils/deviceUtils';
-import { HEADER_NAMES } from './utils/headers';
+import { CHANNEL_TYPE, HEADER_NAMES } from './utils/headers';
 import { setServerCookie } from './utils/setCookies';
 
 const cookies = new Cookies();
@@ -31,7 +31,6 @@ export class ApiClient {
   private isRefreshing = false;
   private refreshSubscribers: ((token: string) => void)[] = [];
   private refreshTokenURL = `${API_URL}/api-public/refresh-token`;
-  private channelType = 'ADMIN_PORTAL';
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -53,7 +52,7 @@ export class ApiClient {
 
     if (typeof window !== 'undefined') {
       headers[HEADER_NAMES.DEVICE_HEADER] = getDeviceIdSync();
-      headers[HEADER_NAMES.CHANNEL_HEADER] = this.channelType;
+      headers[HEADER_NAMES.CHANNEL_HEADER] = CHANNEL_TYPE;
     }
 
     return headers;
@@ -70,7 +69,7 @@ export class ApiClient {
 
         if (typeof window !== 'undefined') {
           config.headers[HEADER_NAMES.DEVICE_HEADER] = getDeviceIdSync();
-          config.headers[HEADER_NAMES.CHANNEL_HEADER] = this.channelType;
+          config.headers[HEADER_NAMES.CHANNEL_HEADER] = CHANNEL_TYPE;
         }
 
         return config;
@@ -136,7 +135,7 @@ export class ApiClient {
           headers: {
             'Content-Type': 'application/json',
             [HEADER_NAMES.DEVICE_HEADER]: getDeviceIdSync(),
-            [HEADER_NAMES.CHANNEL_HEADER]: this.channelType,
+            [HEADER_NAMES.CHANNEL_HEADER]: CHANNEL_TYPE,
           },
         }
       );
