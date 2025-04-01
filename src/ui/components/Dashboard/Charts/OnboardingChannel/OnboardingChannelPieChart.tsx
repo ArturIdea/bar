@@ -18,6 +18,7 @@ export function OnboardingChannelPieChart() {
     () => ({
       CITIZEN_APP: { label: t('Charts.CITIZEN_APP'), color: '#2157E2' },
       AGENT_APP: { label: t('Charts.AGENT_APP'), color: '#13AB3F' },
+      BANK_PORTAL: { label: t('Charts.BANK_PORTAL'), color: '#F6A600' },
       WEB_PORTAL: { label: t('Charts.WEB_PORTAL'), color: '#DC1B25' },
     }),
     [t]

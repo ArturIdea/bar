@@ -76,6 +76,7 @@
     "onboardingChannel": "Onboarding Channel",
     "CITIZEN_APP": "Citizen App",
     "AGENT_APP": "Agent App",
+    "BANK_PORTAL": "Bank Portal",
     "WEB_PORTAL": "Web Portal",
     "appUsageAgeDistribution": "App Usage Age Distribution",
     "ageGroup": "Age Group",
