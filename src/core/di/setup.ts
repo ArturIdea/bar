@@ -10,6 +10,11 @@ import {
   loadChannelMetricsUseCases,
 } from './modules/ChannelMetrics.module';
 import {
+  loadDevSignupRequestRepositories,
+  loadDevSignupRequestUseCases,
+} from './modules/dev/SignupRequest.module';
+import { loadDevUsersRepositories, loadDevUsersUseCasesDev } from './modules/dev/Users.module';
+import {
   loadSignupMetricsRepositories,
   loadSignupMetricsUseCases,
 } from './modules/SignupMetrics.module';
@@ -37,7 +42,7 @@ export const setupDependencies = () => {
   }
   isDependenciesSetup = true;
 
-  //repositories
+  //!repositories
   loadSignupRequestRepositories(diContainer);
   loadSignupRequestDetailRepositories(diContainer);
   loadUserstRepositories(diContainer);
@@ -50,7 +55,12 @@ export const setupDependencies = () => {
   loadAgeDistributionMetricsRepositories(diContainer);
   loadUserProfileRepositories(diContainer);
   loadBenefitsRepositories(diContainer);
-  //use cases
+
+  //dev repositories
+  loadDevUsersRepositories(diContainer);
+  loadDevSignupRequestRepositories(diContainer);
+
+  //!use cases
   loadSignupRequestUseCases(diContainer);
   loadSignupRequestDetailUseCases(diContainer);
   loadUsersUseCases(diContainer);
@@ -63,4 +73,8 @@ export const setupDependencies = () => {
   loadAgeDistributionMetricsUseCases(diContainer);
   loadUserProfileUseCases(diContainer);
   loadBenefitsUseCases(diContainer);
+
+  //dev use cases
+  loadDevUsersUseCasesDev(diContainer);
+  loadDevSignupRequestUseCases(diContainer);
 };
