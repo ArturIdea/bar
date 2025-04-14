@@ -34,10 +34,9 @@ export const UserFilterModal = ({
 
   const [startTime, setStartTime] = useState<string>('00:00');
   const [endTime, setEndTime] = useState<string>('23:59');
-  const [roles, setRoles] = useState<string>('');
 
   const [pinfl, setPinfl] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
+  // const [name, setName] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
@@ -58,24 +57,22 @@ export const UserFilterModal = ({
       const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
 
       onApply(
-        roles || undefined,
+        // name || undefined,
         createdAtFrom,
         createdAtTo,
-        pinfl || undefined,
-        username || undefined
+        pinfl || undefined
       );
     } else {
-      onApply(roles || undefined, undefined, undefined, pinfl || undefined, username || undefined);
+      onApply(undefined, undefined, pinfl || undefined);
     }
     onClose();
   };
 
   const handleClearFilters = () => {
-    setRoles('');
     setDateRange({ startDate: undefined, endDate: undefined, key: 'selection' });
     setPinfl('');
-    setUsername('');
-    onApply(undefined, undefined, undefined, undefined, undefined);
+    // setName('');
+    onApply(undefined, undefined, undefined, undefined);
     onClose();
   };
 
@@ -89,32 +86,6 @@ export const UserFilterModal = ({
         <h2 className="text-center text-xl pb-4">{t('Filter.filterBy')}:</h2>
 
         <div className="flex flex-col gap-6">
-          {/* Role Selector */}
-          <div>
-            <label className="text-gray-400 mb-2">{t('Filter.roles.title')}</label>
-            <select
-              value={roles}
-              onChange={(e) => setRoles(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl p-2 bg-white"
-            >
-              <option value="USER">{t('Filter.roles.user')}</option>
-              <option value="AGENT">{t('Filter.roles.agent')}</option>
-              <option value="ADMIN">{t('Filter.roles.admin')}</option>
-              <option value="XALQ_AGENT">{t('Filter.roles.xalqAgent')}</option>
-            </select>
-          </div>
-
-          {/* Username Input */}
-          <div>
-            <label className="text-gray-400 mb-2">{t('Filter.username')}</label>
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              type="text"
-              className="w-full border border-gray-300 rounded-xl p-2"
-            />
-          </div>
-
           {/* PINFL Input */}
           <div>
             <label className="text-gray-400 mb-2">{t('Filter.pinfl')}</label>

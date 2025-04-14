@@ -35,6 +35,7 @@ export default function BenefitsList() {
     setPageSize(Number(event.target.value));
     setPage(0);
   };
+
   return (
     <div className="">
       <div className="flex items-center py-8 px-6 justify-between border-b">
@@ -71,8 +72,8 @@ export default function BenefitsList() {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center bg-gray-100 rounded-xl py-2">
-                  <div className="text-center font-bold text-gray-700 w-[87px] ">
-                    {((benefit.users || 0) / 1000).toFixed(2)}k
+                  <div className="text-center font-bold text-gray-700 w-[87px]">
+                    {benefit.users || 0}
                   </div>
                   <div className="text-gray-500">{t('UserProfile.users')}</div>
                 </div>

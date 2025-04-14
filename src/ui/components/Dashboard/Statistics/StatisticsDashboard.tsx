@@ -28,7 +28,9 @@ export const StatisticsDashboard = () => {
     const change = getPercentageChange(current, previous);
     return (
       <span
-        className={`text-sm font-semibold ${current >= previous ? 'text-green-500' : 'text-red-500'}`}
+        className={`text-sm font-semibold ${
+          current >= previous ? 'text-green-500' : 'text-red-500'
+        }`}
       >
         {current >= previous ? '▲' : '▼'} {change}%
       </span>
@@ -53,19 +55,24 @@ export const StatisticsDashboard = () => {
       <div>
         <h4 className="2xl:text-md text-sm text-gray-400">{label}</h4>
         <p className="2xl:text-4xl text-xl font-bold">{currentValue}</p>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 items-start">
           {previousStats &&
             (reverseColor ? (
               <span
-                className={`text-sm font-semibold ${currentValue >= previousValue ? 'text-green-500' : 'text-red-500'}`}
+                className={`text-sm font-semibold ${
+                  currentValue >= previousValue ? 'text-green-500' : 'text-red-500'
+                }`}
               >
                 {currentValue <= previousValue ? '▼' : '▲'}{' '}
                 {getPercentageChange(currentValue, previousValue)}%
               </span>
             ) : (
               renderChangeIndicator(currentValue, previousValue)
-            ))}{' '}
+            ))}
           <p className="text-sm">{t('Statistics.thisWeek')}</p>
+          <span className="text-xs font-semiboldtext-gray-500">
+            ({previousValue} {t('Statistics.pastWeek')})
+          </span>
         </div>
       </div>
     </div>

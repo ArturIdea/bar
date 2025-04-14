@@ -8,6 +8,9 @@
   "Sidebar": {
     "insights": "Insights",
     "userManagement": "User Management",
+    "barakaUsers": "Baraka Users",
+    "naspAgents": "NASP Agents",
+    "bankAgents": "Bank Agents",
     "signupRequests": "Sign Up Requests",
     "benefits": "Benefits"
   },
@@ -57,7 +60,8 @@
     "requests": "Registration Requests",
     "successfulRequests": "Successful Requests",
     "failedRequests": "Rejected Requests",
-    "thisWeek": "this week"
+    "thisWeek": "this week",
+    "pastWeek": "past week"
   },
   "Charts": {
     "registrationOverview": "Registration Requests Overview",
@@ -76,7 +80,7 @@
     "onboardingChannel": "Onboarding Channel",
     "CITIZEN_APP": "Citizen App",
     "AGENT_APP": "Agent App",
-    "BANK_PORTAL": "Bank Portal",
+    "BANK_PORTAL": "Agent Portal",
     "WEB_PORTAL": "Web Portal",
     "appUsageAgeDistribution": "App Usage Age Distribution",
     "ageGroup": "Age Group",
@@ -155,7 +159,10 @@
     "rejected": "Rejected"
   },
   "UserManagement": {
-    "navbarTitle": "User Management",
+    "navbarTitle": {
+      "title": "User Management",
+      "barakaUsers": "Baraka Users"
+    },
     "title": "Latest User Registrations",
     "title2": "User Registrations",
     "name": "Name",

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { addDays, addMonths, addWeeks, format, subDays, subMonths, subWeeks } from 'date-fns';
 import { useTranslations } from 'next-intl';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -18,7 +18,7 @@ import { DateRangeSelector } from './DateRangeSelector';
 
 type DateGranularity = 'day' | 'week' | 'month';
 
-export function NewAccountsBarChart() {
+export function NewAccountsAreaChart() {
   const t = useTranslations();
   const [granularity, setGranularity] = useState<DateGranularity>('month');
   const [fromDate, setFromDate] = useState<string>(format(subMonths(new Date(), 11), 'yyyy-MM-01'));
@@ -67,11 +67,10 @@ export function NewAccountsBarChart() {
 
   useEffect(() => {
     applyDateRangeForGranularity(granularity);
-  }, [granularity]);
+  }, [granularity, customDateRange]);
 
   const chartData = metrics.map((metric) => {
     const date = new Date(metric.date);
-
     let period;
     if (granularity === 'week') {
       const startOfWeek = format(date, 'MMM dd');
@@ -90,7 +89,7 @@ export function NewAccountsBarChart() {
   const chartConfig = {
     accounts: {
       label: t('Charts.accounts'),
-      color: 'hsl(var(--chart-1))',
+      color: '#13AB3F',
     },
   } satisfies ChartConfig;
 
@@ -108,11 +107,7 @@ export function NewAccountsBarChart() {
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>
         <div className="flex justify-center items-center gap-2">
-          <div>
-            <div>
-              <DateRangePicker onDateChange={handleDateRangeChange} />
-            </div>
-          </div>
+          <DateRangePicker onDateChange={handleDateRangeChange} />
           <DateRangeSelector
             onDateChange={(start, end, selectedGranularity) => {
               if (!customDateRange) {
@@ -140,17 +135,17 @@ export function NewAccountsBarChart() {
 
       <CardContent>
         <ChartContainer
-          className="h-[25vh] w-full aspect-square min-h-[300px] "
+          className="h-[25vh] w-full aspect-square min-h-[300px]"
           config={chartConfig}
         >
-          <BarChart accessibilityLayer data={chartData}>
+          <AreaChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickMargin={10}
               label={{
-                value: t('Charts.registrations'),
+                value: t('Charts.accounts'),
                 angle: -90,
                 position: 'insideLeft',
                 dy: -10,
@@ -158,26 +153,27 @@ export function NewAccountsBarChart() {
               }}
               domain={[0, (dataMax: number) => dataMax * 1.2]}
             />
-            <XAxis
-              dataKey="period"
-              tickLine={false}
-              axisLine={false}
-              interval={0}
-              tickMargin={7}
-              orientation="top"
-              angle={-20}
-            />
+            <XAxis dataKey="period" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip
-              cursor={{ fill: '#D3D3D3' }}
-              content={<ChartTooltipContent hideIndicator hideLabel />}
+              cursor={false}
+              content={<ChartTooltipContent className="w-[15em]" hideIndicator />}
             />
-            <Bar
+            <defs>
+              {Object.entries(chartConfig).map(([key, { color }]) => (
+                <linearGradient key={key} id={`fill${key}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+                  <stop offset="95%" stopColor={color} stopOpacity={0.1} />
+                </linearGradient>
+              ))}
+            </defs>
+            <Area
+              type="monotone"
               dataKey="accounts"
-              fill="#679436"
-              radius={[9999, 9999, 0, 0]}
-              activeBar={{ fill: '#A5BE19 ' }}
+              fill="url(#fillaccounts)"
+              fillOpacity={0.4}
+              stroke={chartConfig.accounts.color}
             />
-          </BarChart>
+          </AreaChart>
         </ChartContainer>
       </CardContent>
     </Card>

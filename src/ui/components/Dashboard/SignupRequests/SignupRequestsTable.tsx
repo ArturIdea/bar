@@ -140,7 +140,13 @@ export const SignUpRequestsTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.phoneNumber || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                  {new Date(req.createdAt).toLocaleDateString()}
+                  {new Date(req.createdAt).toLocaleString('en-GB', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
                 </td>
                 <td className="px-6 py-4">
                   <span

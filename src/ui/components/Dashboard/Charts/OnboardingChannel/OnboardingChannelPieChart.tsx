@@ -37,6 +37,18 @@ export function OnboardingChannelPieChart() {
     }));
   }, [metrics, t, chartConfig]);
 
+  //total requests
+  const totals = useMemo(() => {
+    return chartData.reduce(
+      (acc, cur) => ({
+        Total: acc.Total + cur.Total,
+        Success: acc.Success + cur.Success,
+        Failed: acc.Failed + cur.Failed,
+      }),
+      { Total: 0, Success: 0, Failed: 0 }
+    );
+  }, [chartData]);
+
   const totalHolders = useMemo(
     () => chartData.reduce((sum, entry) => sum + entry.Total, 0),
     [chartData]
@@ -92,7 +104,7 @@ export function OnboardingChannelPieChart() {
       return (
         <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-42">
           <p className="font-semibold pb-1">{data.onboardingChannel}</p>
-          <div className="">
+          <div>
             <div className="flex justify-between">
               <p className="text-gray-500">{t('Charts.totalRequests')}</p>
               <p className="text-gray-500 ">{data.Total}</p>
@@ -195,6 +207,20 @@ export function OnboardingChannelPieChart() {
                   </tr>
                 );
               })}
+              {/* Total Requests row */}
+              <tr className="bg-neutral-50 font-semibold">
+                <td className="px-4 py-2 whitespace-nowrap">{t('Charts.totalRequests')}</td>
+                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                  {totals.Total}
+                </td>
+                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                  {totals.Success}
+                </td>
+                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                  {totals.Failed}
+                </td>
+                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">100%</td>
+              </tr>
             </tbody>
           </table>
         </div>

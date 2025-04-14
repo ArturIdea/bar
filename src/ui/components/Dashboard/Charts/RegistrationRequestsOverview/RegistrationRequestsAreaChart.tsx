@@ -134,6 +134,7 @@ export function RegistrationRequestsAreaChart() {
               </defs>
               {(Object.keys(chartConfig) as Array<keyof typeof chartConfig>).map((key) => (
                 <Area
+                  type="monotone"
                   key={key}
                   dataKey={key}
                   fill={`url(#fill${key})`}

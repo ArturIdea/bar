@@ -38,7 +38,9 @@ export default function AdminNavbar() {
   const getTitle = () => {
     switch (pathname) {
       case '/dashboard/user-management':
-        return t('UserManagement.navbarTitle');
+        return t('UserManagement.navbarTitle.title');
+      case '/dashboard/user-management/baraka-users':
+        return t('UserManagement.navbarTitle.barakaUsers');
       case '/dashboard/signup-requests':
         return t('SignupRequests.title2');
       case '/dashboard/profile':

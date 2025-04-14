@@ -17,7 +17,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   total,
   onPageChange,
   onPageSizeChange,
-  pageSizeOptions = [10, 20, 30, 50],
+  pageSizeOptions = [20, 50, 70, 100],
 }) => {
   const t = useTranslations();
 
@@ -25,7 +25,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   const totalPages = useMemo(() => Math.ceil(total / pageSize), [total, pageSize]);
 
   return (
-    <div className="flex items-center justify-between px-2 pt-4">
+    <div className="flex items-center justify-between px-6 py-4">
       <div className="flex items-center gap-2 text-sm text-gray-500">
         <span>{t('Pagination.showing')}</span>
         <select
