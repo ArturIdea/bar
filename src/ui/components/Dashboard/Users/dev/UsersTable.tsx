@@ -93,9 +93,9 @@ export const UsersTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col w-full p-6 bg-white border-t border-b border-gray-200">
+    <div className="flex flex-col w-full border-t border-b border-gray-200">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between p-6">
         {pathname === '/dashboard/user-management' ? (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title2')}</h4>
         ) : (
@@ -106,11 +106,11 @@ export const UsersTable: React.FC<{
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-t-lg">
+      <div className="overflow-x-auto ">
         <table className="w-full border-collapse border-spacing-0">
           {/* Table Header */}
-          <thead>
-            <tr className="bg-gray-100 text-left text-gray-400">
+          <thead className="border-t border-b border-gray-200">
+            <tr className="text-left text-gray-400">
               {columns.map((col) => (
                 <th key={col.key} className="px-6 py-3 font-normal">
                   {col.label}
@@ -123,7 +123,7 @@ export const UsersTable: React.FC<{
           {/* Table Body */}
           <tbody>
             {users.map((user) => (
-              <tr key={user.userId} className={` hover:bg-gray-100 transition-colors`}>
+              <tr key={user.userId} className={` hover:bg-gray-50 transition-colors`}>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {user.firstName} {user.lastName}
                 </td>

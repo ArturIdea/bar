@@ -132,7 +132,7 @@ export function AdminSidebar() {
         {regularNavItems.map((item) => renderNavItem(item))}
 
         {/* Divider before developer links */}
-        {isDeveloper && <div className="mx-4 my-2 border-b border-gray-300" />}
+        {isDeveloper && <div className="border-b border-gray-300" />}
 
         {developerNavItems.map((item) => (
           <Link

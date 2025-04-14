@@ -132,7 +132,7 @@ export const SignUpRequestsTable: React.FC<{
           </thead>
           <tbody className="border-b border-gray-200">
             {requests.map((req) => (
-              <tr key={req.id} className="hover:bg-gray-100 transition-colors">
+              <tr key={req.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {`${req.firstName || ''} ${req.lastName || ''}`}
                 </td>
