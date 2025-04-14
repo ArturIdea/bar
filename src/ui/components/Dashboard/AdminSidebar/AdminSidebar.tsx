@@ -123,7 +123,7 @@ export function AdminSidebar() {
 
   return (
     <nav className="sticky top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-r border-gray-200">
-      <Link href="/">
+      <Link href="/dashboard">
         <div className="p-6 border-b border-gray-200">
           <Image src="/images/logos/baraka_main_logo.svg" width={107} height={28} alt="logo" />
         </div>
