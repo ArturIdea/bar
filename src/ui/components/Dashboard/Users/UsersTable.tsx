@@ -114,7 +114,7 @@ export const UsersTable: React.FC<{
       <div className="overflow-x-auto">
         <table className="w-full ">
           {/* Table Header */}
-          <thead className="border-t border-b border-gray-200 0">
+          <thead className="border-t border-b border-gray-200">
             <tr className=" text-left text-gray-400">
               {columns.map((col) => (
                 <th key={col.key} className="px-6 py-3 font-normal">
