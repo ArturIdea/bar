@@ -123,11 +123,11 @@ export const SignUpRequestsTable: React.FC<{
           <thead className="border-t border-b border-gray-200">
             <tr className=" text-left text-gray-400">
               {columns.map((col) => (
-                <th key={col.key} className="px-6 py-3 font-normal">
+                <th key={col.key} className="w-1/8 px-6 py-3 font-normal">
                   {col.label}
                 </th>
               ))}
-              <th className="px-6 py-3" />
+              <th className="w-2/8 px-6 py-3" />
             </tr>
           </thead>
           <tbody className="border-b border-gray-200">

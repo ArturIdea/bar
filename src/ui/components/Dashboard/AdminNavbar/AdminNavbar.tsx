@@ -41,8 +41,12 @@ export default function AdminNavbar() {
         return t('UserManagement.navbarTitle.title');
       case '/dashboard/user-management/baraka-users':
         return t('UserManagement.navbarTitle.barakaUsers');
+      case '/dashboard/dev/user-management/baraka-users':
+        return `Dev ${t('UserManagement.navbarTitle.barakaUsers')}`;
       case '/dashboard/signup-requests':
         return t('SignupRequests.title2');
+      case '/dashboard/dev/signup-requests':
+        return `Dev ${t('SignupRequests.title2')}`;
       case '/dashboard/profile':
         return t('Navbar.profile');
       case '/dashboard/history':

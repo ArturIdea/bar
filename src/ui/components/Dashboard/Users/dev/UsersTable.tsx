@@ -7,6 +7,7 @@ import { useUsers } from '@/ui/hooks/ui/dev/useUsers';
 import { Pagination } from '../../Pagination';
 import { TableSkeleton } from '../../TableSkeleton';
 import ViewDetailsButton from '../../ViewDetailsButton';
+import UserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
   filters?: {
@@ -16,10 +17,8 @@ export const UsersTable: React.FC<{
   };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  //   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  //   const [selectedPinfl, setSelectedPinfl] = useState<string | null>(null);
-  //   const [selectedSignupRequestId, setSelectedSignupRequestId] = useState<string | null>(null);
+  const [pageSize, setPageSize] = useState(20);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const { users, total, loading } = useUsers(
     page,
@@ -37,19 +36,10 @@ export const UsersTable: React.FC<{
     setPage(0);
   }, [filters]);
 
-  //   const handleViewDetails = (pinfl?: string, userId?: string) => {
-  //     setSelectedUserId(userId || null);
-  //     setSelectedPinfl(pinfl || null);
-  //     setDropdownOpen({});
-  //     setSelectedSignupRequestId(null);
-  //   };
-
-  //   const handleOpenSignupRequest = (signupRequestId: string) => {
-  //     setSelectedSignupRequestId(signupRequestId);
-  //     setDropdownOpen({});
-  //     setSelectedUserId(null);
-  //     setSelectedPinfl(null);
-  //   };
+  const handleViewDetails = (userId?: string) => {
+    setSelectedUserId(userId || null);
+    setDropdownOpen({});
+  };
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -86,9 +76,10 @@ export const UsersTable: React.FC<{
 
   const columns = [
     { key: 'name', label: t('UserManagement.name') },
+    { key: 'pinfl', label: t('UserManagement.pinfl') },
+    { key: 'socialNumber', label: t('UserManagement.socialNumber') },
     { key: 'email', label: t('UserManagement.email') },
     { key: 'mobile', label: t('UserManagement.mobile') },
-    { key: 'role', label: t('UserManagement.role') },
     { key: 'createdAt', label: t('UserManagement.createdAt') },
   ];
 
@@ -96,7 +87,7 @@ export const UsersTable: React.FC<{
     <div className="flex flex-col w-full border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6">
-        {pathname === '/dashboard/user-management' ? (
+        {pathname === '/dashboard/dev/user-management/baraka-users' ? (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title2')}</h4>
         ) : (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
@@ -112,11 +103,11 @@ export const UsersTable: React.FC<{
           <thead className="border-t border-b border-gray-200">
             <tr className="text-left text-gray-400">
               {columns.map((col) => (
-                <th key={col.key} className="px-6 py-3 font-normal">
+                <th key={col.key} className="w-1/9 px-6 py-3 font-normal">
                   {col.label}
                 </th>
               ))}
-              <th className="px-6 py-3" />
+              <th className="w-3/9 px-6 py-3" />
             </tr>
           </thead>
 
@@ -127,11 +118,18 @@ export const UsersTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
                   {user.firstName} {user.lastName}
                 </td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.role || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                  {new Date(user.createdAt).toLocaleDateString()}
+                  {new Date(user.createdAt).toLocaleString('en-GB', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-end relative">
                   <button
@@ -152,7 +150,7 @@ export const UsersTable: React.FC<{
                         type="button"
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                         onClick={() => {
-                          //   handleViewDetails(user.pinfl, user.userId);
+                          handleViewDetails(user.userId);
                         }}
                       >
                         {t('Buttons.viewUserDetails')}
@@ -174,6 +172,16 @@ export const UsersTable: React.FC<{
           total={total}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
+        />
+      )}
+
+      {/* User Details Modal */}
+      {selectedUserId && (
+        <UserDetailsModal
+          userId={selectedUserId || undefined}
+          onClose={() => {
+            setSelectedUserId(null);
+          }}
         />
       )}
     </div>

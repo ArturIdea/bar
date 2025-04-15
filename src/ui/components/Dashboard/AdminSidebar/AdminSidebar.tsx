@@ -44,7 +44,7 @@ export function AdminSidebar() {
   const developerNavItems = isDeveloper
     ? [
         {
-          link: '/dashboard/dev/user-management',
+          link: '/dashboard/dev/user-management/baraka-users',
           label: `Dev ${t('Sidebar.userManagement')}`,
           icon: UserManagementIcon,
         },

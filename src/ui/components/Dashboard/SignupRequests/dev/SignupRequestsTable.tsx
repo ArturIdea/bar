@@ -16,7 +16,7 @@ export const SignUpRequestsTable: React.FC<{
   };
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(20);
   const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   // const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
   // const [selectedPinfl, setSelectedPinfl] = useState<string | null>(null);
