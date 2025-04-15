@@ -134,7 +134,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
               <div className="mt-6 text-center">
                 <button
                   type="button"
-                  className="bg-[#08678e] text-white px-4 py-2 rounded-full transition cursor-pointer"
+                  className="bg-primary text-white px-4 py-2 rounded-full transition cursor-pointer"
                   onClick={() => {
                     onClose();
                     onOpenUserDetails(signupRequest.pinfl);

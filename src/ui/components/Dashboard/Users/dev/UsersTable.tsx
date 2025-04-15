@@ -7,7 +7,7 @@ import { useUsers } from '@/ui/hooks/ui/dev/useUsers';
 import { Pagination } from '../../Pagination';
 import { TableSkeleton } from '../../TableSkeleton';
 import ViewDetailsButton from '../../ViewDetailsButton';
-import UserDetailsModal from './UserDetailsModal';
+import MultiTabUserDetailsModal from './MultiTabUserDetailsModal';
 
 export const UsersTable: React.FC<{
   filters?: {
@@ -175,10 +175,10 @@ export const UsersTable: React.FC<{
         />
       )}
 
-      {/* User Details Modal */}
+      {/* Multitab Modal */}
       {selectedUserId && (
-        <UserDetailsModal
-          userId={selectedUserId || undefined}
+        <MultiTabUserDetailsModal
+          userId={selectedUserId}
           onClose={() => {
             setSelectedUserId(null);
           }}

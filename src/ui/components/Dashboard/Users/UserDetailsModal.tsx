@@ -165,7 +165,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
       </div>
       <button
         type="button"
-        className="bg-[#08678e] text-white px-4 py-2 rounded-full flex items-center gap-1 cursor-pointer"
+        className="bg-primary text-white px-4 py-2 rounded-full flex items-center gap-1 cursor-pointer"
         onClick={handleHistoryClick}
       >
         {t('Buttons.history')} <ArrowRight className="w-5 h-5" />
@@ -253,7 +253,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
                 <div className=" text-center ">
                   <button
                     type="button"
-                    className="bg-[#08678e] text-white px-4 py-2 rounded-full  transition cursor-pointer"
+                    className="bg-primary text-white px-4 py-2 rounded-full  transition cursor-pointer"
                     onClick={() =>
                       user.signupRequestId && onOpenSignupRequest(user.signupRequestId)
                     }

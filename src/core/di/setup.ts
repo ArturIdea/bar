@@ -13,7 +13,35 @@ import {
   loadDevSignupRequestRepositories,
   loadDevSignupRequestUseCases,
 } from './modules/dev/SignupRequest.module';
+import {
+  loadDevUserBenefitBankAccountRepositories,
+  loadDevUserBenefitBankAccountUseCases,
+} from './modules/dev/UserBenefitBankAccount.module';
+import {
+  loadDevUserDetailsRepositories,
+  loadDevUserDetailsUseCases,
+} from './modules/dev/UserDetails.module';
+import {
+  loadDevUserDevicesRepositories,
+  loadDevUserDevicesUseCases,
+} from './modules/dev/UserDevices.module';
+import {
+  loadDevUserDocumentsRepositories,
+  loadDevUserDocumentsUseCases,
+} from './modules/dev/UserDocuments.module';
+import {
+  loadDevUserImpersonationOtpsRepositories,
+  loadDevUserImpersonationOtpsUseCases,
+} from './modules/dev/UserImpersonationOtps.module';
+import {
+  loadDevUserPublicOfferAgreementRepositories,
+  loadDevUserPublicOfferAgreementUseCases,
+} from './modules/dev/UserPublicOfferAgreement.module';
 import { loadDevUsersRepositories, loadDevUsersUseCasesDev } from './modules/dev/Users.module';
+import {
+  loadDevUserVouchersRepositories,
+  loadDevUserVouchersUseCases,
+} from './modules/dev/UserVouchers.module';
 import {
   loadSignupMetricsRepositories,
   loadSignupMetricsUseCases,
@@ -59,6 +87,13 @@ export const setupDependencies = () => {
   //dev repositories
   loadDevUsersRepositories(diContainer);
   loadDevSignupRequestRepositories(diContainer);
+  loadDevUserDetailsRepositories(diContainer);
+  loadDevUserDocumentsRepositories(diContainer);
+  loadDevUserBenefitBankAccountRepositories(diContainer);
+  loadDevUserImpersonationOtpsRepositories(diContainer);
+  loadDevUserDevicesRepositories(diContainer);
+  loadDevUserVouchersRepositories(diContainer);
+  loadDevUserPublicOfferAgreementRepositories(diContainer);
 
   //!use cases
   loadSignupRequestUseCases(diContainer);
@@ -77,4 +112,11 @@ export const setupDependencies = () => {
   //dev use cases
   loadDevUsersUseCasesDev(diContainer);
   loadDevSignupRequestUseCases(diContainer);
+  loadDevUserDetailsUseCases(diContainer);
+  loadDevUserDocumentsUseCases(diContainer);
+  loadDevUserBenefitBankAccountUseCases(diContainer);
+  loadDevUserImpersonationOtpsUseCases(diContainer);
+  loadDevUserDevicesUseCases(diContainer);
+  loadDevUserVouchersUseCases(diContainer);
+  loadDevUserPublicOfferAgreementUseCases(diContainer);
 };

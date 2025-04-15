@@ -29,7 +29,7 @@ export default function AdminNavbar() {
   if (loading) {
     return (
       <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
-        <h1 className="font-semibold text-4xl text-[#08678E]">{t('Navbar.dashboard')}</h1>
+        <h1 className="font-semibold text-4xl text-primary">{t('Navbar.dashboard')}</h1>
         <LocaleSwitcher />
       </div>
     );
@@ -60,7 +60,7 @@ export default function AdminNavbar() {
 
   return (
     <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
-      <h1 className="font-semibold text-4xl text-[#08678E]">{getTitle()}</h1>
+      <h1 className="font-semibold text-4xl text-primary">{getTitle()}</h1>
       <div className="flex items-center gap-4">
         {/* User Profile Dropdown */}
         {userProfile && (
@@ -84,7 +84,7 @@ export default function AdminNavbar() {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-3 w-[412px] bg-white border border-gray-200 shadow-lg rounded-2xl p-6 z-50">
                 <div className="flex justify-between items-center ">
-                  <h1 className="font-semibold text-2xl text-[#08678E]">{t('Navbar.profile')}</h1>
+                  <h1 className="font-semibold text-2xl text-primary">{t('Navbar.profile')}</h1>
                   <div>
                     <button
                       type="button"
@@ -119,11 +119,11 @@ export default function AdminNavbar() {
                     onClick={() => setDropdownOpen(false)}
                     className="flex items-center gap-3 w-full px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
-                    <UserCircle2 size={20} className="text-[#08678E]" />
+                    <UserCircle2 size={20} className="text-primary" />
                     <h1 className="">{t('Navbar.profile')}</h1>
                   </Link>
                   <div className="flex items-center gap-3 w-full px-4 py-2 rounded-lg">
-                    <LanguagesIcon size={20} className="text-[#08678E]" />
+                    <LanguagesIcon size={20} className="text-primary" />
                     <LocaleSwitcher />
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export default function AdminNavbar() {
                     onClick={() => {
                       logoutUser();
                     }}
-                    className="w-full py-4 text-center bg-[#08678E] text-white font-semibold rounded-full hover:bg-[#065673] transition cursor-pointer"
+                    className="w-full py-4 text-center bg-primary text-white font-semibold rounded-full hover:bg-[#065673] transition cursor-pointer"
                   >
                     {t('Navbar.logout')}
                   </button>

@@ -140,7 +140,7 @@ export const UserFilterModal = ({
         <div className="mt-6 flex justify-end items-center gap-3">
           <button
             type="button"
-            className="border-2 bg-[#08678e] text-white px-4 py-2 rounded-full cursor-pointer"
+            className="border-2 bg-primary text-white px-4 py-2 rounded-full cursor-pointer"
             onClick={handleApply}
           >
             {t('Filter.applyFilters')}
@@ -168,7 +168,7 @@ export const UserFilterModal = ({
               <button
                 type="button"
                 onClick={() => setIsDatePickerOpen(false)}
-                className="px-4 py-2 bg-[#08678e] text-white rounded-lg cursor-pointer"
+                className="px-4 py-2 bg-primary text-white rounded-lg cursor-pointer"
               >
                 {t('Filter.done')}
               </button>

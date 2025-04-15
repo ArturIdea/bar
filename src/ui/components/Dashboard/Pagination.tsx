@@ -69,7 +69,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 key="start-ellipsis"
                 type="button"
                 onClick={() => onPageChange(0)}
-                className="px-3 py-1 rounded-full text-[#08678E] cursor-pointer"
+                className="px-3 py-1 rounded-full text-primary cursor-pointer"
               >
                 1
               </button>,
@@ -86,7 +86,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 key={i}
                 onClick={() => onPageChange(i)}
                 className={`px-3 py-1 rounded-full ${
-                  page === i ? 'bg-[#08678E] text-white' : ' text-[#08678E] cursor-pointer'
+                  page === i ? 'bg-primary text-white' : ' text-primary cursor-pointer'
                 }`}
               >
                 {i + 1}
@@ -103,7 +103,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 key="end-ellipsis"
                 type="button"
                 onClick={() => onPageChange(totalPages - 1)}
-                className="px-3 py-1 rounded-full text-[#08678E] cursor-pointer"
+                className="px-3 py-1 rounded-full text-primary cursor-pointer"
               >
                 {totalPages}
               </button>
