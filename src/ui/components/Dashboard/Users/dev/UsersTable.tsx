@@ -123,7 +123,7 @@ export const UsersTable: React.FC<{
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
                 <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                  {new Date(user.createdAt).toLocaleString('en-GB', {
+                  {new Date(user.createdAt).toLocaleString('uz-UZ', {
                     year: 'numeric',
                     month: '2-digit',
                     day: '2-digit',
@@ -165,7 +165,7 @@ export const UsersTable: React.FC<{
       </div>
 
       {/* Pagination */}
-      {pathname === '/dashboard/dev/user-management' && (
+      {pathname === '/dashboard/dev/user-management/baraka-users' && (
         <Pagination
           page={page}
           pageSize={pageSize}

@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Loader2, XIcon } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
-import { UserBenefitBankAccount } from '@/domain/users/dev/entities/UserBenefitBankAccount';
-import { UserDetail } from '@/domain/users/dev/entities/UserDetail';
-import { UserDevice } from '@/domain/users/dev/entities/UserDevice';
-import { UserDocument } from '@/domain/users/dev/entities/UserDocument';
-import { UserImpersonationOtp } from '@/domain/users/dev/entities/UserImpersonationOtp';
-import { UserPublicOfferAgreement } from '@/domain/users/dev/entities/UserPublicOfferAgreement';
-import { UserVoucher } from '@/domain/users/dev/entities/UserVoucher';
+import { useTranslations } from 'next-intl';
+import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useUserBenefitBankAccount } from '@/ui/hooks/ui/dev/useUserBenefitBankAccount';
+import { useDevUserBenefits } from '@/ui/hooks/ui/dev/useUserBenefits';
 import { useUserDetail } from '@/ui/hooks/ui/dev/useUserDetails';
 import { useUserDevices } from '@/ui/hooks/ui/dev/useUserDevices';
 import { useUserDocuments } from '@/ui/hooks/ui/dev/useUserDocuments';
@@ -16,7 +12,14 @@ import { useUserImpersonationsOtps } from '@/ui/hooks/ui/dev/useUserImpersonatio
 import { useUserPublicOfferAgreement } from '@/ui/hooks/ui/dev/useUserPublicOfferAgreement';
 import { useUserVouchers } from '@/ui/hooks/ui/dev/useUserVouchers';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
-import { Pagination } from '../../Pagination';
+import { BenefitBankAccountTab } from './BenefitBankAccountTab';
+import { BenefitsTab } from './BenefitsTab';
+import { DevicesTab } from './DevicesTab';
+import { DocumentsTab } from './DocumentsTab';
+import { ImpersonationsTab } from './ImpersonationsTab';
+import { PublicOfferAgreementsTab } from './PublicOfferAgreementsTab';
+import UserDetailsTab from './UserDetailsTab';
+import { VouchersTab } from './VouchersTab';
 
 interface MultiTabUserDetailsModalProps {
   userId: string;
@@ -24,10 +27,13 @@ interface MultiTabUserDetailsModalProps {
 }
 
 const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ userId, onClose }) => {
+  const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
+
+  const [activeTab, setActiveTab] = useState<string>('details');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
-  const [activeTab, setActiveTab] = useState<string>('details');
+
   const { userDetail, loading: userLoading, error: userError } = useUserDetail(userId);
   const {
     impersonations,
@@ -41,282 +47,153 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
     loading: bankLoading,
     error: bankError,
   } = useUserBenefitBankAccount(userId);
-
   const { devices, loading: devicesLoading, error: devicesError } = useUserDevices(userId);
-
   const {
     vouchers,
     total: vouchersTotal,
     loading: vouchersLoading,
     error: vouchersError,
   } = useUserVouchers(userId, page, pageSize);
-
   const {
     agreement,
     loading: agreementLoading,
     error: agreementError,
   } = useUserPublicOfferAgreement(userId);
 
-  const t = useTranslations();
+  const {
+    benefits,
+    total: benefitsTotal,
+    loading: benefitsLoading,
+    error: benefitsError,
+  } = useDevUserBenefits(userId, page, pageSize);
 
   const Tabs = [
     { id: 'details', title: t('Dev.userDetails') },
     { id: 'impersonations', title: t('Dev.impersonations') },
     { id: 'documents', title: t('Dev.documents') },
     { id: 'devices', title: t('Dev.devices') },
-    { id: 'benefit', title: t('Dev.benefitBankAcc') },
+    { id: 'benefitBank', title: t('Dev.benefitBankAcc') },
+    { id: 'benefit', title: t('UserManagement.benefits.title') },
     { id: 'vouchers', title: t('Dev.vouchers') },
     { id: 'publicOfferAgreement', title: t('Dev.publicOfferAgreement') },
   ];
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const handlePageChange = (newPage: number) => setPage(newPage);
 
-  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPageSize(Number(event.target.value));
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPageSize(Number(e.target.value));
     setPage(0);
   };
 
-  const localeMap: Record<string, string> = {
-    'uz-latn': 'uzltn',
-    'uz-cyrl': 'uz',
-  };
+  const renderTabContent = () => {
+    const showLoader = () => <Loader2 className="animate-spin text-gray-500" />;
+    const showError = (error: any) => <div className="text-red-500">Error: {error}</div>;
 
-  const getLocalizedValue = (
-    obj: Record<string, string> = {},
-    locale: string,
-    fallbackOrder: string[] = ['uz-latn', 'en', 'ru', 'kaa', 'uz-cyrl']
-  ): string => {
-    const apiLocale = localeMap[locale] || locale;
-
-    return (
-      obj[apiLocale] ||
-      fallbackOrder.map((loc) => obj[localeMap[loc] || loc]).find(Boolean) ||
-      'N/A'
-    );
-  };
-
-  const getAgreementDataByLocale = (agreement: UserPublicOfferAgreement, locale: string) => {
-    return {
-      htmlContent: getLocalizedValue(agreement.htmlContent, locale),
-      s3Ref: getLocalizedValue(agreement?.s3Refs, locale),
-    };
-  };
-
-  const UserDetailsTab = ({ user }: { user: UserDetail }) => {
-    return (
-      <div>
-        <h2>
-          {user.firstName} {user.lastName}
-        </h2>
-        <p>{user.email}</p>
-      </div>
-    );
-  };
-
-  const DocumentsTab = ({ documents }: { documents: UserDocument[] }) => {
-    return (
-      <div>
-        {documents.map((doc, index) => (
-          <div key={index}>
-            <p>Document Name: {doc.name}</p>
-            <p>Uploaded: {new Date(doc.createdAt).toLocaleString()}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
-    return (
-      <div className="space-y-4">
-        {devices.map((device) => (
-          <div key={device.id} className="p-4 border rounded-lg shadow-sm">
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-medium">
-                {device.platform} – {device.osVersion}
-              </h2>
-              <span
-                className={`text-sm font-semibold ${
-                  device.active ? 'text-green-600' : 'text-red-500'
-                }`}
-              >
-                {device.active ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-
-            <div className="text-sm text-gray-600 mt-2">
-              <p>
-                <strong>Device ID:</strong> {device.deviceId}
-              </p>
-              <p>
-                <strong>Manufacturer:</strong> {device.manufacturer}
-              </p>
-              <p>
-                <strong>Model:</strong> {device.model}
-              </p>
-              <p>
-                <strong>Created At:</strong> {new Date(device.createdAt).toLocaleString()}
-              </p>
-              <p>
-                <strong>Last Activity:</strong> {new Date(device.lastActivity).toLocaleString()}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const ImpersonationsTab = ({
-    userImpersonationOtp,
-  }: {
-    userImpersonationOtp: UserImpersonationOtp[];
-  }) => {
-    return (
-      <div>
-        {userImpersonationOtp.map((imp, index) => (
-          <div key={index}>
-            <p>OTP: {imp.otp}</p>
-            <p>Expiration: {imp.expiresAt}</p>
-          </div>
-        ))}
-
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={impersonationsTotal}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      </div>
-    );
-  };
-
-  const BenefitBankAccountTab = ({
-    userBenefitBankAcc,
-  }: {
-    userBenefitBankAcc: UserBenefitBankAccount[];
-  }) => {
-    return (
-      <div className="space-y-4">
-        {userBenefitBankAcc.map((account, index) => (
-          <div key={index} className="p-4 border rounded-lg shadow-sm">
-            <p>Benefit Type ID: {account.benefitTypeId}</p>
-            <p>Bank Code: {account.bankCode}</p>
-            <p>Master Bank Account Number: {account.masterBankAccountNumber}</p>
-            <p>Sub Bank Account Number: {account.subBankAccountNumber}</p>
-            <p>Branch Code: {account.branchCode.value}</p>
-            <p>Created At: {new Date(account.createdAt).toLocaleString()}</p>
-          </div>
-        ))}
-        {userBenefitBankAcc.length === 0 && <p>No benefit bank accounts found</p>}
-      </div>
-    );
-  };
-
-  const VouchersTab = ({ vouchers }: { vouchers: UserVoucher[] }) => {
-    return (
-      <div>
-        {vouchers.map((voucher, index) => (
-          <div key={index}>
-            <p>Voucher ID: {voucher.id}</p>
-            <p>Voucher Amount: {voucher.amount}</p>
-          </div>
-        ))}
-
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={vouchersTotal}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      </div>
-    );
-  };
-
-  const PublicOfferAgreementsTab = ({ agreement }: { agreement: UserPublicOfferAgreement }) => {
-    const locale = useLocale();
-    const { htmlContent, s3Ref } = getAgreementDataByLocale(agreement, locale);
-
-    // todo:fix s3 ref <link>
-    return (
-      <div>
-        <p>S3 Ref: {s3Ref}</p>
-        <p>Status: {agreement.active ? 'Active' : 'Inactive'}</p>
-        <p>Created At: {new Date(agreement.createdAt).toLocaleString()}</p>
-        <p>Updated At: {new Date(agreement.updatedAt).toLocaleString()}</p>
-        <p>Version: {agreement.version}</p>
-
-        <div className="border-b border-t border-gray-200 text-center py-2">
-          {t('Dev.publicOfferAgreement')}
-        </div>
-
-        <div className="py-2" dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      </div>
-    );
-  };
-
-  const renderContent = () => {
     switch (activeTab) {
       case 'details':
         if (userLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (userError) {
-          return <div>Error: {userError}</div>;
+          return showError(userError);
         }
-        return userDetail ? <UserDetailsTab user={userDetail} /> : null;
+        return userDetail && <UserDetailsTab user={userDetail} />;
+
       case 'impersonations':
         if (impersonationsLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (impersonationsError) {
-          return <div>Error: {impersonationsError}</div>;
+          return showError(impersonationsError);
         }
-        return impersonations ? <ImpersonationsTab userImpersonationOtp={impersonations} /> : null;
+        return (
+          impersonations && (
+            <ImpersonationsTab
+              userImpersonationOtp={impersonations}
+              page={page}
+              pageSize={pageSize}
+              impersonationsTotal={impersonationsTotal}
+              handlePageChange={handlePageChange}
+              handlePageSizeChange={handlePageSizeChange}
+            />
+          )
+        );
+
       case 'documents':
         if (documentsLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
+
         if (documentsError) {
-          return <div>Error: {documentsError}</div>;
+          return showError(documentsError);
         }
-        return documents ? <DocumentsTab documents={documents} /> : null;
-      case 'benefit':
+        return documents && <DocumentsTab documents={documents} />;
+
+      case 'benefitBank':
         if (bankLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (bankError) {
-          return <div>Error: {bankError}</div>;
+          return showError(bankError);
         }
-        return bankAccounts ? <BenefitBankAccountTab userBenefitBankAcc={bankAccounts} /> : null;
+        return bankAccounts && <BenefitBankAccountTab userBenefitBankAcc={bankAccounts} />;
+      case 'benefit':
+        if (benefitsLoading) {
+          return showLoader();
+        }
+        if (benefitsError) {
+          return showError(benefitsError);
+        }
+        return (
+          benefits && (
+            <BenefitsTab
+              benefits={benefits}
+              page={page}
+              pageSize={pageSize}
+              benefitsTotal={benefitsTotal}
+              handlePageChange={handlePageChange}
+              handlePageSizeChange={handlePageSizeChange}
+            />
+          )
+        );
       case 'devices':
         if (devicesLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (devicesError) {
-          return <div>Error: {devicesError}</div>;
+          return showError(devicesError);
         }
-        return devices ? <DevicesTab devices={devices} /> : null;
+        return devices && <DevicesTab devices={devices} />;
+
       case 'vouchers':
         if (vouchersLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (vouchersError) {
-          return <div>Error: {vouchersError}</div>;
+          return showError(vouchersError);
         }
-        return vouchers ? <VouchersTab vouchers={vouchers} /> : null;
+        return (
+          vouchers && (
+            <VouchersTab
+              vouchers={vouchers}
+              page={page}
+              pageSize={pageSize}
+              vouchersTotal={vouchersTotal}
+              handlePageChange={handlePageChange}
+              handlePageSizeChange={handlePageSizeChange}
+            />
+          )
+        );
+
       case 'publicOfferAgreement':
         if (agreementLoading) {
-          return <Loader2 className="animate-spin" />;
+          return showLoader();
         }
         if (agreementError) {
-          return <div>Error: {agreementError}</div>;
+          return showError(agreementError);
         }
-        return agreement ? <PublicOfferAgreementsTab agreement={agreement} /> : null;
+        return agreement && <PublicOfferAgreementsTab agreement={agreement} />;
+
       default:
         return null;
     }
@@ -328,30 +205,62 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
         ref={modalRef}
         className="rounded-xl relative bg-white w-[90%] h-[90%] shadow-xl overflow-y-auto"
       >
-        <div className="p-4 flex justify-between items-center border-b">
-          <h1>User Details</h1>
+        <div className="p-4 flex justify-between items-center border-b shadow-md">
+          <div className="flex items-center gap-6 px-4">
+            {userDetail && (
+              <>
+                <div className="relative">
+                  <Image
+                    src={userDetail.userPhoto?.photoUri || placeholderUserImage}
+                    alt="User Avatar"
+                    width={128}
+                    height={128}
+                    className="w-24 h-24 rounded-full shadow object-cover border-2 border-blue-100"
+                  />
+                  {userDetail?.studentData?.isStudent && (
+                    <span className="absolute bottom-0 right-0 bg-primary text-white px-2 py-1 rounded-full text-xs font-bold">
+                      Student
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-primary">
+                    {userDetail.firstName} {userDetail.lastName}
+                  </h2>
+                  <p className="text-gray-500">{userDetail?.email}</p>
+                  {userDetail.pinfl && (
+                    <p className="mt-1 text-sm text-gray-500 bg-gray-100 inline-block px-2 py-1 rounded">
+                      PINFL: {userDetail.pinfl}
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
           >
             <XIcon />
           </button>
         </div>
-        <div className="border-b flex">
+
+        {/* Tabs */}
+        <div className="pt-4 px-4 pb-2 flex gap-4">
           {Tabs.map((tab) => (
             <button
               type="button"
               key={tab.id}
-              className={`px-4 py-2 ${activeTab === tab.id ? 'border-b-2 border-blue-500' : ''}`}
+              className={`px-4 py-2 ${activeTab === tab.id ? 'text-white rounded-full bg-primary' : 'rounded-full bg-primary/10'}`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.title}
             </button>
           ))}
         </div>
-        <div className="p-4 ">{renderContent()}</div>
+        <div className="p-4">{renderTabContent()}</div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export class UserDetailRepositoryAPI implements UserDetailRepository {
       throw new Error('Either userId or pinfl must be provided');
     }
 
-    const queryParams = userId ? `userId=${userId}` : '';
+    const queryParams = userId ? `${userId}` : '';
     const response = await this.apiClient.get(`${this.apiUrl}/${queryParams}`);
 
     return UserDetailsAdapter.toDomain(response.data);

@@ -18,6 +18,10 @@ import {
   loadDevUserBenefitBankAccountUseCases,
 } from './modules/dev/UserBenefitBankAccount.module';
 import {
+  loadDevUserBenefitRepositories,
+  loadDevUserBenefitUseCases,
+} from './modules/dev/UserBenefits.module';
+import {
   loadDevUserDetailsRepositories,
   loadDevUserDetailsUseCases,
 } from './modules/dev/UserDetails.module';
@@ -94,6 +98,7 @@ export const setupDependencies = () => {
   loadDevUserDevicesRepositories(diContainer);
   loadDevUserVouchersRepositories(diContainer);
   loadDevUserPublicOfferAgreementRepositories(diContainer);
+  loadDevUserBenefitRepositories(diContainer);
 
   //!use cases
   loadSignupRequestUseCases(diContainer);
@@ -119,4 +124,5 @@ export const setupDependencies = () => {
   loadDevUserDevicesUseCases(diContainer);
   loadDevUserVouchersUseCases(diContainer);
   loadDevUserPublicOfferAgreementUseCases(diContainer);
+  loadDevUserBenefitUseCases(diContainer);
 };
