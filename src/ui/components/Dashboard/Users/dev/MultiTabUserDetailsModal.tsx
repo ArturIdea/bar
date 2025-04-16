@@ -205,7 +205,7 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
         ref={modalRef}
         className="rounded-xl relative bg-white w-[90%] h-[90%] shadow-xl overflow-y-auto"
       >
-        <div className="p-4 flex justify-between items-center border-b shadow-md">
+        <div className="p-4 flex justify-between items-center shadow-md">
           <div className="flex items-center gap-6 px-4">
             {userDetail && (
               <>
