@@ -103,11 +103,11 @@ export const UsersTable: React.FC<{
           <thead className="border-t border-b border-gray-200">
             <tr className="text-left text-gray-400">
               {columns.map((col) => (
-                <th key={col.key} className="w-1/9 px-6 py-3 font-normal">
+                <th key={col.key} className="w-1/9 px-4 py-3 font-normal">
                   {col.label}
                 </th>
               ))}
-              <th className="w-3/9 px-6 py-3" />
+              <th className="w-3/9 px-4 py-3" />
             </tr>
           </thead>
 
@@ -115,14 +115,14 @@ export const UsersTable: React.FC<{
           <tbody>
             {users.map((user) => (
               <tr key={user.userId} className={` hover:bg-gray-50 transition-colors`}>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">
                   {user.firstName} {user.lastName}
                 </td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
+                <td className="px-4 py-2 text-[#0B0B22] text-sm">
                   {new Date(user.createdAt).toLocaleString('uz-UZ', {
                     year: 'numeric',
                     month: '2-digit',

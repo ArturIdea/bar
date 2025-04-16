@@ -36,7 +36,7 @@ export const PublicOfferAgreementsTab = ({
 
   return (
     <div className="bg-gray-50 p-6 rounded-lg">
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex justify-between items-start mb-4">
         <h2 className="text-xl font-semibold text-primary">{t('Dev.publicOfferAgreement')}</h2>
         <div className="flex items-center">
           <span

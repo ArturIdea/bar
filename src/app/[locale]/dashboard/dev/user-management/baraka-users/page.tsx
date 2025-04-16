@@ -6,17 +6,15 @@ import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
 import { Link } from '@/i18n/routing';
+import { UserFilterModal } from '@/ui/components/Dashboard/Users/dev/UserFilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/dev/UsersTable';
-import { UserFilterModal } from '@/ui/components/Dashboard/Users/UserFilterModal';
 
 const UserManagement = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
-    roles?: string;
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    signUpRequestId?: string;
+    documentTypeId?: string;
     pinflSearch?: string;
-    usernameSearch?: string;
   }>({});
   const t = useTranslations();
 
@@ -25,13 +23,11 @@ const UserManagement = () => {
   };
 
   const handleApplyFilters = (
-    roles?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
-    pinflSearch?: string,
-    usernameSearch?: string
+    signUpRequestId?: string,
+    documentTypeId?: string,
+    pinflSearch?: string
   ) => {
-    setFilters({ roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
+    setFilters({ signUpRequestId, documentTypeId, pinflSearch });
     setIsFilterModalOpen(false);
   };
 

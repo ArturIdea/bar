@@ -42,7 +42,7 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
             return (
               <div
                 key={device.id}
-                className="bg-white rounded-lg shadow p-5 border border-gray-100"
+                className="bg-white rounded-lg shadow p-4 border border-gray-100"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center">

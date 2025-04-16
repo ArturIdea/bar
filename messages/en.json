@@ -117,6 +117,8 @@
   "Filter": {
     "filterBy": "Filter By",
     "pinfl": "PINFL",
+    "signupReqId": "Sign Up Request ID",
+    "docTypeId": "Document Type ID",
     "roles": {
       "title": "Role",
       "select": "Select Role",

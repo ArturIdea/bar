@@ -28,7 +28,7 @@ export const VouchersTab = ({
         <>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
             {vouchers.map((voucher, index) => (
-              <div key={index} className="bg-white rounded-lg shadow p-5 border border-gray-100">
+              <div key={index} className="bg-white rounded-lg shadow p-4 border border-gray-100">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center">
                     <div className="bg-primary/10 p-3 rounded-lg mr-4">
@@ -63,7 +63,7 @@ export const VouchersTab = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div className="flex flex-col gap-4 mt-4">
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
                     <p className="text-sm mb-1">Promo Code</p>
                     <p className="font-medium font-mono">{voucher.promoCode}</p>

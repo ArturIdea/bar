@@ -18,10 +18,10 @@ export const BenefitBankAccountTab = ({
       ) : (
         <div className="grid grid-cols-3 gap-4">
           {userBenefitBankAcc.map((account, index) => (
-            <div key={index} className="bg-white rounded-lg shadow p-5 border border-gray-100">
+            <div key={index} className="bg-white rounded-lg shadow p-4 border border-gray-100">
               <div className="flex items-center mb-4">
                 <div className="bg-primary/5 rounded-lg mr-4">
-                  <Image src={hugIcon} alt="Hug Icon" width={64} height={64} />
+                  <Image src={hugIcon} alt="Hug Icon" width={48} height={48} />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-primary">

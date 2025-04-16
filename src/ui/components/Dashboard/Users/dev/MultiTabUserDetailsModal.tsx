@@ -248,12 +248,12 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
         </div>
 
         {/* Tabs */}
-        <div className="pt-4 px-4 pb-2 flex gap-4">
+        <div className="pt-4 px-4 pb-2 flex gap-4 ">
           {Tabs.map((tab) => (
             <button
               type="button"
               key={tab.id}
-              className={`px-4 py-2 ${activeTab === tab.id ? 'text-white rounded-full bg-primary' : 'rounded-full bg-primary/10'}`}
+              className={`px-4 py-2 whitespace-nowrap overflow-hidden text-ellipsis ${activeTab === tab.id ? 'text-white rounded-full bg-primary' : 'rounded-full bg-primary/10'}`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.title}
