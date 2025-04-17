@@ -39,11 +39,6 @@ export const SignUpRequestsTable: React.FC<{
   //   setDropdownOpen({});
   // };
 
-  // const openUserDetails = (pinfl: string) => {
-  //   setSelectedPinfl(pinfl);
-  //   setSelectedRequestId(null);
-  // };
-
   const handlePageChange = (newPage: number) => setPage(newPage);
 
   const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

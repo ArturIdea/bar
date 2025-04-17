@@ -6,14 +6,14 @@ import 'react-date-range/dist/theme/default.css';
 
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 
-export const UserFilterModal = ({
+export const SignupRequestsFilterModal = ({
   isOpen,
   onClose,
   onApply,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onApply: (signUpRequestId?: string, documentTypeId?: string, pinflSearch?: string) => void;
+  onApply: (createdAtFrom?: string, createdAtTo?: string, pinflSearch?: string) => void;
 }) => {
   const [signupReqtId, setSignupReqtId] = useState<string>('');
   const [pinfl, setPinfl] = useState<string>('');

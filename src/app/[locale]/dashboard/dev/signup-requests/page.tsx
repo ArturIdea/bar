@@ -6,16 +6,15 @@ import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'use-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
 import { Link } from '@/i18n/routing';
+import { DevFilterModal } from '@/ui/components/Dashboard/DevFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/dev/SignupRequestsTable';
-import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 
 const SignUpRequests = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    signUpRequestId?: string;
+    documentTypeId?: string;
     pinflSearch?: string;
-    statuses?: string;
   }>({});
   const t = useTranslations();
 
@@ -24,12 +23,11 @@ const SignUpRequests = () => {
   };
 
   const handleApplyFilters = (
-    createdAtFrom?: string,
-    createdAtTo?: string,
-    pinflSearch?: string,
-    statuses?: string
+    signUpRequestId?: string,
+    documentTypeId?: string,
+    pinflSearch?: string
   ) => {
-    setFilters({ createdAtFrom, createdAtTo, pinflSearch, statuses });
+    setFilters({ signUpRequestId, documentTypeId, pinflSearch });
     setIsFilterModalOpen(false);
   };
 
@@ -54,7 +52,7 @@ const SignUpRequests = () => {
       </div>
 
       {/* Filter Modal */}
-      <SignupRequestsFilterModal
+      <DevFilterModal
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
         onApply={handleApplyFilters}

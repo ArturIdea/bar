@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
 import { Link } from '@/i18n/routing';
-import { UserFilterModal } from '@/ui/components/Dashboard/Users/dev/UserFilterModal';
+import { DevFilterModal } from '@/ui/components/Dashboard/DevFilterModal';
 import { UsersTable } from '@/ui/components/Dashboard/Users/dev/UsersTable';
 
 const UserManagement = () => {
@@ -52,7 +52,7 @@ const UserManagement = () => {
         <UsersTable filters={filters} />
       </div>
 
-      <UserFilterModal
+      <DevFilterModal
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
         onApply={handleApplyFilters}
