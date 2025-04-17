@@ -40,7 +40,7 @@ const UserManagement = () => {
         <div>
           <button
             type="button"
-            className="border border-gray-300 rounded-full p-2 cursor-pointer"
+            className="border border-gray-300 rounded-fullcursor-pointer"
             onClick={toggleFilterModal}
           >
             <Image src={FilterLinesIcon} alt="Filter lines" width={24} height={24} />

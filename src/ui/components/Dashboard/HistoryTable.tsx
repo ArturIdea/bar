@@ -70,65 +70,69 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
   ];
 
   return (
-    <div className="p-6 overflow-x-auto rounded-t-lg">
+    <div className="flex flex-col h-full border-b border-gray-200">
       {loading && <TableSkeleton />}
       {!loading && users.length === 0 && <p>No users found.</p>}
 
       {!loading && users.length > 0 && (
-        <>
-          <table className="w-full border-collapse border-spacing-0">
-            <thead>
-              <tr className="bg-gray-100 text-left text-gray-400 rounded-lg">
-                {columns.map((col) => (
-                  <th key={col.key} className="px-6 py-3 font-normal">
-                    {col.label}
-                  </th>
-                ))}
-                <th className="px-6 py-3 font-normal" />
-              </tr>
-            </thead>
-
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.userId} className="hover:bg-gray-100 transition-colors">
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {user.firstName} {user.lastName}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 flex items-center justify-end">
-                    <button
-                      type="button"
-                      className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                      onClick={() => toggleDropdown(user.userId)}
-                    >
-                      <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
-                    </button>
-
-                    {dropdownOpen[user.userId] && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute right-20 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                      >
-                        <button
-                          type="button"
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleViewDetails(user.pinfl, user.userId)}
-                        >
-                          {t('Buttons.viewUserDetails')}
-                        </button>
-                      </div>
-                    )}
-                  </td>
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <div className="overflow-x-auto ">
+            <table className="w-full">
+              <thead className="border-b border-gray-200">
+                <tr className="text-left text-gray-400">
+                  {columns.map((col) => (
+                    <th key={col.key} className="w-1/8 px-4 py-3 font-normal">
+                      {col.label}
+                    </th>
+                  ))}
+                  <th className="w-2/8 px-6 py-3 font-normal" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
+              </thead>
+
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.userId} className="hover:bg-gray-100 transition-colors">
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {user.firstName} {user.lastName}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {user.phoneNumber || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 flex items-center justify-end">
+                      <button
+                        type="button"
+                        className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                        onClick={() => toggleDropdown(user.userId)}
+                      >
+                        <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                      </button>
+
+                      {dropdownOpen[user.userId] && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute right-20 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                        >
+                          <button
+                            type="button"
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleViewDetails(user.pinfl, user.userId)}
+                          >
+                            {t('Buttons.viewUserDetails')}
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
 
       {/* User Details Modal */}
@@ -153,13 +157,15 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
       )}
 
       {/* Pagination */}
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        total={total}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-      />
+      <div className="sticky bottom-0 bg-white border-t border-gray-200">
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </div>
   );
 };

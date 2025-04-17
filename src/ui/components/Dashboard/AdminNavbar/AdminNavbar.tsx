@@ -72,7 +72,8 @@ export default function AdminNavbar() {
                 className="focus:outline-none cursor-pointer"
               >
                 <Image
-                  src={userProfile.photoUrl || placeholderUserImage}
+                  // src={userProfile.photoUrl || placeholderUserImage}
+                  src={placeholderUserImage}
                   alt="User Avatar"
                   width={40}
                   height={40}
@@ -99,7 +100,8 @@ export default function AdminNavbar() {
                 {/* User Info */}
                 <div className="flex items-center gap-4 py-6">
                   <Image
-                    src={userProfile.photoUrl || placeholderUserImage}
+                    // src={userProfile.photoUrl || placeholderUserImage}
+                    src={placeholderUserImage}
                     alt="User Avatar"
                     width={40}
                     height={40}
