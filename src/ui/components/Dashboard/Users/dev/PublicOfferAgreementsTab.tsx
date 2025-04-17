@@ -1,4 +1,5 @@
 import { useLocale, useTranslations } from 'next-intl';
+import { clean } from '@/core/utils/sanitize';
 import { UserPublicOfferAgreement } from '@/domain/users/dev/entities/UserPublicOfferAgreement';
 
 const localeMap: Record<string, string> = {
@@ -33,6 +34,7 @@ export const PublicOfferAgreementsTab = ({
   const t = useTranslations();
   const locale = useLocale();
   const { htmlContent, s3Ref } = getAgreementDataByLocale(agreement, locale);
+  const safeHtml = clean(htmlContent);
 
   return (
     <div className="bg-gray-50 p-6 rounded-lg">
@@ -92,7 +94,7 @@ export const PublicOfferAgreementsTab = ({
             {t('Dev.publicOfferAgreement')} - {locale.toUpperCase()}
           </div>
           <div className="p-6 h-[35rem] overflow-y-auto prose prose-sm max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            <div dangerouslySetInnerHTML={{ __html: safeHtml }} />
           </div>
         </div>
       )}

@@ -28,7 +28,7 @@ export const BenefitsTab = ({
         <>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white rounded-lg shadow p-5 border border-gray-100">
+              <div key={index} className="bg-white rounded-lg shadow p-4 border border-gray-100">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex flex-col">
                     <h3 className="text-lg font-semibold text-primary">
