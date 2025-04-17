@@ -45,8 +45,16 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
             <DetailItem label="Document Type ID" value={user.documentTypeId} />
             <DetailItem label="Document Number" value={user.documentNumber} />
             <DetailItem label="Social Number" value={user.socialNumber} />
-            <DetailItem label="Auth API User ID" value={user.authApiUserId} />
-            <DetailItem label="Keycloak User ID" value={user.keycloakUserId} />
+            <DetailItem
+              label="Auth API User ID"
+              value={`${user.authApiUserId.substring(0, 15)}...`}
+              title={user.authApiUserId}
+            />
+            <DetailItem
+              label="Keycloak User ID"
+              value={`${user.keycloakUserId.substring(0, 15)}...`}
+              title={user.keycloakUserId}
+            />
             <div className="text-gray-500">
               <p className="text-sm font-medium">Created At</p>
               <p>
@@ -75,8 +83,26 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
           {user.userPhoto && (
             <Section title="Identity Verification">
               <DetailItem label="Photo Verified" value={user.userPhoto ? 'Yes' : 'No'} />
-              <DetailItem label="Photo Created At" value={user.userPhoto.createdAt} />
-              <DetailItem label="Photo Updated At" value={user.userPhoto.updatedAt} />
+              <DetailItem
+                label="Photo Created At"
+                value={new Date(user.userPhoto.createdAt).toLocaleString('uz-UZ', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              />
+              <DetailItem
+                label="Photo Updated At"
+                value={new Date(user.userPhoto.updatedAt).toLocaleString('uz-UZ', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              />
               <DetailItem label="Photo Social Number" value={user.userPhoto.socialNumber} />
               {user.userPhoto.s3Photo && (
                 <>
@@ -85,7 +111,11 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
                     value={`${user.userPhoto.s3Photo.key.keyAsStr.substring(0, 15)}...`}
                     title={user.userPhoto.s3Photo.key.keyAsStr}
                   />
-                  <DetailItem label="S3 ETag" value={user.userPhoto.s3Photo.etag.value} />
+                  <DetailItem
+                    label="S3 ETag"
+                    value={`${user.userPhoto.s3Photo.etag.value.substring(0, 15)}...`}
+                    title={user.userPhoto.s3Photo.etag.value}
+                  />
                 </>
               )}
             </Section>
@@ -93,16 +123,41 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
 
           {user.userCardFront && (
             <Section title="User Card Front">
-              <DetailItem label="Image URI" value={user.userCardFront.imageUri} />
-              <DetailItem label="Created At" value={user.userCardFront.createdAt} />
-              <DetailItem label="S3 Key" value={user.userCardFront.s3Ref.key.keyAsStr} />
+              <DetailItem
+                label="Image URI"
+                value={`${user.userCardFront.imageUri.substring(0, 15)}...`}
+                title={user.userCardFront.imageUri}
+              />
+              <DetailItem
+                label="Created At"
+                value={new Date(user.userCardFront?.createdAt).toLocaleString('uz-UZ', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              />
+              <DetailItem
+                label="S3 Key"
+                value={`${user.userCardFront.s3Ref.key.keyAsStr.substring(0, 15)}...`}
+                title={user.userCardFront.s3Ref.key.keyAsStr}
+              />
             </Section>
           )}
 
           {user.userSignedData && (
             <Section title="Signed Data">
-              <DetailItem label="ID" value={user.userSignedData.id} />
-              <DetailItem label="User ID" value={user.userSignedData.userId} />
+              <DetailItem
+                label="ID"
+                value={`${user.userSignedData.id.substring(0, 15)}...`}
+                title={user.userSignedData.id}
+              />
+              <DetailItem
+                label="User ID"
+                value={`${user.userSignedData.userId.substring(0, 15)}...`}
+                title={user.userSignedData.userId}
+              />
               <DetailItem label="Social Number" value={user.userSignedData.socialNumber} />
               <DetailItem label="Version" value={user.userSignedData.version} />
               <DetailItem label="Scheme" value={user.userSignedData.scheme} />

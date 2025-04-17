@@ -100,12 +100,12 @@ export const SignUpRequestsTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col w-full border-t border-b border-gray-200">
+    <div className="flex flex-col h-full border-t border-b border-gray-200">
       {/* Header */}
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-6 border-b">
         <h4 className="font-semibold text-[#0B0B22]">
           {t(
-            pathname === '/dashboard/signup-requests'
+            pathname === '/dashboard/dev/signup-requests'
               ? 'SignupRequests.title2'
               : 'SignupRequests.title'
           )}
@@ -114,76 +114,86 @@ export const SignUpRequestsTable: React.FC<{
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border-spacing-0">
-          <thead className="border-t border-b border-gray-200">
-            <tr className="text-left text-gray-400">
-              {columns.map((col) => (
-                <th key={col.key} className="px-6 py-3 font-normal">
-                  {col.label}
-                </th>
-              ))}
-              <th className="px-6 py-3" />
-            </tr>
-          </thead>
-          <tbody className="border-b border-gray-200">
-            {requests.map((req) => (
-              <tr key={req.id} className="hover:bg-gray-100 transition-colors">
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                  {`${req.firstName || ''} ${req.lastName || ''}`}
-                </td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.email || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.phoneNumber || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
-                <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                  {new Date(req.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-white text-xs ${getStatusClass(req.status)}`}
-                  >
-                    {req.status.replace(/_/g, ' ') || 'UNKNOWN'}
-                  </span>
-                </td>
-                <td className="px-6 py-4 flex items-center justify-end relative">
-                  <button
-                    type="button"
-                    className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                    onClick={() => toggleDropdown(req.id)}
-                  >
-                    <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" />
-                  </button>
-
-                  {dropdownOpen[req.id] && (
-                    <div
-                      ref={dropdownRef}
-                      className="absolute right-16 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                    >
-                      <button
-                        type="button"
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        // onClick={() => openSignupModal(req.id)}
-                      >
-                        {t('Buttons.viewSignupDetails')}
-                      </button>
-                    </div>
-                  )}
-                </td>
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse border-spacing-0">
+            <thead className=" border-b border-gray-200">
+              <tr className="text-left text-gray-400">
+                {columns.map((col) => (
+                  <th key={col.key} className="w-1/8 px-6 py-3 font-normal">
+                    {col.label}
+                  </th>
+                ))}
+                <th className="w-2/8 px-6 py-3" />
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="border-b border-gray-200">
+              {requests.map((req) => (
+                <tr key={req.id} className="hover:bg-gray-100 transition-colors">
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {`${req.firstName || ''} ${req.lastName || ''}`}
+                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.email || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.phoneNumber || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {new Date(req.createdAt).toLocaleString('uz-UZ', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-white text-xs ${getStatusClass(req.status)}`}
+                    >
+                      {req.status.replace(/_/g, ' ') || 'UNKNOWN'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 flex items-center justify-end relative">
+                    <button
+                      type="button"
+                      className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                      onClick={() => toggleDropdown(req.id)}
+                    >
+                      <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" />
+                    </button>
+
+                    {dropdownOpen[req.id] && (
+                      <div
+                        ref={dropdownRef}
+                        className="absolute right-16 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      >
+                        <button
+                          type="button"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          // onClick={() => openSignupModal(req.id)}
+                        >
+                          {t('Buttons.viewSignupDetails')}
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
       {pathname === '/dashboard/dev/signup-requests' && (
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={total}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
+        <div className="sticky bottom-0 bg-white border-t border-gray-200">
+          <Pagination
+            page={page}
+            pageSize={pageSize}
+            total={total}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </div>
       )}
     </div>
   );

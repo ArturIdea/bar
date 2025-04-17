@@ -32,7 +32,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="p-6 flex justify-between items-center">
         <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
           <ArrowLeft /> {t('Buttons.back')}
@@ -47,7 +47,10 @@ const UserManagement = () => {
           </button>
         </div>
       </div>
-      <UsersTable filters={filters} />
+
+      <div className="flex-1 overflow-hidden">
+        <UsersTable filters={filters} />
+      </div>
 
       <UserFilterModal
         isOpen={isFilterModalOpen}

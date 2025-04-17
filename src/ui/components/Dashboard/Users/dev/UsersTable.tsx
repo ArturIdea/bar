@@ -84,9 +84,9 @@ export const UsersTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col w-full border-t border-b border-gray-200">
+    <div className="flex flex-col h-full border-t border-b border-gray-200">
       {/* Header */}
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-6 border-b">
         {pathname === '/dashboard/dev/user-management/baraka-users' ? (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title2')}</h4>
         ) : (
@@ -97,82 +97,86 @@ export const UsersTable: React.FC<{
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto ">
-        <table className="w-full border-collapse border-spacing-0">
-          {/* Table Header */}
-          <thead className="border-t border-b border-gray-200">
-            <tr className="text-left text-gray-400">
-              {columns.map((col) => (
-                <th key={col.key} className="w-1/9 px-4 py-3 font-normal">
-                  {col.label}
-                </th>
-              ))}
-              <th className="w-3/9 px-4 py-3" />
-            </tr>
-          </thead>
-
-          {/* Table Body */}
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.userId} className={` hover:bg-gray-50 transition-colors`}>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">
-                  {user.firstName} {user.lastName}
-                </td>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                <td className="px-4 py-2 text-[#0B0B22] text-sm">
-                  {new Date(user.createdAt).toLocaleString('uz-UZ', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </td>
-                <td className="px-6 py-4 flex items-center justify-end relative">
-                  <button
-                    type="button"
-                    className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                    onClick={() => toggleDropdown(user.userId)}
-                  >
-                    <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  {dropdownOpen[user.userId] && (
-                    <div
-                      ref={dropdownRef}
-                      className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                    >
-                      <button
-                        type="button"
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => {
-                          handleViewDetails(user.userId);
-                        }}
-                      >
-                        {t('Buttons.viewUserDetails')}
-                      </button>
-                    </div>
-                  )}
-                </td>
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="overflow-x-auto ">
+          <table className="w-full">
+            {/* Table Header */}
+            <thead className="border-b border-gray-200">
+              <tr className="text-left text-gray-400">
+                {columns.map((col) => (
+                  <th key={col.key} className="w-1/9 px-4 py-3 font-normal">
+                    {col.label}
+                  </th>
+                ))}
+                <th className="w-3/9 px-4 py-3" />
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            {/* Table Body */}
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.userId} className={` hover:bg-gray-50 transition-colors`}>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
+                  <td className="px-4 py-2 text-[#0B0B22] text-sm">
+                    {new Date(user.createdAt).toLocaleString('uz-UZ', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </td>
+                  <td className="px-6 py-4 flex items-center justify-end relative">
+                    <button
+                      type="button"
+                      className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                      onClick={() => toggleDropdown(user.userId)}
+                    >
+                      <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {dropdownOpen[user.userId] && (
+                      <div
+                        ref={dropdownRef}
+                        className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                      >
+                        <button
+                          type="button"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => {
+                            handleViewDetails(user.userId);
+                          }}
+                        >
+                          {t('Buttons.viewUserDetails')}
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
       {pathname === '/dashboard/dev/user-management/baraka-users' && (
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={total}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
+        <div className="sticky bottom-0 bg-white border-t border-gray-200">
+          <Pagination
+            page={page}
+            pageSize={pageSize}
+            total={total}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </div>
       )}
 
       {/* Multitab Modal */}
