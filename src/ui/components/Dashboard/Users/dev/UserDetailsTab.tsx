@@ -45,11 +45,13 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
             <DetailItem label="Document Type ID" value={user.documentTypeId} />
             <DetailItem label="Document Number" value={user.documentNumber} />
             <DetailItem label="Social Number" value={user.socialNumber} />
-            <DetailItem
-              label="Auth API User ID"
-              value={`${user.authApiUserId.substring(0, 15)}...`}
-              title={user.authApiUserId}
-            />
+            {user.authApiUserId && (
+              <DetailItem
+                label="Auth API User ID"
+                value={`${user.authApiUserId}...`}
+                title={user.authApiUserId}
+              />
+            )}
             <DetailItem
               label="Keycloak User ID"
               value={`${user.keycloakUserId.substring(0, 15)}...`}
