@@ -170,6 +170,11 @@
     "rejected": "Rejected"
   },
   "UserManagement": {
+    "details": {
+      "createdBy": "Created By",
+      "active": "ACTIVE",
+      "expired": "EXPIRED"
+    },
     "navbarTitle": {
       "title": "User Management",
       "barakaUsers": "Baraka Users"

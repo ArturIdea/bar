@@ -8,7 +8,7 @@ import { Pagination } from '../Pagination';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
-import UserDetailsModal from './UserDetailsModal';
+import MultiTabUserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
   filters?: {
@@ -180,7 +180,7 @@ export const UsersTable: React.FC<{
 
       {/* User Details Modal */}
       {(selectedPinfl || selectedUserId) && (
-        <UserDetailsModal
+        <MultiTabUserDetailsModal
           userId={selectedUserId || undefined}
           pinfl={selectedPinfl || undefined}
           onClose={() => {

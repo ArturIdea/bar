@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2, XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
+import hugIcon from '@/../public/images/icons/dashboard/hugIcon.svg';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useRouter } from '@/i18n/routing';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
-interface UserDetailsModalProps {
+interface MultiTabUserDetailsModalProps {
   userId?: string;
   pinfl?: string;
   onClose: () => void;
   onOpenSignupRequest: (signupRequestId: string) => void;
 }
 
-const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
+const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   userId,
   pinfl,
   onClose,
@@ -28,10 +29,17 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   const locale = cookies.get('NEXT_LOCALE') || 'en';
   const router = useRouter();
 
+  const [activeTab, setActiveTab] = useState<string>('details');
+
   const handleHistoryClick = () => {
     if (user?.createdBy?.userId) {
       router.push(`/dashboard/history?userId=${user.createdBy.userId}`);
     }
+  };
+
+  const getBenefitName = (benefitType: any) => {
+    const names = benefitType?.name || {};
+    return names[locale] || names.uzLatn || 'N/A';
   };
 
   const UserInfoSection = ({ user, t }: { user: any; t: any }) => {
@@ -51,10 +59,10 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
       },
     ];
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {fields.map(({ label, value }) => (
           <div key={label}>
-            <p className="text-gray-400 font-normal">{t(`UserManagement.${label}`)}</p>
+            <p className="text-gray-400 font-light">{t(`UserManagement.${label}`)}</p>
             {value ?? 'N/A'}
           </div>
         ))}
@@ -84,8 +92,8 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
       { label: 'location', value: agentData.location },
     ];
     return (
-      <div className="py-8">
-        <h3 className="pb-2 text-lg text-gray-400 font-semibold">
+      <div className="mt-6">
+        <h3 className="pb-2 text-lg font-semibold text-gray-400">
           {t('UserManagement.agentData.title')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -100,54 +108,60 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     );
   };
 
-  const getBenefitName = (benefitType: any) => {
-    const names = benefitType?.name || {};
-    return names[locale] || names.uzLatn || 'N/A';
+  const BenefitsSection = ({ benefits, getBenefitName, t }: any) => {
+    const [filter, setFilter] = useState<'ACTIVE' | 'EXPIRED'>('ACTIVE');
+    const filtered = benefits.filter((b: any) => b.status === filter);
+    const STATUS = [t('UserManagement.details.active'), t('UserManagement.details.expired')];
+
+    return (
+      <div className="flex flex-col gap-6 h-[60vh]">
+        <div className="flex bg-gray-100 rounded-full justify-evenly p-2 mb-4">
+          {STATUS.map((status) => (
+            <button
+              type="button"
+              key={status}
+              onClick={() => setFilter(status as any)}
+              className={`px-9 py-2 rounded-full whitespace-nowrap w-full ${
+                filter === status ? 'bg-primary text-white' : 'text-primary'
+              }`}
+            >
+              {status}
+            </button>
+          ))}
+        </div>
+        <div className="overflow-y-auto space-y-2">
+          {filtered.map((benefit: any, index: number) => (
+            <div
+              key={index}
+              className="border rounded-xl p-4 flex justify-between items-center bg-white"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 flex-shrink-0 rounded-2xl bg-gray-50 flex items-center justify-center">
+                  <Image src={hugIcon} alt="Benefit Icon" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-base">{getBenefitName(benefit.benefitType)}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="font-bold">лв</p>
+                    <div className="border-r-2 h-4" />
+                    <span
+                      className={`font-medium ${benefit.status === 'EXPIRED' ? 'text-red-500' : 'text-green-500'}`}
+                    >
+                      {benefit.amount}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+          {filtered.length === 0 && <p className="text-center text-gray-500 mt-10">Empty</p>}
+        </div>
+      </div>
+    );
   };
 
-  const BenefitsSection = ({
-    benefits,
-    getBenefitName,
-    t,
-  }: {
-    benefits: any;
-    getBenefitName: any;
-    t: any;
-  }) => (
-    <div className="py-8 h-[28vh] overflow-y-auto">
-      <h1 className="text-lg font-normal text-gray-500 pb-2">
-        {t('UserManagement.benefits.title')}
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-        {benefits.map((benefit: any, index: number) => (
-          <div key={index} className="flex flex-col gap-6">
-            {['benefitType', 'benefitStatus', 'benefitAmount', 'deductionAmount'].map((field) => (
-              <div key={field}>
-                <p className="text-gray-400 font-normal">{t(`UserManagement.benefits.${field}`)}</p>
-                <p className="text-gray-700 font-medium">
-                  {field === 'benefitType'
-                    ? getBenefitName(benefit.benefitType)
-                    : (benefit[field] ?? 'N/A')}
-                </p>
-              </div>
-            ))}
-            <div className="border-b w-32" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const CreatedBySection = ({
-    createdBy,
-    handleHistoryClick,
-    t,
-  }: {
-    createdBy: any;
-    handleHistoryClick: () => void;
-    t: any;
-  }) => (
-    <div className="flex justify-between items-center">
+  const CreatedBySection = ({ createdBy, handleHistoryClick, t }: any) => (
+    <div className="flex justify-between items-center gap-6">
       <div className="flex items-center gap-4">
         <Image
           src={createdBy.photoUrl || placeholderUserImage}
@@ -156,16 +170,13 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           alt="Agent Image"
           className="w-20 h-20 rounded-full shadow-md object-cover"
         />
-        <div>
-          <h1 className="text-xl font-semibold">
-            {createdBy.firstName} {createdBy.lastName}
-          </h1>
-          <p className="text-gray-400">{t('UserManagement.agentData.title')}</p>
-        </div>
+        <h3 className="text-xl font-semibold">
+          {createdBy.firstName} {createdBy.lastName}
+        </h3>
       </div>
       <button
         type="button"
-        className="bg-primary text-white px-4 py-2 rounded-full flex items-center gap-1 cursor-pointer"
+        className="cursor-pointer bg-primary text-white px-4 py-2 rounded-full flex items-center gap-1"
         onClick={handleHistoryClick}
       >
         {t('Buttons.history')} <ArrowRight className="w-5 h-5" />
@@ -173,101 +184,135 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     </div>
   );
 
+  const renderTabContent = () => {
+    if (loading) {
+      return (
+        <div className="flex flex-col items-center justify-center py-10">
+          <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
+        </div>
+      );
+    }
+    if (error) {
+      return (
+        <div className="text-center py-10">
+          <h2 className="text-xl font-bold text-red-600">Error</h2>
+          <p className="text-gray-600">{error}</p>
+        </div>
+      );
+    }
+    if (!user) {
+      return null;
+    }
+
+    switch (activeTab) {
+      case 'details':
+        return (
+          <>
+            <div className="flex flex-col">
+              <UserInfoSection user={user} t={t} />
+              {user.agentData && <AgentDataSection agentData={user.agentData} t={t} />}
+            </div>
+          </>
+        );
+
+      case 'benefits':
+        if (!user.benefits) {
+          return <p className="text-center text-gray-500">Empty</p>;
+        }
+        return <BenefitsSection benefits={user.benefits} getBenefitName={getBenefitName} t={t} />;
+
+      case 'createdBy':
+        if (!user.createdBy) {
+          return <p className="text-center text-gray-500">Empty</p>;
+        }
+        return (
+          <CreatedBySection
+            createdBy={user.createdBy}
+            handleHistoryClick={handleHistoryClick}
+            t={t}
+          />
+        );
+
+      case 'signup':
+        if (!user.signupRequestId) {
+          return <p className="text-center text-gray-500">Empty</p>;
+        }
+        return (
+          <div className="text-center">
+            <button
+              type="button"
+              className="bg-primary text-white px-4 py-2 rounded-full transition"
+              onClick={() => onOpenSignupRequest(user.signupRequestId!)}
+            >
+              {t('Buttons.viewSignupDetails')}
+            </button>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md transition-opacity">
+    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-primary/5 backdrop-blur-md transition-opacity">
       <div
         ref={modalRef}
-        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-3xl  shadow-xl overflow-y-auto h-full"
+        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full"
       >
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-10">
-            <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
+        <div className="p-12 flex justify-between items-center">
+          <h1 className="text-xl">{t('UserManagement.modalTitle')}</h1>
+          <button
+            type="button"
+            className="cursor-pointer text-neutral-900"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="px-12 py-6 flex items-center gap-4">
+          {user?.photoUrl && (
+            <Image
+              src={user.photoUrl || placeholderUserImage}
+              width={72}
+              height={72}
+              alt="User Avatar"
+              className="w-18 h-18 rounded-full shadow-md object-cover"
+            />
+          )}
+          <div>
+            <h2 className="text-2xl font-semibold">
+              {user?.firstName} {user?.lastName}
+            </h2>
           </div>
-        )}
+        </div>
 
-        {error && (
-          <div className="text-center py-10">
-            <h2 className="text-xl font-bold text-red-600">Error</h2>
-            <p className="text-gray-600">{error}</p>
-          </div>
-        )}
+        <div className="flex gap-6 px-12 overflow-x-auto">
+          {[
+            { id: 'details', title: t('UserManagement.modalTitle') },
+            { id: 'benefits', title: t('UserManagement.benefits.title') },
+            { id: 'createdBy', title: t('UserManagement.details.createdBy') },
+          ].map((tab) => (
+            <button
+              type="button"
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`cursor-pointer whitespace-nowrap ${
+                activeTab === tab.id
+                  ? 'text-primary border-b-2 border-primary'
+                  : ' text-neutral-900'
+              }`}
+            >
+              {tab.title}
+            </button>
+          ))}
+        </div>
 
-        {!loading && !error && user && (
-          <div className="flex flex-col justify-between h-full p-10">
-            <div>
-              <div>
-                <h1 className="text-xl">{t('UserManagement.modalTitle')}</h1>
-                <button
-                  type="button"
-                  className="cursor-pointer absolute top-10 right-10 text-gray-500 hover:text-gray-700 transition"
-                  onClick={onClose}
-                  aria-label="Close modal"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="flex items-center gap-8 pt-10">
-                {user.photoUrl && (
-                  <div className="flex justify-center">
-                    <Image
-                      src={user.photoUrl || placeholderUserImage}
-                      width={128}
-                      height={128}
-                      alt="User Avatar"
-                      className="w-28 h-28 rounded-full shadow-md object-cover"
-                    />
-                  </div>
-                )}
-
-                <h2 className="text-2xl font-semibold text-center">
-                  {user.firstName} {user.lastName}
-                </h2>
-              </div>
-              <div className="py-10">
-                <div className="border-b border-gray-100" />
-              </div>
-
-              {/* user */}
-              <div className="h-[28vh] overflow-y-auto">
-                <UserInfoSection user={user} t={t} />
-
-                {user.agentData && <AgentDataSection agentData={user.agentData} t={t} />}
-              </div>
-
-              {/* benefits */}
-              {user.benefits && user.benefits.length > 0 && (
-                <BenefitsSection benefits={user.benefits} getBenefitName={getBenefitName} t={t} />
-              )}
-            </div>
-            <div className="flex flex-col gap-12 ">
-              <div>
-                {user.createdBy && (
-                  <CreatedBySection
-                    createdBy={user.createdBy}
-                    handleHistoryClick={handleHistoryClick}
-                    t={t}
-                  />
-                )}
-              </div>
-              {user.signupRequestId && (
-                <div className=" text-center ">
-                  <button
-                    type="button"
-                    className="bg-primary text-white px-4 py-2 rounded-full  transition cursor-pointer"
-                    onClick={() =>
-                      user.signupRequestId && onOpenSignupRequest(user.signupRequestId)
-                    }
-                  >
-                    {t('Buttons.viewSignupDetails')}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="px-12 py-6 flex-1 overflow-y-auto">{renderTabContent()}</div>
       </div>
     </div>
   );
 };
 
-export default UserDetailsModal;
+export default MultiTabUserDetailsModal;
