@@ -83,7 +83,7 @@ export function AdminSidebar() {
           {showUserManagementPopover && (
             <div
               ref={modalRef}
-              className="absolute w-32 top-0 left-full mt-0 ml-2 bg-white shadow-md border border-gray-200 rounded-md z-[1000]"
+              className="absolute w-32 top-0 left-full mt-0 ml-2 bg-white shadow-md border border-gray-200 rounded-md z-[999]"
             >
               <ul>
                 {/* <Link
@@ -130,7 +130,7 @@ export function AdminSidebar() {
   };
 
   return (
-    <nav className="sticky top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-r border-gray-200">
+    <nav className="sticky z-20 top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-r border-gray-200">
       <Link href="/dashboard">
         <div className="p-6 border-b border-gray-200">
           <Image src="/images/logos/baraka_main_logo.svg" width={107} height={28} alt="logo" />
