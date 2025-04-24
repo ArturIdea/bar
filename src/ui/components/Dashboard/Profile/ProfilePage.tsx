@@ -47,8 +47,7 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <div className="flex items-center gap-6 border-b border-gray-200 p-6">
         <Image
-          // src={userProfile.photoUrl || placeholderUserImage}
-          src={placeholderUserImage}
+          src={userProfile.photoUrl || placeholderUserImage}
           width={120}
           height={120}
           alt="Profile Picture"

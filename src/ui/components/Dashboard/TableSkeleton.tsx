@@ -8,7 +8,7 @@ export const TableSkeleton: React.FC = () => {
     <div className="flex flex-col w-full bg-white border-t border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6">
-        <div className="h-4 bg-gray-200 rounded-md animate-pulse w-52" />
+        <div className="h-6 bg-gray-200 rounded-md animate-pulse w-52" />
         {pathname === '/dashboard' && (
           <div className="h-9 w-32 bg-gray-200 rounded-full animate-pulse" />
         )}
@@ -21,19 +21,19 @@ export const TableSkeleton: React.FC = () => {
           <thead>
             <tr className="border-t border-b border-gray-200">
               <th className="px-6 py-3 font-normal">
-                <div className="h-2 bg-gray-200 rounded-md animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 rounded-md animate-pulse w-3/4" />
               </th>
               <th className="px-6 py-3 font-normal">
-                <div className="h-2 bg-gray-200 rounded-md animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 rounded-md animate-pulse w-3/4" />
               </th>
               <th className="px-6 py-3 font-normal">
-                <div className="h-2 bg-gray-200 rounded-md animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 rounded-md animate-pulse w-3/4" />
               </th>
               <th className="px-6 py-3 font-normal">
-                <div className="h-2 bg-gray-200 rounded-md animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 rounded-md animate-pulse w-3/4" />
               </th>
               <th className="px-6 py-3 font-normal">
-                <div className="h-2 bg-gray-200 rounded-md animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 rounded-md animate-pulse w-3/4" />
               </th>
               <th className="px-6 py-3 font-normal" />
             </tr>

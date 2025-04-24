@@ -6,8 +6,8 @@ export default function BenefitsSkeleton() {
           key={index}
           className="border rounded-xl p-4 flex justify-between bg-white animate-pulse"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gray-200 rounded-lg" />
+          <div className="flex items-start gap-4">
+            <div className="p-1 bg-gray-200 rounded-full mt-[6px]" />
             <div>
               <div className="w-64 h-5 bg-gray-200 rounded mb-2" />
               <div className="flex items-center gap-2">

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { ArrowRight, Loader2, XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
-import hugIcon from '@/../public/images/icons/dashboard/hugIcon.svg';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
+import { assignDotColors } from '@/core/utils/dotColors';
+import { truncate } from '@/core/utils/truncate';
 import { useRouter } from '@/i18n/routing';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
@@ -16,7 +17,7 @@ interface MultiTabUserDetailsModalProps {
   onOpenSignupRequest: (signupRequestId: string) => void;
 }
 
-const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
+const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   userId,
   pinfl,
   onClose,
@@ -112,6 +113,7 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
     const [filter, setFilter] = useState<'ACTIVE' | 'EXPIRED'>('ACTIVE');
     const filtered = benefits.filter((b: any) => b.status === filter);
     const STATUS = [t('UserManagement.details.active'), t('UserManagement.details.expired')];
+    const colors = useMemo(() => assignDotColors(benefits), [benefits]);
 
     return (
       <div className="flex flex-col gap-6 h-[60vh]">
@@ -129,31 +131,38 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
             </button>
           ))}
         </div>
-        <div className="overflow-y-auto space-y-2">
-          {filtered.map((benefit: any, index: number) => (
-            <div
-              key={index}
-              className="border rounded-xl p-4 flex justify-between items-center bg-white"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 flex-shrink-0 rounded-2xl bg-gray-50 flex items-center justify-center">
-                  <Image src={hugIcon} alt="Benefit Icon" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-base">{getBenefitName(benefit.benefitType)}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <p className="font-bold">лв</p>
-                    <div className="border-r-2 h-4" />
-                    <span
-                      className={`font-medium ${benefit.status === 'EXPIRED' ? 'text-red-500' : 'text-green-500'}`}
+        <div className="flex flex-col gap-4 overflow-y-auto h-full">
+          {filtered.map((benefit: any, index: number) => {
+            const fullTitle = getBenefitName(benefit.benefitType, locale);
+            const shortTitle = truncate(fullTitle, 90);
+            return (
+              <div
+                key={index}
+                className="border rounded-xl p-4 flex justify-between items-center bg-white"
+              >
+                <div className="flex items-start gap-4">
+                  <span className={`p-1 rounded-full ${colors[index]} mt-[6px]`} />
+                  <div>
+                    <h3
+                      className="font-semibold text-base leading-snug max-h-[3rem] overflow-hidden line-clamp-2"
+                      title={fullTitle}
                     >
-                      {benefit.amount}
-                    </span>
+                      {shortTitle}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <p className="font-bold">лв</p>
+                      <div className="border-r-2 h-3" />
+                      <span
+                        className={`font-medium ${benefit.status === 'EXPIRED' ? 'text-red-500' : 'text-green-500'}`}
+                      >
+                        {benefit.amount}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           {filtered.length === 0 && <p className="text-center text-gray-500 mt-10">Empty</p>}
         </div>
       </div>
@@ -315,4 +324,4 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   );
 };
 
-export default MultiTabUserDetailsModal;
+export default UserDetailsModal;
