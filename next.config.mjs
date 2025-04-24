@@ -21,6 +21,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'baraka-s3.uz-pay-dev.ox.one',
       },
+      {
+        protocol: 'https',
+        hostname: 'baraka-s3.uz-pay-prod.ox.one',
+      },
     ],
   },
 };
