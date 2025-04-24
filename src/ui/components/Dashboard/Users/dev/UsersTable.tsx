@@ -114,53 +114,57 @@ export const UsersTable: React.FC<{
 
             {/* Table Body */}
             <tbody>
-              {users.map((user) => (
-                <tr key={user.userId} className={` hover:bg-gray-50 transition-colors`}>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">
-                    {user.firstName} {user.lastName}
-                  </td>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.socialNumber || 'N/A'}</td>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
-                  <td className="px-4 py-2 text-[#0B0B22] text-sm">
-                    {new Date(user.createdAt).toLocaleString('uz-UZ', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </td>
-                  <td className="px-6 py-4 flex items-center justify-end relative">
-                    <button
-                      type="button"
-                      className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                      onClick={() => toggleDropdown(user.userId)}
-                    >
-                      <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
-                    </button>
-
-                    {/* Dropdown Menu */}
-                    {dropdownOpen[user.userId] && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+              {users.map((user) => {
+                return (
+                  <tr key={user.id} className={` hover:bg-gray-50 transition-colors`}>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">
+                      {user.firstName} {user.lastName}
+                    </td>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">
+                      {user.socialNumber || 'N/A'}
+                    </td>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">{user.phone || 'N/A'}</td>
+                    <td className="px-4 py-2 text-[#0B0B22] text-sm">
+                      {new Date(user.createdAt).toLocaleString('uz-UZ', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </td>
+                    <td className="px-6 py-4 flex items-center justify-end relative">
+                      <button
+                        type="button"
+                        className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                        onClick={() => toggleDropdown(user.id)}
                       >
-                        <button
-                          type="button"
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => {
-                            handleViewDetails(user.userId);
-                          }}
+                        <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {dropdownOpen[user.id] && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                         >
-                          {t('Buttons.viewUserDetails')}
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                          <button
+                            type="button"
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => {
+                              handleViewDetails(user.id);
+                            }}
+                          >
+                            {t('Buttons.viewUserDetails')}
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
