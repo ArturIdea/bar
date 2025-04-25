@@ -4,6 +4,7 @@ import {
   IdentityProviderData,
   MarriageData,
   PersonDataLatin,
+  StudentOnboarding,
   UserDetail,
 } from '@/domain/users/dev/entities/UserDetail';
 
@@ -132,7 +133,12 @@ export const UserDetailsAdapter = {
       ? new IdentityProviderData(personDataLatin, marriageData, disabilityData)
       : undefined;
 
-    const studentData = raw.studentData;
+    const studentOnboarding = raw.studentOnboarding
+      ? new StudentOnboarding(
+          raw.studentOnboarding.hasBeenEnrolledAsStudent,
+          raw.studentOnboarding.universityName
+        )
+      : undefined;
     const agentData = raw.agentData;
     const userPhoto = raw.userPhoto;
     const userSignedData = raw.userSignedData;
@@ -154,7 +160,7 @@ export const UserDetailsAdapter = {
       raw.socialNumber,
       raw.createdAt,
       identityProviderData,
-      studentData,
+      studentOnboarding,
       agentData,
       userPhoto,
       userSignedData,

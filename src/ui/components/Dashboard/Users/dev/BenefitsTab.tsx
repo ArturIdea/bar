@@ -1,3 +1,4 @@
+import { useTranslations } from 'use-intl';
 import { UserBenefit } from '@/domain/users/dev/entities/UserBenefit';
 import { Pagination } from '../../Pagination';
 
@@ -16,9 +17,10 @@ export const BenefitsTab = ({
   handlePageChange: (page: number) => void;
   handlePageSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => {
+  const t = useTranslations();
   return (
     <div className="bg-gray-50 p-6 rounded-lg">
-      <h2 className="text-xl font-semibold mb-4 text-primary">User Benefits</h2>
+      <h2 className="text-xl font-semibold mb-4 text-primary">{t('Dev.userBenefits')}</h2>
 
       {benefits.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-6 text-center border border-gray-100">
@@ -39,7 +41,9 @@ export const BenefitsTab = ({
                       }).format(benefit.amount)}
                     </h3>
                     <p className="text-sm text-gray-500 mt-1">ID: {benefit.id}</p>
-                    <p className="text-sm text-gray-500">Status: {benefit.status}</p>
+                    <p className="text-sm text-gray-500">
+                      {t('Filter.status.title')}: {benefit.status}
+                    </p>
                   </div>
                   <div className="bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-medium">
                     {benefit.benefitType?.name?.uz ??
@@ -50,27 +54,27 @@ export const BenefitsTab = ({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500">
                   <div className="bg-gray-50 p-3 rounded">
-                    <p className="mb-1">PINFL</p>
+                    <p className="mb-1">{t('UserProfile.pinfl')}</p>
                     <p className="font-medium">{benefit.pinfl}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
-                    <p className="mb-1">Appointed PINFL</p>
+                    <p className="mb-1">{t('Dev.appointedPinfl')}</p>
                     <p className="font-medium">{benefit.appointedPinfl}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
-                    <p className="mb-1">Deduction Name</p>
+                    <p className="mb-1">{t('Dev.deductionName')}</p>
                     <p className="font-medium">{benefit.deductionName || '—'}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
-                    <p className="mb-1">Deduction Amount</p>
+                    <p className="mb-1">{t('UserManagement.benefits.deductionAmount')}</p>
                     <p className="font-medium">{benefit.deductionAmount?.toFixed(2) ?? '—'}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
-                    <p className="mb-1">Deduction %</p>
+                    <p className="mb-1">{t('Dev.deduction')} %</p>
                     <p className="font-medium">{benefit.deductionPercentage?.toFixed(2) ?? '—'}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded md:col-span-2">
-                    <p className="mb-1">Benefit Period</p>
+                    <p className="mb-1">{t('Dev.benefitPeriod')}</p>
                     <p className="font-medium">
                       {benefit.startedOn
                         ? new Date(benefit.startedOn).toLocaleDateString('uz-UZ')
@@ -84,7 +88,7 @@ export const BenefitsTab = ({
                 </div>
 
                 <div className="mt-4 pt-4 border-t text-sm text-gray-500">
-                  <p className="mb-1">Cancelled On</p>
+                  <p className="mb-1">{t('Dev.cancelledOn')}</p>
                   <p className="font-medium">
                     {benefit.cancelledOn
                       ? new Date(benefit.cancelledOn).toLocaleString('uz-UZ')

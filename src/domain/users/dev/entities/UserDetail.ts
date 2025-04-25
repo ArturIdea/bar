@@ -15,7 +15,7 @@ export class UserDetail {
     public socialNumber: string,
     public createdAt: string,
     public identityProviderData?: IdentityProviderData,
-    public studentData?: StudentData,
+    public studentOnboarding?: StudentOnboarding,
     public agentData?: AgentData,
     public userPhoto?: UserPhoto,
     public userSignedData?: UserSignedData,
@@ -150,10 +150,9 @@ export class DisabilityData {
   ) {}
 }
 
-export class StudentData {
+export class StudentOnboarding {
   constructor(
-    public isStudent: boolean,
-    public fullName: string,
+    public hasBeenEnrolledAsStudent: boolean,
     public universityName: string
   ) {}
 }

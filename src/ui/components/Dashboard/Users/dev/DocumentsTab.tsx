@@ -27,7 +27,7 @@ export const DocumentsTab = ({ documents }: { documents: UserDocument[] }) => {
                 <div className="flex items-center text-sm text-gray-500">
                   <Calendar className="w-4 h-4 mr-1 text-gray-500" />
                   <span>
-                    Uploaded:{' '}
+                    {t('Dev.uploaded')}:{' '}
                     {new Date(doc.createdAt).toLocaleString('uz-UZ', {
                       year: 'numeric',
                       month: '2-digit',

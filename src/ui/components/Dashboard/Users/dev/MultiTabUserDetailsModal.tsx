@@ -217,9 +217,9 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
                     height={128}
                     className="w-24 h-24 rounded-full shadow object-cover border-2 border-blue-100"
                   />
-                  {userDetail?.studentData?.isStudent && (
+                  {userDetail?.studentOnboarding?.hasBeenEnrolledAsStudent && (
                     <span className="absolute bottom-0 right-0 bg-primary text-white px-2 py-1 rounded-full text-xs font-bold">
-                      Student
+                      {t('Dev.student')}
                     </span>
                   )}
                 </div>
@@ -230,7 +230,7 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
                   <p className="text-gray-500">{userDetail?.email}</p>
                   {userDetail.pinfl && (
                     <p className="mt-1 text-sm text-gray-500 bg-gray-100 inline-block px-2 py-1 rounded">
-                      PINFL: {userDetail.pinfl}
+                      {t('UserProfile.pinfl')}: {userDetail.pinfl}
                     </p>
                   )}
                 </div>

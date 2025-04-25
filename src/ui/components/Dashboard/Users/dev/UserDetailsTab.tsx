@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { UserDetail } from '@/domain/users/dev/entities/UserDetail';
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -26,39 +27,43 @@ const DetailItem = ({
 );
 
 export default function UserDetailsTab({ user }: { user: UserDetail }) {
+  const t = useTranslations();
   const latin = user.identityProviderData?.personDataLatin;
   const marriage = user.identityProviderData?.marriageData;
   const disability = user.identityProviderData?.disabilityData;
   const agent = user.agentData;
-  const student = user.studentData;
+  const student = user.studentOnboarding;
 
   return (
     <div className="bg-gray-50 p-6 rounded-lg h-[50rem] overflow-y-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <Section title="Basic Information">
-            <DetailItem label="Username" value={user.username} />
-            <DetailItem label="Email" value={user.email} />
-            <DetailItem label="Phone Number" value={user.phoneNumber} />
-            <DetailItem label="Date of Birth" value={user.dateOfBirth} />
-            <DetailItem label="PINFL" value={user.pinfl} />
-            <DetailItem label="Document Type ID" value={user.documentTypeId} />
-            <DetailItem label="Document Number" value={user.documentNumber} />
-            <DetailItem label="Social Number" value={user.socialNumber} />
+          <Section title={t('Dev.basicInfo')}>
+            <DetailItem label={t('UserProfile.username')} value={user.username} />
+            <DetailItem label={t('SignupRequests.email')} value={user.email} />
+            <DetailItem label={t('UserProfile.phoneNumber')} value={user.phoneNumber} />
+            <DetailItem label={t('UserProfile.birthDate')} value={user.dateOfBirth} />
+            <DetailItem label={t('UserProfile.pinfl')} value={user.pinfl} />
+            <DetailItem label={t('Filter.docTypeId')} value={user.documentTypeId} />
+            <DetailItem label={t('Dev.documentNumber')} value={user.documentNumber} />
+            <DetailItem label={t('Dev.socialNumber')} value={user.socialNumber} />
+
             {user.authApiUserId && (
               <DetailItem
-                label="Auth API User ID"
+                label={t('Dev.authApiUserId')}
                 value={`${user.authApiUserId}...`}
                 title={user.authApiUserId}
               />
             )}
+
             <DetailItem
-              label="Keycloak User ID"
+              label={t('Dev.keycloakUserId')}
               value={`${user.keycloakUserId.substring(0, 15)}...`}
               title={user.keycloakUserId}
             />
+
             <div className="text-gray-500">
-              <p className="text-sm font-medium">Created At</p>
+              <p className="text-sm font-medium">{t('Dev.createdAtLabel')}</p>
               <p>
                 {new Date(user.createdAt).toLocaleString('uz-UZ', {
                   year: 'numeric',
@@ -72,21 +77,27 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
           </Section>
 
           {student && (
-            <Section title="Student Information">
-              <DetailItem label="University" value={student.universityName} />
-              <DetailItem label="Full Name" value={student.fullName} />
+            <Section title={t('Dev.studentInfo')}>
+              <DetailItem label={t('Student.university')} value={student.universityName} />
               <DetailItem
-                label="Status"
-                value={student.isStudent ? 'Active Student' : 'Inactive'}
+                label={t('Student.fullName')}
+                value={`${user.firstName} ${user.lastName}`}
+              />
+              <DetailItem
+                label={t('Student.status')}
+                value={student.hasBeenEnrolledAsStudent ? t('Dev.activeStudent') : ''}
               />
             </Section>
           )}
 
           {user.userPhoto && (
-            <Section title="Identity Verification">
-              <DetailItem label="Photo Verified" value={user.userPhoto ? 'Yes' : 'No'} />
+            <Section title={t('Dev.identityVerification')}>
               <DetailItem
-                label="Photo Created At"
+                label={t('Dev.photoVerified')}
+                value={user.userPhoto ? t('Dev.yes') : t('Dev.no')}
+              />
+              <DetailItem
+                label={t('Dev.photoCreatedAt')}
                 value={new Date(user.userPhoto.createdAt).toLocaleString('uz-UZ', {
                   year: 'numeric',
                   month: '2-digit',
@@ -96,7 +107,7 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
                 })}
               />
               <DetailItem
-                label="Photo Updated At"
+                label={t('Dev.photoUpdatedAt')}
                 value={new Date(user.userPhoto.updatedAt).toLocaleString('uz-UZ', {
                   year: 'numeric',
                   month: '2-digit',
@@ -105,7 +116,8 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
                   minute: '2-digit',
                 })}
               />
-              <DetailItem label="Photo Social Number" value={user.userPhoto.socialNumber} />
+              <DetailItem label={t('Dev.photoSocialNumber')} value={user.userPhoto.socialNumber} />
+
               {user.userPhoto.s3Photo && (
                 <>
                   <DetailItem
@@ -124,15 +136,15 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
           )}
 
           {user.userCardFront && (
-            <Section title="User Card Front">
+            <Section title={t('Dev.userCardFront')}>
               <DetailItem
-                label="Image URI"
+                label={t('Dev.imageUri')}
                 value={`${user.userCardFront.imageUri.substring(0, 15)}...`}
                 title={user.userCardFront.imageUri}
               />
               <DetailItem
-                label="Created At"
-                value={new Date(user.userCardFront?.createdAt).toLocaleString('uz-UZ', {
+                label={t('Dev.createdAtLabel')}
+                value={new Date(user.userCardFront.createdAt).toLocaleString('uz-UZ', {
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',
@@ -149,124 +161,155 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
           )}
 
           {user.userSignedData && (
-            <Section title="Signed Data">
+            <Section title={t('Dev.signedData')}>
               <DetailItem
-                label="ID"
+                label={t('Dev.id')}
                 value={`${user.userSignedData.id.substring(0, 15)}...`}
                 title={user.userSignedData.id}
               />
               <DetailItem
-                label="User ID"
+                label={t('Dev.userId')}
                 value={`${user.userSignedData.userId.substring(0, 15)}...`}
                 title={user.userSignedData.userId}
               />
-              <DetailItem label="Social Number" value={user.userSignedData.socialNumber} />
-              <DetailItem label="Version" value={user.userSignedData.version} />
-              <DetailItem label="Scheme" value={user.userSignedData.scheme} />
+              <DetailItem label={t('Dev.socialNumber')} value={user.userSignedData.socialNumber} />
+              <DetailItem label={t('Dev.version')} value={user.userSignedData.version} />
+              <DetailItem label={t('Dev.scheme')} value={user.userSignedData.scheme} />
             </Section>
           )}
         </div>
 
         <div>
           {latin && (
-            <Section title="Identity Provider Data (Latin)">
-              <DetailItem label="First Name" value={latin.firstName} />
-              <DetailItem label="Middle Name" value={latin.middleName} />
-              <DetailItem label="Last Name" value={latin.lastName} />
-              <DetailItem label="Gender" value={latin.genderName} />
-              <DetailItem label="Gender ID" value={latin.genderId} />
-              <DetailItem label="Nationality" value={latin.nationalityName} />
-              <DetailItem label="Citizenship" value={latin.citizenshipName} />
-              <DetailItem label="Birthplace" value={latin.birthPlace} />
-              <DetailItem label="Birth Country" value={latin.birthCountryName} />
-              <DetailItem label="Document Type" value={latin.documentType} />
-              <DetailItem label="Document Number" value={latin.docNumber} />
-              <DetailItem label="Doc Seria" value={latin.docSeria} />
-              <DetailItem label="Doc Issue On" value={latin.docIssueOn} />
-              <DetailItem label="Doc Expire On" value={latin.docExpireOn} />
-              <DetailItem label="Doc Issue Org." value={latin.docIssueOrganization} />
-              <DetailItem label="Phone Number" value={latin.phoneNumber} />
-              <DetailItem label="Email Address" value={latin.emailAddress} />
-              <DetailItem label="Is Deceased" value={latin.isDeath ? 'Yes' : 'No'} />
-              <DetailItem label="Death Date" value={latin.deathOn} />
-              <DetailItem label="PINFL" value={latin.pinfl} />
-              <DetailItem label="Birth Date" value={latin.birthOn} />
+            <Section title={t('Latin.identityProviderDataLatin')}>
+              <DetailItem label={t('Latin.firstName')} value={latin.firstName} />
+              <DetailItem label={t('Latin.middleName')} value={latin.middleName} />
+              <DetailItem label={t('Latin.lastName')} value={latin.lastName} />
+              <DetailItem label={t('ProfilePage.gender')} value={latin.genderName} />
+              <DetailItem label={t('Latin.genderId')} value={latin.genderId} />
+              <DetailItem label={t('ProfilePage.nationality')} value={latin.nationalityName} />
+              <DetailItem label={t('SignupRequests.citizenship')} value={latin.citizenshipName} />
+              <DetailItem label={t('Latin.birthplace')} value={latin.birthPlace} />
+              <DetailItem label={t('SignupRequests.birthCountry')} value={latin.birthCountryName} />
+              <DetailItem label={t('SignupRequests.docType')} value={latin.documentType} />
+              <DetailItem label={t('SignupRequests.docNumber')} value={latin.docNumber} />
+              <DetailItem label={t('Latin.docSeria')} value={latin.docSeria} />
+              <DetailItem label={t('Latin.docIssueOn')} value={latin.docIssueOn} />
+              <DetailItem label={t('Latin.docExpireOn')} value={latin.docExpireOn} />
+              <DetailItem
+                label={t('Latin.docIssueOrganization')}
+                value={latin.docIssueOrganization}
+              />
+              <DetailItem label={t('UserProfile.phoneNumber')} value={latin.phoneNumber} />
+              <DetailItem label={t('UserManagement.email')} value={latin.emailAddress} />
+              <DetailItem
+                label={t('Latin.isDeceased')}
+                value={latin.isDeath ? t('Dev.yes') : t('Dev.no')}
+              />
+              <DetailItem label={t('Latin.deathDate')} value={latin.deathOn} />
+              <DetailItem label={t('UserProfile.pinfl')} value={latin.pinfl} />
+              <DetailItem label={t('UserProfile.birthDate')} value={latin.birthOn} />
+
               {latin.address && (
                 <>
-                  <DetailItem label="Region" value={latin.address.region} />
-                  <DetailItem label="District" value={latin.address.district} />
-                  <DetailItem label="Address" value={latin.address.address} />
-                  <DetailItem label="Temporary Address" value={latin.address.temporaryAddress} />
-                  <DetailItem label="Temporary From" value={latin.address.temporaryDateFrom} />
-                  <DetailItem label="Temporary Until" value={latin.address.temporaryDateTill} />
+                  <DetailItem label={t('Latin.region')} value={latin.address.region} />
+                  <DetailItem label={t('Agent.district')} value={latin.address.district} />
+                  <DetailItem label={t('UserProfile.address')} value={latin.address.address} />
+                  <DetailItem
+                    label={t('Latin.temporaryAddress')}
+                    value={latin.address.temporaryAddress}
+                  />
+                  <DetailItem
+                    label={t('Latin.temporaryFrom')}
+                    value={latin.address.temporaryDateFrom}
+                  />
+                  <DetailItem
+                    label={t('Latin.temporaryUntil')}
+                    value={latin.address.temporaryDateTill}
+                  />
                 </>
               )}
             </Section>
           )}
 
           {marriage && (
-            <Section title="Marriage Information">
+            <Section title={t('Marriage.marriageInfo')}>
               <DetailItem
-                label="Certificate"
+                label={t('Marriage.certificate')}
                 value={`${marriage.certSeries} ${marriage.certNumber} (${marriage.certDate})`}
               />
               <DetailItem
-                label="Husband Name"
+                label={t('Marriage.husbandName')}
                 value={`${marriage.husbandFirstName} ${marriage.husbandPatronym}`}
               />
               <DetailItem
-                label="Wife Name"
+                label={t('Marriage.wifeName')}
                 value={`${marriage.wifeFirstName} ${marriage.wifePatronym}`}
               />
-              <DetailItem label="Branch" value={marriage.branch} />
-              <DetailItem label="Doc Number" value={marriage.docNumber} />
-              <DetailItem label="Doc On" value={marriage.docOn} />
-              <DetailItem label="Husband Citizen" value={marriage.husbandCitizen} />
-              <DetailItem label="Wife Citizen" value={marriage.wifeCitizen} />
+              <DetailItem label={t('Marriage.branch')} value={marriage.branch} />
+              <DetailItem label={t('SignupRequests.docNumber')} value={marriage.docNumber} />
+              <DetailItem label={t('Marriage.docOn')} value={marriage.docOn} />
+              <DetailItem label={t('Marriage.husbandCitizen')} value={marriage.husbandCitizen} />
+              <DetailItem label={t('Marriage.wifeCitizen')} value={marriage.wifeCitizen} />
             </Section>
           )}
 
           {disability && (
-            <Section title="Disability Information">
-              <DetailItem label="Group" value={disability.disabilityGroup} />
+            <Section title={t('Disability.disabilityInfo')}>
+              <DetailItem label={t('Disability.group')} value={disability.disabilityGroup} />
               <DetailItem
-                label="Period"
+                label={t('Disability.period')}
                 value={`${disability.disabilityDateStart} - ${disability.disabilityDateEnd}`}
               />
-              <DetailItem label="Percentage" value={`${disability.disabilityPercentage}%`} />
-              <DetailItem label="Reference Number" value={disability.referenceNumber} />
+              <DetailItem
+                label={t('Disability.percentage')}
+                value={`${disability.disabilityPercentage}%`}
+              />
+              <DetailItem
+                label={t('Disability.referenceNumber')}
+                value={disability.referenceNumber}
+              />
               <DetailItem label="ICD10" value={disability.icd10} />
-              <DetailItem label="Parasport Recommendation" value={disability.parasportRecom} />
-              <DetailItem label="Profession Recommendation" value={disability.professionRecom} />
+              <DetailItem
+                label={t('Disability.parasportRecom')}
+                value={disability.parasportRecom}
+              />
+              <DetailItem
+                label={t('Disability.professionRecom')}
+                value={disability.professionRecom}
+              />
             </Section>
           )}
 
           {agent && (
-            <Section title="Agent Information">
+            <Section title={t('Agent.agentInfo')}>
               <DetailItem
-                label="Full Name"
+                label={t('Agent.fullName')}
                 value={`${agent.firstName} ${agent.middleName} ${agent.lastName}`}
               />
-              <DetailItem label="Date of Birth" value={agent.dateOfBirth} />
-              <DetailItem label="Job Title" value={agent.jobTitle} />
-              <DetailItem label="Branch Code" value={agent.insonCenterBranchCode} />
-              <DetailItem label="District" value={agent.insonCenterDistrict} />
-              <DetailItem label="Email" value={agent.personalEmailAddress} />
-              <DetailItem label="Agreement Email" value={agent.agreementEmailAddress} />
-              <DetailItem label="Address" value={agent.address} />
-              <DetailItem label="Location" value={agent.location} />
-              <DetailItem label="Responsible Person" value={agent.responsiblePerson} />
-              <DetailItem label="Bank Login" value={agent.bankingSystemLogin} />
-              <DetailItem label="Branch" value={agent.branch} />
-              <DetailItem label="PINFL ID" value={agent.pinfl?.id} />
+              <DetailItem label={t('Agent.dateOfBirth')} value={agent.dateOfBirth} />
+              <DetailItem label={t('UserProfile.jobTitle')} value={agent.jobTitle} />
+              <DetailItem label={t('Agent.branchCode')} value={agent.insonCenterBranchCode} />
+              <DetailItem label={t('Agent.district')} value={agent.insonCenterDistrict} />
               <DetailItem
-                label="Primary Phone"
+                label={t('UserProfile.personalEmail')}
+                value={agent.personalEmailAddress}
+              />
+              <DetailItem label={t('Agent.agreementEmail')} value={agent.agreementEmailAddress} />
+              <DetailItem label={t('UserProfile.address')} value={agent.address} />
+              <DetailItem label={t('UserManagement.agentData.location')} value={agent.location} />
+              <DetailItem label={t('Agent.responsiblePerson')} value={agent.responsiblePerson} />
+              <DetailItem label={t('Agent.bankLogin')} value={agent.bankingSystemLogin} />
+              <DetailItem label={t('Marriage.branch')} value={agent.branch} />
+              <DetailItem label={t('UserProfile.pinfl')} value={agent.pinfl?.id} />
+              <DetailItem
+                label={t('Agent.primaryPhone')}
                 value={`${agent.personalPhone.phoneCode} ${agent.personalPhone.phoneNumber}`}
               />
               {agent.mobilePhoneNumbers?.map((p, idx) => (
                 <DetailItem
                   key={idx}
-                  label={`Mobile Phone ${idx + 1}`}
+                  label={`${t('Agent.mobilePhone')} ${idx + 1}`}
                   value={`${p.phoneCode} ${p.phoneNumber}`}
                 />
               ))}

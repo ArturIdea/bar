@@ -36,10 +36,10 @@ export const ImpersonationsTab = ({
                     OTP
                   </th>
                   <th scope="col" className="py-3 px-4 text-left text-sm font-semibold">
-                    Status
+                    {t('Filter.status.title')}
                   </th>
                   <th scope="col" className="py-3 px-4 text-left text-sm font-semibold">
-                    Expiration
+                    {t('Dev.expiration')}
                   </th>
                 </tr>
               </thead>
@@ -60,7 +60,9 @@ export const ImpersonationsTab = ({
                             isExpired ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
                           }`}
                         >
-                          {isExpired ? 'Expired' : 'Active'}
+                          {isExpired
+                            ? `${t('UserManagement.details.expired')}`
+                            : `${t('UserManagement.details.active')}`}
                         </span>
                       </td>
                       <td className="whitespace-nowrap py-4 px-4 text-sm text-gray-500">
