@@ -46,7 +46,9 @@ export const PublicOfferAgreementsTab = ({
               agreement.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}
           >
-            {agreement.active ? 'Active' : 'Inactive'}
+            {agreement.active
+              ? t('UserManagement.details.active')
+              : t('UserManagement.details.inactive')}
           </span>
         </div>
       </div>
@@ -54,15 +56,15 @@ export const PublicOfferAgreementsTab = ({
       <div className="bg-white rounded-lg shadow border border-gray-100 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           <div className="bg-gray-50 p-3 rounded text-gray-500">
-            <p className="text-sm  mb-1">Version</p>
+            <p className="text-sm  mb-1">{t('Dev.version')}</p>
             <p className="font-medium">{agreement.version || 'Ν/Α'}</p>
           </div>
           <div className="bg-gray-50 p-3 rounded text-gray-500">
-            <p className="text-sm mb-1">S3 Reference</p>
+            <p className="text-sm mb-1">{t('Dev.s3Reference')}</p>
             <p className="font-medium font-mono text-md overflow-hidden text-ellipsis">{s3Ref}</p>
           </div>
           <div className="bg-gray-50 p-3 rounded text-gray-500">
-            <p className="text-sm  mb-1">Created At</p>
+            <p className="text-sm  mb-1">{t('Dev.createdAtLabel')}</p>
             <p className="font-medium ">
               {new Date(agreement.createdAt).toLocaleString('uz-UZ', {
                 year: 'numeric',
@@ -74,7 +76,7 @@ export const PublicOfferAgreementsTab = ({
             </p>
           </div>
           <div className="bg-gray-50 p-3 rounded text-gray-500">
-            <p className="text-sm mb-1">Updated At</p>
+            <p className="text-sm mb-1">{t('Dev.updatedAt')}</p>
             <p className="font-medium">
               {new Date(agreement.createdAt).toLocaleString('uz-UZ', {
                 year: 'numeric',

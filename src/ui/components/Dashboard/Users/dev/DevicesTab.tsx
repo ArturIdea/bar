@@ -63,17 +63,19 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(device.active)}`}
                   >
-                    {device.active ? 'Active' : 'Inactive'}
+                    {device.active
+                      ? t('UserManagement.details.active')
+                      : t('UserManagement.details.inactive')}
                   </span>
                 </div>
 
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
-                    <p className="text-sm  mb-1">Device ID</p>
+                    <p className="text-sm  mb-1">{t('Dev.deviceId')}</p>
                     <p className="font-medium font-mono text-sm">{device.deviceId}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
-                    <p className="text-sm  mb-1">Device Record ID</p>
+                    <p className="text-sm  mb-1">{t('Dev.deviceRecordId')}</p>
                     <p className="font-medium">{device.id}</p>
                   </div>
                 </div>
@@ -84,7 +86,7 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
                       <div className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1 text-gray-500" />
                         <p className="text-sm text-gray-500">
-                          Added on{' '}
+                          {t('UserManagement.benefits.addedOn')}:{' '}
                           {new Date(device.createdAt).toLocaleString('uz-UZ', {
                             year: 'numeric',
                             month: '2-digit',
@@ -101,7 +103,7 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
                         <p
                           className={`text-sm ${isRecent ? 'text-primary font-medium' : 'text-gray-500'}`}
                         >
-                          Last active:{' '}
+                          {t('Dev.lastActive')}:{' '}
                           {new Date(device.lastActivity).toLocaleString('uz-UZ', {
                             year: 'numeric',
                             month: '2-digit',

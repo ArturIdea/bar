@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { UserVoucher } from '@/domain/users/dev/entities/UserVoucher';
 import { Pagination } from '../../Pagination';
 
@@ -16,9 +17,10 @@ export const VouchersTab = ({
   handlePageChange: (page: number) => void;
   handlePageSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => {
+  const t = useTranslations();
   return (
     <div className="bg-gray-50 p-6 rounded-lg">
-      <h2 className="text-xl font-semibold mb-4 text-primary">User Vouchers</h2>
+      <h2 className="text-xl font-semibold mb-4 text-primary">{t('Dev.userVouchers')}</h2>
 
       {vouchers.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-6 text-center border border-gray-100">
@@ -55,7 +57,9 @@ export const VouchersTab = ({
                           minimumFractionDigits: 2,
                         }).format(voucher.amount)}
                       </h3>
-                      <p className="text-sm text-gray-500">ID: {voucher.id}</p>
+                      <p className="text-sm text-gray-500">
+                        {t('Dev.id')}: {voucher.id}
+                      </p>
                     </div>
                   </div>
                   <div className="bg-blue-100 px-3 py-1 rounded font-medium text-blue-800">
@@ -65,19 +69,19 @@ export const VouchersTab = ({
 
                 <div className="flex flex-col gap-4 mt-4">
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
-                    <p className="text-sm mb-1">Promo Code</p>
+                    <p className="text-sm mb-1">{t('Dev.promoCode')}</p>
                     <p className="font-medium font-mono">{voucher.promoCode}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
-                    <p className="text-sm mb-1">Marketplace ID</p>
+                    <p className="text-sm mb-1">{t('Dev.marketplaceID')}</p>
                     <p className="font-medium">{voucher.marketPlaceId}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded text-gray-500">
-                    <p className="text-sm mb-1">MXIK Code</p>
+                    <p className="text-sm mb-1">{t('Dev.mxikCode')}</p>
                     <p className="font-medium">{voucher.mxikCode}</p>
                   </div>
                   <div className="bg-gray-50 p-3 rounded md:col-span-2 text-gray-500">
-                    <p className="text-sm mb-1">Classification</p>
+                    <p className="text-sm mb-1">{t('Dev.classification')}</p>
                     <p className="font-medium">
                       {voucher.classificatorName}
                       <span className="text-sm text-gray-500 ml-2">
@@ -89,7 +93,7 @@ export const VouchersTab = ({
 
                 <div className="flex flex-col sm:flex-row sm:justify-between mt-4 pt-4 border-t border-gray-100">
                   <div className="mb-2 sm:mb-0 text-gray-500">
-                    <p className="text-sm">Given At</p>
+                    <p className="text-sm">{t('Dev.givenAt')}</p>
                     <p className="text-sm font-medium">
                       {new Date(voucher.givenAt).toLocaleString('uz-UZ', {
                         year: 'numeric',
@@ -101,7 +105,7 @@ export const VouchersTab = ({
                     </p>
                   </div>
                   <div className="text-gray-500">
-                    <p className="text-sm">Used At</p>
+                    <p className="text-sm">{t('Dev.usedAt')}</p>
                     <p className="text-sm font-medium">
                       {voucher.usedAt
                         ? new Date(voucher.usedAt).toLocaleString('uz-UZ', {

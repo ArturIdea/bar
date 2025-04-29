@@ -38,7 +38,16 @@
     "documents": "Documents",
     "benefitBankAcc": "Benefit Bank Account",
     "vouchers": "Vouchers",
+    "userVouchers": "User Vouchers",
     "devices": "Devices",
+    "deviceId": "Device ID",
+    "deviceRecordId": "Device Record ID",
+    "promoCode": "Promo Code",
+    "marketplaceID": "Marketplace ID",
+    "mxikCode": "MXIK Code",
+    "classification": "Classification",
+    "givenAt": "Given At",
+    "usedAt": " Used At",
     "publicOfferAgreement": "Public Offer Agreement",
     "student": "Student",
     "activeStudent": "Active Student",
@@ -55,7 +64,10 @@
     "userId": "User ID",
     "version": "Version",
     "scheme": "Scheme",
-    "createdAtLabel": "Created At"
+    "createdAtLabel": "Created At",
+    "lastActive": "Last Active",
+    "s3Reference": "S3 Reference",
+    "updatedAt": "Updated At"
   },
   "Student": {
     "university": "University",
@@ -262,6 +274,7 @@
     "details": {
       "createdBy": "Created By",
       "active": "ACTIVE",
+      "inactive": "INACTIVE",
       "expired": "EXPIRED"
     },
     "navbarTitle": {
