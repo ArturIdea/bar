@@ -104,7 +104,6 @@ export const StatisticsDashboard = () => {
         {/* New Accounts */}
 
         <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-          <Divider />
           <StatItem
             icon={NewAccountsIcon}
             label={t('Statistics.newAccounts')}
