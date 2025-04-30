@@ -8,7 +8,6 @@ export const UserAdapter = {
       raw.username,
       raw.firstName,
       raw.lastName,
-      raw.phoneNumber,
       raw.email || 'N/A',
       raw.createdAt
     );

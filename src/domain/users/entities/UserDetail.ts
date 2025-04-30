@@ -3,7 +3,6 @@ export class UserDetail {
     public username: string,
     public firstName: string,
     public lastName: string,
-    public phoneNumber: string,
     public pinfl: string,
     public email: string,
     public documentTypeId: string,
@@ -28,12 +27,6 @@ export class UserDetail {
         nationalityName?: string;
         citizenshipName?: string;
         birthCountryName?: string;
-        address?: {
-          country?: string;
-          region?: string;
-          district?: string;
-          address?: string;
-        };
       };
     },
     public agentData?: {

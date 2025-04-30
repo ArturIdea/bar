@@ -5,7 +5,6 @@ export class SignUpRequest {
     public lastName: string,
     public email: string,
     public pinfl: string,
-    public phoneNumber: string,
     public createdAt: Date,
     public status: string
   ) {}

@@ -27,7 +27,6 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
     const fields = [
       { key: 'name', value: `${signupRequest.firstName} ${signupRequest.lastName}` },
       { key: 'email', value: signupRequest.email },
-      { key: 'mobile', value: `${signupRequest.phoneCode} ${signupRequest.phoneNumber}` },
       { key: 'status', value: signupRequest.status },
       { key: 'nationality', value: signupRequest.nationalityName },
       { key: 'citizenship', value: signupRequest.citizenshipName },
@@ -49,7 +48,6 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
       },
       { key: 'gender', value: signupRequest.genderName },
       { key: 'birthCountry', value: signupRequest.birthCountryName },
-      { key: 'address', value: signupRequest.address },
       { key: 'createdAt', value: new Date(signupRequest.createdAt).toLocaleString() },
       {
         key: 'finalizedAt',

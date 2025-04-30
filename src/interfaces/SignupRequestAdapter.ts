@@ -8,7 +8,6 @@ export const SignUpRequestAdapter = {
       raw.lastName === null ? '' : raw.lastName,
       raw.email === null ? 'N/A' : raw.email,
       raw.pinfl === null ? 'N/A' : raw.pinfl,
-      raw.phoneCode && raw.phoneNumber ? `${raw.phoneCode}${raw.phoneNumber}` : 'N/A',
       new Date(raw.createdAt),
       raw.status === null ? 'N/A' : raw.status
     );

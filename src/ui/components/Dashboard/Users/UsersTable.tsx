@@ -93,7 +93,6 @@ export const UsersTable: React.FC<{
   const columns = [
     { key: 'name', label: t('UserManagement.name') },
     { key: 'pinfl', label: t('UserManagement.pinfl') },
-    { key: 'mobile', label: t('UserManagement.mobile') },
     { key: 'createdAt', label: t('UserManagement.createdAt') },
   ];
 
@@ -134,7 +133,7 @@ export const UsersTable: React.FC<{
                     {user.firstName} {user.lastName}
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.phoneNumber || 'N/A'}</td>
+
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {new Date(user.createdAt).toLocaleString('uz-UZ', {
                       year: 'numeric',

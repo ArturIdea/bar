@@ -44,16 +44,15 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   };
 
   const UserInfoSection = ({ user, t }: { user: any; t: any }) => {
+    console.log('🚀 ~ UserInfoSection ~ user:', user);
     const fields = [
       { label: 'email', value: user.email },
-      { label: 'phone', value: user.phoneNumber },
       { label: 'nationality', value: user.nationalityName },
       { label: 'citizenship', value: user.citizenshipName },
       { label: 'birthCountry', value: user.birthCountryName },
       { label: 'dob', value: user.dateOfBirth },
       { label: 'socialNumber', value: user.socialNumber },
       { label: 'pinfl', value: user.pinfl },
-      { label: 'address', value: user.address },
       {
         label: 'createdAt',
         value: user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A',

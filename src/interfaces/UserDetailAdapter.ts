@@ -6,7 +6,6 @@ export const UserDetailAdapter = {
       raw.username || 'N/A',
       raw.firstName || 'N/A',
       raw.lastName || 'N/A',
-      raw.phoneNumber || 'N/A',
       raw.pinfl,
       raw.email || 'N/A',
       raw.documentTypeId || 'N/A',
@@ -32,12 +31,6 @@ export const UserDetailAdapter = {
               nationalityName: raw.identityProviderData.personDataLatin?.nationalityName || 'N/A',
               citizenshipName: raw.identityProviderData.personDataLatin?.citizenshipName || 'N/A',
               birthCountryName: raw.identityProviderData.personDataLatin?.birthCountryName || 'N/A',
-              address: {
-                country: raw.identityProviderData.personDataLatin?.address?.country || 'N/A',
-                region: raw.identityProviderData.personDataLatin?.address?.region || 'N/A',
-                district: raw.identityProviderData.personDataLatin?.address?.district || 'N/A',
-                address: raw.identityProviderData.personDataLatin?.address?.address || 'N/A',
-              },
             },
           }
         : undefined,

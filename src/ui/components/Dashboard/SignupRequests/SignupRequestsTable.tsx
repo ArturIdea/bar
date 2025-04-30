@@ -97,7 +97,6 @@ export const SignUpRequestsTable: React.FC<{
   const columns = [
     { key: 'name', label: t('SignupRequests.name') },
     { key: 'email', label: t('SignupRequests.email') },
-    { key: 'mobile', label: t('SignupRequests.mobile') },
     { key: 'pinfl', label: t('SignupRequests.pinfl') },
     { key: 'createdAt', label: t('SignupRequests.createdAt') },
     { key: 'status', label: t('SignupRequests.status') },
@@ -138,7 +137,6 @@ export const SignUpRequestsTable: React.FC<{
                     {`${req.firstName || ''} ${req.lastName || ''}`}
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.email || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.phoneNumber || 'N/A'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {new Date(req.createdAt).toLocaleString('uz-UZ', {
