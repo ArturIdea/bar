@@ -8,14 +8,23 @@ import RejectedRequestsIcon from '@/../public/images/icons/dashboard/statistics/
 import SuccessfulRequestsIcon from '@/../public/images/icons/dashboard/statistics/successfulRequests.svg';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
+import LivenessPills from './LivenessPills';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
 
 export const StatisticsDashboard = () => {
   const t = useTranslations();
-  const { currentStats, previousStats, loading } = useStatistics();
-  const { total } = useUsers(0, 0);
+  const { total, loading: usersLoading } = useUsers(0, 0);
+  const { currentStats, previousStats, loading: statsLoading } = useStatistics();
 
-  if (loading) {
+  if (usersLoading) {
+    return (
+      <div className="w-full flex justify-end py-2 px-6">
+        <div className="h-16 w-64 bg-gray-200 rounded-full animate-pulse" />
+      </div>
+    );
+  }
+
+  if (statsLoading) {
     return <StatisticsSkeleton />;
   }
 
@@ -84,12 +93,18 @@ export const StatisticsDashboard = () => {
 
   return (
     <>
+      {/* Total Users and Liveness Pills */}
       <div className="w-full flex justify-end py-2 px-6 text-[32px]">
         {t('Statistics.totalUsers')}: {total}
       </div>
+      <LivenessPills />
+
+      {/* Stats */}
       <div className="flex items-center justify-start 2xl:justify-center 2xl:gap-12 gap-4 p-6">
         {/* New Accounts */}
+
         <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <Divider />
           <StatItem
             icon={NewAccountsIcon}
             label={t('Statistics.newAccounts')}

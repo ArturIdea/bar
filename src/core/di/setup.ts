@@ -47,6 +47,7 @@ import {
   loadDevUserVouchersRepositories,
   loadDevUserVouchersUseCases,
 } from './modules/dev/UserVouchers.module';
+import { loadLivenessRepositories, loadLivenessUseCases } from './modules/Liveness.module';
 import {
   loadSignupMetricsRepositories,
   loadSignupMetricsUseCases,
@@ -89,6 +90,7 @@ export const setupDependencies = () => {
   loadUserProfileRepositories(diContainer);
   loadBenefitsRepositories(diContainer);
   loadAgentsRepositories(diContainer);
+  loadLivenessRepositories(diContainer);
 
   //dev repositories
   loadDevUsersRepositories(diContainer);
@@ -116,6 +118,7 @@ export const setupDependencies = () => {
   loadUserProfileUseCases(diContainer);
   loadBenefitsUseCases(diContainer);
   loadAgentsUseCases(diContainer);
+  loadLivenessUseCases(diContainer);
 
   //dev use cases
   loadDevUsersUseCasesDev(diContainer);
