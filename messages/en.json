@@ -317,6 +317,10 @@
     "benefits": {
       "title": "Benefits",
       "benefitType": "Benefit Type",
+      "totalUsers": "Total Users",
+      "fundsAllocated": "Funds Allocated",
+      "usedFund": "Used Fund",
+      "avgUsage": "Average Usage of Fund",
       "addedOn": "Added On",
       "benefitAmount": "Benefit Amount",
       "benefitStatus": "Benefit Status",

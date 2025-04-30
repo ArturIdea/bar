@@ -50,7 +50,7 @@ export default function BenefitsList() {
         {loading ? (
           <BenefitsSkeleton />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {benefits.map((benefit, index) => {
               const fullTitle = getBenefitName(benefit.benefitType, locale);
               const shortTitle = truncate(fullTitle, 90);
@@ -69,7 +69,6 @@ export default function BenefitsList() {
                         {shortTitle}
                       </h3>
                       <div className="flex items-center gap-2">
-                        <p className="font-bold">лв</p>
                         <div className="border-r-2 h-3" />
                         <span className="text-green-500">
                           {benefit.benefitType.amount.toFixed(2)}
@@ -77,11 +76,33 @@ export default function BenefitsList() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center bg-gray-100 rounded-xl py-2 ">
-                    <div className="text-center font-bold text-gray-700 w-[87px]">
-                      {benefit.users || 0}
+                  <div className="flex gap-4">
+                    <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
+                      <div className="text-center font-semibold text-[#0B0B22] text-[19px] w-[130px]">
+                        {benefit.users || 0}
+                      </div>
+                      <div className="text-[#0B0B22]">
+                        {t('UserManagement.benefits.totalUsers')}
+                      </div>
                     </div>
-                    <div className="text-gray-500">{t('UserProfile.users')}</div>
+                    <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
+                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">
+                        <span className=" flex gap-2 justify-center items-center text-[19px] truncate max-w-[150px]">
+                          {benefit.benefitType.amount.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="text-[#0B0B22]">
+                        {t('UserManagement.benefits.fundsAllocated')}
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
+                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">-</div>
+                      <div className="text-[#0B0B22]">{t('UserManagement.benefits.usedFund')}</div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
+                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">-</div>
+                      <div className="text-[#0B0B22]">{t('UserManagement.benefits.avgUsage')}</div>
+                    </div>
                   </div>
                 </div>
               );
