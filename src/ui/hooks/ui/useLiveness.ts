@@ -34,11 +34,8 @@ export const useLiveness = () => {
         }
       }
     };
-
-    // initial fetch
     fetchLiveness();
 
-    // re‐fetch every 30 seconds
     const intervalId = setInterval(fetchLiveness, 30_000);
 
     return () => {
