@@ -144,7 +144,7 @@ export function AppUsageAgeDistributionRadialChart() {
             />
           </PieChart>
         </ChartContainer>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 min-w-[290px]">
           <div className="flex items-center gap-2">
             <Users2 className="w-4 h-4 text-gray-500" />
             <p className="text-gray-500 text-sm">

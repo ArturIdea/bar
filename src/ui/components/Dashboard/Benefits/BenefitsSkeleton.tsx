@@ -1,6 +1,6 @@
 export default function BenefitsSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4">
       {Array.from({ length: 16 }).map((_, index) => (
         <div
           key={index}

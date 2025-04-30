@@ -1,5 +1,6 @@
 'use client';
 
+import { AgentsTable } from '@/ui/components/Dashboard/Agents/AgentsTable';
 import { StatisticsDashboard } from '@/ui/components/Dashboard/Statistics/StatisticsDashboard';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 import { useAuth } from '@/ui/hooks/ui/useAuth';
@@ -21,6 +22,7 @@ const DashboardPage = () => {
       <StatisticsDashboard />
       <Charts />
       <UsersTable />
+      <AgentsTable />
     </div>
   );
 };

@@ -63,22 +63,16 @@ export default function BenefitsList() {
                     <span className={`p-1 rounded-full ${colors[index]} mt-[6px]`} />
                     <div>
                       <h3
-                        className="font-semibold text-base leading-snug max-h-[3rem] overflow-hidden line-clamp-2"
+                        className="font-semibold text-base leading-snug max-h-[3rem]  overflow-hidden line-clamp-2"
                         title={fullTitle}
                       >
                         {shortTitle}
                       </h3>
-                      <div className="flex items-center gap-2">
-                        <div className="border-r-2 h-3" />
-                        <span className="text-green-500">
-                          {benefit.benefitType.amount.toFixed(2)}
-                        </span>
-                      </div>
                     </div>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 min-w-[752px]">
                     <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
-                      <div className="text-center font-semibold text-[#0B0B22] text-[19px] w-[130px]">
+                      <div className="text-center font-semibold text-[#0B0B22] text-[19px] w-[100px]">
                         {benefit.users || 0}
                       </div>
                       <div className="text-[#0B0B22]">
@@ -86,7 +80,7 @@ export default function BenefitsList() {
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
-                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">
+                      <div className="text-center font-semibold text-[#0B0B22] w-[100px]">
                         <span className=" flex gap-2 justify-center items-center text-[19px] truncate max-w-[150px]">
                           {benefit.benefitType.amount.toFixed(2)}
                         </span>
@@ -96,11 +90,11 @@ export default function BenefitsList() {
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
-                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">-</div>
+                      <div className="text-center font-semibold text-[#0B0B22] w-[100px]">-</div>
                       <div className="text-[#0B0B22]">{t('UserManagement.benefits.usedFund')}</div>
                     </div>
                     <div className="flex flex-col justify-center items-center bg-primary/10 rounded-xl py-2 px-4 ">
-                      <div className="text-center font-semibold text-[#0B0B22] w-[130px]">-</div>
+                      <div className="text-center font-semibold text-[#0B0B22] w-[100px]">-</div>
                       <div className="text-[#0B0B22]">{t('UserManagement.benefits.avgUsage')}</div>
                     </div>
                   </div>

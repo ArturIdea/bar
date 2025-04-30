@@ -3,6 +3,7 @@ import {
   loadAgeDistributionMetricsRepositories,
   loadAgeDistributionMetricsUseCases,
 } from './modules/AgeDistributionMetrics.module';
+import { loadAgentsRepositories, loadAgentsUseCases } from './modules/Agents.Module';
 import { loadBenefitsRepositories, loadBenefitsUseCases } from './modules/Benefits.module';
 import { loadCardMetricsRepositories, loadCardMetricsUseCases } from './modules/CardMetrics.module';
 import {
@@ -87,6 +88,7 @@ export const setupDependencies = () => {
   loadAgeDistributionMetricsRepositories(diContainer);
   loadUserProfileRepositories(diContainer);
   loadBenefitsRepositories(diContainer);
+  loadAgentsRepositories(diContainer);
 
   //dev repositories
   loadDevUsersRepositories(diContainer);
@@ -113,6 +115,7 @@ export const setupDependencies = () => {
   loadAgeDistributionMetricsUseCases(diContainer);
   loadUserProfileUseCases(diContainer);
   loadBenefitsUseCases(diContainer);
+  loadAgentsUseCases(diContainer);
 
   //dev use cases
   loadDevUsersUseCasesDev(diContainer);

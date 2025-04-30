@@ -332,5 +332,11 @@
     "showing": "Showing",
     "itemsOf": "items of",
     "entries": "entries"
+  },
+  "Agents": {
+    "title": "Agents",
+    "totalUsers": "Total Users",
+    "totalFailedCases": "Total Failed Cases",
+    "dailyAvg": "Daily Average Successful Registration"
   }
 }
