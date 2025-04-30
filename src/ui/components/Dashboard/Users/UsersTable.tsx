@@ -106,7 +106,7 @@ export const UsersTable: React.FC<{
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
         )}
 
-        <ViewDetailsButton href="user-management" />
+        <ViewDetailsButton href="user-management/baraka-users" />
       </div>
 
       {/* Table */}

@@ -170,6 +170,7 @@
     "requests": "Registration Requests",
     "successfulRequests": "Successful Requests",
     "failedRequests": "Rejected Requests",
+    "totalUsers": "Total Users",
     "thisWeek": "this week",
     "pastWeek": "past week"
   },

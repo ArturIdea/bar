@@ -7,11 +7,13 @@ import NewAccountsIcon from '@/../public/images/icons/dashboard/statistics/newAc
 import RejectedRequestsIcon from '@/../public/images/icons/dashboard/statistics/rejectedRequests.svg';
 import SuccessfulRequestsIcon from '@/../public/images/icons/dashboard/statistics/successfulRequests.svg';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
+import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
 
 export const StatisticsDashboard = () => {
   const t = useTranslations();
   const { currentStats, previousStats, loading } = useStatistics();
+  const { total } = useUsers(0, 0);
 
   if (loading) {
     return <StatisticsSkeleton />;
@@ -81,65 +83,70 @@ export const StatisticsDashboard = () => {
   const Divider = () => <div className="border-l border-gray-300 h-16" />;
 
   return (
-    <div className="flex items-center justify-start 2xl:justify-center 2xl:gap-12 gap-4 p-6">
-      {/* New Accounts */}
-      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-        <StatItem
-          icon={NewAccountsIcon}
-          label={t('Statistics.newAccounts')}
-          currentValue={currentStats?.newAccountsSince || 0}
-          previousValue={previousStats?.newAccountsSince || 0}
-        />
-
-        <Divider />
+    <>
+      <div className="w-full flex justify-end py-2 px-6 text-[32px]">
+        {t('Statistics.totalUsers')}: {total}
       </div>
+      <div className="flex items-center justify-start 2xl:justify-center 2xl:gap-12 gap-4 p-6">
+        {/* New Accounts */}
+        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <StatItem
+            icon={NewAccountsIcon}
+            label={t('Statistics.newAccounts')}
+            currentValue={currentStats?.newAccountsSince || 0}
+            previousValue={previousStats?.newAccountsSince || 0}
+          />
 
-      {/* Requests */}
-      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-        <StatItem
-          icon={FundsDisbursedIcon}
-          label={t('Statistics.requests')}
-          currentValue={currentStats?.requestsSince || 0}
-          previousValue={previousStats?.requestsSince || 0}
-        />
+          <Divider />
+        </div>
 
-        <Divider />
+        {/* Requests */}
+        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <StatItem
+            icon={FundsDisbursedIcon}
+            label={t('Statistics.requests')}
+            currentValue={currentStats?.requestsSince || 0}
+            previousValue={previousStats?.requestsSince || 0}
+          />
+
+          <Divider />
+        </div>
+
+        {/* Successful Requests */}
+        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <StatItem
+            icon={SuccessfulRequestsIcon}
+            label={t('Statistics.successfulRequests')}
+            currentValue={currentStats?.successfulRequestsSince || 0}
+            previousValue={previousStats?.successfulRequestsSince || 0}
+          />
+
+          <Divider />
+        </div>
+
+        {/* Failed Requests */}
+        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <StatItem
+            icon={RejectedRequestsIcon}
+            label={t('Statistics.failedRequests')}
+            currentValue={currentStats?.failedRequestsSince || 0}
+            previousValue={previousStats?.failedRequestsSince || 0}
+            reverseColor
+          />
+
+          <Divider />
+        </div>
+
+        {/* Cards Issued */}
+        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+          <StatItem
+            icon={CardsIssuedIcon}
+            label={t('Statistics.cardsIssued')}
+            currentValue={currentStats?.cardsIssuedSince || 0}
+            previousValue={previousStats?.cardsIssuedSince || 0}
+          />
+        </div>
       </div>
-
-      {/* Successful Requests */}
-      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-        <StatItem
-          icon={SuccessfulRequestsIcon}
-          label={t('Statistics.successfulRequests')}
-          currentValue={currentStats?.successfulRequestsSince || 0}
-          previousValue={previousStats?.successfulRequestsSince || 0}
-        />
-
-        <Divider />
-      </div>
-
-      {/* Failed Requests */}
-      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-        <StatItem
-          icon={RejectedRequestsIcon}
-          label={t('Statistics.failedRequests')}
-          currentValue={currentStats?.failedRequestsSince || 0}
-          previousValue={previousStats?.failedRequestsSince || 0}
-          reverseColor
-        />
-
-        <Divider />
-      </div>
-
-      {/* Cards Issued */}
-      <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
-        <StatItem
-          icon={CardsIssuedIcon}
-          label={t('Statistics.cardsIssued')}
-          currentValue={currentStats?.cardsIssuedSince || 0}
-          previousValue={previousStats?.cardsIssuedSince || 0}
-        />
-      </div>
-    </div>
+    </>
   );
 };

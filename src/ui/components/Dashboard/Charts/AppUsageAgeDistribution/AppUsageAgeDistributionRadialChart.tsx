@@ -116,7 +116,7 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-full 2xl:w-1/2 flex flex-col border-l-0 border-b-0 border-t 2xl:border-r-0 2xl:border-t-0 2xl:border-b-0 2xl:border-l rounded-none shadow-none">
+    <Card className="w-full 2xl:w-1/2 flex flex-col border-l-0 border-b-0 border-t 2xl:border-r-0 2xl:border-t-0 2xl:border-b-0 2xl:border-l rounded-none shadow-none ">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>
@@ -130,7 +130,7 @@ export function AppUsageAgeDistributionRadialChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-16 gap-0 items-center justify-center h-full pb-0">
+      <CardContent className="flex 2xl:gap-16 gap-8 items-center 2xl:justify-center h-full pb-0">
         <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
