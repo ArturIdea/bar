@@ -1,7 +1,7 @@
 import { ApiClient } from '@/core/ApiClient';
 import { UserProfile } from '@/domain/users/entities/UserProfile';
 import { UserProfileRepository } from '@/domain/users/repositories/UserProfileRepository';
-import { UserDetailAdapter } from '@/interfaces/UserDetailAdapter';
+import { UserProfileAdapter } from '@/interfaces/UserProfileAdapter';
 
 export class UserProfileRepositoryAPI implements UserProfileRepository {
   private apiClient = ApiClient.shared;
@@ -10,6 +10,6 @@ export class UserProfileRepositoryAPI implements UserProfileRepository {
   async getUserProfile(): Promise<UserProfile> {
     const response = await this.apiClient.get(this.apiUrl);
 
-    return UserDetailAdapter.toDomain(response.data);
+    return UserProfileAdapter.toDomain(response.data);
   }
 }

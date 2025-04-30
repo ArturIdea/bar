@@ -64,7 +64,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
   const columns = [
     { key: 'name', label: t('UserManagement.name') },
     { key: 'email', label: t('UserManagement.email') },
-    { key: 'mobile', label: t('UserManagement.mobile') },
     { key: 'pinfl', label: t('UserManagement.pinfl') },
     { key: 'createdAt', label: t('UserManagement.createdAt') },
   ];
@@ -96,9 +95,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ createdBy }) => {
                       {user.firstName} {user.lastName}
                     </td>
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.email || 'N/A'}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {user.phoneNumber || 'N/A'}
-                    </td>
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">
                       {new Date(user.createdAt).toLocaleDateString()}
