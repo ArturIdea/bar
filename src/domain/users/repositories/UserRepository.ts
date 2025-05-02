@@ -9,6 +9,7 @@ export interface UserRepository {
     createdAtTo?: string,
     pinflSearch?: string,
     usernameSearch?: string,
-    createdBy?: string
+    createdBy?: string,
+    isCitizen?: boolean
   ) => Promise<{ users: User[]; total: number }>;
 }
