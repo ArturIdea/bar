@@ -12,7 +12,8 @@ export class GetUsersUseCase {
     createdAtTo?: string,
     pinflSearch?: string,
     usernameSearch?: string,
-    createdBy?: string
+    createdBy?: string,
+    isCitizen?: boolean
   ): Promise<{ users: User[]; total: number }> {
     return this.userRepository.getUsers(
       page,
@@ -22,7 +23,8 @@ export class GetUsersUseCase {
       createdAtTo,
       pinflSearch,
       usernameSearch,
-      createdBy
+      createdBy,
+      isCitizen
     );
   }
 }

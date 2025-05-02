@@ -13,7 +13,17 @@ import { StatisticsSkeleton } from './StatisticsSkeleton';
 
 export const StatisticsDashboard = () => {
   const t = useTranslations();
-  const { total, loading: usersLoading } = useUsers(0, 0);
+  const { total, loading: usersLoading } = useUsers(
+    0, // page
+    0, // size
+    undefined, // roles
+    undefined, // createdAtFrom
+    undefined, // createdAtTo
+    undefined, // pinflSearch
+    undefined, // usernameSearch
+    undefined, // createdBy
+    true // isCitizen!
+  );
   const { currentStats, previousStats, loading: statsLoading } = useStatistics();
 
   if (usersLoading) {

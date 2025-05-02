@@ -80,10 +80,14 @@ export class ApiClient {
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        if (error.response?.status === 401 && !error.config._retry) {
-          const originalRequest = error.config;
+        const status = error.response?.status;
+        const originalRequest = error.config;
+        if (status === 401) {
+          if (originalRequest._retry) {
+            this.logout();
+            return Promise.reject(error);
+          }
           originalRequest._retry = true;
-
           try {
             const newAccessToken = await this.refreshAccessToken();
             this.onTokenRefreshed(newAccessToken);

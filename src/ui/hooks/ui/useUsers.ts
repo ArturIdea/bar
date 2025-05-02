@@ -11,7 +11,8 @@ export const useUsers = (
   createdAtTo?: string,
   pinflSearch?: string,
   usernameSearch?: string,
-  createdBy?: string
+  createdBy?: string,
+  isCitizen?: boolean
 ) => {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
@@ -31,7 +32,8 @@ export const useUsers = (
           createdAtTo,
           pinflSearch,
           usernameSearch,
-          createdBy
+          createdBy,
+          isCitizen
         );
         setUsers(users);
         setTotal(total);
@@ -43,7 +45,7 @@ export const useUsers = (
     };
 
     fetchUsers();
-  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch]);
+  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch, isCitizen]);
 
   return { users, total, loading };
 };
