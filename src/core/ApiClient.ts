@@ -82,7 +82,7 @@ export class ApiClient {
       async (error) => {
         const status = error.response?.status;
         const originalRequest = error.config;
-        if (status === 401) {
+        if (status === 401 || status === 500) {
           if (originalRequest._retry) {
             this.logout();
             return Promise.reject(error);
