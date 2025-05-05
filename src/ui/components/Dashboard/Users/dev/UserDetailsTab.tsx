@@ -66,6 +66,7 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
               <p className="text-sm font-medium">{t('Dev.createdAtLabel')}</p>
               <p>
                 {new Date(user.createdAt).toLocaleString('uz-UZ', {
+                  timeZone: 'Asia/Tashkent',
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',
@@ -99,6 +100,7 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
               <DetailItem
                 label={t('Dev.photoCreatedAt')}
                 value={new Date(user.userPhoto.createdAt).toLocaleString('uz-UZ', {
+                  timeZone: 'Asia/Tashkent',
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',
@@ -109,6 +111,7 @@ export default function UserDetailsTab({ user }: { user: UserDetail }) {
               <DetailItem
                 label={t('Dev.photoUpdatedAt')}
                 value={new Date(user.userPhoto.updatedAt).toLocaleString('uz-UZ', {
+                  timeZone: 'Asia/Tashkent',
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',

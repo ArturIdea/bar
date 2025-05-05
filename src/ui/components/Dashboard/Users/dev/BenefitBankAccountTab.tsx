@@ -32,6 +32,7 @@ export const BenefitBankAccountTab = ({
                   <p className="text-sm text-gray-500">
                     {t('UserManagement.benefits.addedOn')}{' '}
                     {new Date(account.createdAt).toLocaleString('uz-UZ', {
+                      timeZone: 'Asia/Tashkent',
                       year: 'numeric',
                       month: '2-digit',
                       day: '2-digit',

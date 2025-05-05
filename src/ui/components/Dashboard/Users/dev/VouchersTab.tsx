@@ -96,6 +96,7 @@ export const VouchersTab = ({
                     <p className="text-sm">{t('Dev.givenAt')}</p>
                     <p className="text-sm font-medium">
                       {new Date(voucher.givenAt).toLocaleString('uz-UZ', {
+                        timeZone: 'Asia/Tashkent',
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',
@@ -109,6 +110,7 @@ export const VouchersTab = ({
                     <p className="text-sm font-medium">
                       {voucher.usedAt
                         ? new Date(voucher.usedAt).toLocaleString('uz-UZ', {
+                            timeZone: 'Asia/Tashkent',
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',

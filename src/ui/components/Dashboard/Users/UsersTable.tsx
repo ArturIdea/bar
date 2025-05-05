@@ -95,7 +95,7 @@ export const UsersTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col h-full border-t border-b border-gray-200">
+    <div className="flex flex-col h-full border-t border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-200">
         {pathname === '/dashboard/user-management/baraka-users' ? (
@@ -124,7 +124,7 @@ export const UsersTable: React.FC<{
             </thead>
 
             {/* Table Body */}
-            <tbody className="border-b border-gray-200">
+            <tbody className="">
               {users.map((user) => (
                 <tr key={user.userId} className={` hover:bg-neutral-50 transition-colors`}>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
@@ -134,6 +134,7 @@ export const UsersTable: React.FC<{
 
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {new Date(user.createdAt).toLocaleString('uz-UZ', {
+                      timeZone: 'Asia/Tashkent',
                       year: 'numeric',
                       month: '2-digit',
                       day: '2-digit',
