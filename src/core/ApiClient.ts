@@ -129,6 +129,7 @@ export class ApiClient {
     try {
       const refreshToken = this.getRefreshToken();
       if (!refreshToken) {
+        this.logout();
         throw new Error('No refresh token available.');
       }
 
@@ -169,7 +170,7 @@ export class ApiClient {
   private logout() {
     cookies.remove('accessToken');
     cookies.remove('refreshToken');
-    // window.location.href = '/en';
+    window.location.href = '/';
   }
 
   // Method to handle cancellation of previous requests
