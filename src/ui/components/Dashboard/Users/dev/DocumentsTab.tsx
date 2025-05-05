@@ -29,6 +29,7 @@ export const DocumentsTab = ({ documents }: { documents: UserDocument[] }) => {
                   <span>
                     {t('Dev.uploaded')}:{' '}
                     {new Date(doc.createdAt).toLocaleString('uz-UZ', {
+                      timeZone: 'Asia/Tashkent',
                       year: 'numeric',
                       month: '2-digit',
                       day: '2-digit',

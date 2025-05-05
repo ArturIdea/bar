@@ -88,6 +88,7 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
                         <p className="text-sm text-gray-500">
                           {t('UserManagement.benefits.addedOn')}:{' '}
                           {new Date(device.createdAt).toLocaleString('uz-UZ', {
+                            timeZone: 'Asia/Tashkent',
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',
@@ -105,6 +106,7 @@ export const DevicesTab = ({ devices }: { devices: UserDevice[] }) => {
                         >
                           {t('Dev.lastActive')}:{' '}
                           {new Date(device.lastActivity).toLocaleString('uz-UZ', {
+                            timeZone: 'Asia/Tashkent',
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',

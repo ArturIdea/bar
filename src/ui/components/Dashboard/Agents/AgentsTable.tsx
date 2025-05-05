@@ -38,11 +38,15 @@ export const AgentsTable: React.FC = () => {
             <thead className="border-b border-gray-200 z-[999] ">
               <tr className="text-left text-gray-400 ">
                 {columns.map((col) => (
-                  <th key={col.key} className="lg:w-1/7 w-1/6 px-6 py-3 font-normal">
+                  <th
+                    key={col.key}
+                    className="lg:w-1/7 w-1/6 px-6 py-3 font-normal truncate max-w-[100px]"
+                    title={col.label}
+                  >
                     {col.label}
                   </th>
                 ))}
-                <th className="px-6 py-3 lg:w-3/7 w-2/6" />
+                <th className="px-6 py-3 lg:w-2/7 w-2/6" />
               </tr>
             </thead>
 
@@ -60,7 +64,7 @@ export const AgentsTable: React.FC = () => {
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {agent.failedRequests || 'N/A'}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm ">
                     {agent.dailyAverageSuccessfulRequests || 'N/A'}
                   </td>
                 </tr>

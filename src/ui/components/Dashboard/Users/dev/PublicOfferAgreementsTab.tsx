@@ -67,6 +67,7 @@ export const PublicOfferAgreementsTab = ({
             <p className="text-sm  mb-1">{t('Dev.createdAtLabel')}</p>
             <p className="font-medium ">
               {new Date(agreement.createdAt).toLocaleString('uz-UZ', {
+                timeZone: 'Asia/Tashkent',
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
@@ -79,6 +80,7 @@ export const PublicOfferAgreementsTab = ({
             <p className="text-sm mb-1">{t('Dev.updatedAt')}</p>
             <p className="font-medium">
               {new Date(agreement.createdAt).toLocaleString('uz-UZ', {
+                timeZone: 'Asia/Tashkent',
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',

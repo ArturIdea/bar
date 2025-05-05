@@ -77,11 +77,21 @@ export const BenefitsTab = ({
                     <p className="mb-1">{t('Dev.benefitPeriod')}</p>
                     <p className="font-medium">
                       {benefit.startedOn
-                        ? new Date(benefit.startedOn).toLocaleDateString('uz-UZ')
+                        ? new Date(benefit.startedOn).toLocaleDateString('uz-UZ', {
+                            timeZone: 'Asia/Tashkent',
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                          })
                         : '—'}{' '}
                       →{' '}
                       {benefit.endedOn
-                        ? new Date(benefit.endedOn).toLocaleDateString('uz-UZ')
+                        ? new Date(benefit.endedOn).toLocaleDateString('uz-UZ', {
+                            timeZone: 'Asia/Tashkent',
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                          })
                         : '—'}
                     </p>
                   </div>
@@ -91,7 +101,12 @@ export const BenefitsTab = ({
                   <p className="mb-1">{t('Dev.cancelledOn')}</p>
                   <p className="font-medium">
                     {benefit.cancelledOn
-                      ? new Date(benefit.cancelledOn).toLocaleString('uz-UZ')
+                      ? new Date(benefit.cancelledOn).toLocaleString('uz-UZ', {
+                          timeZone: 'Asia/Tashkent',
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        })
                       : '—'}
                   </p>
                 </div>

@@ -67,6 +67,7 @@ export const ImpersonationsTab = ({
                       </td>
                       <td className="whitespace-nowrap py-4 px-4 text-sm text-gray-500">
                         {new Date(imp.expiresAt).toLocaleString('uz-UZ', {
+                          timeZone: 'Asia/Tashkent',
                           year: 'numeric',
                           month: '2-digit',
                           day: '2-digit',
