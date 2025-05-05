@@ -82,11 +82,7 @@ export class ApiClient {
       async (error) => {
         const status = error.response?.status;
         const originalRequest = error.config;
-        if (status === 401 || status === 500) {
-          if (originalRequest._retry) {
-            this.logout();
-            return Promise.reject(error);
-          }
+        if (status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           try {
             const newAccessToken = await this.refreshAccessToken();
@@ -118,46 +114,53 @@ export class ApiClient {
   }
 
   private async refreshAccessToken(): Promise<string> {
+    //tries to refresh the token 3 times.
+    const maxRetries = 3;
+    let lastError: any;
+
     if (this.isRefreshing) {
       return new Promise<string>((resolve) => {
         this.refreshSubscribers.push(resolve);
       });
     }
-
     this.isRefreshing = true;
 
     try {
       const refreshToken = this.getRefreshToken();
       if (!refreshToken) {
-        this.logout();
         throw new Error('No refresh token available.');
       }
 
-      const response = await this.axiosInstance.post<RefreshTokenType>(
-        this.refreshTokenURL,
-        { refreshToken },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            [HEADER_NAMES.DEVICE_HEADER]: getDeviceIdSync(),
-            [HEADER_NAMES.CHANNEL_HEADER]: CHANNEL_TYPE,
-          },
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const response = await this.axiosInstance.post<RefreshTokenType>(
+            this.refreshTokenURL,
+            { refreshToken },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                [HEADER_NAMES.DEVICE_HEADER]: getDeviceIdSync(),
+                [HEADER_NAMES.CHANNEL_HEADER]: CHANNEL_TYPE,
+              },
+            }
+          );
+
+          const { access_token, refresh_token } = response.data;
+
+          await setServerCookie({ name: 'accessToken', value: access_token });
+          await setServerCookie({ name: 'refreshToken', value: refresh_token });
+
+          this.refreshSubscribers.forEach((callback) => callback(access_token));
+          this.refreshSubscribers = [];
+
+          return access_token;
+        } catch (error) {
+          lastError = error;
+          console.warn(`Attempt ${attempt} to refresh token failed:`, error);
         }
-      );
+      }
 
-      const { access_token, refresh_token } = response.data;
-
-      await setServerCookie({ name: 'accessToken', value: access_token });
-      await setServerCookie({ name: 'refreshToken', value: refresh_token });
-
-      this.refreshSubscribers.forEach((callback) => callback(access_token));
-      this.refreshSubscribers = [];
-
-      return access_token;
-    } catch (error) {
-      console.error('Error refreshing access token:', error);
-      this.logout();
-      throw error;
+      throw lastError;
     } finally {
       this.isRefreshing = false;
     }
