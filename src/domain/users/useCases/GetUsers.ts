@@ -7,24 +7,24 @@ export class GetUsersUseCase {
   async execute(
     page: number,
     size: number,
+    registrationChannel?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
     usernameSearch?: string,
     createdBy?: string,
-    isCitizen?: boolean,
-    registrationChannel?: string
+    isCitizen?: boolean
   ): Promise<{ users: User[]; total: number }> {
     return this.userRepository.getUsers(
       page,
       size,
+      registrationChannel,
       createdAtFrom,
       createdAtTo,
       pinflSearch,
       usernameSearch,
       createdBy,
-      isCitizen,
-      registrationChannel
+      isCitizen
     );
   }
 }
