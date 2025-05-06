@@ -16,13 +16,13 @@ export const StatisticsDashboard = () => {
   const { total, loading: usersLoading } = useUsers(
     0, // page
     0, // size
-    undefined, // roles
+    undefined, // registrationChannel
     undefined, // createdAtFrom
     undefined, // createdAtTo
     undefined, // pinflSearch
     undefined, // usernameSearch
     undefined, // createdBy
-    true // isCitizen!
+    true // isCitizen,
   );
   const { currentStats, previousStats, loading: statsLoading } = useStatistics();
 
