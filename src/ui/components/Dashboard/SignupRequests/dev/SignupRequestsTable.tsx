@@ -143,7 +143,7 @@ export const SignUpRequestsTable: React.FC<{
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-white text-xs ${getStatusClass(req.status)}`}
+                      className={`px-3 py-1 rounded-full text-white whitespace-nowrap text-xs ${getStatusClass(req.status)}`}
                     >
                       {req.status.replace(/_/g, ' ') || 'UNKNOWN'}
                     </span>
