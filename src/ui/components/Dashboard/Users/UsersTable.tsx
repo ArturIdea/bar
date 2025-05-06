@@ -12,6 +12,7 @@ import MultiTabUserDetailsModal from './UserDetailsModal';
 
 export const UsersTable: React.FC<{
   filters?: {
+    registrationChannel?: string;
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
@@ -27,6 +28,7 @@ export const UsersTable: React.FC<{
   const { users, total, loading } = useUsers(
     page,
     pageSize,
+    filters.registrationChannel,
     filters.createdAtFrom,
     filters.createdAtTo,
     filters.pinflSearch,

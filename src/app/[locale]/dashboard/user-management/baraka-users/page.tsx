@@ -12,7 +12,7 @@ import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 const BarakaUsersPage = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
-    roles?: string;
+    registrationChannel?: string;
     createdAtFrom?: string;
     createdAtTo?: string;
     pinflSearch?: string;
@@ -26,13 +26,13 @@ const BarakaUsersPage = () => {
   };
 
   const handleApplyFilters = (
-    roles?: string,
+    registrationChannel?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
     usernameSearch?: string
   ) => {
-    setFilters({ roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
+    setFilters({ registrationChannel, createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
     setQuickSearch(pinflSearch || '');
     setIsFilterModalOpen(false);
   };

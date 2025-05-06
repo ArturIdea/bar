@@ -15,7 +15,7 @@ export const UserFilterModal = ({
   isOpen: boolean;
   onClose: () => void;
   onApply: (
-    roles?: string,
+    registrationChannel?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
@@ -36,10 +36,20 @@ export const UserFilterModal = ({
   const [endTime, setEndTime] = useState<string>('23:59');
 
   const [pinfl, setPinfl] = useState<string>('');
+  const [registrationChannel, setRegistrationChannel] = useState<string>('');
   // const [name, setName] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
+
+  const REGISTRATION_CHANNELS = [
+    { value: 'CITIZEN_APP', label: t('Filter.registrationChannel.citizenApp') },
+    { value: 'AGENT_APP', label: t('Filter.registrationChannel.agentApp') },
+    { value: 'BANK_PORTAL', label: t('Filter.registrationChannel.bankPortal') },
+    // { value: 'WEB_PORTAL', label: t('Filter.registrationChannel.webPortal') },
+    // { value: 'ADMIN_PORTAL', label: t('Filter.registrationChannel.adminPortal') },
+    // { value: 'HTTP_CLIENT', label: t('Filter.registrationChannel.httpClient') },
+  ];
 
   const handleRangeChange = (ranges: any) => {
     setDateRange({
@@ -56,14 +66,9 @@ export const UserFilterModal = ({
       const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
       const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
 
-      onApply(
-        // name || undefined,
-        createdAtFrom,
-        createdAtTo,
-        pinfl || undefined
-      );
+      onApply(registrationChannel || undefined, createdAtFrom, createdAtTo, pinfl || undefined);
     } else {
-      onApply(undefined, undefined, pinfl || undefined);
+      onApply(registrationChannel || undefined, undefined, undefined, pinfl || undefined);
     }
     onClose();
   };
@@ -71,6 +76,7 @@ export const UserFilterModal = ({
   const handleClearFilters = () => {
     setDateRange({ startDate: undefined, endDate: undefined, key: 'selection' });
     setPinfl('');
+    setRegistrationChannel('');
     // setName('');
     onApply(undefined, undefined, undefined, undefined);
     onClose();
@@ -111,6 +117,25 @@ export const UserFilterModal = ({
               readOnly
               className="w-full border border-gray-300 rounded-xl p-2 cursor-pointer"
             />
+          </div>
+
+          {/* Registration Channel Dropdown */}
+          <div>
+            <label className="text-gray-400 mb-2">
+              {t('Filter.registrationChannel.title') || 'Registration Channel'}
+            </label>
+            <select
+              value={registrationChannel}
+              onChange={(e) => setRegistrationChannel(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl p-2"
+            >
+              <option value="">{t('Filter.registrationChannel.all') || 'All Channels'}</option>
+              {REGISTRATION_CHANNELS.map((channel) => (
+                <option key={channel.value} value={channel.value}>
+                  {channel.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Time Range Selection */}

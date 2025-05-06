@@ -10,7 +10,7 @@ export class UserRepositoryAPI implements UserRepository {
   async getUsers(
     page: number,
     size: number,
-    roles?: string,
+    registrationChannel?: string,
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
@@ -24,7 +24,7 @@ export class UserRepositoryAPI implements UserRepository {
         params: {
           page,
           size,
-          roles,
+          registrationChannel,
           createdAtFrom,
           createdAtTo,
           pinflSearch,

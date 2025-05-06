@@ -221,13 +221,15 @@
     "pinfl": "PINFL",
     "signupReqId": "Sign Up Request ID",
     "docTypeId": "Document Type ID",
-    "roles": {
-      "title": "Role",
-      "select": "Select Role",
-      "admin": "Admin",
-      "user": "User",
-      "agent": "Agent",
-      "xalqAgent": "Xalq Agent"
+    "registrationChannel": {
+      "title": "Registration Channel",
+      "all": "All Channels",
+      "citizenApp": "Citizen App",
+      "agentApp": "Agent App",
+      "bankPortal": "Bank Portal",
+      "webPortal": "Web Portal",
+      "adminPortal": "Admin Portal",
+      "httpClient": "HTTP Client"
     },
     "status": {
       "title": "Status",
