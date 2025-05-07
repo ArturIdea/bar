@@ -125,7 +125,7 @@ export function OnboardingChannelPieChart() {
   };
 
   return (
-    <Card className="w-full flex flex-col border-l-0 border-t-0 border-b-0 2xl:border-r-0 2xl:border-t-0 2xl:border-b-0 rounded-none shadow-none">
+    <Card className="w-1/2 flex flex-col border-l-0 border-t-0 border-b-0  2xl:border-b-0 rounded-none shadow-none">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
@@ -143,8 +143,8 @@ export function OnboardingChannelPieChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-16 gap-8 items-center h-full pb-0">
-        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
+      <CardContent className="flex 2xl:gap-0 gap-0 items-center h-full pb-0">
+        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[320px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
@@ -153,12 +153,12 @@ export function OnboardingChannelPieChart() {
               data={chartData}
               dataKey="Total"
               nameKey="onboardingChannel"
-              innerRadius={85}
+              innerRadius={75}
             />
           </PieChart>
         </ChartContainer>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
