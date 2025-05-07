@@ -16,6 +16,10 @@ export default function Charts() {
         <OnboardingChannelPieChart />
         <AppUsageAgeDistributionRadialChart />
       </div>
+      {/* <div className="flex"> */}
+      <OnboardingChannelPieChart />
+      <AppUsageAgeDistributionRadialChart />
+      {/* </div> */}
     </div>
   );
 }
