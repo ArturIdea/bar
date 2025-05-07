@@ -2,10 +2,15 @@ import { Liveness } from '@/domain/liveness/entities/Liveness';
 
 export const LivenessAdapter = {
   toDomain(raw: any): Liveness {
-    return new Liveness(raw.instanceName, new Date(raw.lastCheckedAt), raw.status);
+    return new Liveness(
+      raw.instanceName,
+      new Date(raw.lastCheckedAt),
+      Number(raw.uptime),
+      raw.livenessStatus
+    );
   },
 
   toDomainList(rawList: any[]): Liveness[] {
-    return rawList.map((raw) => LivenessAdapter.toDomain(raw));
+    return rawList.map(LivenessAdapter.toDomain);
   },
 };
