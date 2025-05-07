@@ -116,7 +116,7 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-full flex flex-col border-l-0 border-b-0 border-t 2xl:border-r-0 2xl:border-t 2xl:border-b-0 2xl:border-l-0 rounded-none shadow-none ">
+    <Card className="w-1/2 flex flex-col border-l-0 border-b-0 border-t-0 2xl:border-t-0 2xl:border-r-0  2xl:border-b-0 2xl:border-l-0 rounded-none shadow-none ">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>
@@ -130,28 +130,28 @@ export function AppUsageAgeDistributionRadialChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-16 gap-8 items-center 2xl:justify-start h-full pb-0">
-        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[350px]">
+      <CardContent className="flex 2xl:gap-0 gap-0 items-center 2xl:justify-start h-full pb-0">
+        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[320px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
               data={chartData}
               dataKey="people"
               nameKey="ageGroup"
-              innerRadius={85}
+              innerRadius={75}
               label={renderLabel}
               labelLine={false}
             />
           </PieChart>
         </ChartContainer>
-        <div className="flex flex-col gap-4 min-w-[290px]">
+        <div className="flex flex-col gap-4 w-[55%] overflow-x-auto">
           <div className="flex items-center gap-2">
             <Users2 className="w-4 h-4 text-gray-500" />
             <p className="text-gray-500 text-sm">
               {t('Charts.appUsers')}: {formattedTotal}
             </p>
           </div>
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 ">
             <thead>
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">

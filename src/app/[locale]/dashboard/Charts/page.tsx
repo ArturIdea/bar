@@ -12,10 +12,10 @@ export default function Charts() {
         <NewAccountsAreaChart />
         {/* <CardTypesPieChart /> */}
       </div>
-      {/* <div className="flex"> */}
-      <OnboardingChannelPieChart />
-      <AppUsageAgeDistributionRadialChart />
-      {/* </div> */}
+      <div className="flex items-center justify-between gap-2">
+        <OnboardingChannelPieChart />
+        <AppUsageAgeDistributionRadialChart />
+      </div>
     </div>
   );
 }
