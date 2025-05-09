@@ -225,6 +225,7 @@
   },
   "SignupStages": {
     "OTP_SENT": "OTP Sent",
+    "MOBILE_VERIFIED": "Mobile Verified",
     "PERSONAL_INFO_VERIFIED": "Personal Info Verified",
     "AGREEMENTS_ACCEPTED": "Agreements Accepted",
     "BIOMETRIC_CAPTURE_IN_PROGRESS": "Biometric Capture In Progress",

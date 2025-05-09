@@ -30,6 +30,7 @@ export function useSignupStageMetrics(
 
         const order: SignupStage[] = [
           SignupStage.OTP_SENT,
+          SignupStage.MOBILE_VERIFIED,
           SignupStage.PERSONAL_INFO_VERIFIED,
           SignupStage.AGREEMENTS_ACCEPTED,
           SignupStage.BIOMETRIC_CAPTURE_IN_PROGRESS,
