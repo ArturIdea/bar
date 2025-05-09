@@ -30,12 +30,11 @@ export function useSignupStageMetrics(
 
         const order: SignupStage[] = [
           SignupStage.OTP_SENT,
-          SignupStage.AGREEMENTS_ACCEPTED,
-          SignupStage.BIOMETRIC_CAPTURE_COMPLETED,
           SignupStage.PERSONAL_INFO_VERIFIED,
-          SignupStage.VERIFICATION_FAILED,
+          SignupStage.AGREEMENTS_ACCEPTED,
+          SignupStage.BIOMETRIC_CAPTURE_IN_PROGRESS,
+          SignupStage.BIOMETRIC_CAPTURE_COMPLETED,
           SignupStage.REGISTRATION_COMPLETED,
-          SignupStage.NASP_FAILED,
         ];
         const sorted = data.sort((a, b) => order.indexOf(a.stage) - order.indexOf(b.stage));
 

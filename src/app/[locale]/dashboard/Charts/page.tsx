@@ -3,6 +3,7 @@ import { AppUsageAgeDistributionRadialChart } from '@/ui/components/Dashboard/Ch
 import { NewAccountsAreaChart } from '@/ui/components/Dashboard/Charts/NewAccounts/NewAccountsAreaChart';
 import { OnboardingChannelPieChart } from '@/ui/components/Dashboard/Charts/OnboardingChannel/OnboardingChannelPieChart';
 import { RegistrationRequestsAreaChart } from '@/ui/components/Dashboard/Charts/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
+import { SignupFailureRateAreaChart } from '@/ui/components/Dashboard/Charts/SignupFailureRate/SignupFailureRateAreaChart';
 import { SignupStageBarChart } from '@/ui/components/Dashboard/Charts/SignupStage/SignupStageBarChart';
 
 export default function Charts() {
@@ -13,12 +14,13 @@ export default function Charts() {
         <NewAccountsAreaChart />
         {/* <CardTypesPieChart /> */}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         <OnboardingChannelPieChart />
         <AppUsageAgeDistributionRadialChart />
       </div>
-      <div>
+      <div className="flex items-center ">
         <SignupStageBarChart />
+        <SignupFailureRateAreaChart />
       </div>
     </div>
   );

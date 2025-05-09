@@ -118,6 +118,7 @@ export function RegistrationRequestsAreaChart() {
                   style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
                 }}
                 domain={[0, (dataMax: number) => dataMax * 1.2]}
+                tickFormatter={(value) => Number(value).toFixed(0)}
               />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
               <ChartTooltip

@@ -42,7 +42,7 @@ export function SignupStageBarChart() {
   const renderWrappedTick: XAxisProps['tick'] = (props) => {
     const { x, y, payload } = props as any;
     const words = (payload.value as string).split(' ');
-    const lineHeight = 14;
+    const lineHeight = 12;
     return (
       <text x={x} y={y + 10} textAnchor="middle">
         {words.map((word, i) => (

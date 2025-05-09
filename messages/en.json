@@ -217,16 +217,19 @@
       "december": "December"
     },
     "signupStages": "User Registration Drop-off by Stage",
-    "stage": "Stage"
+    "stage": "Stage",
+    "totalDropOffRate": "Total Drop-off Rate",
+    "dropOffRate": "Drop-off Rate",
+    "totalDropOffs": "Total Drop-offs",
+    "signupFailureRate": "Onboarding Failure Rate"
   },
   "SignupStages": {
     "OTP_SENT": "OTP Sent",
-    "AGREEMENTS_ACCEPTED": "Agreements Accepted",
-    "BIOMETRIC_CAPTURE_COMPLETED": "Biometric Capture Completed",
     "PERSONAL_INFO_VERIFIED": "Personal Info Verified",
-    "VERIFICATION_FAILED": "Verification Failed",
-    "REGISTRATION_COMPLETED": "Registration Completed",
-    "NASP_FAILED": "NASP Failed"
+    "AGREEMENTS_ACCEPTED": "Agreements Accepted",
+    "BIOMETRIC_CAPTURE_IN_PROGRESS": "Biometric Capture In Progress",
+    "BIOMETRIC_CAPTURE_COMPLETED": "Biometric Capture Completed",
+    "REGISTRATION_COMPLETED": "Registration Completed"
   },
   "Filter": {
     "filterBy": "Filter By",
