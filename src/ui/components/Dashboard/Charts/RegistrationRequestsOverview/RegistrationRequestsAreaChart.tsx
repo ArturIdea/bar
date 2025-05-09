@@ -53,7 +53,7 @@ export function RegistrationRequestsAreaChart() {
   );
 
   return (
-    <Card className="rounded-none border-b border-l-0 border-r-0">
+    <Card className="rounded-none shadow-none border-t-0 border-b-0 border-l-0 border-r-0">
       <div className="grid grid-cols-2 grid-rows-2 pr-8">
         <div>
           <CardHeader>

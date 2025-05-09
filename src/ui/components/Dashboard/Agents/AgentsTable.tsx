@@ -22,7 +22,7 @@ export const AgentsTable: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-full border-t border-b border-gray-200">
+    <div className="flex flex-col h-full border-t-0 border-b border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-200">
         <h4 className="font-semibold text-[#0B0B22]">{t('Agents.title')}</h4>

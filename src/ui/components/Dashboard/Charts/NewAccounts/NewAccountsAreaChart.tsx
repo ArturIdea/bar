@@ -101,8 +101,8 @@ export function NewAccountsAreaChart() {
   };
 
   return (
-    <Card className="w-full rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b">
-      <div className="flex justify-between pr-8">
+    <Card className="w-full rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b-0">
+      <div className="flex justify-between pr-6">
         <CardHeader>
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>

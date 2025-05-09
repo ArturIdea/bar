@@ -97,7 +97,7 @@ export const UsersTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col h-full border-t border-gray-200">
+    <div className="flex flex-col h-full border-t-0 border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-200">
         {pathname === '/dashboard/user-management/baraka-users' ? (

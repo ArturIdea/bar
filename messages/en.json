@@ -161,7 +161,8 @@
     "exportToExcel": "Export to Excel",
     "today": "Today",
     "pickDate": "Pick a date range",
-    "doubleClickToReset": "Double tap on a day to reset the range"
+    "doubleClickToReset": "Double tap on a day to reset the range",
+    "reset": "Reset"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
@@ -214,7 +215,18 @@
       "october": "October",
       "november": "November",
       "december": "December"
-    }
+    },
+    "signupStages": "User Registration Drop-off by Stage",
+    "stage": "Stage"
+  },
+  "SignupStages": {
+    "OTP_SENT": "OTP Sent",
+    "AGREEMENTS_ACCEPTED": "Agreements Accepted",
+    "BIOMETRIC_CAPTURE_COMPLETED": "Biometric Capture Completed",
+    "PERSONAL_INFO_VERIFIED": "Personal Info Verified",
+    "VERIFICATION_FAILED": "Verification Failed",
+    "REGISTRATION_COMPLETED": "Registration Completed",
+    "NASP_FAILED": "NASP Failed"
   },
   "Filter": {
     "filterBy": "Filter By",
