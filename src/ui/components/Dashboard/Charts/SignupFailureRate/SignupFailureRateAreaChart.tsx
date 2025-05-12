@@ -103,7 +103,7 @@ export function SignupFailureRateAreaChart() {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
-                tickFormatter={(val) => `${val.toFixed(0)}%`}
+                tickFormatter={(value) => Number(value).toFixed(0)}
                 domain={[0, (max: number) => max * 1.2]}
               />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />

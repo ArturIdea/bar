@@ -106,7 +106,7 @@ export function NewAccountsAreaChart() {
         <CardHeader>
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex items-center gap-2">
           <DateRangePicker onDateChange={handleDateRangeChange} />
           <DateRangeSelector
             onDateChange={(start, end, selectedGranularity) => {

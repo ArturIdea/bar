@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { format, subDays } from 'date-fns';
 import { useTranslations } from 'next-intl';
-import { Bar, BarChart, CartesianGrid, XAxis, XAxisProps, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, XAxisProps, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -30,6 +30,7 @@ export function SignupStageBarChart() {
   const chartData = metrics.map((m) => ({
     stage: t(`SignupStages.${m.stage}`),
     requests: m.signupRequestsNumber,
+    dropOffPercentage: m.dropOffPercentage,
   }));
 
   const chartConfig = {
@@ -37,20 +38,52 @@ export function SignupStageBarChart() {
       label: t('SignupRequests.title2'),
       color: '#2157E2',
     },
+    dropOffPercentage: {
+      label: t('Charts.dropOffPercentage'),
+    },
   } satisfies ChartConfig;
 
-  const renderWrappedTick: XAxisProps['tick'] = (props) => {
-    const { x, y, payload } = props as any;
-    const words = (payload.value as string).split(' ');
-    const lineHeight = 12;
+  const renderTruncatedTick: XAxisProps['tick'] = (props: any) => {
+    const { x, y, payload } = props;
+    const fullText: string = payload.value as string;
+    const MAX_CHARS = 8;
+
+    const displayText =
+      fullText.length > MAX_CHARS ? `${fullText.slice(0, MAX_CHARS - 1)}…` : fullText;
+
     return (
-      <text x={x} y={y + 10} textAnchor="middle">
-        {words.map((word, i) => (
-          <tspan key={i} x={x} dy={i === 0 ? 0 : lineHeight}>
-            {word}
-          </tspan>
-        ))}
+      <text
+        x={x}
+        y={y + 10}
+        textAnchor="middle"
+        style={{ cursor: 'default', userSelect: 'none', fontSize: 12 }}
+      >
+        <title>{fullText}</title>
+        {displayText}
       </text>
+    );
+  };
+
+  const CustomizedLabel = (props: any) => {
+    const { x, y, width, value } = props;
+    const rectHeight = 50;
+    const rectX = x;
+    const rectY = y - rectHeight;
+
+    return (
+      <g>
+        <rect x={rectX} y={rectY} width={width} height={rectHeight} fill="#ECEEF4" />
+        <text
+          x={rectX + width / 2}
+          y={rectY + rectHeight / 2}
+          fill="#0B0B22"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          style={{ fontSize: 12, fontWeight: 600 }}
+        >
+          {`${Math.round(value)}%`}
+        </text>
+      </g>
     );
   };
 
@@ -99,9 +132,9 @@ export function SignupStageBarChart() {
                   value: chartConfig.requests.label,
                   angle: -90,
                   position: 'insideLeft',
-                  dy: -10,
                   style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
                 }}
+                tickFormatter={(value) => Number(value).toFixed(0)}
                 domain={[0, (dataMax: number) => dataMax * 1.2]}
               />
               <XAxis
@@ -110,14 +143,19 @@ export function SignupStageBarChart() {
                 axisLine={false}
                 tickMargin={8}
                 interval={0}
-                height={60}
-                tick={renderWrappedTick}
+                height={55}
+                tick={renderTruncatedTick}
               />
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent className="w-40" hideIndicator />}
               />
-              <Bar dataKey="requests" fill={chartConfig.requests.color} barSize={75} />
+              <Bar dataKey="requests" fill={chartConfig.requests.color} barSize={75}>
+                <LabelList
+                  dataKey="dropOffPercentage"
+                  content={(labelProps) => <CustomizedLabel {...labelProps} />}
+                />
+              </Bar>
             </BarChart>
           </ChartContainer>
         </CardContent>

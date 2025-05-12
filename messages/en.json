@@ -221,7 +221,8 @@
     "totalDropOffRate": "Total Drop-off Rate",
     "dropOffRate": "Drop-off Rate",
     "totalDropOffs": "Total Drop-offs",
-    "signupFailureRate": "Onboarding Failure Rate"
+    "signupFailureRate": "Onboarding Failure Rate",
+    "dropOffPercentage": "Drop-off Percentage"
   },
   "SignupStages": {
     "OTP_SENT": "OTP Sent",
