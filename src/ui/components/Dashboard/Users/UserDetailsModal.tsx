@@ -194,14 +194,8 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   );
 
   const UserCardSection = ({ uri }: { uri: string }) => (
-    <div className="py-6">
-      <Image
-        src={uri}
-        alt="User Card"
-        width={382}
-        height={225}
-        className="max-w-full h-auto rounded-2xl shadow-md"
-      />
+    <div className=" w-[410px] h-[250px] rounded-2xl shadow-md flex items-center justify-center">
+      <Image src={uri} alt="User Card" width={382} height={225} className="max-w-full h-auto " />
     </div>
   );
 
