@@ -46,9 +46,12 @@ export default function LivenessPills() {
           {liveness.map((item) => {
             const code = Number(item.status);
             let dotColor = 'bg-gray-500';
-            if (code === 200) {
+            if (code === 200 || (code === 429 && item.instanceName === 'HASHICORP_VAULT')) {
               dotColor = 'bg-green-500';
-            } else if (code >= 400 && code < 500) {
+            } else if (
+              (code >= 400 && code < 500) ||
+              (code === 429 && item.instanceName !== 'HASHICORP_VAULT')
+            ) {
               dotColor = 'bg-yellow-500';
             } else if (code > 500) {
               dotColor = 'bg-red-500';
