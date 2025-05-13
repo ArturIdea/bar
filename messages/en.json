@@ -345,7 +345,8 @@
       "benefitStatus": "Benefit Status",
       "deductionAmount": "Deduction Amount"
     },
-    "modalTitle": "Profile"
+    "modalTitle": "Profile",
+    "userCard": "User Card"
   },
   "Pagination": {
     "showing": "Showing",

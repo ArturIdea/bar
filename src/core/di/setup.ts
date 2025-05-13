@@ -69,6 +69,7 @@ import {
   loadSignupStageMetricsUseCases,
 } from './modules/SignupStageMetrics.module';
 import { loadStatisticsRepositories, loadStatisticsUseCases } from './modules/Statistics.module';
+import { loadUserCardRepositories, loadUserCardUseCases } from './modules/UserCard.module';
 import { loadUserDetailsRepositories, loadUserDetailsUseCases } from './modules/UserDetails.module';
 import { loadUserMetricsRepositories, loadUserMetricsUseCases } from './modules/UserMetrics.module';
 import { loadUserProfileRepositories, loadUserProfileUseCases } from './modules/UserProfile.module';
@@ -101,6 +102,7 @@ export const setupDependencies = () => {
   loadLivenessRepositories(diContainer);
   loadSignupStageMetricsRepositories(diContainer);
   loadSignupFailureRatesRepositories(diContainer);
+  loadUserCardRepositories(diContainer);
 
   //dev repositories
   loadDevUsersRepositories(diContainer);
@@ -131,6 +133,7 @@ export const setupDependencies = () => {
   loadLivenessUseCases(diContainer);
   loadSignupStageMetricsUseCases(diContainer);
   loadSignupFailureRatesUseCases(diContainer);
+  loadUserCardUseCases(diContainer);
 
   //dev use cases
   loadDevUsersUseCasesDev(diContainer);

@@ -8,6 +8,7 @@ import { assignDotColors } from '@/core/utils/dotColors';
 import { truncate } from '@/core/utils/truncate';
 import { useRouter } from '@/i18n/routing';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
+import { useUserCard } from '@/ui/hooks/ui/useUserCard';
 import { useUserDetail } from '@/ui/hooks/ui/useUserDetail';
 
 interface MultiTabUserDetailsModalProps {
@@ -24,6 +25,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   onOpenSignupRequest,
 }) => {
   const { user, loading, error } = useUserDetail(userId, pinfl);
+  const { userCard } = useUserCard(userId);
   const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
   const cookies = new Cookies();
@@ -44,7 +46,6 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   };
 
   const UserInfoSection = ({ user, t }: { user: any; t: any }) => {
-    console.log('🚀 ~ UserInfoSection ~ user:', user);
     const fields = [
       { label: 'email', value: user.email },
       { label: 'nationality', value: user.nationalityName },
@@ -192,6 +193,18 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
     </div>
   );
 
+  const UserCardSection = ({ uri }: { uri: string }) => (
+    <div className="py-6">
+      <Image
+        src={uri}
+        alt="User Card"
+        width={382}
+        height={225}
+        className="max-w-full h-auto rounded-2xl shadow-md"
+      />
+    </div>
+  );
+
   const renderTabContent = () => {
     if (loading) {
       return (
@@ -239,6 +252,13 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
             handleHistoryClick={handleHistoryClick}
             t={t}
           />
+        );
+
+      case 'userCard':
+        return userCard ? (
+          <UserCardSection uri={userCard.uri} />
+        ) : (
+          <p className="text-center text-gray-500">No card available</p>
         );
 
       case 'signup':
@@ -301,6 +321,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
             { id: 'details', title: t('UserManagement.modalTitle') },
             { id: 'benefits', title: t('UserManagement.benefits.title') },
             { id: 'createdBy', title: t('UserManagement.details.createdBy') },
+            { id: 'userCard', title: t('UserManagement.userCard') },
           ].map((tab) => (
             <button
               type="button"
