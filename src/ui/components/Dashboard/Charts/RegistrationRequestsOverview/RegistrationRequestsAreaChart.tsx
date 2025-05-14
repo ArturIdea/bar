@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
@@ -12,13 +12,13 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useSignupMetrics } from '@/ui/hooks/ui/useSignupMetrics';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
-import { DateRangeSelector } from './DateRangeSelector';
 
 export function RegistrationRequestsAreaChart() {
   const t = useTranslations();
-  const [fromDate, setFromDate] = useState<string>(format(new Date(), 'yyyy-MM-01'));
-  const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
 
   const { metrics, loading, error } = useSignupMetrics(fromDate, toDate);
 
@@ -63,12 +63,6 @@ export function RegistrationRequestsAreaChart() {
         {/* Date Range Selector Component */}
         <div className="place-content-center place-items-end">
           <div className="flex justify-center items-center gap-2">
-            <DateRangeSelector
-              onDateChange={(start, end) => {
-                setFromDate(start);
-                setToDate(end);
-              }}
-            />
             <ExportDropdown
               chartData={chartData}
               fileName={t('Charts.registrationOverview')}

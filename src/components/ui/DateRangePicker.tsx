@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { addDays, format, isSameMonth, subDays } from 'date-fns';
+import { addDays, format, isAfter, isSameMonth, subDays } from 'date-fns';
 import { Calendar as CalendarIcon, InfoIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { useTranslations } from 'use-intl';
@@ -32,7 +32,7 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full flex justify-start text-left font-normal rounded-full cursor-pointer"
+          className="h-[40px] w-full flex justify-start text-left font-normal rounded-full cursor-pointer"
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           <span>
@@ -61,6 +61,10 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
           }}
           numberOfMonths={2}
           disabled={(day) => {
+            const today = new Date();
+            if (isAfter(day, today)) {
+              return true;
+            }
             if (date?.from) {
               const earliest = subDays(date.from, MAX_RANGE);
               const latest = addDays(date.from, MAX_RANGE);

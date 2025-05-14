@@ -44,7 +44,7 @@ export function DateRangeSelector({ onDateChange }: DateRangeSelectorProps) {
   return (
     <div className="flex items-center gap-2">
       <DropdownMenu>
-        <DropdownMenuTrigger className="cursor-pointer flex items-center gap-1 px-3 py-1 text-sm font-medium rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground">
+        <DropdownMenuTrigger className="cursor-pointer flex items-center gap-1 px-3 h-[40px] text-sm font-medium rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground">
           {selectedOption === 'day' && t('Charts.day')}
           {selectedOption === 'week' && t('Charts.week')}
           {selectedOption === 'month' && t('Charts.month')}

@@ -6,10 +6,13 @@ import { LanguagesIcon, UserCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
+import DateRangePicker from '@/components/ui/DateRangePicker';
 import { KEYCLOAK_URL } from '@/core/config';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
+import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
 
 export default function AdminNavbar() {
   const cookies = new Cookies();
@@ -18,6 +21,9 @@ export default function AdminNavbar() {
   const { userProfile, loading } = useUserProfile();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const setRange = useDateRangeStore((s) => s.setRange);
+  const granularity = useDateRangeStore((s) => s.granularity);
+  const setCustomDates = useDateRangeStore((s) => s.setCustomDates);
 
   const logoutUser = () => {
     const logoutURL = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/logout`);
@@ -62,6 +68,14 @@ export default function AdminNavbar() {
     <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
       <h1 className="font-semibold text-4xl text-primary">{getTitle()}</h1>
       <div className="flex items-center gap-4">
+        <div>
+          <DateRangePicker
+            onDateChange={(from, to) => {
+              setCustomDates(from, to);
+            }}
+          />
+        </div>
+        <GlobalDateSelector selected={granularity} onChange={(g) => setRange(g)} />
         {/* User Profile Dropdown */}
         {userProfile && (
           <div className="relative">

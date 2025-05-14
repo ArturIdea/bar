@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { addDays, addMonths, addWeeks, format, subDays, subMonths, subWeeks } from 'date-fns';
+import { useMemo } from 'react';
+import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,80 +11,33 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import DateRangePicker from '@/components/ui/DateRangePicker';
 import { useUserMetrics } from '@/ui/hooks/ui/useUserMetrics';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
-import { DateRangeSelector } from './DateRangeSelector';
-
-type DateGranularity = 'day' | 'week' | 'month';
 
 export function NewAccountsAreaChart() {
   const t = useTranslations();
-  const [granularity, setGranularity] = useState<DateGranularity>('month');
-  const [fromDate, setFromDate] = useState<string>(format(subMonths(new Date(), 11), 'yyyy-MM-01'));
-  const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
-  const [customDateRange, setCustomDateRange] = useState<{ from: string; to: string } | null>(null);
-  const { metrics, loading, error } = useUserMetrics(fromDate, toDate, granularity);
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
+  const { metrics, loading, error } = useUserMetrics(fromDate, toDate);
 
-  const applyDateRangeForGranularity = (selectedGranularity: DateGranularity) => {
-    const today = new Date();
+  const sortedMetrics = useMemo(
+    () =>
+      metrics
+        ? [...metrics].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        : [],
+    [metrics]
+  );
 
-    if (customDateRange) {
-      const startDate = new Date(customDateRange.from);
-      const endDate = new Date(customDateRange.to);
-
-      let paddedStartDate, paddedEndDate;
-
-      if (selectedGranularity === 'day') {
-        paddedStartDate = format(subDays(startDate, 7), 'yyyy-MM-dd');
-        paddedEndDate = format(addDays(endDate, 7), 'yyyy-MM-dd');
-      } else if (selectedGranularity === 'week') {
-        paddedStartDate = format(subWeeks(startDate, 4), 'yyyy-MM-dd');
-        paddedEndDate = format(addWeeks(endDate, 4), 'yyyy-MM-dd');
-      } else {
-        // month
-        paddedStartDate = format(subMonths(startDate, 3), 'yyyy-MM-01');
-        paddedEndDate = format(addMonths(endDate, 3), 'yyyy-MM-dd');
-      }
-
-      setFromDate(paddedStartDate);
-      setToDate(paddedEndDate);
-    } else {
-      let defaultFromDate;
-
-      if (selectedGranularity === 'day') {
-        defaultFromDate = format(subDays(today, 14), 'yyyy-MM-dd');
-      } else if (selectedGranularity === 'week') {
-        defaultFromDate = format(subWeeks(today, 8), 'yyyy-MM-dd');
-      } else {
-        defaultFromDate = format(subMonths(today, 11), 'yyyy-MM-01');
-      }
-
-      setFromDate(defaultFromDate);
-      setToDate(format(today, 'yyyy-MM-dd'));
-    }
-  };
-
-  useEffect(() => {
-    applyDateRangeForGranularity(granularity);
-  }, [granularity, customDateRange]);
-
-  const chartData = metrics.map((metric) => {
-    const date = new Date(metric.date);
-    let period;
-    if (granularity === 'week') {
-      const startOfWeek = format(date, 'MMM dd');
-      const endOfWeek = format(subDays(date, -6), 'MMM dd');
-      period = `${startOfWeek} - ${endOfWeek}`;
-    } else {
-      period = format(date, granularity === 'day' ? 'MMM dd' : 'MMM yyyy');
-    }
-
-    return {
-      period,
-      accounts: metric.users,
-    };
-  });
+  const chartData = useMemo(
+    () =>
+      sortedMetrics.map((metric) => ({
+        date: metric.date,
+        month: format(new Date(metric.date), 'MMM dd'),
+        accounts: metric.users,
+      })),
+    [sortedMetrics]
+  );
 
   const chartConfig = {
     accounts: {
@@ -93,13 +46,6 @@ export function NewAccountsAreaChart() {
     },
   } satisfies ChartConfig;
 
-  const handleDateRangeChange = (start: string, end: string) => {
-    setCustomDateRange({ from: start, to: end });
-    setFromDate(start);
-    setToDate(end);
-    applyDateRangeForGranularity(granularity);
-  };
-
   return (
     <Card className="w-full rounded-none shadow-none border-l-0 border-r-0 border-t-0 border-b-0">
       <div className="flex justify-between pr-6">
@@ -107,16 +53,6 @@ export function NewAccountsAreaChart() {
           <CardTitle>{t('Charts.newAccounts')}</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
-          <DateRangePicker onDateChange={handleDateRangeChange} />
-          <DateRangeSelector
-            onDateChange={(start, end, selectedGranularity) => {
-              if (!customDateRange) {
-                setFromDate(start);
-                setToDate(end);
-              }
-              setGranularity(selectedGranularity);
-            }}
-          />
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.newAccounts')}
@@ -154,7 +90,7 @@ export function NewAccountsAreaChart() {
               domain={[0, (dataMax: number) => dataMax * 1.2]}
               tickFormatter={(value) => Number(value).toFixed(0)}
             />
-            <XAxis dataKey="period" tickLine={false} axisLine={false} tickMargin={8} />
+            <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent className="w-[15em]" hideIndicator />}
