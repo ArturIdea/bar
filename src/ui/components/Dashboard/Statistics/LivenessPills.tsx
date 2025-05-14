@@ -7,6 +7,7 @@ const nameMap: Record<string, string> = {
   MINIO: 'Minio',
   BARAKA_API: 'Baraka Server',
   SDK_FINANCE_API: 'Core Banking Service',
+  AUTHENTICATOR: 'Authenticator',
 };
 
 function formatUptime(secondsRaw: number): string {
