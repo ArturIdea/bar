@@ -20,16 +20,28 @@ export function SignupStageBarChart() {
   const startDate = useDateRangeStore((s) => s.fromDate);
   const endDate = useDateRangeStore((s) => s.toDate);
 
-  const { metrics, loading, error } = useSignupStageMetrics(startDate, endDate);
+  const { metrics, totalRequests, loading, error } = useSignupStageMetrics(startDate, endDate);
 
-  const chartData = metrics.map((m) => ({
-    stage: t(`SignupStages.${m.stage}`),
-    requests: m.signupRequestsNumber,
-    dropOffPercentage: m.dropOffPercentage,
-  }));
+  let cumulativeDropped = 0;
+
+  const chartData = metrics.map((m) => {
+    const reached = totalRequests - cumulativeDropped;
+
+    const droppedHere = m.signupRequestsNumber;
+
+    const dropOffPercentage = reached > 0 ? Math.round((droppedHere / reached) * 100) : 0;
+
+    cumulativeDropped += droppedHere;
+
+    return {
+      stage: t(`SignupStages.${m.stage}` as any),
+      reached,
+      dropOffPercentage,
+    };
+  });
 
   const chartConfig = {
-    requests: {
+    reached: {
       label: t('SignupRequests.title2'),
       color: '#2157E2',
     },
@@ -94,7 +106,7 @@ export function SignupStageBarChart() {
             fileName={t('Charts.signupStages')}
             labelMapping={{
               stage: t('Charts.stage'),
-              requests: chartConfig.requests.label,
+              requests: chartConfig.reached.label,
             }}
           />
         </div>
@@ -114,11 +126,12 @@ export function SignupStageBarChart() {
             <BarChart data={chartData}>
               <CartesianGrid vertical={false} />
               <YAxis
+                dataKey="reached"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
                 label={{
-                  value: chartConfig.requests.label,
+                  value: chartConfig.reached.label,
                   angle: -90,
                   position: 'insideLeft',
                   style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
@@ -139,7 +152,7 @@ export function SignupStageBarChart() {
                 cursor={false}
                 content={<ChartTooltipContent className="w-40" hideIndicator />}
               />
-              <Bar dataKey="requests" fill={chartConfig.requests.color} barSize={75}>
+              <Bar dataKey="reached" fill={chartConfig.reached.color} barSize={75}>
                 <LabelList
                   dataKey="dropOffPercentage"
                   content={(labelProps) => <CustomizedLabel {...labelProps} />}

@@ -5,7 +5,7 @@ import { SignupFailureRatesAdapter } from '@/interfaces/SignupFailureRatesAdapte
 
 export class SignupFailureRateRepositoryAPI implements SignupFailureRatesRepository {
   private apiClient = ApiClient.shared;
-  private apiUrl = '/api/admin/metrics/dropoff-trends';
+  private apiUrl = '/api/admin/metrics/onboarding-request-counts/daily';
 
   async getSignupFailureRates(fromDate?: string, toDate?: string): Promise<SignupFailureRate[]> {
     const response = await this.apiClient.get(this.apiUrl, {

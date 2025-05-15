@@ -30,7 +30,8 @@ export function SignupFailureRateAreaChart() {
       sortedMetrics.map((m) => ({
         date: m.date,
         month: format(new Date(m.date), 'MMM dd'),
-        totalDropOffRate: m.totalDropOffRate,
+        totalDropOffRate:
+          m.totalRequests > 0 ? Math.round((m.totalDropOffs / m.totalRequests) * 100) : 0,
         totalDropOffs: m.totalDropOffs,
       })),
     [sortedMetrics]
@@ -94,11 +95,11 @@ export function SignupFailureRateAreaChart() {
             <AreaChart data={chartData} accessibilityLayer>
               <CartesianGrid vertical={false} />
               <YAxis
+                unit="%"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
                 tickFormatter={(value) => Number(value).toFixed(0)}
-                domain={[0, (max: number) => max * 1.2]}
               />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
               <Tooltip cursor={false} content={<CustomTooltip />} />

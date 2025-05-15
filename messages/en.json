@@ -229,9 +229,9 @@
     "MOBILE_VERIFIED": "Mobile Verified",
     "PERSONAL_INFO_VERIFIED": "Personal Info Verified",
     "AGREEMENTS_ACCEPTED": "Agreements Accepted",
-    "BIOMETRIC_CAPTURE_IN_PROGRESS": "Biometric Capture In Progress",
-    "BIOMETRIC_CAPTURE_COMPLETED": "Biometric Capture Completed",
-    "REGISTRATION_COMPLETED": "Registration Completed"
+    "FACE_VERIFICATION_IN_PROGRESS": "Face Verification In Progress",
+    "VERIFICATION_COMPLETED": "Verification Completed",
+    "COMPLETED": "Completed"
   },
   "Filter": {
     "filterBy": "Filter By",

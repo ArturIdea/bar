@@ -4,7 +4,7 @@ import { SignupStageMetricsRepository } from '../repositories/SignupStageMetrics
 export class GetSignupStageMetrics {
   constructor(private signupStageMetricsRepo: SignupStageMetricsRepository) {}
 
-  async execute(from?: string, to?: string): Promise<SignupStageMetric[]> {
-    return this.signupStageMetricsRepo.getSignupStageMetrics(from, to);
+  async execute(fromDate?: string, toDate?: string): Promise<SignupStageMetric[]> {
+    return this.signupStageMetricsRepo.getSignupStageMetrics(fromDate, toDate);
   }
 }

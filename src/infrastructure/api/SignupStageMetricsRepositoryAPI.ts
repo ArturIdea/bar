@@ -5,7 +5,7 @@ import { SignupStageMetricsAdapter } from '@/interfaces/SignupStageMetricsAdapte
 
 export class SignupStageMetricsRepositoryAPI implements SignupStageMetricsRepository {
   private apiClient = ApiClient.shared;
-  private apiUrl = '/api/admin/metrics/dropoffs';
+  private apiUrl = '/api/admin/metrics/onboarding-stages-counts';
 
   async getSignupStageMetrics(fromDate?: string, toDate?: string): Promise<SignupStageMetric[]> {
     const response = await this.apiClient.get(this.apiUrl, {

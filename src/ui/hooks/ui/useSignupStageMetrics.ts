@@ -11,10 +11,12 @@ export function useSignupStageMetrics(
   toDate?: string
 ): {
   metrics: SignupStageMetric[];
+  totalRequests: number;
   loading: boolean;
   error: string | null;
 } {
   const [metrics, setMetrics] = useState<SignupStageMetric[]>([]);
+  const [totalRequests, setTotalRequests] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,18 +30,25 @@ export function useSignupStageMetrics(
       try {
         const data = await useCase.execute(fromDate, toDate);
 
-        const order: SignupStage[] = [
+        const total = data.reduce((sum, m) => sum + m.signupRequestsNumber, 0);
+        setTotalRequests(total);
+
+        const FUNNEL_STAGES: SignupStage[] = [
           SignupStage.OTP_SENT,
           SignupStage.MOBILE_VERIFIED,
           SignupStage.PERSONAL_INFO_VERIFIED,
           SignupStage.AGREEMENTS_ACCEPTED,
-          SignupStage.BIOMETRIC_CAPTURE_IN_PROGRESS,
-          SignupStage.BIOMETRIC_CAPTURE_COMPLETED,
-          SignupStage.REGISTRATION_COMPLETED,
+          SignupStage.FACE_VERIFICATION_IN_PROGRESS,
+          SignupStage.VERIFICATION_COMPLETED,
+          SignupStage.COMPLETED,
         ];
-        const sorted = data.sort((a, b) => order.indexOf(a.stage) - order.indexOf(b.stage));
 
-        setMetrics(sorted);
+        const filledAndOrdered = FUNNEL_STAGES.map((stage) => {
+          const m = data.find((x) => x.stage === stage);
+          return m ?? new SignupStageMetric(stage, 0);
+        });
+
+        setMetrics(filledAndOrdered);
       } catch (err) {
         setError('Failed to fetch signup stage metrics');
       } finally {
@@ -50,5 +59,5 @@ export function useSignupStageMetrics(
     fetchMetrics();
   }, [fromDate, toDate]);
 
-  return { metrics, loading, error };
+  return { metrics, totalRequests, loading, error };
 }
