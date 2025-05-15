@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-import { format, subDays } from 'date-fns';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, XAxisProps, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,18 +11,14 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useSignupStageMetrics } from '@/ui/hooks/ui/useSignupStageMetrics';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
-import { DateRangeSelector } from '../RegistrationRequestsOverview/DateRangeSelector';
 
 export function SignupStageBarChart() {
   const t = useTranslations();
 
-  const today = new Date();
-  const defaultStart = format(subDays(today, 31), 'yyyy-MM-dd');
-  const defaultEnd = format(today, 'yyyy-MM-dd');
-
-  const [startDate, setStartDate] = useState<string>(defaultStart);
-  const [endDate, setEndDate] = useState<string>(defaultEnd);
+  const startDate = useDateRangeStore((s) => s.fromDate);
+  const endDate = useDateRangeStore((s) => s.toDate);
 
   const { metrics, loading, error } = useSignupStageMetrics(startDate, endDate);
 
@@ -94,12 +89,6 @@ export function SignupStageBarChart() {
           <CardTitle>{t('Charts.signupStages')}</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
-          <DateRangeSelector
-            onDateChange={(start, end) => {
-              setStartDate(start);
-              setEndDate(end);
-            }}
-          />
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.signupStages')}

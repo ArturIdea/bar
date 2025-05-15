@@ -1,19 +1,19 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { useSignupFailureRates } from '@/ui/hooks/ui/useSignupFailureRates';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
-import { DateRangeSelector } from '../RegistrationRequestsOverview/DateRangeSelector';
 
 export function SignupFailureRateAreaChart() {
   const t = useTranslations();
-  const [fromDate, setFromDate] = useState<string>(format(new Date(), 'yyyy-MM-01'));
-  const [toDate, setToDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
 
   const { failureRates, loading, error } = useSignupFailureRates(fromDate, toDate);
 
@@ -69,12 +69,6 @@ export function SignupFailureRateAreaChart() {
           <CardTitle>{t('Charts.signupFailureRate')}</CardTitle>
         </CardHeader>
         <div className="flex justify-center items-center gap-2">
-          <DateRangeSelector
-            onDateChange={(start, end) => {
-              setFromDate(start);
-              setToDate(end);
-            }}
-          />
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.signupFailureRate')}
