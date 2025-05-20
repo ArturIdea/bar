@@ -155,7 +155,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
                       <span
                         className={`font-medium ${benefit.status === 'EXPIRED' ? 'text-red-500' : 'text-green-500'}`}
                       >
-                        {benefit.amount}
+                        {benefit.amount?.priceValue ?? benefit.amount}
                       </span>
                     </div>
                   </div>

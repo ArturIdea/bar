@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, XAxisProps, YAxis } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -24,21 +24,29 @@ export function SignupStageBarChart() {
 
   let cumulativeDropped = 0;
 
-  const chartData = metrics.map((m) => {
+  const rawDrops = metrics.map((m) => {
     const reached = totalRequests - cumulativeDropped;
-
     const droppedHere = m.signupRequestsNumber;
-
-    const dropOffPercentage = reached > 0 ? Math.round((droppedHere / reached) * 100) : 0;
-
+    const dropOffPct = reached > 0 ? (droppedHere / reached) * 100 : 0;
     cumulativeDropped += droppedHere;
+    return Math.round(dropOffPct);
+  });
 
+  const shiftedDrops = rawDrops.map((_, i) => (i === 0 ? null : rawDrops[i - 1]));
+
+  let cumulative = 0;
+
+  const chartData = metrics.map((m, i) => {
+    const reached = totalRequests - cumulative;
+    cumulative += m.signupRequestsNumber;
     return {
       stage: t(`SignupStages.${m.stage}` as any),
       reached,
-      dropOffPercentage,
+      dropOffPercentage: shiftedDrops[i] ?? 0,
     };
   });
+
+  const overallDropOff = rawDrops.slice(0, 6).reduce((sum, pct) => sum + pct, 0);
 
   const chartConfig = {
     reached: {
@@ -72,8 +80,11 @@ export function SignupStageBarChart() {
   };
 
   const CustomizedLabel = (props: any) => {
-    const { x, y, width, value } = props;
-    const rectHeight = 50;
+    const { x, y, width, value, index } = props;
+    if (index === 0) {
+      return null;
+    }
+    const rectHeight = 25;
     const rectX = x;
     const rectY = y - rectHeight;
 
@@ -99,6 +110,9 @@ export function SignupStageBarChart() {
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStages')}</CardTitle>
+          <CardDescription className="text-red-500">
+            Overall Drop-off Percentage: {overallDropOff}%
+          </CardDescription>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown
