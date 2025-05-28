@@ -17,18 +17,25 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 WORKDIR /app
 
+# Enable Corepack (Yarn is included from Node 16.10+)
 RUN corepack enable
 
-COPY . /app/
+# Copy only what's needed for install first
+COPY package.json yarn.lock ./
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
 
-RUN env
-
+# Install dependencies using Yarn Berry
 RUN yarn install --immutable
 
+# Now copy the rest of the app source
+COPY . .
+
+# Build the app
 RUN yarn build
 
 EXPOSE 3000
-
 ENV PORT 3000
 
-CMD ["corepack", "yarn", "run","start"]
+# Run the app
+CMD ["corepack", "yarn", "run", "start"]
