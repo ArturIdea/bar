@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ApiClient } from '@/core/ApiClient';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 interface UserHistory {
   id: string;
@@ -36,10 +38,26 @@ export const HistoryModal = ({ createdById, onBack }: HistoryModalProps) => {
   const fetchHistory = async () => {
     try {
       setLoading(true);
-      const response = await ApiClient.shared.get<ApiResponse>(
-        `api/agent/user/created-by?createdById=${createdById}`
+      const response = await fetch(
+        `https://baraka-app-api-development.uz-pay-dev.ox.one/api/agent/user/created-by?createdById=${createdById}`,
+        {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+            'Channel-Type': 'AGENT_APP',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${cookies.get('accessToken')}`,
+            'Device-Id': 'b9678877ac543810'
+          }
+        }
       );
-      setHistory(response.data.content);
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data: ApiResponse = await response.json();
+      setHistory(data.content);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error fetching history:', error);

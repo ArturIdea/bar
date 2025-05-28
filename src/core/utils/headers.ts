@@ -3,4 +3,4 @@ export const HEADER_NAMES = {
   DEVICE_HEADER: 'Device-Id',
 };
 
-export const CHANNEL_TYPE = 'HTTP_CLIENT';
+export const CHANNEL_TYPE = 'ADMIN_PORTAL';
