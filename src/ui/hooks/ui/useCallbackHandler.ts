@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { setServerCookie } from '@/core/utils/setCookies';
@@ -43,7 +44,19 @@ export const useCallbackHandler = () => {
         await setServerCookie({ name: 'refreshToken', value: tokenData.refreshToken });
         // await setServerCookie('idToken', tokenData.idToken);
 
-        router.push('/dashboard');
+        // Decode the token to check roles immediately
+        const decodedToken = JSON.parse(atob(tokenData.accessToken.split('.')[1]));
+        const userRoles = decodedToken?.resource_access?.baraka?.roles || [];
+        
+        if (userRoles.includes('ROLE_AGENT')) {
+          router.push('/agent-dashboard');
+        } else if (userRoles.includes('ROLE_ADMIN')) {
+          router.push('/dashboard');
+        } else {
+          router.push('/dashboard');
+        }
+
+       
       } catch (err: any) {
         console.error('Error during callback handling:', err.message || err);
         setError(err.message || 'Unknown error occurred.');

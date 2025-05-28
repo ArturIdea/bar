@@ -5,9 +5,11 @@ import { StatisticsDashboard } from '@/ui/components/Dashboard/Statistics/Statis
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 import { useAuth } from '@/ui/hooks/ui/useAuth';
 import Charts from './Charts/page';
+import SignUpRequests from './signup-requests/page';
 
 const DashboardPage = () => {
   const { isAuthenticated } = useAuth();
+
 
   if (!isAuthenticated) {
     return (
@@ -23,6 +25,7 @@ const DashboardPage = () => {
       <Charts />
       <UsersTable />
       <AgentsTable />
+      <SignUpRequests />
     </div>
   );
 };

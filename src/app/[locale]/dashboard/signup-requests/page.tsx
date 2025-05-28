@@ -35,8 +35,8 @@ const SignUpRequests = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-6 flex justify-between items-center">
-        <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
+      <div className="p-6 flex justify-end items-center">
+        <Link href="/dashboard" className="hidden items-center gap-2 cursor-pointer">
           <ArrowLeft /> {t('Buttons.back')}
         </Link>
         <div>

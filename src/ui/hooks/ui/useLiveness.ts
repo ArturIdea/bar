@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { diContainer } from '@/core/di/setup';
 import { Liveness } from '@/domain/liveness/entities/Liveness';

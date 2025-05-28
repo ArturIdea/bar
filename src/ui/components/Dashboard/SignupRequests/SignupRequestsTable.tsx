@@ -7,7 +7,7 @@ import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { Pagination } from '../Pagination';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from '../Users/UserDetailsModal';
-import ViewDetailsButton from '../ViewDetailsButton';
+// import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
@@ -109,11 +109,11 @@ export const SignUpRequestsTable: React.FC<{
         <h4 className="font-semibold text-[#0B0B22]">
           {t(
             pathname === '/dashboard/signup-requests'
-              ? 'SignupRequests.title2'
-              : 'SignupRequests.title'
+              ? 'Sidebar.signupRequests'
+              : 'Statistics.requests'
           )}
         </h4>
-        <ViewDetailsButton href="signup-requests" />
+        {/* <ViewDetailsButton href="signup-requests" /> */}
       </div>
 
       {/* Table */}
@@ -204,17 +204,16 @@ export const SignUpRequestsTable: React.FC<{
       )}
 
       {/* Pagination */}
-      {pathname === '/dashboard/signup-requests' && (
-        <div className="sticky bottom-0 bg-white border-t border-gray-200">
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            total={total}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-          />
-        </div>
-      )}
+      <div className="sticky bottom-0 bg-white border-t border-gray-200">
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+          pageSizeOptions={[10, 20, 50, 70, 100]}
+        />
+      </div>
     </div>
   );
 };

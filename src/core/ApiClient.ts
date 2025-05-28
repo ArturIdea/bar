@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import Cookies from 'universal-cookie';
 import { API_URL } from '@/core/config';
@@ -34,21 +35,22 @@ export class ApiClient {
 
   private constructor(baseURL: string) {
     this.axiosInstance = axios.create({
-      baseURL, // Set the base URL for all API requests
-      // timeout: 5000, // Example timeout (adjust as necessary)
+      baseURL,
       headers: this.getDefaultHeaders(),
     });
     this.cancelTokenSources = new Map<string, CancelTokenSource>();
     this.setupInterceptors();
   }
 
-  // Private method to get default headers
   private getDefaultHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      // You can add other default headers here
-      // Authorization: this.getAuthToken()
     };
+
+    const token = this.getAuthToken();
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
 
     if (typeof window !== 'undefined') {
       headers[HEADER_NAMES.DEVICE_HEADER] = getDeviceIdSync();
@@ -58,7 +60,6 @@ export class ApiClient {
     return headers;
   }
 
-  //interceptor to refresh the token
   private setupInterceptors() {
     this.axiosInstance.interceptors.request.use(
       (config) => {
@@ -114,7 +115,6 @@ export class ApiClient {
   }
 
   private async refreshAccessToken(): Promise<string> {
-    //tries to refresh the token 3 times.
     const maxRetries = 3;
     let lastError: any;
 
@@ -176,27 +176,22 @@ export class ApiClient {
     window.location.href = '/';
   }
 
-  // Method to handle cancellation of previous requests
   private setupCancelToken(requestKey: string): CancelTokenSource {
-    // Cancel the previous request with the same key if it exists
     if (this.cancelTokenSources.has(requestKey)) {
       const previousTokenSource = this.cancelTokenSources.get(requestKey)!;
       previousTokenSource.cancel(`Request with key "${requestKey}" canceled due to a new request.`);
     }
 
-    // Create a new cancel token source and store it with the key
     const cancelTokenSource = axios.CancelToken.source();
     this.cancelTokenSources.set(requestKey, cancelTokenSource);
 
     return cancelTokenSource;
   }
 
-  // Clean up the cancel token after the request is completed
   private clearCancelToken(requestKey: string) {
     this.cancelTokenSources.delete(requestKey);
   }
 
-  // GET method
   async get<T>(
     url: string,
     config?: AxiosRequestConfig,
@@ -207,15 +202,18 @@ export class ApiClient {
       return await this.axiosInstance.get<T>(url, {
         ...config,
         cancelToken: cancelTokenSource?.token,
-        headers: { ...(config?.headers || {}) },
+        headers: {
+          ...this.getDefaultHeaders(),
+          ...(config?.headers || {}),
+        },
       });
     } catch (error) {
       if (axios.isCancel(error)) {
         console.log('Request canceled:', error.message);
-        throw new Error('Request was canceled'); // Throw a specific cancellation error
+        throw new Error('Request was canceled');
       } else {
         console.error('Error occurred during GET request:', error);
-        throw error; // Re-throw the error to be handled by the caller
+        throw error;
       }
     } finally {
       if (requestKey) {
@@ -224,7 +222,6 @@ export class ApiClient {
     }
   }
 
-  // POST method
   async post<T>(
     url: string,
     data: any,
@@ -237,7 +234,10 @@ export class ApiClient {
       return await this.axiosInstance.post<T>(url, data, {
         ...config,
         cancelToken: cancelTokenSource?.token,
-        headers: { ...(config?.headers || {}) },
+        headers: {
+          ...this.getDefaultHeaders(),
+          ...(config?.headers || {}),
+        },
       });
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -254,7 +254,6 @@ export class ApiClient {
     }
   }
 
-  // PUT method
   async put<T>(
     url: string,
     data: any,
@@ -267,7 +266,10 @@ export class ApiClient {
       return await this.axiosInstance.put<T>(url, data, {
         ...config,
         cancelToken: cancelTokenSource?.token,
-        headers: { ...(config?.headers || {}) },
+        headers: {
+          ...this.getDefaultHeaders(),
+          ...(config?.headers || {}),
+        },
       });
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -284,7 +286,6 @@ export class ApiClient {
     }
   }
 
-  // DELETE method
   async delete<T>(
     url: string,
     config?: AxiosRequestConfig,
@@ -296,7 +297,10 @@ export class ApiClient {
       return await this.axiosInstance.delete<T>(url, {
         ...config,
         cancelToken: cancelTokenSource?.token,
-        headers: { ...(config?.headers || {}) },
+        headers: {
+          ...this.getDefaultHeaders(),
+          ...(config?.headers || {}),
+        },
       });
     } catch (error) {
       if (axios.isCancel(error)) {

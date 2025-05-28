@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,53 +15,52 @@ import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 export function AdminSidebar() {
   const pathname = usePathname();
   const t = useTranslations();
-  const { isAdmin, isDeveloper } = useUserRoles();
+  const { isAdmin, isDeveloper, isAgent } = useUserRoles();
   const [showUserManagementPopover, setShowUserManagementPopover] = useState(false);
+  const [navItems, setNavItems] = useState<Array<{ link: string; label: string; icon: any }>>([]);
+
+  useEffect(() => {
+    const adminNavItems = isAdmin
+      ? [
+          { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
+          { link: '/dashboard/benefits', label: t('Sidebar.benefits'), icon: BenefitsIcon },
+          {
+            link: '/dashboard/user-management',
+            label: t('Sidebar.userManagement'),
+            icon: UserManagementIcon,
+          },
+        ]
+      : [];
+
+    const agentNavItems = isAgent
+      ? [{ link: '/agent-dashboard', label: t('Sidebar.agentDashboard'), icon: InsightsIcon }]
+      : [];
+
+    const regularNavItems = [...adminNavItems, ...agentNavItems];
+
+    const developerNavItems = isDeveloper
+      ? [
+          {
+            link: '/dashboard/dev/user-management/baraka-users',
+            label: `Dev ${t('Sidebar.userManagement')}`,
+            icon: UserManagementIcon,
+          },
+          {
+            link: '/dashboard/dev/signup-requests',
+            label: `Dev ${t('Sidebar.signupRequests')}`,
+            icon: signupRequestsIcon,
+          },
+        ]
+      : [];
+
+    setNavItems([...regularNavItems, ...developerNavItems]);
+  }, [isAdmin, isAgent, isDeveloper, t]);
 
   const onClose = () => {
     setShowUserManagementPopover(false);
   };
 
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
-
-  const regularNavItems = [
-    { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
-    {
-      link: '/dashboard/benefits',
-      label: t('Sidebar.benefits'),
-      icon: BenefitsIcon,
-    },
-
-    ...(isAdmin
-      ? [
-          {
-            link: '/dashboard/user-management',
-            label: t('Sidebar.userManagement'),
-            icon: UserManagementIcon,
-          },
-          {
-            link: '/dashboard/signup-requests',
-            label: t('Sidebar.signupRequests'),
-            icon: signupRequestsIcon,
-          },
-        ]
-      : []),
-  ];
-
-  const developerNavItems = isDeveloper
-    ? [
-        {
-          link: '/dashboard/dev/user-management/baraka-users',
-          label: `Dev ${t('Sidebar.userManagement')}`,
-          icon: UserManagementIcon,
-        },
-        {
-          link: '/dashboard/dev/signup-requests',
-          label: `Dev ${t('Sidebar.signupRequests')}`,
-          icon: signupRequestsIcon,
-        },
-      ]
-    : [];
 
   const renderNavItem = (item: { link: string; label: string; icon: any }) => {
     if (item.link === '/dashboard/user-management') {
@@ -86,20 +85,6 @@ export function AdminSidebar() {
               className="absolute w-32 top-0 left-full mt-0 ml-2 bg-white shadow-md border border-gray-200 rounded-md z-[999]"
             >
               <ul>
-                {/* <Link
-                  href="/dashboard/user-management/baraka-users"
-                  className="block px-4 py-2
-                    text-sm text-gray-600 hover:bg-gray-100"
-                >
-                  <li>{t('Sidebar.naspAgents')}</li>
-                </Link>
-                <Link
-                  href="/dashboard/user-management/baraka-users"
-                  className="block px-4 py-2
-                    text-sm text-gray-600 hover:bg-gray-100"
-                >
-                  <li>{t('Sidebar.bankAgents')}</li>
-                </Link> */}
                 <Link
                   href="/dashboard/user-management/baraka-users"
                   onClick={() => setShowUserManagementPopover(false)}
@@ -131,29 +116,13 @@ export function AdminSidebar() {
 
   return (
     <nav className="sticky z-20 top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-r border-gray-200">
-      <Link href="/dashboard">
+      <Link href={isAdmin ? '/dashboard' : isAgent ? '/agent-dashboard' : '/'}>
         <div className="p-6 border-b border-gray-200">
           <Image src="/images/logos/baraka_main_logo.svg" width={107} height={28} alt="logo" />
         </div>
       </Link>
       <div className="flex flex-col">
-        {regularNavItems.map((item) => renderNavItem(item))}
-
-        {/* Divider before developer links */}
-        {isDeveloper && <div className="border-b border-gray-300" />}
-
-        {developerNavItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.link}
-            className={`flex items-center p-4 text-sm font-medium transition-colors ${
-              pathname === item.link ? 'bg-gray-100 text-primary' : 'text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" />
-            <span>{item.label}</span>
-          </Link>
-        ))}
+        {navItems.map((item) => renderNavItem(item))}
       </div>
     </nav>
   );

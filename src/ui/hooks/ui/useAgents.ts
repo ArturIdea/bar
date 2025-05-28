@@ -20,6 +20,7 @@ export const useAgents = () => {
         setAgents(data);
       } catch (err) {
         setError('Failed to fetch agents');
+        // eslint-disable-next-line no-console
         console.error(err);
         throw err;
       } finally {

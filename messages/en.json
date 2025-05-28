@@ -12,7 +12,8 @@
     "naspAgents": "NASP Agents",
     "bankAgents": "Bank Agents",
     "signupRequests": "Sign Up Requests",
-    "benefits": "Benefits"
+    "benefits": "Benefits",
+    "agentDashboard": "Agent Dashboard"
   },
   "Dev": {
     "basicInfo": "Basic Information",
