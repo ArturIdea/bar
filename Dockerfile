@@ -21,12 +21,13 @@ WORKDIR /app
 RUN corepack enable
 
 # Copy only what's needed for install first
-COPY package.json yarn.lock ./
+COPY package.json  ./
 COPY .yarn ./.yarn
 COPY .yarnrc.yml ./
+RUN yarn add react@18.2.0 react-dom@18.2.0
 
 # Install dependencies using Yarn Berry
-RUN yarn install --immutable
+RUN yarn install 
 
 # Now copy the rest of the app source
 COPY . .
