@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
 import Cookies from 'universal-cookie';
@@ -20,6 +21,7 @@ interface IDecodedToken {
 interface IUserRoles {
   isAdmin: boolean;
   isDeveloper: boolean;
+  isAgent: boolean;
   roles: string[];
   hasRole: (role: string) => boolean;
   token: IDecodedToken | null;
@@ -55,14 +57,20 @@ export const useUserRoles = (): IUserRoles => {
     return roles.includes(role);
   };
 
-  const isAdmin = hasRole('ROLE_ADMIN');
-  const isDeveloper = hasRole('ROLE_BARAKA_DEVELOPER');
+  const isAdmin = hasRole('ROLE_ADMIN')
+  // const isAdmin = false;
+  const isAgent = hasRole("ROLE_AGENT")
+  // const isAgent = true;
+  // const isDeveloper = hasRole('ROLE_BARAKA_DEVELOPER');
+  const isDeveloper = false;
 
   return {
     isAdmin,
+    isAgent,
     isDeveloper,
     roles,
     hasRole,
     token,
   };
 };
+

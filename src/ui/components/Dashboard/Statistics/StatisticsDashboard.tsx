@@ -2,17 +2,23 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import CardsIssuedIcon from '@/../public/images/icons/dashboard/statistics/cardsIssued.svg';
-import FundsDisbursedIcon from '@/../public/images/icons/dashboard/statistics/fundsDisbursed.svg';
-import NewAccountsIcon from '@/../public/images/icons/dashboard/statistics/newAccounts.svg';
-import RejectedRequestsIcon from '@/../public/images/icons/dashboard/statistics/rejectedRequests.svg';
-import SuccessfulRequestsIcon from '@/../public/images/icons/dashboard/statistics/successfulRequests.svg';
+import { useRegistrationRequestPercentage } from '@/ui/hooks/ui/useRegistrationRequestPercentage';
+// import FundsDisbursedIcon from '@/../public/images/icons/dashboard/statistics/fundsDisbursed.svg';
+// import NewAccountsIcon from '@/../public/images/icons/dashboard/statistics/newAccounts.svg';
+// import RejectedRequestsIcon from '@/../public/images/icons/dashboard/statistics/rejectedRequests.svg';
+// import SuccessfulRequestsIcon from '@/../public/images/icons/dashboard/statistics/successfulRequests.svg';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
+import PercentageBarGraph from '../Charts/PercentageGraph/PercentageGraph';
 import LivenessPills from './LivenessPills';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
 
 export const StatisticsDashboard = () => {
   const t = useTranslations();
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
+
   const { total, loading: usersLoading } = useUsers(
     0, // page
     0, // size
@@ -25,6 +31,17 @@ export const StatisticsDashboard = () => {
     true // isCitizen,
   );
   const { currentStats, previousStats, loading: statsLoading } = useStatistics();
+  const { data: registrationData, loading: registrationLoading } = useRegistrationRequestPercentage(
+    fromDate,
+    toDate
+  );
+
+  const customColors = {
+    total: 'rgb(33, 87, 226)',
+    successful: 'rgb(19, 171, 63)',
+    failed: 'rgb(220, 27, 37)',
+    dropped_off: 'rgb(255, 165, 0)'
+  };
 
   if (usersLoading) {
     return (
@@ -34,7 +51,7 @@ export const StatisticsDashboard = () => {
     );
   }
 
-  if (statsLoading) {
+  if (statsLoading || registrationLoading) {
     return <StatisticsSkeleton />;
   }
 
@@ -99,7 +116,7 @@ export const StatisticsDashboard = () => {
     </div>
   );
 
-  const Divider = () => <div className="border-l border-gray-300 h-16" />;
+  // const Divider = () => <div className="border-l border-gray-300 h-16" />;
 
   return (
     <>
@@ -109,11 +126,27 @@ export const StatisticsDashboard = () => {
       </div>
       <LivenessPills />
 
-      {/* Stats */}
-      <div className="flex items-center justify-start 2xl:justify-center 2xl:gap-12 gap-4 p-6">
+      <div className="flex items-center rounded-[20px] m-3 justify-between 2xl:gap-12 gap-2 p-4 mt-4">
+        <div className="flex items-center justify-between w-full">
+          {/* graph */}
+          {registrationData && registrationData.length > 0 ? (
+            <PercentageBarGraph
+              data={registrationData}
+              colors={customColors}
+              fromDate={fromDate}
+              title='Registration Requests'
+              toDate={toDate}
+              width={800}
+              height={250}
+              barHeight={25}
+            />
+          ) : (
+            <div className="w-full text-center text-gray-500">No data available</div>
+          )}
+        </div>
         {/* New Accounts */}
 
-        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+        {/* <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
           <StatItem
             icon={NewAccountsIcon}
             label={t('Statistics.newAccounts')}
@@ -122,10 +155,10 @@ export const StatisticsDashboard = () => {
           />
 
           <Divider />
-        </div>
+        </div> */}
 
         {/* Requests */}
-        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+        {/* <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
           <StatItem
             icon={FundsDisbursedIcon}
             label={t('Statistics.requests')}
@@ -134,10 +167,10 @@ export const StatisticsDashboard = () => {
           />
 
           <Divider />
-        </div>
+        </div> */}
 
         {/* Successful Requests */}
-        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+        {/* <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
           <StatItem
             icon={SuccessfulRequestsIcon}
             label={t('Statistics.successfulRequests')}
@@ -146,10 +179,10 @@ export const StatisticsDashboard = () => {
           />
 
           <Divider />
-        </div>
+        </div> */}
 
         {/* Failed Requests */}
-        <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
+        {/* <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">
           <StatItem
             icon={RejectedRequestsIcon}
             label={t('Statistics.failedRequests')}
@@ -159,7 +192,7 @@ export const StatisticsDashboard = () => {
           />
 
           <Divider />
-        </div>
+        </div> */}
 
         {/* Cards Issued */}
         <div className="flex items-center justify-between w-1/5 2xl:gap-0 gap-4">

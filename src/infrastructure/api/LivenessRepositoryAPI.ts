@@ -17,3 +17,7 @@ export class LivenessRepositoryAPI implements LivenessRepository {
     return LivenessAdapter.toDomainList(response.data);
   }
 }
+
+
+
+

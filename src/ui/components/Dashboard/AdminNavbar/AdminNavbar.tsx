@@ -59,6 +59,8 @@ export default function AdminNavbar() {
         return t('Navbar.history');
       case '/dashboard/benefits':
         return t('Sidebar.benefits');
+      case '/agent-dashboard':
+        return t('Sidebar.agentDashboard');
       default:
         return t('Navbar.dashboard');
     }

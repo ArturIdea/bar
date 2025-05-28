@@ -11,7 +11,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useSignupMetrics } from '@/ui/hooks/ui/useSignupMetrics';
+import { useRegistrationMetrics } from '@/ui/hooks/ui/useRegistrationMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
 
@@ -20,7 +20,7 @@ export function RegistrationRequestsAreaChart() {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
 
-  const { metrics, loading, error } = useSignupMetrics(fromDate, toDate);
+  const { metrics, loading, error } = useRegistrationMetrics(fromDate, toDate);
 
   const sortedMetrics = useMemo(
     () =>
@@ -38,6 +38,7 @@ export function RegistrationRequestsAreaChart() {
         totalRequests: metric.totalSignupRequests,
         successfulRequests: metric.successfulSignupRequests,
         failedRequests: metric.failedSignupRequests,
+        dropOffs: metric.totalDropOffs,
       })),
     [sortedMetrics]
   );
@@ -48,6 +49,7 @@ export function RegistrationRequestsAreaChart() {
         totalRequests: { label: t('Charts.totalRequests'), color: '#2157E2' },
         successfulRequests: { label: t('Charts.successfulRequests'), color: '#13AB3F' },
         failedRequests: { label: t('Charts.failedRequests'), color: '#DC1B25' },
+        dropOffs: { label: t('Charts.totalDropOffs'), color: '#FFA500' },
       }) satisfies ChartConfig,
     [t]
   );
@@ -72,6 +74,7 @@ export function RegistrationRequestsAreaChart() {
                 totalRequests: t('Charts.totalRequests'),
                 successfulRequests: t('Charts.successfulRequests'),
                 failedRequests: t('Charts.failedRequests'),
+                dropOffs: t('Charts.totalDropOffs'),
               }}
             />
           </div>

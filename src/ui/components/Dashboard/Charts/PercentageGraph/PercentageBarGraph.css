@@ -1,0 +1,11 @@
+.bar-graph-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 20px;
+}
+
+.graph-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
