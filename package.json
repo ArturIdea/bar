@@ -20,6 +20,7 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "mantine-next-template": "workspace:.",  
     "@fingerprintjs/fingerprintjs": "^4.6.1",
     "@mantine/core": "^7.16.2",
     "@mantine/dates": "^7.16.2",
