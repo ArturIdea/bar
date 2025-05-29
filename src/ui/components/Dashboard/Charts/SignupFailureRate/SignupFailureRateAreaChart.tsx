@@ -67,7 +67,7 @@ export function SignupFailureRateAreaChart() {
     <Card className="w-1/2 rounded-none shadow-none border-t-0 border-b-0 border-l-0 border-r-0">
       <div className="flex items-center justify-between gap-2 pr-8">
         <CardHeader>
-          <CardTitle>{t('Charts.signupFailureRate')}</CardTitle>
+          <CardTitle>Onboarding Success Rate</CardTitle>
         </CardHeader>
         <div className="flex justify-center items-center gap-2">
           <ExportDropdown
