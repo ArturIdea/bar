@@ -55,7 +55,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
   const totalItem = data.find(item => item.classification === "total");
 
   return (
-    <div className="bar-graph-container" style={{ width: `${width}px`, padding: '20px' }}>
+    <div className="bar-graph-container" style={{ width: `${width}px` }}>
       {title && <h2 className="text-lg font-semibold mb-4">{title}</h2>}
       <div className="flex justify-end">Total Request : {totalItem?.count}</div>
       <svg width={width} height={height} style={{ overflow: 'visible' }}>
