@@ -138,7 +138,7 @@ export const StatisticsDashboard = () => {
               toDate={toDate}
               width={800}
               height={250}
-              barHeight={25}
+              barWidth={25}
             />
           ) : (
             <div className="w-full text-center text-gray-500">No data available</div>

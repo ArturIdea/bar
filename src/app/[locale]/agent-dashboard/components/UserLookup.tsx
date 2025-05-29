@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Cookies from 'universal-cookie';
 import { UserProfileDisplay } from './UserProfileDisplay';
+import { ApiClient } from '@/core/ApiClient';
 
 interface UserProfile {
   userId: string;
@@ -116,7 +116,7 @@ interface UserProfile {
 }
 
 const UserLookup = () => {
-  const cookies = new Cookies();
+  const apiClient = ApiClient.shared;
   const [searchType, setSearchType] = useState<'pnfl' | 'social'>('pnfl');
   const [identifier, setIdentifier] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -136,26 +136,19 @@ const UserLookup = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(
-        `https://baraka-app-api-development.uz-pay-dev.ox.one/api/agent/user/get-by-id-social-number-and-dob?pinflOrSocialNumber=${identifier}&dateOfBirth=${dateOfBirth}`,
+      const response = await apiClient.get<UserProfile>(
+        `/api/agent/user/get-by-id-social-number-and-dob?pinflOrSocialNumber=${identifier}&dateOfBirth=${dateOfBirth}`,
         {
-          method: 'GET',
           headers: {
             'accept': 'application/json',
             'Channel-Type': 'AGENT_APP',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${cookies.get('accessToken')}`,
             'Device-Id': 'b9678877ac543810'
           }
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setUserProfile(data);
+      setUserProfile(response.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

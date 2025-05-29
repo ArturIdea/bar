@@ -11,7 +11,7 @@ interface PercentageBarGraphProps {
   title?: string;
   width?: number;
   height?: number;
-  barHeight?: number;
+  barWidth?: number;
   colors?: { [key: string]: string };
   fromDate?: string;
   toDate?: string;
@@ -22,17 +22,17 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
   title,
   width = 600,
   height = 400,
-  barHeight = 30,
+  barWidth = 40,
   colors,
 //   fromDate,
 //   toDate,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<{ x: number; y: number; count: number } | null>(null);
 
-  // Filter out 'total' and sort data by percentage (descending)
+  // Filter out 'total' and sort data by count (descending)
   const sortedData = [...data]
     .filter(item => item.classification.toLowerCase() !== 'total')
-    .sort((a, b) => b.percentage - a.percentage);
+    .sort((a, b) => b.count - a.count);
 
   const defaultColors = {
     total: 'rgb(33, 87, 226)',
@@ -42,163 +42,178 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
     default: '#2196F3',
   };
 
-  // Calculate maximum percentage for scaling
-  const maxPercentage = Math.max(...data.map((item) => item.percentage));
+  // Calculate maximum count for scaling (Y-axis)
+  const maxCount = Math.max(...data.map((item) => item.count));
+
+  // Define margins and graph area
+  const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+  const graphWidth = width - margin.left - margin.right;
+  const graphHeight = height - margin.top - margin.bottom;
+
+  // Calculate bar spacing
+  const barSpacing = (graphWidth - sortedData.length * barWidth) / (sortedData.length + 1);
+  
+  //Total Request
+  const totalItem = data.find(item => item.classification === "total");
 
   return (
     <div className="bar-graph-container" style={{ width: `${width}px`, padding: '20px' }}>
       {title && <h2 className="text-lg font-semibold mb-4">{title}</h2>}
-      {/* {(fromDate || toDate) && (
-        <div
-          className="date-range"
-          style={{
-            display: 'flex',
-            justifyContent: 'between',
-            textAlign: 'center',
-            marginBottom: '2px',
-            color: '#666',
-          }}
-        >
-          <div className="from-date mr-6">{fromDate ? formatDate(fromDate) : ''}</div>
-          <div className="">-</div>
-          <div className="to-date ml-6">{toDate ? formatDate(toDate) : ''}</div>
-        </div>
-      )} */}
+      <div className="flex justify-end">Total Request : {totalItem?.count}</div>
       <svg width={width} height={height} style={{ overflow: 'visible' }}>
-        {/* Y-axis */}
-        <line x1={50} y1={20} x2={50} y2={height - 50} stroke="#e3e0e0" strokeWidth="2" />
+        <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Y-axis */}
+          <line x1={0} y1={0} x2={0} y2={graphHeight} stroke="#e3e0e0" strokeWidth="2" />
 
-        {/* X-axis */}
-        <line
-          x1={50}
-          y1={height - 50}
-          x2={width - 20}
-          y2={height - 50}
-          stroke="#e3e0e0"
-          strokeWidth="2"
-        />
+          {/* X-axis */}
+          <line
+            x1={0}
+            y1={graphHeight}
+            x2={graphWidth}
+            y2={graphHeight}
+            stroke="#e3e0e0"
+            strokeWidth="2"
+          />
 
-        {/* Y-axis labels */}
-        {/* {[0, 25, 50, 75, 100].map((tick) => (
-          <g key={`y-tick-${tick}`}>
-            <line
-              x1={45}
-              y1={height - 50 - (tick * (height - 100)) / 100}
-              x2={50}
-              y2={height - 50 - (tick * (height - 100)) / 100}
-              stroke="#e3e0e0"
-              strokeWidth="1"
-            />
-            <text
-              x={40}
-              y={height - 50 - (tick * (height - 100)) / 100 + 5}
-              textAnchor="end"
-              fontSize="12"
-              fill="#666"
-            >
-              {tick}%
-            </text>
-          </g>
-        ))} */}
-
-        {/* Bars */}
-        {sortedData.map((item, index) => {
-          const barColor = colors
-            ? colors[item.classification] || colors.default || defaultColors.default
-            : defaultColors[item.classification as keyof typeof defaultColors] ||
-              defaultColors.default;
-
-          const barLength = (item.percentage / maxPercentage) * (width - 100);
-          const yPosition = 60 + index * (barHeight + 10);
-
-          return (
-            <g key={item.classification}>
-              {/* Bar */}
-              <rect
-                x={50}
-                y={yPosition}
-                width={barLength}
-                height={barHeight}
-                fill={barColor}
-                rx={3}
-                ry={3}
-                onMouseEnter={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setHoveredItem({
-                    x: rect.left + rect.width / 2,
-                    y: rect.top,
-                    count: item.count
-                  });
-                }}
-                onMouseLeave={() => setHoveredItem(null)}
-              />
-
-              {/* Bar label */}
-              <text
-                x={55}
-                y={yPosition + barHeight / 2 + 5}
-                fill="#fff"
-                fontSize="12"
-                fontWeight="bold"
-              >
-                {item.classification.toUpperCase()} {(item.percentage || 0).toFixed(1)}%
-              </text>
-
-              {/* Count value at end of bar */}
-              {item.count !== 0 && (
-                <text
-                  x={barLength + 55}
-                  y={yPosition + barHeight / 2 + 5}
-                  fill="#000"
+          {/* Y-axis ticks and labels */}
+          {[0, maxCount / 4, maxCount / 2, maxCount * 3 / 4, maxCount].map((tick, index) => {
+            const yPosition = graphHeight - (tick / maxCount) * graphHeight;
+            return (
+              <g key={`y-tick-${index}`}>
+                <line
+                  x1={-5}
+                  y1={yPosition}
+                  x2={0}
+                  y2={yPosition}
+                  stroke="#e3e0e0"
+                  strokeWidth="1"
+                />
+                {/* <text
+                  x={-10}
+                  y={yPosition + 5}
+                  textAnchor="end"
                   fontSize="12"
+                  fill="#666"
                 >
-                  {item.count || 0}
+                  {Math.round(tick)}
+                </text> */}
+              </g>
+            );
+          })}
+
+          {/* Bars */}
+          {sortedData.map((item, index) => {
+            const barColor = colors
+              ? colors[item.classification] || colors.default || defaultColors.default
+              : defaultColors[item.classification as keyof typeof defaultColors] ||
+                defaultColors.default;
+
+            const barHeightScaled = (item.count / maxCount) * graphHeight;
+            const xPosition = barSpacing + index * (barWidth + barSpacing);
+            const yPosition = graphHeight - barHeightScaled;
+
+            return (
+              <g key={item.classification}>
+                {/* Bar */}
+                <rect
+                  x={xPosition}
+                  y={yPosition}
+                  width={barWidth}
+                  height={barHeightScaled}
+                  fill={barColor}
+                  rx={3}
+                  ry={3}
+                  onMouseEnter={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setHoveredItem({
+                      x: rect.left + rect.width / 2,
+                      y: rect.top,
+                      count: item.count
+                    });
+                  }}
+                  onMouseLeave={() => setHoveredItem(null)}
+                />
+
+                {/* Bar Labels (Count and Percentage above bar) */}
+                {item.count > 0 && (
+                  <text
+                    x={xPosition + barWidth / 2}
+                    y={yPosition - 5}
+                    textAnchor="middle"
+                    fill="#000"
+                    fontSize="12"
+                    fontWeight="bold"
+                  >
+                    {item.count}
+                  </text>
+                )}
+                {item.percentage > 0 && (
+                  <text
+                    x={xPosition + barWidth / 2}
+                    y={yPosition - 20}
+                    textAnchor="middle"
+                    fill="#000"
+                    fontSize="12"
+                  >
+                    {(item.percentage || 0).toFixed(0)}%
+                  </text>
+                )}
+
+                {/* X-axis labels (Classification below bar) */}
+                <text
+                  x={xPosition + barWidth / 2}
+                  y={graphHeight + 20}
+                  textAnchor="middle"
+                  fontSize="12"
+                  fill="#666"
+                >
+                  {item.classification.toUpperCase()}
                 </text>
-              )}
+              </g>
+            );
+          })}
+
+          {/* Tooltip */}
+          {hoveredItem && (
+            <g className="tooltip">
+              <rect
+                x={hoveredItem.x - 40}
+                y={hoveredItem.y - 30}
+                width={80}
+                height={24}
+                fill="rgba(0, 0, 0, 0.8)"
+                rx={4}
+                ry={4}
+              />
+              <text
+                x={hoveredItem.x}
+                y={hoveredItem.y - 15}
+                textAnchor="middle"
+                fill="white"
+                fontSize="12"
+              >
+                Count: {hoveredItem.count}
+              </text>
             </g>
-          );
-        })}
+          )}
 
-        {/* Tooltip */}
-        {hoveredItem && (
-          <g className="tooltip">
-            <rect
-              x={hoveredItem.x - 40}
-              y={hoveredItem.y - 30}
-              width={80}
-              height={24}
-              fill="rgba(0, 0, 0, 0.8)"
-              rx={4}
-              ry={4}
-            />
-            <text
-              x={hoveredItem.x}
-              y={hoveredItem.y - 15}
-              textAnchor="middle"
-              fill="white"
-              fontSize="12"
-            >
-              Count: {hoveredItem.count}
-            </text>
-          </g>
-        )}
+          {/* X-axis label */}
+          {/* <text x={graphWidth / 2} y={graphHeight + 40} textAnchor="middle" fontSize="14" fill="#666">
+            Classification
+          </text> */}
 
-        {/* X-axis label */}
-        <text x={width / 2} y={height - 10} textAnchor="middle" fontSize="14" fill="#666">
-          Percentage
-        </text>
-
-        {/* Y-axis label */}
-        <text
-          x={-height / 2}
-          y={20}
-          transform="rotate(-90)"
-          textAnchor="middle"
-          fontSize="14"
-          fill="#666"
-        >
-          Classification
-        </text>
+          {/* Y-axis label */}
+          {/* <text
+            x={-graphHeight / 2}
+            y={-40}
+            transform="rotate(-90)"
+            textAnchor="middle"
+            fontSize="14"
+            fill="#666"
+          >
+            Frequency of visit
+          </text> */}
+        </g>
       </svg>
     </div>
   );
