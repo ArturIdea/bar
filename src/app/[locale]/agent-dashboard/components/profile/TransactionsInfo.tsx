@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
+import { ApiClient } from '@/core/ApiClient';
 
 interface CardDetails {
   cardNo: string;
@@ -77,26 +75,11 @@ export const TransactionsInfo = ({ pinfl }: TransactionsInfoProps) => {
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
-        const response = await fetch(
-          `https://baraka-app-api-development.uz-pay-dev.ox.one/api/agent/user/card-details?pinflStr=${pinfl}`,
-          {
-            method: 'GET',
-            headers: {
-              'accept': 'application/json',
-              'Channel-Type': 'AGENT_APP',
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${cookies.get('accessToken')}`,
-              'Device-Id': 'b9678877ac543810'
-            }
-          }
+        const response = await ApiClient.shared.get<CardDetails>(
+          `/api/agent/user/card-details?pinflStr=${pinfl}`
         );
         
-        if (!response.ok) {
-          throw new Error('Data Not Found');
-        }
-        
-        const data = await response.json();
-        setCardDetails(data);
+        setCardDetails(response.data);
       } catch (err) {
         if (err instanceof Error && 'response' in err && (err as any).response?.status === 404) {
           setError('Data not found');
@@ -116,33 +99,19 @@ export const TransactionsInfo = ({ pinfl }: TransactionsInfoProps) => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await fetch(
-          `https://baraka-app-api-development.uz-pay-dev.ox.one/api/agent/user/card/transactions?pinfl=${pinfl}`,
+        const response = await ApiClient.shared.post<TransactionResponse>(
+          `/api/agent/user/card/transactions?pinfl=${pinfl}`,
           {
-            method: 'POST',
-            headers: {
-              'accept': 'application/json',
-              'Channel-Type': 'AGENT_APP',
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${cookies.get('accessToken')}`,
-              'Device-Id': 'b9678877ac543810'
+            pageNumber: currentPage,
+            pageSize: 20,
+            filter: {
+              dateFrom: new Date(filters.startDate).toISOString(),
+              dateTo: new Date(filters.endDate).toISOString(),
             },
-            body: JSON.stringify({
-              pageNumber: currentPage,
-              pageSize: 20,
-              filter: {
-                dateFrom: new Date(filters.startDate).toISOString(),
-                dateTo: new Date(filters.endDate).toISOString(),
-              },
-            })
           }
         );
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data: TransactionResponse = await response.json();
+        const data = response.data;
         const firstCardId = data.cards[0]?.id.toString();
         if (firstCardId && data.trxHistory[firstCardId]) {
           const cardTransactions = data.trxHistory[firstCardId];
