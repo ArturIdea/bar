@@ -22,12 +22,10 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
   title,
   width = 600,
   height = 400,
-  barWidth = 40,
+  barWidth = 60,
   colors,
-//   fromDate,
-//   toDate,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<{ x: number; y: number; count: number } | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<{ x: number; y: number; count: number; percentage: number } | null>(null);
 
   // Filter out 'total' and sort data by count (descending)
   const sortedData = [...data]
@@ -51,7 +49,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
   const graphHeight = height - margin.top - margin.bottom;
 
   // Calculate bar spacing
-  const barSpacing = (graphWidth - sortedData.length * barWidth) / (sortedData.length + 1);
+  const barSpacing = (graphWidth - sortedData.length * barWidth) / (sortedData.length + 4 );
   
   //Total Request
   const totalItem = data.find(item => item.classification === "total");
@@ -76,8 +74,8 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
           />
 
           {/* Y-axis ticks and labels */}
-          {[0, maxCount / 4, maxCount / 2, maxCount * 3 / 4, maxCount].map((tick, index) => {
-            const yPosition = graphHeight - (tick / maxCount) * graphHeight;
+          {[0, 25, 50, 75, 100].map((tick, index) => {
+            const yPosition = graphHeight - (tick / 100) * graphHeight;
             return (
               <g key={`y-tick-${index}`}>
                 <line
@@ -88,15 +86,15 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
                   stroke="#e3e0e0"
                   strokeWidth="1"
                 />
-                {/* <text
+                <text
                   x={-10}
                   y={yPosition + 5}
                   textAnchor="end"
                   fontSize="12"
                   fill="#666"
                 >
-                  {Math.round(tick)}
-                </text> */}
+                  {tick}%
+                </text>
               </g>
             );
           })}
@@ -125,17 +123,21 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
                   ry={3}
                   onMouseEnter={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
-                    setHoveredItem({
-                      x: rect.left + rect.width / 2,
-                      y: rect.top,
-                      count: item.count
-                    });
+                    const svgRect = e.currentTarget.ownerSVGElement?.getBoundingClientRect();
+                    if (svgRect) {
+                      setHoveredItem({
+                        x: rect.left - svgRect.left + rect.width / 2,
+                        y: rect.top - svgRect.top,
+                        count: item.count,
+                        percentage: item.percentage
+                      });
+                    }
                   }}
                   onMouseLeave={() => setHoveredItem(null)}
                 />
 
                 {/* Bar Labels (Count and Percentage above bar) */}
-                {item.count > 0 && (
+                {/* {item.count > 0 && (
                   <text
                     x={xPosition + barWidth / 2}
                     y={yPosition - 5}
@@ -146,8 +148,8 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
                   >
                     {item.count}
                   </text>
-                )}
-                {item.percentage > 0 && (
+                )} */}
+                {/* {item.percentage > 0 && (
                   <text
                     x={xPosition + barWidth / 2}
                     y={yPosition - 20}
@@ -157,7 +159,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
                   >
                     {(item.percentage || 0).toFixed(0)}%
                   </text>
-                )}
+                )} */}
 
                 {/* X-axis labels (Classification below bar) */}
                 <text
@@ -175,24 +177,38 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
 
           {/* Tooltip */}
           {hoveredItem && (
-            <g className="tooltip">
+            <g className="tooltip" style={{ pointerEvents: 'none' }}>
               <rect
-                x={hoveredItem.x - 40}
-                y={hoveredItem.y - 30}
-                width={80}
-                height={24}
-                fill="rgba(0, 0, 0, 0.8)"
+                x={hoveredItem.x - 60}
+                y={hoveredItem.y - 45}
+                width={120}
+                height={40}
+                fill="white"
+                stroke="#e0e0e0"
+                strokeWidth="0.5"
                 rx={4}
                 ry={4}
+                style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
               />
+              <text
+                x={hoveredItem.x}
+                y={hoveredItem.y - 30}
+                textAnchor="middle"
+                fill="black"
+                fontSize="12"
+                style={{ fontWeight: 'bold' }}
+              >
+                Count: {hoveredItem.count}
+              </text>
               <text
                 x={hoveredItem.x}
                 y={hoveredItem.y - 15}
                 textAnchor="middle"
-                fill="white"
+                fill="black"
                 fontSize="12"
+                style={{ fontWeight: 'bold' }}
               >
-                Count: {hoveredItem.count}
+                Percentage: {hoveredItem.percentage.toFixed(1)}%
               </text>
             </g>
           )}
