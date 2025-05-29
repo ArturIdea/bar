@@ -6,7 +6,6 @@ import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import PercentageBarGraph from '../Charts/PercentageGraph/PercentageGraph';
 import LivenessPills from './LivenessPills';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
-import { RegistrationRequestsAreaChart } from '../Charts/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
 
 export const StatisticsDashboard = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -57,7 +56,7 @@ export const StatisticsDashboard = () => {
       <LivenessPills />
 
       <div className="flex w-full">
-        <div className="mr-4">
+        <div className="">
           {/* graph */}
           {registrationData && registrationData.length > 0 ? (
             <PercentageBarGraph
@@ -66,17 +65,13 @@ export const StatisticsDashboard = () => {
               fromDate={fromDate}
               title='Registration Requests'
               toDate={toDate}
-              width={800}
-              height={380}
+              width={700}
+              height={300}
               barWidth={50}
             />
           ) : (
             <div className="w-full text-center text-gray-500">No data available</div>
           )}
-        </div>
-        <div className="border-l mt-8 mb-8 border-gray-200 mx-4" />
-        <div className="mt-[30px]">
-         <RegistrationRequestsAreaChart />
         </div>
       </div>
     </>

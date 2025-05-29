@@ -1,5 +1,5 @@
 import React from 'react';
-import LivenessPills from '@/ui/components/Dashboard/Statistics/LivenessPills';
+import AgentLivenessPills from '@/ui/components/Dashboard/Statistics/AgentLivenessPills';
 import { StatisticsSkeleton } from '@/ui/components/Dashboard/Statistics/StatisticsSkeleton';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
@@ -38,7 +38,7 @@ export const StatisticsDashboard = () => {
         {t('Statistics.totalUsers')}: {total}
       </div> */}
       <div className="mt-8">
-        <LivenessPills />
+        <AgentLivenessPills />
       </div>
     </>
   );
