@@ -20,7 +20,6 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "mantine-next-template": "workspace:.",  
     "@fingerprintjs/fingerprintjs": "^4.6.1",
     "@mantine/core": "^7.16.2",
     "@mantine/dates": "^7.16.2",
@@ -44,6 +43,7 @@
     "jspdf": "^3.0.0",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.475.0",
+    "mantine-next-template": "workspace:.",
     "next": "15.0.1",
     "next-intl": "^3.26.0",
     "react": "^19.0.0",

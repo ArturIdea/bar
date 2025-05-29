@@ -12,8 +12,8 @@ ENV NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI
 ENV NEXT_PUBLIC_KEYCLOAK_URL=$NEXT_PUBLIC_KEYCLOAK_URL
 ENV NEXT_PUBLIC_USER_TYPE=$NEXT_PUBLIC_USER_TYPE
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
@@ -24,10 +24,10 @@ RUN corepack enable
 COPY package.json  ./
 COPY .yarn ./.yarn
 COPY .yarnrc.yml ./
-RUN yarn add react@18.2.0 react-dom@18.2.0
+COPY yarn.lock ./
 
 # Install dependencies using Yarn Berry
-RUN yarn install 
+RUN yarn install --immutable
 
 # Now copy the rest of the app source
 COPY . .
@@ -36,7 +36,7 @@ COPY . .
 RUN yarn build
 
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
 # Run the app
 CMD ["corepack", "yarn", "run", "start"]
