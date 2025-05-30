@@ -87,8 +87,8 @@ const DistrictBreakdownBarChart = () => {
 
       <div className="relative h-[200px] w-full">
         {/* Y-axis labels */}
-        <div className="absolute left-[-90px] top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-gray-500">
-          Percentage of Users by District
+        <div className="absolute left-[-50px] top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-gray-500">
+          Number of Users
         </div>
         <div className="absolute left-[16px] top-0 bottom-0 w-12 flex flex-col-reverse justify-between text-xs text-gray-500">
           {[0, 25, 50, 75, 100].map((percent) => (

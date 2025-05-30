@@ -3,7 +3,7 @@ import { AppUsageAgeDistributionRadialChart } from '@/ui/components/Dashboard/Ch
 // import { NewAccountsAreaChart } from '@/ui/components/Dashboard/Charts/NewAccounts/NewAccountsAreaChart';
 import { OnboardingChannelPieChart } from '@/ui/components/Dashboard/Charts/OnboardingChannel/OnboardingChannelPieChart';
 import { RegistrationRequestsAreaChart } from '@/ui/components/Dashboard/Charts/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
-import { SignupFailureRateAreaChart } from '@/ui/components/Dashboard/Charts/SignupFailureRate/SignupFailureRateAreaChart';
+// import { SignupFailureRateAreaChart } from '@/ui/components/Dashboard/Charts/SignupFailureRate/SignupFailureRateAreaChart';
 import { SignupStageBarChart } from '@/ui/components/Dashboard/Charts/SignupStage/SignupStageBarChart';
 import DistrictBreakdownBarChart from '@/ui/components/Dashboard/Charts/UserRegionalBreakdown/DistrictBreakdownBarChart';
 import UserRegionalBreakdownBarChart from '@/ui/components/Dashboard/Charts/UserRegionalBreakdown/UserRegionalBreakdownBarChart';
@@ -20,9 +20,9 @@ export default function Charts() {
         <OnboardingChannelPieChart />
         <AppUsageAgeDistributionRadialChart />
       </div>
-      <div className="flex items-center ">
+      <div className="flex justify-center items-center ">
         <SignupStageBarChart />
-        <SignupFailureRateAreaChart />
+        {/* <SignupFailureRateAreaChart /> */}
       </div>
       <div className="flex items-center">
         <UserRegionalBreakdownBarChart />
