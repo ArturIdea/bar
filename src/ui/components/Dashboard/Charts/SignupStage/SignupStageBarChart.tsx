@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, XAxisProps, YAxis } from 'recharts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent,  CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -46,7 +46,7 @@ export function SignupStageBarChart() {
     };
   });
 
-  const overallDropOff = rawDrops.slice(0, 6).reduce((sum, pct) => sum + pct, 0);
+  // const overallDropOff = rawDrops.slice(0, 6).reduce((sum, pct) => sum + pct, 0);
 
   const chartConfig = {
     reached: {
@@ -106,13 +106,13 @@ export function SignupStageBarChart() {
   };
 
   return (
-    <Card className="w-1/2 rounded-none shadow-none border-l-0 border-t-0 border-b-0">
+    <Card className="w-1/2 rounded-none shadow-none border-t-0 border-b-0">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStages')}</CardTitle>
-          <CardDescription className="text-red-500">
+          {/* <CardDescription className="text-red-500">
             Overall Step Abandonment Rate: {overallDropOff}%
-          </CardDescription>
+          </CardDescription> */}
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown

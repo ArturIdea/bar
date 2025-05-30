@@ -30,7 +30,11 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
         const response = await ApiClient.shared.get<RegionData>(
           `/api/admin/user/region-district-counts?fromDate=${fromDate}&toDate=${toDate}`
         );
-        setData(response.data);
+        const modifiedData = response.data.map(region => ({
+          ...region,
+          region: region.region || 'No region added',
+        }));
+        setData(modifiedData);
       } catch (err) {
         setError('Failed to fetch region and district metrics');
         console.error(err);
