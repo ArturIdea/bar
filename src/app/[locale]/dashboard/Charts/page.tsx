@@ -5,6 +5,9 @@ import { OnboardingChannelPieChart } from '@/ui/components/Dashboard/Charts/Onbo
 import { RegistrationRequestsAreaChart } from '@/ui/components/Dashboard/Charts/RegistrationRequestsOverview/RegistrationRequestsAreaChart';
 import { SignupFailureRateAreaChart } from '@/ui/components/Dashboard/Charts/SignupFailureRate/SignupFailureRateAreaChart';
 import { SignupStageBarChart } from '@/ui/components/Dashboard/Charts/SignupStage/SignupStageBarChart';
+import regionalData from '@/ui/components/Dashboard/Charts/UserRegionalBreakdown/data.json';
+import DistrictBreakdownBarChart from '@/ui/components/Dashboard/Charts/UserRegionalBreakdown/DistrictBreakdownBarChart';
+import UserRegionalBreakdownBarChart from '@/ui/components/Dashboard/Charts/UserRegionalBreakdown/UserRegionalBreakdownBarChart';
 
 export default function Charts() {
   return (
@@ -17,6 +20,12 @@ export default function Charts() {
       <div className="flex items-center">
         <OnboardingChannelPieChart />
         <AppUsageAgeDistributionRadialChart />
+      </div>
+      <div className="flex items-center">
+        <UserRegionalBreakdownBarChart data={{ regions: regionalData.regions }} />
+      </div>
+      <div className="flex items-center">
+        <DistrictBreakdownBarChart data={{ regions: regionalData.regions }} />
       </div>
       <div className="flex items-center ">
         <SignupStageBarChart />
