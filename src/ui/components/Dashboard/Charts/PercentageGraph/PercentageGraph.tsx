@@ -169,7 +169,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({
                   fontSize="12"
                   fill="#666"
                 >
-                  {item.classification.toUpperCase()}
+                  {item.classification === 'dropped_off' ? 'ABANDONED' : item.classification.toUpperCase()}
                 </text>
               </g>
             );

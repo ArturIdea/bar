@@ -111,7 +111,7 @@ export function SignupStageBarChart() {
         <CardHeader>
           <CardTitle>{t('Charts.signupStages')}</CardTitle>
           <CardDescription className="text-red-500">
-            Overall Drop-off Percentage: {overallDropOff}%
+            Overall Step Abandonment Rate: {overallDropOff}%
           </CardDescription>
         </CardHeader>
         <div className="flex items-center gap-2">

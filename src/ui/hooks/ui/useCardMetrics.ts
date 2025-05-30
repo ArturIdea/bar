@@ -1,9 +1,14 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
-import { diContainer } from '@/core/di/setup';
-import { CardMetrics } from '@/domain/metrics/cardMetrics/entities/CardMetrics';
-import { GetCardMetrics } from '@/domain/metrics/cardMetrics/useCases/GetCardMetrics';
+import { ApiClient } from '../../../core/ApiClient';
 
-export const useCardMetrics = () => {
+interface CardMetrics {
+  XALQ: number;
+  ALOHA: number;
+  totalCardCount: number;
+}
+
+export const useCardMetrics = (fromDate?: string, toDate?: string) => {
   const [metrics, setMetrics] = useState<CardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,21 +17,27 @@ export const useCardMetrics = () => {
     const fetchMetrics = async () => {
       setLoading(true);
       setError(null);
-      const useCase = diContainer.get<GetCardMetrics>('GetCardMetrics');
 
       try {
-        const data = await useCase.execute();
-        setMetrics(data);
+        const response = await ApiClient.shared.get<CardMetrics>(
+          `/api/admin/bank-card-statistics?fromDate=${fromDate}&toDate=${toDate}`
+        );
+        
+        if (!response.data) {
+          throw new Error('No data received from the API');
+        }
+
+        setMetrics(response.data);
       } catch (err) {
-        setError('Failed to fetch channel metrics');
-        console.error(err);
+        console.error('Error fetching card metrics:', err);
+        setError('Failed to fetch card metrics');
       } finally {
         setLoading(false);
       }
     };
 
     fetchMetrics();
-  }, []);
+  }, [fromDate, toDate]);
 
   return { metrics, loading, error };
 };
