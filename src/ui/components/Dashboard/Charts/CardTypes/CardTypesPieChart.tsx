@@ -128,7 +128,7 @@ export function CardTypesPieChart() {
   return (
     <div className="w-full">
       <div className="flex flex-col gap-1">
-        <h3 className="text-lg font-semibold">Card Types Distribution</h3>
+        <h3 className="text-lg font-semibold">User Enrollment Distribution by Bank</h3>
       </div>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
