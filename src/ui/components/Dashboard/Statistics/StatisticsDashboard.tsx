@@ -63,7 +63,7 @@ export const StatisticsDashboard = () => {
               data={registrationData}
               colors={customColors}
               fromDate={fromDate}
-              title='Registration Requests'
+              title='Final Status per User Registration Attempt'
               toDate={toDate}
               width={700}
               height={300}

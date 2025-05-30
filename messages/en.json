@@ -177,7 +177,7 @@
     "pastWeek": "past week"
   },
   "Charts": {
-    "registrationOverview": "Registration Requests Overview",
+    "registrationOverview": "Registration Attempts Trend",
     "totalRequests": "Total Requests",
     "successfulRequests": "Successful Requests",
     "failedRequests": "Failed Requests",
@@ -217,17 +217,17 @@
       "november": "November",
       "december": "December"
     },
-    "signupStages": "User Registration Drop-off by Stage",
+    "signupStages": "User Registration Progress by Stage",
     "stage": "Stage",
     "totalDropOffRate": "Total Drop-off Rate",
     "dropOffRate": "Drop-off Rate",
-    "totalDropOffs": "Total Drop-offs",
+    "totalDropOffs": "Abandoned",
     "signupFailureRate": "Onboarding Failure Rate",
     "dropOffPercentage": "Drop-off Percentage"
   },
   "SignupStages": {
     "OTP_SENT": "OTP Sent",
-    "MOBILE_VERIFIED": "Mobile Verified",
+    "MOBILE_VERIFIED": "Exited at: Mobile Verified",
     "PERSONAL_INFO_VERIFIED": "Personal Info Verified",
     "AGREEMENTS_ACCEPTED": "Agreements Accepted",
     "FACE_VERIFICATION_IN_PROGRESS": "Face Verification In Progress",
@@ -347,7 +347,8 @@
       "deductionAmount": "Deduction Amount"
     },
     "modalTitle": "Profile",
-    "userCard": "User Card"
+    "userCard": "User Card",
+    "transactions": "Transactions"
   },
   "Pagination": {
     "showing": "Showing",
