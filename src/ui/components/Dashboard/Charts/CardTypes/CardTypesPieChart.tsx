@@ -55,7 +55,7 @@ export function CardTypesPieChart() {
     return (
       <div className="w-full">
         <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-semibold">Card Types Distribution</h3>
+          <h3 className="text-lg font-semibold">User Enrollment Distribution by Bank</h3>
         </div>
         <div className="flex items-center justify-center h-[300px]">
           <div className="w-8 h-8 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
