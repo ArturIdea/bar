@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,11 +15,24 @@ import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 export function AdminSidebar() {
   const pathname = usePathname();
   const t = useTranslations();
-  const { isAdmin, isDeveloper, isAgent } = useUserRoles();
+  const { isAdmin, isDeveloper, isAgent, isSuperAdmin } = useUserRoles();
   const [showUserManagementPopover, setShowUserManagementPopover] = useState(false);
   const [navItems, setNavItems] = useState<Array<{ link: string; label: string; icon: any }>>([]);
 
   useEffect(() => {
+    const superAdminNavItems = isSuperAdmin
+      ? [
+          { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
+          { link: '/dashboard/benefits', label: t('Sidebar.benefits'), icon: BenefitsIcon },
+          {
+            link: '/dashboard/user-management',
+            label: t('Sidebar.userManagement'),
+            icon: UserManagementIcon,
+          },
+          { link: '/agent-dashboard', label: t('Sidebar.agentDashboard'), icon: InsightsIcon },
+        ]
+      : [];
+
     const adminNavItems = isAdmin
       ? [
           { link: '/dashboard', label: t('Sidebar.insights'), icon: InsightsIcon },
@@ -36,7 +49,7 @@ export function AdminSidebar() {
       ? [{ link: '/agent-dashboard', label: t('Sidebar.agentDashboard'), icon: InsightsIcon }]
       : [];
 
-    const regularNavItems = [...adminNavItems, ...agentNavItems];
+    const regularNavItems = [...superAdminNavItems, ...adminNavItems, ...agentNavItems];
 
     const developerNavItems = isDeveloper
       ? [
@@ -54,7 +67,7 @@ export function AdminSidebar() {
       : [];
 
     setNavItems([...regularNavItems, ...developerNavItems]);
-  }, [isAdmin, isAgent, isDeveloper, t]);
+  }, [isAdmin, isAgent, isDeveloper, isSuperAdmin, t]);
 
   const onClose = () => {
     setShowUserManagementPopover(false);
@@ -121,9 +134,7 @@ export function AdminSidebar() {
           <Image src="/images/logos/baraka_main_logo.svg" width={107} height={28} alt="logo" />
         </div>
       </Link>
-      <div className="flex flex-col">
-        {navItems.map((item) => renderNavItem(item))}
-      </div>
+      <div className="flex flex-col">{navItems.map((item) => renderNavItem(item))}</div>
     </nav>
   );
 }

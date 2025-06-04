@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
-import { diContainer } from '@/core/di/setup';
+import { ApiClient } from '@/core/ApiClient';
 import { AgeDistributionMetric } from '@/domain/metrics/ageDistributionMetrics/entities/AgeDistributionMetric';
-import { GetAgeDistribution } from '@/domain/metrics/ageDistributionMetrics/useCases/GetAgeDistributionMetric';
+import { AgeDistributionAdapter } from '@/interfaces/AgeDistributionMetricsAdapter';
 
-export const useAgeDistribution = () => {
+export const useAgeDistribution = (fromDate: string, toDate: string) => {
   const [data, setData] = useState<AgeDistributionMetric | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const useCase = diContainer.get<GetAgeDistribution>('GetAgeDistribution');
+      const apiClient = ApiClient.shared;
 
       try {
-        const data = await useCase.execute();
-        setData(data);
+        const response = await apiClient.get('/api/admin/metrics/citizen-age-distribution', {
+          params: {
+            fromDate,
+            toDate
+          }
+        });
+        setData(AgeDistributionAdapter.toDomain(response.data));
       } catch (err) {
         setError('Failed to fetch age distribution data');
       } finally {
@@ -23,7 +28,7 @@ export const useAgeDistribution = () => {
     };
 
     fetchData();
-  }, []);
+  }, [fromDate, toDate]);
 
   return { data, loading, error };
 };

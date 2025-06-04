@@ -1,21 +1,35 @@
 import { useEffect, useState } from 'react';
-import { diContainer } from '@/core/di/setup';
+import { ApiClient } from '@/core/ApiClient';
 import {
   SignupStage,
   SignupStageMetric,
 } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
-import { GetSignupStageMetrics } from '@/domain/metrics/signupMetrics/useCases/GetSignupStageMetrics';
+
+interface StageMetricResponse {
+  signupRequestsNumber: number;
+  dropPercentage: number;
+}
+
+interface SignupStageMetricsResponse {
+  stageMetrics: {
+    [key in SignupStage]: StageMetricResponse;
+  };
+}
+
+interface ExtendedSignupStageMetric extends SignupStageMetric {
+  dropPercentage: number;
+}
 
 export function useSignupStageMetrics(
   fromDate?: string,
   toDate?: string
 ): {
-  metrics: SignupStageMetric[];
+  metrics: ExtendedSignupStageMetric[];
   totalRequests: number;
   loading: boolean;
   error: string | null;
 } {
-  const [metrics, setMetrics] = useState<SignupStageMetric[]>([]);
+  const [metrics, setMetrics] = useState<ExtendedSignupStageMetric[]>([]);
   const [totalRequests, setTotalRequests] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,13 +39,16 @@ export function useSignupStageMetrics(
       setLoading(true);
       setError(null);
 
-      const useCase = diContainer.get<GetSignupStageMetrics>('GetSignupStageMetrics');
-
       try {
-        const data = await useCase.execute(fromDate, toDate);
-
-        const total = data.reduce((sum, m) => sum + m.signupRequestsNumber, 0);
-        setTotalRequests(total);
+        const response = await ApiClient.shared.get<SignupStageMetricsResponse>(
+          '/api/admin/metrics/signup-stage-metrics',
+          {
+            params: {
+              fromDate,
+              toDate,
+            },
+          }
+        );
 
         const FUNNEL_STAGES: SignupStage[] = [
           SignupStage.OTP_SENT,
@@ -43,12 +60,18 @@ export function useSignupStageMetrics(
           SignupStage.COMPLETED,
         ];
 
-        const filledAndOrdered = FUNNEL_STAGES.map((stage) => {
-          const m = data.find((x) => x.stage === stage);
-          return m ?? new SignupStageMetric(stage, 0);
+        const metricsData = FUNNEL_STAGES.map((stage) => {
+          const stageData = response.data.stageMetrics[stage];
+          const baseMetric = new SignupStageMetric(stage, stageData.signupRequestsNumber);
+          return {
+            ...baseMetric,
+            dropPercentage: stageData.dropPercentage,
+          };
         });
 
-        setMetrics(filledAndOrdered);
+        const total = metricsData[0]?.signupRequestsNumber || 0;
+        setTotalRequests(total);
+        setMetrics(metricsData);
       } catch (err) {
         setError('Failed to fetch signup stage metrics');
       } finally {

@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { XIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
+import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
+import { HistoryModal } from './HistoryModal';
+
+interface AgentDetailsModalProps {
+  agent: {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    pinfl: string;
+    createdAt: string;
+    totalRequests: number;
+    successfulRequests: number;
+    failedRequests: number;
+    dailyAverageSuccessfulRequests: number;
+    email: string | null;
+    nationality: string;
+    citizenship: string;
+    birthCountry: string;
+    dateOfBirth: string;
+    socialNumber: string;
+    photoUrl?: string;
+  };
+  onClose: () => void;
+}
+
+const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose }) => {
+  const t = useTranslations();
+  const modalRef = useClickOutside<HTMLDivElement>(onClose);
+  const [activeTab, setActiveTab] = useState<string>('personal');
+
+  const PersonalInfoSection = ({ agent }: { agent: AgentDetailsModalProps['agent'] }) => {
+    const fields = [
+      { label: 'Email', value: agent?.email || 'N/A' },
+      { label: 'PINFL No', value: agent?.pinfl },
+      { label: 'Nationality', value: agent?.nationality },
+      { label: 'Citizenship', value: agent?.citizenship },
+      { label: 'Birth Country', value: agent?.birthCountry },
+      { label: 'Date Of Birth', value: agent?.dateOfBirth },
+      { label: 'Social Number', value: agent?.socialNumber },
+      { label: 'Created At', value: new Date(agent?.createdAt)?.toLocaleString() },
+      { label: 'Total Requests', value: agent.totalRequests || 'N/A' },
+      { label: 'Successful Requests', value: agent.successfulRequests || 'N/A' },
+      { label: 'Failed Requests', value: agent.failedRequests || 'N/A' },
+      {
+        label: 'Daily Average',
+        value: agent.dailyAverageSuccessfulRequests
+          ? agent.dailyAverageSuccessfulRequests.toFixed(2)
+          : 'N/A',
+      },
+    ];
+
+    return (
+      <>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {fields.map(({ label, value }) => (
+            <div key={label}>
+              <p className="text-gray-400 font-light">{label}</p>
+              <p className="text-gray-900">{value}</p>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'personal':
+        return <PersonalInfoSection agent={agent} />;
+      case 'transactions':
+        return <HistoryModal createdById={agent.userId} onBack={() => setActiveTab('personal')} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-primary/5 backdrop-blur-md transition-opacity">
+      <div
+        ref={modalRef}
+        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full"
+      >
+        <div className="p-12 flex justify-between items-center">
+          <h1 className="text-xl">{t('Agents.title')}</h1>
+          <button
+            type="button"
+            className="cursor-pointer text-neutral-900"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="px-12 py-6 flex items-center gap-4">
+          <Image
+            src={agent.photoUrl || placeholderUserImage}
+            width={72}
+            height={72}
+            alt="Agent Avatar"
+            className="w-18 h-18 rounded-full shadow-md object-cover"
+          />
+          <div>
+            <h2 className="text-2xl font-semibold">
+              {agent.firstName} {agent.lastName}
+            </h2>
+          </div>
+        </div>
+
+        <div className="flex gap-6 px-12 overflow-x-auto">
+          {[
+            { id: 'personal', title: "Profile" },
+            { id: 'transactions', title: "History" },
+          ].map((tab) => (
+            <button
+              type="button"
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`cursor-pointer whitespace-nowrap ${
+                activeTab === tab.id ? 'text-primary border-b-2 border-primary' : 'text-neutral-900'
+              }`}
+            >
+              {tab.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="px-12 py-6 flex-1 overflow-y-auto">{renderTabContent()}</div>
+      </div>
+    </div>
+  );
+};
+
+export default AgentDetailsModal;

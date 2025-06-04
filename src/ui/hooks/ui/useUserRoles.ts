@@ -22,6 +22,7 @@ interface IUserRoles {
   isAdmin: boolean;
   isDeveloper: boolean;
   isAgent: boolean;
+  isSuperAdmin: boolean;
   roles: string[];
   hasRole: (role: string) => boolean;
   token: IDecodedToken | null;
@@ -42,6 +43,7 @@ export const useUserRoles = (): IUserRoles => {
 
         const userRoles = decoded?.resource_access?.baraka?.roles || [];
         setRoles(userRoles);
+        console.log('User roles:', userRoles);
       } else {
         setRoles([]);
         setToken(null);
@@ -57,17 +59,23 @@ export const useUserRoles = (): IUserRoles => {
     return roles.includes(role);
   };
 
-  const isAdmin = hasRole('ROLE_ADMIN')
-  // const isAdmin = false;
-  const isAgent = hasRole("ROLE_AGENT")
-  // const isAgent = true;
-  // const isDeveloper = hasRole('ROLE_BARAKA_DEVELOPER');
+  // const isAdmin = hasRole('ROLE_ADMIN');
+  const isAdmin = false;
+
+  // const isAgent = hasRole('ROLE_AGENT');
+  const isAgent = false;
+
+  // const isDeveloper = hasRole('ROLE_DEVELOPER');
   const isDeveloper = false;
+
+  const isSuperAdmin = hasRole('ROLE_SUPERADMIN');
+  // const isSuperAdmin = true;
 
   return {
     isAdmin,
     isAgent,
     isDeveloper,
+    isSuperAdmin,
     roles,
     hasRole,
     token,
