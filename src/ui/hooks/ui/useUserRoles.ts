@@ -59,11 +59,11 @@ export const useUserRoles = (): IUserRoles => {
     return roles.includes(role);
   };
 
-  // const isAdmin = hasRole('ROLE_ADMIN');
-  const isAdmin = false;
+  const isAdmin = hasRole('ROLE_ADMIN');
+  // const isAdmin = false;
 
-  // const isAgent = hasRole('ROLE_AGENT');
-  const isAgent = false;
+  const isAgent = hasRole('ROLE_AGENT');
+  // const isAgent = false;
 
   // const isDeveloper = hasRole('ROLE_DEVELOPER');
   const isDeveloper = false;
