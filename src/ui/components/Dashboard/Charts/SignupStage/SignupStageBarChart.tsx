@@ -20,29 +20,13 @@ export function SignupStageBarChart() {
   const startDate = useDateRangeStore((s) => s.fromDate);
   const endDate = useDateRangeStore((s) => s.toDate);
 
-  const { metrics, totalRequests, loading, error } = useSignupStageMetrics(startDate, endDate);
+  const { metrics, loading, error } = useSignupStageMetrics(startDate, endDate);
 
-  let cumulativeDropped = 0;
-
-  const rawDrops = metrics.map((m) => {
-    const reached = totalRequests - cumulativeDropped;
-    const droppedHere = m.signupRequestsNumber;
-    const dropOffPct = reached > 0 ? (droppedHere / reached) * 100 : 0;
-    cumulativeDropped += droppedHere;
-    return Math.round(dropOffPct);
-  });
-
-  const shiftedDrops = rawDrops.map((_, i) => (i === 0 ? null : rawDrops[i - 1]));
-
-  let cumulative = 0;
-
-  const chartData = metrics.map((m, i) => {
-    const reached = totalRequests - cumulative;
-    cumulative += m.signupRequestsNumber;
+  const chartData = metrics.map((m) => {
     return {
       stage: t(`SignupStages.${m.stage}` as any),
-      reached,
-      dropOffPercentage: shiftedDrops[i] ?? 0,
+      reached: m.signupRequestsNumber,
+      dropOffPercentage: m.dropPercentage,
     };
   });
 
@@ -172,6 +156,7 @@ export function SignupStageBarChart() {
                   content={(labelProps) => <CustomizedLabel {...labelProps} />}
                 />
               </Bar>
+              
             </BarChart>
           </ChartContainer>
         </CardContent>

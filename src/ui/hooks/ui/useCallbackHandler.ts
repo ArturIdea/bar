@@ -48,7 +48,9 @@ export const useCallbackHandler = () => {
         const decodedToken = JSON.parse(atob(tokenData.accessToken.split('.')[1]));
         const userRoles = decodedToken?.resource_access?.baraka?.roles || [];
         
-        if (userRoles.includes('ROLE_ADMIN')) {
+        if (userRoles.includes('ROLE_SUPERADMIN')) {
+          router.push('/dashboard');
+        } else if (userRoles.includes('ROLE_ADMIN')) {
           router.push('/dashboard');
         } else if (userRoles.includes('ROLE_AGENT')) {
           router.push('/agent-dashboard');

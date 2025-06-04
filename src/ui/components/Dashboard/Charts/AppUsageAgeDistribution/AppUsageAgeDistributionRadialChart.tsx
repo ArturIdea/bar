@@ -8,10 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useAgeDistribution } from '@/ui/hooks/ui/useAgeDistributionMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 
 export function AppUsageAgeDistributionRadialChart() {
   const t = useTranslations();
-  const { data, loading, error } = useAgeDistribution();
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
+  const { data, loading, error } = useAgeDistribution(fromDate, toDate);
 
   const chartConfig = useMemo(
     () =>
@@ -29,11 +32,11 @@ export function AppUsageAgeDistributionRadialChart() {
     () =>
       data
         ? {
-            teens: data.R14_19,
-            twenties: data.R20_29,
-            thirtiesForties: data.R30_49,
-            fiftiesSixties: data.R50_69,
-            seventiesPlus: data.R70_PLUS,
+            teens: data.R14_19 || 0,
+            twenties: data.R20_29 || 0,
+            thirtiesForties: data.R30_49 || 0,
+            fiftiesSixties: data.R50_69 || 0,
+            seventiesPlus: data.R70_PLUS || 0,
           }
         : null,
     [data]

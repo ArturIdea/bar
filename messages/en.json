@@ -13,7 +13,9 @@
     "bankAgents": "Bank Agents",
     "signupRequests": "Sign Up Requests",
     "benefits": "Benefits",
-    "agentDashboard": "Agent Dashboard"
+    "agentDashboard": "Agent Dashboard",
+    "superAdminDashboard": "Super Admin Dashboard",
+    "systemSettings": "System Settings"
   },
   "Dev": {
     "basicInfo": "Basic Information",
@@ -237,6 +239,7 @@
   "Filter": {
     "filterBy": "Filter By",
     "pinfl": "PINFL",
+    "searchPlaceHolder":"Search by PINFL & Name",
     "signupReqId": "Sign Up Request ID",
     "docTypeId": "Document Type ID",
     "registrationChannel": {
@@ -294,6 +297,7 @@
   "UserManagement": {
     "details": {
       "createdBy": "Created By",
+      "action": "Action",
       "active": "ACTIVE",
       "inactive": "INACTIVE",
       "expired": "EXPIRED"

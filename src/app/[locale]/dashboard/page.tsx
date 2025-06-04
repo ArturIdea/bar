@@ -2,14 +2,16 @@
 
 import { AgentsTable } from '@/ui/components/Dashboard/Agents/AgentsTable';
 import { StatisticsDashboard } from '@/ui/components/Dashboard/Statistics/StatisticsDashboard';
+import { AdminUsersTable } from '@/ui/components/Dashboard/SuperAdmin/UserTable/UsersTable';
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 import { useAuth } from '@/ui/hooks/ui/useAuth';
+import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 import Charts from './Charts/page';
 import SignUpRequests from './signup-requests/page';
 
 const DashboardPage = () => {
   const { isAuthenticated } = useAuth();
-
+  const { isAdmin, isSuperAdmin } = useUserRoles();
 
   if (!isAuthenticated) {
     return (
@@ -19,15 +21,31 @@ const DashboardPage = () => {
     );
   }
 
-  return (
-    <div>
-      <StatisticsDashboard />
-      <Charts />
-      <UsersTable />
-      <AgentsTable />
-      <SignUpRequests />
-    </div>
-  );
+  if (isSuperAdmin) {
+    return (
+      <>
+        <StatisticsDashboard />
+        <Charts />
+        <AdminUsersTable />
+        <AgentsTable />
+        <SignUpRequests />
+      </>
+    );
+  }
+
+  if (isAdmin) {
+    return (
+      <div>
+        <StatisticsDashboard />
+        <Charts />
+        <UsersTable />
+        <AgentsTable />
+        <SignUpRequests />
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default DashboardPage;

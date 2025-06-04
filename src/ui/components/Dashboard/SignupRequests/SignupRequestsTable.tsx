@@ -7,6 +7,7 @@ import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { Pagination } from '../Pagination';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from '../Users/UserDetailsModal';
+import ViewDetailsButton from '../ViewDetailsButton';
 // import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
@@ -100,10 +101,11 @@ export const SignUpRequestsTable: React.FC<{
     { key: 'pinfl', label: t('SignupRequests.pinfl') },
     { key: 'createdAt', label: t('SignupRequests.createdAt') },
     { key: 'status', label: t('SignupRequests.status') },
+    { key: 'action', label: 'Action' },
   ];
 
   return (
-    <div className="flex flex-col h-full border-t border-b border-gray-200">
+    <div className="flex flex-col h-full border-gray-200">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b">
         <h4 className="font-semibold text-[#0B0B22]">
@@ -113,7 +115,7 @@ export const SignUpRequestsTable: React.FC<{
               : 'Statistics.requests'
           )}
         </h4>
-        {/* <ViewDetailsButton href="signup-requests" /> */}
+        <ViewDetailsButton href="signup-requests" />
       </div>
 
       {/* Table */}
@@ -123,11 +125,13 @@ export const SignUpRequestsTable: React.FC<{
             <thead className="border-b border-gray-200">
               <tr className=" text-left text-gray-400">
                 {columns.map((col) => (
-                  <th key={col.key} className="w-1/8 px-6 py-3 font-normal">
+                  <th
+                    key={col.key}
+                    className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}`}
+                  >
                     {col.label}
                   </th>
                 ))}
-                <th className="w-2/8 px-6 py-3" />
               </tr>
             </thead>
             <tbody className="border-b border-gray-200">
@@ -204,7 +208,7 @@ export const SignUpRequestsTable: React.FC<{
       )}
 
       {/* Pagination */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200">
+      <div className="bg-white border-t border-gray-200">
         <Pagination
           page={page}
           pageSize={pageSize}
