@@ -11,7 +11,8 @@ export class GetSignUpRequestsUseCase {
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    statuses?: string
+    statuses?: string,
+    userId?: string
   ): Promise<PaginatedResponse<SignUpRequest>> {
     return this.repository.getSignUpRequests(
       page,
@@ -19,7 +20,8 @@ export class GetSignUpRequestsUseCase {
       createdAtFrom,
       createdAtTo,
       pinflSearch,
-      statuses
+      statuses,
+      userId
     );
   }
 }

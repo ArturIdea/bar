@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
-import { diContainer } from '@/core/di/setup';
+import { ApiClient } from '@/core/ApiClient';
 import { User } from '@/domain/users/entities/User';
-import { GetUsersUseCase } from '@/domain/users/useCases/GetUsers';
+import { UserAdapter } from '@/interfaces/UserAdapter';
+import { useAgent } from '@/contexts/AgentContext';
 
 export const useUsers = (
   page: number,
@@ -17,14 +19,14 @@ export const useUsers = (
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { selectedAgent } = useAgent();
 
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
-      const useCase = diContainer.get<GetUsersUseCase>('GetUsers');
-
       try {
-        const { users, total } = await useCase.execute(
+        const baseUrl = '/api/admin/users';
+        const params = {
           page,
           size,
           roles,
@@ -33,10 +35,18 @@ export const useUsers = (
           pinflSearch,
           usernameSearch,
           createdBy,
-          isCitizen
+          isCitizen,
+          sort: 'createdAt,DESC',
+          ...(selectedAgent?.id && { userId: selectedAgent.id })
+        };
+
+        const response = await ApiClient.shared.get<{ content: any[]; totalElements: number }>(
+          baseUrl,
+          { params }
         );
-        setUsers(users);
-        setTotal(total);
+
+        setUsers(response.data.content.map(UserAdapter.toDomain));
+        setTotal(response.data.totalElements);
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
@@ -45,7 +55,7 @@ export const useUsers = (
     };
 
     fetchUsers();
-  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch, isCitizen]);
+  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch, isCitizen, selectedAgent?.id]);
 
   return { users, total, loading };
 };

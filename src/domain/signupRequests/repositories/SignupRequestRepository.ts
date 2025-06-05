@@ -8,6 +8,7 @@ export interface SignUpRequestsRepository {
     createdAtFrom?: string,
     createdAtTo?: string,
     pinflSearch?: string,
-    statuses?: string
+    statuses?: string,
+    userId?: string
   ) => Promise<PaginatedResponse<SignUpRequest>>;
 }

@@ -4,6 +4,7 @@ import {
   SignupStage,
   SignupStageMetric,
 } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
+import { useAgent } from '@/contexts/AgentContext';
 
 interface StageMetricResponse {
   signupRequestsNumber: number;
@@ -33,6 +34,7 @@ export function useSignupStageMetrics(
   const [totalRequests, setTotalRequests] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { selectedAgent } = useAgent();
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -46,6 +48,7 @@ export function useSignupStageMetrics(
             params: {
               fromDate,
               toDate,
+              ...(selectedAgent?.id && { userId: selectedAgent.id })
             },
           }
         );
@@ -80,7 +83,7 @@ export function useSignupStageMetrics(
     };
 
     fetchMetrics();
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate, selectedAgent?.id]);
 
   return { metrics, totalRequests, loading, error };
 }

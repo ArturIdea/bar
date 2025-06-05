@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
+import { useAgent } from '@/contexts/AgentContext';
 
 interface RegistrationMetric {
   id: number;
@@ -15,6 +16,7 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
   const [metrics, setMetrics] = useState<RegistrationMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { selectedAgent } = useAgent();
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -22,9 +24,10 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
       setError(null);
 
       try {
-        const data = await ApiClient.shared.get<RegistrationMetric[]>(
-          `/api/admin/dashboard/metrics/registration-requests?fromDate=${fromDate}&toDate=${toDate}`
-        );
+        const baseUrl = `/api/admin/dashboard/metrics/registration-requests?fromDate=${fromDate}&toDate=${toDate}`;
+        const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        
+        const data = await ApiClient.shared.get<RegistrationMetric[]>(url);
         setMetrics(data.data);
       } catch (err) {
         setError('Failed to fetch metrics');
@@ -35,7 +38,7 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
     };
 
     fetchMetrics();
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate, selectedAgent?.id]);
 
   return { metrics, loading, error };
 }; 

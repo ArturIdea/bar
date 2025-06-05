@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'use-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
-import { Link } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
 
@@ -18,6 +18,7 @@ const SignUpRequests = () => {
     statuses?: string;
   }>({});
   const t = useTranslations();
+  const pathname = usePathname();
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
@@ -35,20 +36,23 @@ const SignUpRequests = () => {
 
   return (
     <div className="flex flex-col mt-10 h-full">
-      <div className="p-6 hidden justify-end items-center">
-        <Link href="/dashboard" className="hidden items-center gap-2 cursor-pointer">
-          <ArrowLeft /> {t('Buttons.back')}
-        </Link>
-        <div>
-          <button
-            type="button"
-            className="border border-gray-300 rounded-full p-2 cursor-pointer"
-            onClick={toggleFilterModal}
-          >
-            <Image src={FilterLinesIcon} alt="Filter lines" width={24} height={24} />
-          </button>
+      {pathname === '/dashboard/signup-requests' && (
+        <div className="p-6 justify-end items-center">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+            <ArrowLeft /> {t('Buttons.back')}
+          </Link>
+          <div>
+            <button
+              type="button"
+              className="border hidden border-gray-300 rounded-full p-2 cursor-pointer"
+              onClick={toggleFilterModal}
+            >
+              <Image src={FilterLinesIcon} alt="Filter lines" width={24} height={24} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+
       <div className="flex-1 overflow-hidden">
         <SignUpRequestsTable filters={filters} />
       </div>

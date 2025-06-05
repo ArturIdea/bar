@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Search, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+import { usePathname } from '@/i18n/routing';
 import { useAgents } from '@/ui/hooks/ui/useAgents';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
-import { usePathname } from '@/i18n/routing';
 import AgentDetailsModal from './AgentDetailsModal';
 
 export const AgentsTable: React.FC = () => {
@@ -81,10 +81,6 @@ export const AgentsTable: React.FC = () => {
     { key: 'dailyAvg', label: t('Agents.dailyAvg') },
     { key: 'action', label: 'Action' },
   ];
-
-  if (error) {
-    return <div className="text-red-500 p-4">{error}</div>;
-  }
 
   return (
     <>
@@ -254,6 +250,13 @@ export const AgentsTable: React.FC = () => {
           <ViewDetailsButton href="/user-management/baraka-agents" />
         </div>
 
+        {/* Error Message */}
+        {/* {error && (
+          <div className="px-6 py-4 text-red-500 text-sm">
+            Failed to fetch agents. Please try again later.
+          </div>
+        )} */}
+
         {/* Table */}
         <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="overflow-x-auto">
@@ -274,89 +277,169 @@ export const AgentsTable: React.FC = () => {
 
               {/* Table Body */}
               <tbody>
-                {agents.map((agent) => (
-                  <tr key={agent.userId} className="hover:bg-neutral-50 transition-colors">
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {agent.firstName} {agent.lastName}
-                    </td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{agent?.pinfl}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {agent.totalRequests || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {agent.failedRequests || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {agent.dailyAverageSuccessfulRequests?.toFixed(2) || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 flex items-center justify-end relative">
-                      <button
-                        type="button"
-                        className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                        onClick={() => toggleDropdown(agent.userId)}
-                      >
-                        <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
-                      </button>
+                {agents && agents.length > 0 ? (
+                  agents.map((agent: any) => (
+                    <tr key={agent.userId} className="hover:bg-neutral-50 transition-colors">
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                        {agent.firstName} {agent.lastName}
+                      </td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">{agent?.pinfl}</td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                        {agent.totalRequests || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                        {agent.failedRequests || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                        {agent.dailyAverageSuccessfulRequests?.toFixed(2) || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 flex items-center justify-end relative">
+                        <button
+                          type="button"
+                          className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                          onClick={() => toggleDropdown(agent.userId)}
+                        >
+                          <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                        </button>
 
-                      {/* Dropdown Menu */}
-                      {dropdownOpen[agent.userId] && (
-                        <div className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                          <button
-                            type="button"
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => {
-                              setSelectedAgent(agent);
-                              setDropdownOpen({});
-                            }}
-                          >
-                            View Agent Details
-                          </button>
-                        </div>
-                      )}
+                        {/* Dropdown Menu */}
+                        {dropdownOpen[agent.userId] && (
+                          <div className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                            <button
+                              type="button"
+                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                              onClick={() => {
+                                setSelectedAgent(agent);
+                                setDropdownOpen({});
+                              }}
+                            >
+                              View Agent Details
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
+                      {error ? 'No data available' : 'No agents found'}
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
 
           {/* Pagination */}
-          {pagination.totalPages > 1 && (
-            <div className="sticky bottom-0 bg-white border-t border-gray-200">
-              <div className="flex justify-between items-center p-4">
-                <div className="text-sm text-gray-600">
-                  Showing {agents.length} of {pagination.totalElements} results
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 0}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPage(page + 1)}
-                    disabled={page >= pagination.totalPages - 1}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
+          <div className="sticky bottom-0 bg-white border-t border-gray-200">
+            <div className="flex items-center justify-between px-6 py-4">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <span>{t('Pagination.showing')}</span>
+                <select
+                  className="border border-gray-300 rounded-xl px-4 py-2"
+                  value={10}
+                  onChange={(_e) => {
+                    // TODO: Implement page size change
+                  }}
+                >
+                  {[10, 20, 30, 50].map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+                <span>
+                  {t('Pagination.itemsOf')} {pagination.totalElements} {t('Pagination.entries')}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={page === 0}
+                  onClick={() => setPage(page - 1)}
+                  className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
+                >
+                  <ChevronLeft />
+                </button>
+
+                {(() => {
+                  const totalVisiblePages = 5;
+                  const startPage = Math.max(
+                    0,
+                    Math.min(page - Math.floor(totalVisiblePages / 2), pagination.totalPages - totalVisiblePages)
+                  );
+                  const endPage = Math.min(startPage + totalVisiblePages, pagination.totalPages);
+
+                  const pageButtons = [];
+                  if (startPage > 0) {
+                    pageButtons.push(
+                      <button
+                        key="start-ellipsis"
+                        type="button"
+                        onClick={() => setPage(0)}
+                        className="px-3 py-1 rounded-full text-primary cursor-pointer"
+                      >
+                        1
+                      </button>,
+                      <span key="ellipsis-start" className="px-2">
+                        ...
+                      </span>
+                    );
+                  }
+
+                  for (let i = startPage; i < endPage; i++) {
+                    pageButtons.push(
+                      <button
+                        type="button"
+                        key={i}
+                        onClick={() => setPage(i)}
+                        className={`px-3 py-1 rounded-full ${
+                          page === i ? 'bg-primary text-white' : 'text-primary cursor-pointer'
+                        }`}
+                      >
+                        {i + 1}
+                      </button>
+                    );
+                  }
+
+                  if (endPage < pagination.totalPages) {
+                    pageButtons.push(
+                      <span key="ellipsis-end" className="px-2">
+                        ...
+                      </span>,
+                      <button
+                        key="end-ellipsis"
+                        type="button"
+                        onClick={() => setPage(pagination.totalPages - 1)}
+                        className="px-3 py-1 rounded-full text-primary cursor-pointer"
+                      >
+                        {pagination.totalPages}
+                      </button>
+                    );
+                  }
+
+                  return pageButtons;
+                })()}
+
+                <button
+                  type="button"
+                  disabled={page >= pagination.totalPages - 1}
+                  onClick={() => setPage(page + 1)}
+                  className={`px-3 py-1 ${page >= pagination.totalPages - 1 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
+                >
+                  <ChevronRight />
+                </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 
       {/* Agent Details Modal */}
       {selectedAgent && (
-        <AgentDetailsModal
-          agent={selectedAgent}
-          onClose={() => setSelectedAgent(null)}
-        />
+        <AgentDetailsModal agent={selectedAgent} onClose={() => setSelectedAgent(null)} />
       )}
     </>
   );

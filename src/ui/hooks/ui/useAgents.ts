@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useEffect, useState, useCallback } from 'react';
 import { ApiClient } from '@/core/ApiClient';
+import { useAgent } from '@/contexts/AgentContext';
 
 interface Agent {
   userId: string;
@@ -71,6 +72,7 @@ export const useAgents = (params: UseAgentsParams = {}) => {
     currentPage: 0,
     pageSize: 10
   });
+  const { selectedAgent } = useAgent();
 
   const fetchAgents = useCallback(async () => {
     setLoading(true);
@@ -84,7 +86,8 @@ export const useAgents = (params: UseAgentsParams = {}) => {
         size: params.size?.toString() || '10',
         sort: params.sort || 'firstName',
         ...(params.fromDate && { fromDate: params.fromDate }),
-        ...(params.toDate && { toDate: params.toDate })
+        ...(params.toDate && { toDate: params.toDate }),
+        ...(selectedAgent?.id && { userId: selectedAgent.id })
       });
 
       const response = await ApiClient.shared.get<AgentsResponse>(
@@ -115,7 +118,8 @@ export const useAgents = (params: UseAgentsParams = {}) => {
     params.size,
     params.sort,
     params.fromDate,
-    params.toDate
+    params.toDate,
+    selectedAgent?.id
   ]);
 
   useEffect(() => {
