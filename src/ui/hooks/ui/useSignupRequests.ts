@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { diContainer } from '@/core/di/setup';
 import { SignUpRequest } from '@/domain/signupRequests/entities/SignupRequest';
 import { GetSignUpRequestsUseCase } from '@/domain/signupRequests/useCases/GetSignupRequests';
+import { useAgent } from '@/contexts/AgentContext';
 
 export const useSignUpRequests = (
   page: number,
@@ -15,6 +17,7 @@ export const useSignUpRequests = (
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { selectedAgent } = useAgent();
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -27,7 +30,8 @@ export const useSignUpRequests = (
           createdAtFrom,
           createdAtTo,
           pinflSearch,
-          statuses
+          statuses,
+          selectedAgent?.id
         );
         setRequests(content);
         setTotal(totalElements);
@@ -38,7 +42,7 @@ export const useSignUpRequests = (
       }
     };
     fetchRequests();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy]);
+  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy, selectedAgent?.id]);
 
   return { requests, total, loading };
 };

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
+import { useAgent } from '@/contexts/AgentContext';
 
 interface CardMetrics {
   XALQ: number;
@@ -12,6 +13,7 @@ export const useCardMetrics = (fromDate?: string, toDate?: string) => {
   const [metrics, setMetrics] = useState<CardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { selectedAgent } = useAgent();
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -19,9 +21,10 @@ export const useCardMetrics = (fromDate?: string, toDate?: string) => {
       setError(null);
 
       try {
-        const response = await ApiClient.shared.get<CardMetrics>(
-          `/api/admin/bank-card-statistics?fromDate=${fromDate}&toDate=${toDate}`
-        );
+        const baseUrl = `/api/admin/bank-card-statistics?fromDate=${fromDate}&toDate=${toDate}`;
+        const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        
+        const response = await ApiClient.shared.get<CardMetrics>(url);
         
         if (!response.data) {
           throw new Error('No data received from the API');
@@ -37,7 +40,7 @@ export const useCardMetrics = (fromDate?: string, toDate?: string) => {
     };
 
     fetchMetrics();
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate, selectedAgent?.id]);
 
   return { metrics, loading, error };
 };

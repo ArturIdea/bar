@@ -7,12 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 
 type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'WEB_PORTAL';
 
 export function OnboardingChannelPieChart() {
   const t = useTranslations();
-  const { metrics, loading, error } = useChannelMetrics();
+  const fromDate = useDateRangeStore((state) => state.fromDate);
+  const toDate = useDateRangeStore((state) => state.toDate);
+  const { metrics, loading, error } = useChannelMetrics(fromDate, toDate);
 
   const chartConfig = useMemo(
     () => ({
@@ -228,3 +231,4 @@ export function OnboardingChannelPieChart() {
     </Card>
   );
 }
+
