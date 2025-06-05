@@ -100,9 +100,13 @@ export function CardTypesPieChart() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const percentage = ((data.holders / totalHolders) * 100).toFixed(1);
+      const bankNames: { [key: string]: string } = {
+        'XALQ': 'Xalq bank',
+        'ALOHA': 'Aloqa bank'
+      };
       return (
         <div className="bg-white p-2">
-          <p className="font-medium">{data.cardType}</p>
+          <p className="font-medium">{bankNames[data.cardType] || data.cardType}</p>
           <p className="text-sm">Holders: {data.holders}</p>
           <p className="text-sm">Percentage: {percentage}%</p>
         </div>
@@ -113,12 +117,16 @@ export function CardTypesPieChart() {
 
   const renderLegend = (props: any) => {
     const { payload } = props;
+    const bankNames: { [key: string]: string } = {
+      'XALQ': 'Xalq bank',
+      'ALOHA': 'Aloqa bank'
+    };
     return (
       <ul className="flex justify-center gap-4">
         {payload.map((entry: any, index: number) => (
           <li key={`item-${index}`} className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
-            <span>{entry.value}</span>
+            <span>{bankNames[entry.value] || entry.value}</span>
           </li>
         ))}
       </ul>
