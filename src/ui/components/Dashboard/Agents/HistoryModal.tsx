@@ -38,7 +38,7 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
     try {
       setLoading(true);
       const response = await apiClient.get<ApiResponse>(
-        `/api/agent/user/created-by?createdById=${createdById}`
+        `/api/admin/user/created-by?createdById=${createdById}`
       );
       setHistory(response.data.content);
     } catch (error) {
@@ -85,3 +85,4 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
     </div>
   );
 };
+
