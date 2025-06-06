@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { ApiClient } from '@/core/ApiClient';
+import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 
 interface CardDetails {
   cardNo: string;
@@ -71,14 +72,16 @@ export const TransactionsInfo = ({ pinfl }: TransactionsInfoProps) => {
     maxAmount: undefined,
     merchantQuery: '',
   });
+  const { isSuperAdmin } = useUserRoles();
 
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
+        const basePath = isSuperAdmin ? '/api/superadmin' : '/api/agent';
         const response = await ApiClient.shared.get<CardDetails>(
-          `/api/agent/user/card-details?pinflStr=${pinfl}`
+          `${basePath}/user/card-details?pinflStr=${pinfl}`
         );
-        
+
         setCardDetails(response.data);
       } catch (err) {
         if (err instanceof Error && 'response' in err && (err as any).response?.status === 404) {
@@ -94,13 +97,14 @@ export const TransactionsInfo = ({ pinfl }: TransactionsInfoProps) => {
     if (pinfl) {
       fetchCardDetails();
     }
-  }, [pinfl]);
+  }, [pinfl, isSuperAdmin]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
+        const basePath = isSuperAdmin ? '/api/superadmin' : '/api/agent';
         const response = await ApiClient.shared.post<TransactionResponse>(
-          `/api/agent/user/card/transactions?pinfl=${pinfl}`,
+          `${basePath}/user/card/transactions?pinfl=${pinfl}`,
           {
             pageNumber: currentPage,
             pageSize: 20,
@@ -132,7 +136,7 @@ export const TransactionsInfo = ({ pinfl }: TransactionsInfoProps) => {
     if (pinfl) {
       fetchTransactions();
     }
-  }, [pinfl, currentPage, filters.startDate, filters.endDate]);
+  }, [pinfl, currentPage, isSuperAdmin, filters.startDate, filters.endDate]);
 
   const handleFilterChange = (name: keyof Filters, value: string | number | undefined) => {
     setFilters((prev) => ({

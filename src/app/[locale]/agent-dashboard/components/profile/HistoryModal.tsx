@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ApiClient } from '@/core/ApiClient';
+import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 
 interface UserHistory {
   id: string;
@@ -27,18 +28,20 @@ export const HistoryModal = ({ createdById, onBack }: HistoryModalProps) => {
   const [history, setHistory] = useState<UserHistory[]>([]);
   const [loading, setLoading] = useState(false);
   const apiClient = ApiClient.shared;
+  const { isSuperAdmin } = useUserRoles();
 
   useEffect(() => {
     if (createdById) {
       fetchHistory();
     }
-  }, [createdById]);
+  }, [createdById, isSuperAdmin]);
 
   const fetchHistory = async () => {
     try {
       setLoading(true);
+      const basePath = isSuperAdmin ? '/api/superadmin' : '/api/agent';
       const response = await apiClient.get<ApiResponse>(
-        `/api/agent/user/created-by?createdById=${createdById}`
+        `${basePath}/user/created-by?createdById=${createdById}`
       );
       setHistory(response.data.content);
     } catch (error) {

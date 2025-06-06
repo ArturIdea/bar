@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { UserProfileDisplay } from './UserProfileDisplay';
 import { ApiClient } from '@/core/ApiClient';
+import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
+import { UserProfileDisplay } from './UserProfileDisplay';
 
 interface UserProfile {
   userId: string;
@@ -123,6 +124,7 @@ const UserLookup = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { isSuperAdmin } = useUserRoles();
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,15 +138,16 @@ const UserLookup = () => {
 
     try {
       setLoading(true);
+      const basePath = isSuperAdmin ? '/api/superadmin' : '/api/agent';
       const response = await apiClient.get<UserProfile>(
-        `/api/agent/user/get-by-id-social-number-and-dob?pinflOrSocialNumber=${identifier}&dateOfBirth=${dateOfBirth}`,
+        `${basePath}/user/get-by-id-social-number-and-dob?pinflOrSocialNumber=${identifier}&dateOfBirth=${dateOfBirth}`,
         {
           headers: {
-            'accept': 'application/json',
+            accept: 'application/json',
             'Channel-Type': 'AGENT_APP',
             'Content-Type': 'application/json',
-            'Device-Id': 'b9678877ac543810'
-          }
+            'Device-Id': 'b9678877ac543810',
+          },
         }
       );
 
@@ -155,7 +158,6 @@ const UserLookup = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="w-full mx-auto">
