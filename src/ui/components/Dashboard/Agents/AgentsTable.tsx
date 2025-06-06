@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
@@ -19,6 +19,7 @@ export const AgentsTable: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [excludeZeroUsers, setExcludeZeroUsers] = useState(true);
   const [sortBy, setSortBy] = useState('firstName');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<any>(null);
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -26,14 +27,8 @@ export const AgentsTable: React.FC = () => {
   const pathname = usePathname();
 
   const sortOptions = [
-    { value: 'firstName', label: 'First Name' },
-    { value: 'lastName', label: 'Last Name' },
-    { value: 'pinfl', label: 'PINFL' },
-    { value: 'createdAt', label: 'Created At' },
-    { value: 'email', label: 'Email' },
-    { value: 'dateofbirth', label: 'Date of Birth' },
-    { value: 'socialNumber', label: 'Social Number' },
-    { value: 'identityProviderData', label: 'Identity Provider' },
+    { value: 'fullName', label: 'Name' },
+    { value: 'totalRequests', label: 'Total Users' },
   ];
 
   const { agents, loading, error, pagination } = useAgents({
@@ -41,7 +36,7 @@ export const AgentsTable: React.FC = () => {
     excludeZeroUsers,
     page,
     size: 10,
-    sort: sortBy,
+    sort: `${sortBy},${sortDirection}`,
     fromDate,
     toDate,
   });
@@ -69,14 +64,46 @@ export const AgentsTable: React.FC = () => {
     }));
   };
 
+  const handleSort = (column: string) => {
+    const sortColumn = column === 'totalUsers' 
+      ? 'totalRequests' 
+      : column === 'name' 
+        ? 'fullName' 
+        : column;
+    
+    if (sortBy === sortColumn) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(sortColumn);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (column: string) => {
+    const sortColumn = column === 'totalUsers' 
+      ? 'totalRequests' 
+      : column === 'name' 
+        ? 'fullName' 
+        : column;
+    
+    if (sortBy !== sortColumn) {
+      return <ChevronDown size={16} className="text-gray-400" />;
+    }
+    return sortDirection === 'asc' ? <ArrowUp size={16} className="text-blue-600" /> : <ArrowDown size={16} className="text-blue-600" />;
+  };
+
   if (loading) {
     return <TableSkeleton />;
   }
 
   const columns = [
-    { key: 'name', label: t('UserManagement.name') },
+    { key: 'name', label: t('UserManagement.name'), sortable: true },
     { key: 'pinfl', label: 'PINFL No' },
-    { key: 'totalUsers', label: t('Agents.totalUsers') },
+    { 
+      key: 'totalUsers', 
+      label: t('Agents.totalUsers'),
+      sortable: true 
+    },
     { key: 'totalFailedCases', label: t('Agents.totalFailedCases') },
     { key: 'dailyAvg', label: t('Agents.dailyAvg') },
     { key: 'action', label: 'Action' },
@@ -269,7 +296,20 @@ export const AgentsTable: React.FC = () => {
                       key={col.key}
                       className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}`}
                     >
-                      {col.label}
+                      {col.sortable ? (
+                        <button
+                          type="button"
+                          onClick={() => handleSort(col.key)}
+                          className="flex items-center gap-1 hover:text-gray-600 w-full text-left group"
+                        >
+                          <span>{col.label}</span>
+                          <span className="inline-flex items-center opacity-50 group-hover:opacity-100">
+                            {getSortIcon(col.key)}
+                          </span>
+                        </button>
+                      ) : (
+                        col.label
+                      )}
                     </th>
                   ))}
                 </tr>
