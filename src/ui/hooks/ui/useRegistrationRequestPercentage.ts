@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
+import { useUserRoles } from './useUserRoles';
 
 interface RegistrationRequestPercentage {
   classification: string;
@@ -14,6 +15,7 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { selectedAgent } = useAgent();
+  const { isSuperAdmin } = useUserRoles();
 
   console.log(selectedAgent?.id)
 
@@ -23,7 +25,8 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
       setError(null);
 
       try {
-        const baseUrl = `/api/admin/dashboard/metrics/registration-requests-percentage?fromDate=${fromDate}&toDate=${toDate}`;
+        const basePath = isSuperAdmin ? '/api/superadmin' : '/api/admin';
+        const baseUrl = `${basePath}/dashboard/metrics/registration-requests-percentage?fromDate=${fromDate}&toDate=${toDate}`;
         const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
         
         const response = await ApiClient.shared.get<RegistrationRequestPercentage[]>(url);
@@ -54,7 +57,7 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
     };
 
     fetchData();
-  }, [fromDate, toDate, selectedAgent?.id]);
+  }, [fromDate, toDate, selectedAgent?.id, isSuperAdmin]);
 
   return { data, loading, error };
 }; 

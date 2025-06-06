@@ -209,7 +209,7 @@ export const AgentsTable: React.FC = () => {
                       {/* Toggle for excludeZeroUsers */}
                       <div className="flex items-center justify-between">
                         <label className="text-sm font-medium text-gray-700">
-                          Exclude Zero Users
+                          Exclude Agent with Zero Users
                         </label>
                         <button
                           type="button"
