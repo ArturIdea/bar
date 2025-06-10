@@ -23,7 +23,7 @@ export const AgentSearch: React.FC = () => {
     e.preventDefault();
 
     if (!pinfl) {
-      setError('Please enter Agent PINFL number');
+      setError('Please enter an Agent PINFL number');
       return;
     }
 
