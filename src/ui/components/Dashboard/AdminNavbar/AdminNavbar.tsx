@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { LanguagesIcon, UserCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -25,6 +25,7 @@ export default function AdminNavbar() {
   const setRange = useDateRangeStore((s) => s.setRange);
   const granularity = useDateRangeStore((s) => s.granularity);
   const setCustomDates = useDateRangeStore((s) => s.setCustomDates);
+  const dateRangePickerRef = useRef<{ reset: () => void }>(null);
  
 
   const logoutUser = () => {
@@ -77,12 +78,19 @@ export default function AdminNavbar() {
         </div>
         <div>
           <DateRangePicker
+            ref={dateRangePickerRef}
             onDateChange={(from, to) => {
               setCustomDates(from, to);
             }}
           />
         </div>
-        <GlobalDateSelector selected={granularity} onChange={(g) => setRange(g)} />
+        <GlobalDateSelector 
+          selected={granularity} 
+          onChange={(g) => {
+            setRange(g);
+            dateRangePickerRef.current?.reset();
+          }} 
+        />
         {/* User Profile Dropdown */}
         {userProfile && (
           <div className="relative">
