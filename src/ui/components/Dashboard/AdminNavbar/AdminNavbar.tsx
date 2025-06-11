@@ -25,6 +25,8 @@ export default function AdminNavbar() {
   const setRange = useDateRangeStore((s) => s.setRange);
   const granularity = useDateRangeStore((s) => s.granularity);
   const setCustomDates = useDateRangeStore((s) => s.setCustomDates);
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
   const dateRangePickerRef = useRef<{ reset: () => void }>(null);
  
 
@@ -79,6 +81,8 @@ export default function AdminNavbar() {
         <div>
           <DateRangePicker
             ref={dateRangePickerRef}
+            initialFromDate={granularity === 'week' ? fromDate : undefined}
+            initialToDate={granularity === 'week' ? toDate : undefined}
             onDateChange={(from, to) => {
               setCustomDates(from, to);
             }}
@@ -88,7 +92,9 @@ export default function AdminNavbar() {
           selected={granularity} 
           onChange={(g) => {
             setRange(g);
-            dateRangePickerRef.current?.reset();
+            if (g !== 'week') {
+              dateRangePickerRef.current?.reset();
+            }
           }} 
         />
         {/* User Profile Dropdown */}

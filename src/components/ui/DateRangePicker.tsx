@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { addDays, format, isAfter, isSameMonth, subDays } from 'date-fns';
+import { addDays, format, isAfter, isSameMonth, subDays, parse } from 'date-fns';
 import { Calendar as CalendarIcon, InfoIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { useTranslations } from 'use-intl';
@@ -11,16 +11,33 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 interface DateRangePickerProps {
   onDateChange: (start: string, end: string) => void;
+  initialFromDate?: string;
+  initialToDate?: string;
 }
 
 const DateRangePicker = React.forwardRef<{ reset: () => void }, DateRangePickerProps>(
-  ({ onDateChange }, ref) => {
-    const [date, setDate] = React.useState<DateRange | undefined>({
-      from: undefined,
-      to: undefined,
+  ({ onDateChange, initialFromDate, initialToDate }, ref) => {
+    const [date, setDate] = React.useState<DateRange | undefined>(() => {
+      if (initialFromDate && initialToDate) {
+        return {
+          from: parse(initialFromDate, 'yyyy-MM-dd', new Date()),
+          to: parse(initialToDate, 'yyyy-MM-dd', new Date()),
+        };
+      }
+      return { from: undefined, to: undefined };
     });
     const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date());
     const t = useTranslations();
+
+    // Update date when initial dates change
+    React.useEffect(() => {
+      if (initialFromDate && initialToDate) {
+        setDate({
+          from: parse(initialFromDate, 'yyyy-MM-dd', new Date()),
+          to: parse(initialToDate, 'yyyy-MM-dd', new Date()),
+        });
+      }
+    }, [initialFromDate, initialToDate]);
 
     const MAX_RANGE = 90;
     const today = new Date();
