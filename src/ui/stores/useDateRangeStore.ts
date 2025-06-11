@@ -23,6 +23,7 @@ export const useDateRangeStore = create<DateRangeState>((set) => {
 
     setRange: (g) => {
       const now = new Date();
+      const yesterday = subDays(now, 1);
       let start: Date;
       switch (g) {
         case 'day':
@@ -38,7 +39,7 @@ export const useDateRangeStore = create<DateRangeState>((set) => {
       set({
         granularity: g,
         fromDate: format(start, g === 'month' ? 'yyyy-MM-01' : 'yyyy-MM-dd'),
-        toDate: format(now, 'yyyy-MM-dd'),
+        toDate: format(g === 'week' ? yesterday : now, 'yyyy-MM-dd'),
       });
     },
 
