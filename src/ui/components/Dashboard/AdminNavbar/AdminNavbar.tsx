@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { LanguagesIcon, UserCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -28,7 +28,6 @@ export default function AdminNavbar() {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const dateRangePickerRef = useRef<{ reset: () => void }>(null);
- 
 
   const logoutUser = () => {
     const logoutURL = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/logout`);
@@ -52,6 +51,10 @@ export default function AdminNavbar() {
         return t('UserManagement.navbarTitle.title');
       case '/dashboard/user-management/baraka-users':
         return t('UserManagement.navbarTitle.barakaUsers');
+      case '/dashboard/user-management/admin-list':
+        return t('UserManagement.navbarTitle.barakaAdmin');
+      case '/dashboard/user-management/agent-list':
+        return t('UserManagement.navbarTitle.barakaAgent');
       case '/dashboard/dev/user-management/baraka-users':
         return `Dev ${t('UserManagement.navbarTitle.barakaUsers')}`;
       case '/dashboard/signup-requests':
@@ -88,14 +91,14 @@ export default function AdminNavbar() {
             }}
           />
         </div>
-        <GlobalDateSelector 
-          selected={granularity} 
+        <GlobalDateSelector
+          selected={granularity}
           onChange={(g) => {
             setRange(g);
             if (g !== 'week') {
               dateRangePickerRef.current?.reset();
             }
-          }} 
+          }}
         />
         {/* User Profile Dropdown */}
         {userProfile && (
