@@ -209,7 +209,6 @@ export class ApiClient {
       });
     } catch (error) {
       if (axios.isCancel(error)) {
-        console.log('Request canceled:', error.message);
         throw new Error('Request was canceled');
       } else {
         console.error('Error occurred during GET request:', error);

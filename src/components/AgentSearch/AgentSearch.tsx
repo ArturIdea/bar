@@ -23,7 +23,7 @@ export const AgentSearch: React.FC = () => {
     e.preventDefault();
 
     if (!pinfl) {
-      setError('Please enter a PINFL number');
+      setError('Please enter an Agent PINFL number');
       return;
     }
 
@@ -55,7 +55,7 @@ export const AgentSearch: React.FC = () => {
             type="text"
             value={pinfl}
             onChange={(e) => setPinfl(e.target.value)}
-            placeholder="Enter PINFL number"
+            placeholder="Enter Agent PINFL number"
             className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px]"
           />
           <button
