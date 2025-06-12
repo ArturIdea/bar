@@ -58,6 +58,28 @@ const DistrictBreakdownBarChart = () => {
   // Find the maximum user count for scaling the bars
   const maxUserCount = Math.max(...districts.map((district: District) => district.userCount));
 
+  // Generate Y-axis labels and their positions dynamically
+  let yAxisPoints: { value: number; percent: number }[] = [];
+
+  if (maxUserCount === 0) {
+    yAxisPoints = [{ value: 0, percent: 0 }];
+  } else if (maxUserCount <= 4) {
+    // For small maxUserCount, show all integers up to maxUserCount
+    for (let i = 0; i <= maxUserCount; i++) {
+      yAxisPoints.push({
+        value: i,
+        percent: (i / maxUserCount) * 100,
+      });
+    }
+  } else {
+    // For larger maxUserCount, use the fixed percentages as a base
+    const percentages = [0, 25, 50, 75, 100];
+    yAxisPoints = percentages.map((percent) => ({
+      value: Math.round((percent / 100) * maxUserCount),
+      percent,
+    }));
+  }
+
   return (
     <div className="p-6 pr-15 bg-white w-full">
       <div className="flex justify-between items-center mb-6">
@@ -91,9 +113,9 @@ const DistrictBreakdownBarChart = () => {
           Number of Users
         </div>
         <div className="absolute left-[16px] top-0 bottom-0 w-12 flex flex-col-reverse justify-between text-xs text-gray-500">
-          {[0, 25, 50, 75, 100].map((percent) => (
-            <div key={percent} className="transform translate-y-1/2">
-              {Math.round((percent / 100) * maxUserCount).toLocaleString()}
+          {yAxisPoints.map((point) => (
+            <div key={point.value} className="transform translate-y-1/2" style={{ bottom: `${point.percent}%` }}>
+              {point.value.toLocaleString()}
             </div>
           ))}
         </div>
@@ -102,11 +124,11 @@ const DistrictBreakdownBarChart = () => {
         <div className="ml-12 relative h-full w-full">
           {/* Grid lines */}
           <div className="absolute inset-0 flex flex-col-reverse justify-between">
-            {[0, 25, 50, 75, 100].map((percent) => (
+            {yAxisPoints.map((point) => (
               <div
-                key={percent}
+                key={point.value}
                 className="w-full border-t border-gray-200"
-                style={{ bottom: `${percent}%` }}
+                style={{ bottom: `${point.percent}%` }}
               />
             ))}
           </div>
