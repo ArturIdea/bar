@@ -94,6 +94,8 @@ export const AdminUsersTable: React.FC<{
     { key: 'name', label: t('UserManagement.name') },
     { key: 'pinfl', label: t('UserManagement.pinfl') },
     { key: 'createdAt', label: t('UserManagement.createdAt') },
+    { key: 'bank', label: t('UserManagement.bank') },
+    { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
     { key: 'action', label: 'Action' },
   ];
 
@@ -147,6 +149,8 @@ export const AdminUsersTable: React.FC<{
                       minute: '2-digit',
                     })}
                   </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.bankType || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.channel || 'N/A'}</td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
