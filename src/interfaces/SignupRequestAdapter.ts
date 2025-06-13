@@ -9,9 +9,7 @@ export const SignUpRequestAdapter = {
       raw.email === null ? 'N/A' : raw.email,
       raw.pinfl === null ? 'N/A' : raw.pinfl,
       new Date(raw.createdAt),
-      raw.status === null ? 'N/A' : raw.status,
-      raw.bankType || 'N/A',
-      raw.channel || 'N/A'
+      raw.status === null ? 'N/A' : raw.status
     );
   },
 };

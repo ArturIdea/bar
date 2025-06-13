@@ -314,8 +314,6 @@
     "role": "Role",
     "createdAt": "Created at",
     "phone": "Phone",
-    "bank":"Bank",
-    "onboardingChannel": "Onboarding Channel",
     "nationality": "Nationality",
     "citizenship": "Citizenship",
     "birthCountry": "Birth Country",

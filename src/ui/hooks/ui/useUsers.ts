@@ -12,8 +12,6 @@ export const useUsers = (
   createdAtFrom?: string,
   createdAtTo?: string,
   pinflSearch?: string,
-  _channel?:string,
-  _bank?: string,
   usernameSearch?: string,
   createdBy?: string,
   isCitizen?: boolean

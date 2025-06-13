@@ -6,8 +6,6 @@ export class User {
     public firstName: string,
     public lastName: string,
     public email: string,
-    public bankType: string,
-    public channel: string,
     public createdAt: Date
   ) {}
 }
