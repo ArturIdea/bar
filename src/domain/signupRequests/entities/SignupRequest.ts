@@ -6,6 +6,8 @@ export class SignUpRequest {
     public email: string,
     public pinfl: string,
     public createdAt: Date,
-    public status: string
+    public status: string,
+    public bankType: string,
+    public channel: string
   ) {}
 }

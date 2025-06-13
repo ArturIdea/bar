@@ -9,6 +9,7 @@ import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
 import MultiTabUserDetailsModal from './UserDetailsModal';
+import { formatChannelName } from '@/lib/utils';
 
 export const UsersTable: React.FC<{
   filters?: {
@@ -94,6 +95,9 @@ export const UsersTable: React.FC<{
     { key: 'name', label: t('UserManagement.name') },
     { key: 'pinfl', label: t('UserManagement.pinfl') },
     { key: 'createdAt', label: t('UserManagement.createdAt') },
+    { key: 'bank', label: t('UserManagement.bank') },
+    { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
+    
   ];
 
   return (
@@ -132,7 +136,7 @@ export const UsersTable: React.FC<{
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {user.firstName} {user.lastName}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || 'No Data'}</td>
 
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {new Date(user.createdAt).toLocaleString('uz-UZ', {
@@ -144,6 +148,8 @@ export const UsersTable: React.FC<{
                       minute: '2-digit',
                     })}
                   </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.bankType || 'No Data'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{formatChannelName(user.channel)}</td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
