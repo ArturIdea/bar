@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
 import { useUserRoles } from './useUserRoles';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 interface RegistrationRequestPercentage {
   classification: string;
@@ -16,6 +18,8 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
   const [error, setError] = useState<string | null>(null);
   const { selectedAgent } = useAgent();
   const { isSuperAdmin } = useUserRoles();
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   console.log(selectedAgent?.id)
 
@@ -27,7 +31,9 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
       try {
         const basePath = isSuperAdmin ? '/api/superadmin' : '/api/admin';
         const baseUrl = `${basePath}/dashboard/metrics/registration-requests-percentage?fromDate=${fromDate}&toDate=${toDate}`;
-        const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        let url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        url = selectedBank ? `${url}&bankType=${selectedBank}` : url;
+        url = selectedAppType ? `${url}&onboardingChannel=${selectedAppType}` : url;
         
         const response = await ApiClient.shared.get<RegistrationRequestPercentage[]>(url);
               
@@ -57,7 +63,7 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
     };
 
     fetchData();
-  }, [fromDate, toDate, selectedAgent?.id, isSuperAdmin]);
+  }, [fromDate, toDate, selectedAgent?.id, isSuperAdmin, selectedBank, selectedAppType]);
 
   return { data, loading, error };
 }; 

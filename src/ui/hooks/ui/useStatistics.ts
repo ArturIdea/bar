@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { diContainer } from '@/core/di/setup';
 import { Statistics } from '@/domain/statistics/entities/Statistics';
 import { GetStatisticsUseCase } from '@/domain/statistics/useCases/GetStatistics';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
 
 const getDateString = (date: Date) => {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -18,6 +20,8 @@ export const useStatistics = () => {
   const [previousStats, setPreviousStats] = useState<Statistics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
 
   useEffect(() => {
     const fetchStatistics = async () => {
@@ -32,8 +36,24 @@ export const useStatistics = () => {
 
       try {
         const [currentResult, previousResult] = await Promise.all([
-          useCase.execute(currentWeek, currentWeek, currentWeek, currentWeek, currentWeek),
-          useCase.execute(previousWeek, previousWeek, previousWeek, previousWeek, previousWeek),
+          useCase.execute(
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            currentWeek,
+            selectedAppType || undefined,
+            selectedBank || undefined
+          ),
+          useCase.execute(
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            previousWeek,
+            selectedAppType || undefined,
+            selectedBank || undefined
+          ),
         ]);
         setCurrentStats(currentResult);
         setPreviousStats(previousResult);
@@ -44,7 +64,7 @@ export const useStatistics = () => {
       }
     };
     fetchStatistics();
-  }, []);
+  }, [selectedAppType, selectedBank]);
 
   return { currentStats, previousStats, loading, error };
 };

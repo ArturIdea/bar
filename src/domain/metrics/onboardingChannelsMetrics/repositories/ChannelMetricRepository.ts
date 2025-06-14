@@ -1,5 +1,11 @@
 import { ChannelMetric } from '../entities/ChannelMetric';
 
 export interface ChannelMetricsRepository {
-  getChannelMetrics: (userId?: string, fromDate?: string, toDate?: string) => Promise<ChannelMetric>;
+  getChannelMetrics: (
+    userId?: string, 
+    fromDate?: string, 
+    toDate?: string, 
+    bankType?: string,
+    onboardingChannel?: string
+  ) => Promise<ChannelMetric>;
 }

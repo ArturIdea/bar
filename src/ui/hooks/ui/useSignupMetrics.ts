@@ -20,6 +20,7 @@ export const useSignupMetrics = (fromDate?: string, toDate?: string) => {
         setMetrics(data);
       } catch (err) {
         setError('Failed to fetch metrics');
+        // eslint-disable-next-line no-console
         console.error(err);
       } finally {
         setLoading(false);
