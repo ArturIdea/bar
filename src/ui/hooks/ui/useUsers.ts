@@ -4,6 +4,8 @@ import { ApiClient } from '@/core/ApiClient';
 import { User } from '@/domain/users/entities/User';
 import { UserAdapter } from '@/interfaces/UserAdapter';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 export const useUsers = (
   page: number,
@@ -16,12 +18,13 @@ export const useUsers = (
   _bank?: string,
   usernameSearch?: string,
   createdBy?: string,
-  isCitizen?: boolean
-) => {
+  isCitizen?: boolean) => {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const { selectedAgent } = useAgent();
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,7 +42,9 @@ export const useUsers = (
           createdBy,
           isCitizen,
           sort: 'createdAt,DESC',
-          ...(selectedAgent?.id && { userId: selectedAgent.id })
+          ...(selectedAgent?.id && { userId: selectedAgent.id }),
+          ...(selectedBank && { bankType: selectedBank }),
+          ...(selectedAppType && { onboardingChannel: selectedAppType })
         };
 
         const response = await ApiClient.shared.get<{ content: any[]; totalElements: number }>(
@@ -57,7 +62,7 @@ export const useUsers = (
     };
 
     fetchUsers();
-  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch, isCitizen, selectedAgent?.id]);
+  }, [page, size, roles, createdAtFrom, createdAtTo, pinflSearch, usernameSearch, isCitizen, selectedAgent?.id, selectedBank, selectedAppType]);
 
   return { users, total, loading };
 };

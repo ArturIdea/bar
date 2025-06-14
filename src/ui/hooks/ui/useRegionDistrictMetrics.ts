@@ -4,6 +4,8 @@
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 export interface District {
   district: string;
@@ -22,7 +24,9 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
   const [data, setData] = useState<RegionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { selectedAgent } = useAgent();
+  const { selectedAgent } = useAgent(); 
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +34,16 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
       setError(null);
       try {
         const baseUrl = `/api/admin/user/region-district-counts?fromDate=${fromDate}&toDate=${toDate}`;
-        const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        let url = baseUrl;
+        if (selectedAgent?.id) {
+          url += `&userId=${selectedAgent.id}`;
+        }
+        if (selectedBank) {
+          url += `&bankType=${selectedBank}`;
+        }
+        if (selectedAppType) {
+          url += `&onboardingChannel=${selectedAppType}`;
+        }
         
         const response = await ApiClient.shared.get<RegionData>(url);
         const modifiedData = response.data.map(region => ({
@@ -47,7 +60,7 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
     };
 
     fetchData();
-  }, [fromDate, toDate, selectedAgent?.id]);
+  }, [fromDate, toDate, selectedAgent?.id, selectedBank,selectedAppType]);
 
   return { data, loading, error };
 } 
