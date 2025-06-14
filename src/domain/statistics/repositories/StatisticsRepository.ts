@@ -6,6 +6,8 @@ export interface StatisticsRepository {
     cardsIssuedSince: string,
     requestsSince: string,
     successfulRequestsSince: string,
-    failedRequestsSince: string
+    failedRequestsSince: string,
+    onboardingChannel?: string,
+    bankType?: string
   ) => Promise<Statistics>;
 }

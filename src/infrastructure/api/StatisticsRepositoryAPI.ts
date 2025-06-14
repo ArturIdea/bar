@@ -12,7 +12,9 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
     cardsIssuedSince: string,
     requestsSince: string,
     successfulRequestsSince: string,
-    failedRequestsSince: string
+    failedRequestsSince: string,
+    onboardingChannel?: string,
+    bankType?: string
   ): Promise<Statistics> {
     const params = {
       newAccountsSince,
@@ -20,6 +22,8 @@ export class StatisticsRepositoryAPI implements StatisticsRepository {
       requestsSince,
       successfulRequestsSince,
       failedRequestsSince,
+      ...(onboardingChannel && { onboardingChannel }),
+      ...(bankType && { bankType })
     };
 
     const response = await this.apiClient.get<{

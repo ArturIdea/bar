@@ -5,6 +5,8 @@ import {
   SignupStageMetric,
 } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 interface StageMetricResponse {
   signupRequestsNumber: number;
@@ -35,6 +37,8 @@ export function useSignupStageMetrics(
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { selectedAgent } = useAgent();
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -48,7 +52,9 @@ export function useSignupStageMetrics(
             params: {
               fromDate,
               toDate,
-              ...(selectedAgent?.id && { userId: selectedAgent.id })
+              ...(selectedAgent?.id && { userId: selectedAgent.id }),
+              ...(selectedBank && { bankType: selectedBank }),
+              ...(selectedAppType && { onboardingChannel: selectedAppType })
             },
           }
         );
@@ -83,7 +89,7 @@ export function useSignupStageMetrics(
     };
 
     fetchMetrics();
-  }, [fromDate, toDate, selectedAgent?.id]);
+  }, [fromDate, toDate, selectedAgent?.id, selectedBank,selectedAppType]);
 
   return { metrics, totalRequests, loading, error };
 }

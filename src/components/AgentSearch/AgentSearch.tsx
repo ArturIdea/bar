@@ -50,13 +50,13 @@ export const AgentSearch: React.FC = () => {
   return (
     <div className="flex flex-col gap-2">
       <form onSubmit={handleSearch} className="flex gap-2">
-        <div className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4">
+        <div className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 max-w-[200px]">
           <input
             type="text"
             value={pinfl}
             onChange={(e) => setPinfl(e.target.value)}
             placeholder="Enter Agent PINFL number"
-            className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px]"
+            className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px] max-w-[120px]"
           />
           <button
             type="button"

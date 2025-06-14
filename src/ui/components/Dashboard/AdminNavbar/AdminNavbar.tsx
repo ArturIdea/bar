@@ -14,6 +14,8 @@ import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
 import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
+import { BankFilter } from './BankFilter';
+import { AppTypeFilter } from './AppTypeFilter';
 
 export default function AdminNavbar() {
   const cookies = new Cookies();
@@ -78,8 +80,10 @@ export default function AdminNavbar() {
     <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
       <h1 className="font-semibold text-4xl text-primary">{getTitle()}</h1>
       <div className="flex items-center gap-4">
-        <div className="">
+        <div className="flex gap-2">
           <AgentSearch />
+          <BankFilter />
+          <AppTypeFilter />
         </div>
         <div>
           <DateRangePicker

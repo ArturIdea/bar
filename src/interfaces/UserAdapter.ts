@@ -8,7 +8,9 @@ export const UserAdapter = {
       raw.username,
       raw.firstName,
       raw.lastName,
-      raw.email || 'N/A',
+      raw.email || 'No Data',
+      raw.bankType || 'No Data',
+      raw.channel || 'No Data',
       raw.createdAt
     );
   },
