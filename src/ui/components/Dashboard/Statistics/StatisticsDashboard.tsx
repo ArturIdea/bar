@@ -21,7 +21,7 @@ export const StatisticsDashboard = () => {
     undefined, // pinflSearch
     undefined, // usernameSearch
     undefined, // createdBy
-    'true' // isCitizen,
+    // 'true' // isCitizen,
   );
   const { loading: statsLoading } = useStatistics();
   const { data: registrationData, loading: registrationLoading } = useRegistrationRequestPercentage(
