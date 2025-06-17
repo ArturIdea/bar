@@ -134,7 +134,7 @@ const DistrictBreakdownBarChart = () => {
           </div>
 
           {/* Bars */}
-          <div className="flex h-full gap-4 px-4 justify-between w-full">
+          <div className="flex h-full gap-4 px-4 w-full">
             {districts.map((district: District) => (
               <div
                 key={district.district}
