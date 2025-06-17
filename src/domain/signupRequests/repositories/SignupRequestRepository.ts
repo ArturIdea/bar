@@ -9,6 +9,8 @@ export interface SignUpRequestsRepository {
     createdAtTo?: string,
     pinflSearch?: string,
     statuses?: string,
-    userId?: string
+    userId?: string,
+    bankType?: string | null,
+    onboardingChannel?: string | null
   ) => Promise<PaginatedResponse<SignUpRequest>>;
 }

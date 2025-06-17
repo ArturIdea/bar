@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../../core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 interface RegistrationMetric {
   id: number;
@@ -17,6 +19,8 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { selectedAgent } = useAgent();
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -25,7 +29,9 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
 
       try {
         const baseUrl = `/api/admin/dashboard/metrics/registration-requests?fromDate=${fromDate}&toDate=${toDate}`;
-        const url = selectedAgent?.id ? `${baseUrl}&userId=${selectedAgent.id}` : baseUrl;
+        const url = selectedAgent?.id 
+          ? `${baseUrl}&userId=${selectedAgent.id}${selectedBank ? `&bankType=${selectedBank}` : ''}${selectedAppType ? `&onboardingChannel=${selectedAppType}` : ''}`
+          : `${baseUrl}${selectedBank ? `&bankType=${selectedBank}` : ''}${selectedAppType ? `&onboardingChannel=${selectedAppType}` : ''}`;
         
         const data = await ApiClient.shared.get<RegistrationMetric[]>(url);
         setMetrics(data.data);
@@ -38,7 +44,7 @@ export const useRegistrationMetrics = (fromDate?: string, toDate?: string) => {
     };
 
     fetchMetrics();
-  }, [fromDate, toDate, selectedAgent?.id]);
+  }, [fromDate, toDate, selectedAgent?.id, selectedBank, selectedAppType]);
 
   return { metrics, loading, error };
 }; 

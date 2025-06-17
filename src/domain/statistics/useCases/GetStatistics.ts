@@ -9,7 +9,9 @@ export class GetStatisticsUseCase {
     cardsIssuedSince: string,
     requestsSince?: string,
     successfulRequestsSince?: string,
-    failedRequestsSince?: string
+    failedRequestsSince?: string,
+    onboardingChannel?: string,
+    bankType?: string
   ): Promise<Statistics> {
     const requestsDate = requestsSince || newAccountsSince;
     const successfulRequestsDate = successfulRequestsSince || newAccountsSince;
@@ -20,7 +22,9 @@ export class GetStatisticsUseCase {
       cardsIssuedSince,
       requestsDate,
       successfulRequestsDate,
-      failedRequestsDate
+      failedRequestsDate,
+      onboardingChannel,
+      bankType
     );
   }
 }

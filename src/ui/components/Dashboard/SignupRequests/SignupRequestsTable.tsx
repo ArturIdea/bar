@@ -10,6 +10,7 @@ import UserDetailsModal from '../Users/UserDetailsModal';
 import ViewDetailsButton from '../ViewDetailsButton';
 // import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
+import { formatChannelName } from '@/lib/utils';
 
 export const SignUpRequestsTable: React.FC<{
   filters?: {
@@ -97,10 +98,11 @@ export const SignUpRequestsTable: React.FC<{
 
   const columns = [
     { key: 'name', label: t('SignupRequests.name') },
-    { key: 'email', label: t('SignupRequests.email') },
     { key: 'pinfl', label: t('SignupRequests.pinfl') },
     { key: 'createdAt', label: t('SignupRequests.createdAt') },
     { key: 'status', label: t('SignupRequests.status') },
+    { key: 'bank', label: t('UserManagement.bank') },
+    { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
     { key: 'action', label: 'Action' },
   ];
 
@@ -138,27 +140,28 @@ export const SignUpRequestsTable: React.FC<{
               {requests.map((req) => (
                 <tr key={req.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {`${req.firstName || ''} ${req.lastName || ''}`}
+                    {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : 'No Data'}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.email || 'N/A'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'N/A'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'No Data'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {new Date(req.createdAt).toLocaleString('uz-UZ', {
+                    {req.createdAt ? new Date(req.createdAt).toLocaleString('uz-UZ', {
                       timeZone: 'Asia/Tashkent',
                       year: 'numeric',
                       month: '2-digit',
                       day: '2-digit',
                       hour: '2-digit',
                       minute: '2-digit',
-                    })}
+                    }) : 'No Data'}
                   </td>
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-full text-white whitespace-nowrap text-xs ${getStatusClass(req.status)}`}
                     >
-                      {req.status.replace(/_/g, ' ') || 'UNKNOWN'}
+                      {req.status ? req.status.replace(/_/g, ' ') : 'UNKNOWN'}
                     </span>
                   </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.bankType || 'No Data'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{formatChannelName(req.channel)}</td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"

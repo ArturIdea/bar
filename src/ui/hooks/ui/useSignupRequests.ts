@@ -4,6 +4,8 @@ import { diContainer } from '@/core/di/setup';
 import { SignUpRequest } from '@/domain/signupRequests/entities/SignupRequest';
 import { GetSignUpRequestsUseCase } from '@/domain/signupRequests/useCases/GetSignupRequests';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 export const useSignUpRequests = (
   page: number,
@@ -17,7 +19,9 @@ export const useSignUpRequests = (
   const [requests, setRequests] = useState<SignUpRequest[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { selectedAgent } = useAgent();
+  const { selectedAgent } = useAgent(); 
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -31,7 +35,9 @@ export const useSignUpRequests = (
           createdAtTo,
           pinflSearch,
           statuses,
-          selectedAgent?.id
+          selectedAgent?.id,
+          selectedBank,
+          selectedAppType
         );
         setRequests(content);
         setTotal(totalElements);
@@ -42,7 +48,7 @@ export const useSignUpRequests = (
       }
     };
     fetchRequests();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy, selectedAgent?.id]);
+  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy, selectedAgent?.id, selectedBank, selectedAppType]);
 
   return { requests, total, loading };
 };

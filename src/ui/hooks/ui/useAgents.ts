@@ -2,6 +2,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { ApiClient } from '@/core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
+import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 interface Agent {
   userId: string;
@@ -73,6 +75,8 @@ export const useAgents = (params: UseAgentsParams = {}) => {
     pageSize: 10
   });
   const { selectedAgent } = useAgent();
+  const selectedBank = useBankFilterStore((state) => state.selectedBank);
+  const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
   const fetchAgents = useCallback(async () => {
     setLoading(true);
@@ -87,7 +91,9 @@ export const useAgents = (params: UseAgentsParams = {}) => {
         sort: params.sort || 'firstName',
         ...(params.fromDate && { fromDate: params.fromDate }),
         ...(params.toDate && { toDate: params.toDate }),
-        ...(selectedAgent?.id && { userId: selectedAgent.id })
+        ...(selectedAgent?.id && { userId: selectedAgent.id }),
+        ...(selectedBank && { bank: selectedBank }),
+        ...(selectedAppType && { onboardingChannel: selectedAppType })
       });
 
       const response = await ApiClient.shared.get<AgentsResponse>(
@@ -119,7 +125,9 @@ export const useAgents = (params: UseAgentsParams = {}) => {
     params.sort,
     params.fromDate,
     params.toDate,
-    selectedAgent?.id
+    selectedAgent?.id,
+    selectedBank,
+    selectedAppType
   ]);
 
   useEffect(() => {
