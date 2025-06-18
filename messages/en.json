@@ -169,7 +169,7 @@
     "pickDate": "Pick a date range",
     "doubleClickToReset": "Double tap on a day to reset the range",
     "reset": "Reset",
-    "addUser": "Add"
+    "addUser": "Add "
   },
   "Statistics": {
     "newAccounts": "New Accounts",
@@ -310,7 +310,8 @@
       "title": "User Management",
       "barakaUsers": "Baraka Users",
       "barakaAdmin": "Admin",
-      "barakaAgent": "NASP Agents"
+      "barakaAgent": "NASP Agents",
+      "addAdmin": "Add Admin"
     },
     "title": "Latest User Registrations",
     "title2": "User Registrations",

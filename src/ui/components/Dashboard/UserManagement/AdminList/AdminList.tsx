@@ -6,16 +6,23 @@ import Link from 'next/link';
 import { ArrowLeft, ChevronLeft, ChevronRight, Plus, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
-import data from '../data.json';
-
-// import { TableSkeleton } from '../../TableSkeleton';
+import { useAdminUsers } from '@/ui/hooks/ui/useAdminUsers';
+import { useDeactivateAdmin } from '@/ui/hooks/ui/useDeactivateAdmin';
+import { AddAdminDrawer } from './AddAdminDrawer';
 
 interface Admin {
-  name: string;
-  email: string;
-  mobile: string;
-  role: string;
-  organisation: string;
+  id: string;
+  username: string;
+  email: string | null;
+  firstName: string;
+  lastName: string;
+  enabled: boolean;
+  emailVerified: boolean;
+  attributes: {
+    locale?: string[];
+    phone?: string[];
+    organization?: string[];
+  } | null;
 }
 
 interface Column {
@@ -32,13 +39,18 @@ export function AdminList() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState<string | null>(null);
+  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
+  const [showDeactivateConfirm, setShowDeactivateConfirm] = useState<string | null>(null);
+
+  const { users, total, loading } = useAdminUsers(page, pageSize, searchTerm);
+  const { deactivateAdmin, isLoading: isDeactivating } = useDeactivateAdmin();
 
   const columns: Column[] = [
-    { key: 'name', label: t('UserManagement.name'), sortable: true },
+    { key: 'username', label: t('UserManagement.name'), sortable: true },
     { key: 'email', label: t('UserManagement.email'), sortable: true },
-    { key: 'mobile', label: t('UserManagement.mobile'), sortable: true },
-    { key: 'role', label: t('UserManagement.role'), sortable: true },
-    { key: 'organisation', label: t('UserManagement.organisation'), sortable: true },
+    { key: 'attributes', label: t('UserManagement.mobile'), sortable: true },
+    { key: 'enabled', label: t('UserManagement.role'), sortable: true },
+    { key: 'attributes', label: t('UserManagement.organisation'), sortable: true },
     { key: 'action', label: t('UserManagement.action') },
   ];
 
@@ -51,8 +63,8 @@ export function AdminList() {
     }
   };
 
-  const toggleDropdown = (email: string) => {
-    setShowDropdown(showDropdown === email ? null : email);
+  const toggleDropdown = (id: string) => {
+    setShowDropdown(showDropdown === id ? null : id);
   };
 
   useEffect(() => {
@@ -80,27 +92,18 @@ export function AdminList() {
     return sortDirection === 'asc' ? '↑' : '↓';
   };
 
-  // Filter and sort data
-  const filteredData = data.filter((item) =>
-    Object.values(item).some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (!sortField || sortField === ('action' as keyof Admin | 'action')) {
-      return 0;
-    }
-    const aValue = a[sortField as keyof Admin];
-    const bValue = b[sortField as keyof Admin];
-    return sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-  });
-
   // Pagination
-  const totalPages = Math.ceil(sortedData.length / pageSize);
-  const paginatedData = sortedData.slice(page * pageSize, (page + 1) * pageSize);
+  const totalPages = Math.ceil(total / pageSize);
 
-  // if (loading) {
-  //   return <TableSkeleton />;
-  // }
+  const handleDeactivate = async (userId: string) => {
+    const success = await deactivateAdmin(userId);
+    if (success) {
+      setShowDeactivateConfirm(null);
+      setShowDropdown(null);
+      // Refresh the list
+      window.location.reload();
+    }
+  };
 
   return (
     <div className="">
@@ -113,7 +116,6 @@ export function AdminList() {
             <button
               type="button"
               className="cursor-pointer"
-              // onClick={handleSearch}
             >
               <Search size={15} />
             </button>
@@ -122,13 +124,11 @@ export function AdminList() {
               placeholder={t('Filter.searchPlaceHolder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              // onKeyDown={handleSearchKeyDown}
               className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px]"
             />
             <button
               type="button"
               className="cursor-pointer"
-              // onClick={() => setIsFilterOpen(!isFilterOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +164,7 @@ export function AdminList() {
           <button
             type="button"
             className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full cursor-pointer"
-            // onClick={handleAddUser}
+            onClick={() => setIsAddDrawerOpen(true)}
           >
             <Plus size={20} />
             {t('Buttons.addUser')}
@@ -204,23 +204,40 @@ export function AdminList() {
 
             {/* Table Body */}
             <tbody>
-              {paginatedData.length > 0 ? (
-                paginatedData.map((admin, index) => (
-                  <tr key={index} className="hover:bg-neutral-50 transition-colors">
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.name}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.email}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.mobile}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.role}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.organisation}</td>
+              {loading ? (
+                <tr>
+                  <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
+                    Loading...
+                  </td>
+                </tr>
+              ) : users && users.length > 0 ? (
+                users.map((admin) => (
+                  <tr key={admin.id} className="hover:bg-neutral-50 transition-colors">
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {`${admin.firstName} ${admin.lastName}`}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">{admin.email || '-'}</td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {admin.attributes?.phone?.[0] || '-'}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {admin.enabled ? 'Active' : 'Inactive'}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      {admin.attributes?.organization?.[0] || '-'}
+                    </td>
                     <td className="px-6 py-4 flex items-center justify-end relative">
                       <button
                         type="button"
                         className="text-gray-500 hover:text-gray-700 cursor-pointer dots-vertical-button"
-                        onClick={() => toggleDropdown(admin.email)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleDropdown(admin.id);
+                        }}
                       >
                         <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
                       </button>
-                      {showDropdown === admin.email && (
+                      {showDropdown === admin.id && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 dropdown-menu">
                           <div className="py-1">
                             <button
@@ -244,6 +261,7 @@ export function AdminList() {
                             <button
                               type="button"
                               className="block px-4 py-2 text-sm text-[#DC1B25] hover:bg-red-100 w-full text-left"
+                              onClick={() => setShowDeactivateConfirm(admin.id)}
                             >
                               Deactivate
                             </button>
@@ -284,7 +302,7 @@ export function AdminList() {
                 ))}
               </select>
               <span>
-                {t('Pagination.itemsOf')} {sortedData.length} {t('Pagination.entries')}
+                {t('Pagination.itemsOf')} {total} {t('Pagination.entries')}
               </span>
             </div>
 
@@ -371,6 +389,45 @@ export function AdminList() {
           </div>
         </div>
       </div>
+      <AddAdminDrawer
+        isOpen={isAddDrawerOpen}
+        onClose={() => setIsAddDrawerOpen(false)}
+        onSuccess={() => {
+          setIsAddDrawerOpen(false);
+          // Refresh the list
+          window.location.reload();
+        }}
+      />
+
+      {/* Deactivate Confirmation Dialog */}
+      {showDeactivateConfirm && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold mb-4">Confirm Deactivation</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to deactivate this admin user? This action can be reversed later.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                type="button"
+                onClick={() => setShowDeactivateConfirm(null)}
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                disabled={isDeactivating}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeactivate(showDeactivateConfirm)}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                disabled={isDeactivating}
+              >
+                {isDeactivating ? 'Deactivating...' : 'Deactivate'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
