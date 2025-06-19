@@ -16,8 +16,8 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
   async getSignUpRequests(
     page: number,
     size: number,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     statuses?: string,
     userId?: string,
@@ -28,8 +28,8 @@ export class SignUpRequestsRepositoryAPI implements SignUpRequestsRepository {
       params: {
         page,
         size,
-        createdAtFrom,
-        createdAtTo,
+        fromDate,
+        toDate,
         pinflSearch,
         statuses,
         sort: 'createdAt,DESC',

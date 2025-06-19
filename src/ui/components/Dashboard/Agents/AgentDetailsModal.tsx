@@ -5,9 +5,12 @@ import { useTranslations } from 'next-intl';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { HistoryModal } from './HistoryModal';
+import OnboardingStatus from './OnboardingStatus';
+import { formatLastLogin } from '@/lib/utils';
 
 interface AgentDetailsModalProps {
   agent: {
+    lastLogin: string;
     userId: string;
     firstName: string;
     lastName: string;
@@ -32,6 +35,12 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
   const t = useTranslations();
   const modalRef = useClickOutside<HTMLDivElement>(onClose);
   const [activeTab, setActiveTab] = useState<string>('personal');
+
+  // Default date range (last 30 days)
+  const defaultToDate = new Date().toISOString().split('T')[0];
+  const defaultFromDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  const [fromDate] = useState(defaultFromDate);
+  const [toDate] = useState(defaultToDate);
 
   const PersonalInfoSection = ({ agent }: { agent: AgentDetailsModalProps['agent'] }) => {
     const fields = [
@@ -74,6 +83,14 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
         return <PersonalInfoSection agent={agent} />;
       case 'transactions':
         return <HistoryModal createdById={agent.userId} onBack={() => setActiveTab('personal')} />;
+      case 'onboarding':
+        return (
+          <OnboardingStatus
+            userId={agent.userId}
+            fromDate={fromDate}
+            toDate={toDate}
+          />
+        );
       default:
         return null;
     }
@@ -110,12 +127,17 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
               {agent.firstName} {agent.lastName}
             </h2>
           </div>
+          <div className="flex-1 text-right">
+            <h3>Last Login</h3>
+            <h3>{formatLastLogin(agent.lastLogin)}</h3>
+          </div>
         </div>
 
         <div className="flex gap-6 px-12 overflow-x-auto">
           {[
             { id: 'personal', title: "Profile" },
             { id: 'transactions', title: "History" },
+            { id: 'onboarding', title: "Onboarding Status" },
           ].map((tab) => (
             <button
               type="button"

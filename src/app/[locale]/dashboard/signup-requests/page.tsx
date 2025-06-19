@@ -8,29 +8,39 @@ import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg'
 import { Link, usePathname } from '@/i18n/routing';
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 
-const SignUpRequests = () => {
+const SignUpRequests: React.FC = () => {
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    fromDate?: string;
+    toDate?: string;
     pinflSearch?: string;
     statuses?: string;
-  }>({});
+  }>({ fromDate, toDate });
   const t = useTranslations();
   const pathname = usePathname();
+
+  // Sync with global date range if not overridden by filter modal
+  React.useEffect(() => {
+    setFilters((prev) => ({ ...prev, fromDate, toDate }));
+  }, [fromDate, toDate]);
+
+  const mergedFilters = filters;
 
   const toggleFilterModal = () => {
     setIsFilterModalOpen((prev) => !prev);
   };
 
   const handleApplyFilters = (
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     statuses?: string
   ) => {
-    setFilters({ createdAtFrom, createdAtTo, pinflSearch, statuses });
+    setFilters({ fromDate, toDate, pinflSearch, statuses });
     setIsFilterModalOpen(false);
   };
 
@@ -54,7 +64,7 @@ const SignUpRequests = () => {
       )}
 
       <div className="flex-1 overflow-hidden">
-        <SignUpRequestsTable filters={filters} />
+        <SignUpRequestsTable filters={mergedFilters} />
       </div>
 
       {/* Filter Modal */}

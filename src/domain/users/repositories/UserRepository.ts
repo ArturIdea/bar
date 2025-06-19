@@ -5,11 +5,14 @@ export interface UserRepository {
     page: number,
     size: number,
     registrationChannel?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     usernameSearch?: string,
     createdBy?: string,
-    isCitizen?: boolean
+    isCitizen?: boolean,
+    userId?: string,
+    bankType?: string,
+    onboardingChannel?: string
   ) => Promise<{ users: User[]; total: number }>;
 }

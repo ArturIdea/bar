@@ -5,7 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
 export const formatChannelName = (channel: string): string => {
   if (!channel) {
     return 'NO DATA';
@@ -18,3 +17,23 @@ export const formatChannelName = (channel: string): string => {
     .join(' ')
     .toUpperCase();
 };
+
+export function formatLastLogin(dateStr: string): string {
+  // Original format: "19:06:2025 12:04"
+  const [datePart, timePart] = dateStr.split(" ");
+  const [day, month, year] = datePart.split(":").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+
+  const date = new Date(year, month - 1, day, hour, minute);
+
+  const formattedDate = date.toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return formattedDate.replace(",", "");
+}

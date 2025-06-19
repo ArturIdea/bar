@@ -13,8 +13,8 @@ const BarakaUsersPage = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<{
     registrationChannel?: string;
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    fromDate?: string;
+    toDate?: string;
     pinflSearch?: string;
     usernameSearch?: string;
   }>({});
@@ -27,12 +27,12 @@ const BarakaUsersPage = () => {
 
   const handleApplyFilters = (
     registrationChannel?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     usernameSearch?: string
   ) => {
-    setFilters({ registrationChannel, createdAtFrom, createdAtTo, pinflSearch, usernameSearch });
+    setFilters({ registrationChannel, fromDate, toDate, pinflSearch, usernameSearch });
     setQuickSearch(pinflSearch || '');
     setIsFilterModalOpen(false);
   };

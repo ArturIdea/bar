@@ -14,8 +14,8 @@ import { formatChannelName } from '@/lib/utils';
 export const UsersTable: React.FC<{
   filters?: {
     registrationChannel?: string;
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    fromDate?: string;
+    toDate?: string;
     pinflSearch?: string;
     usernameSearch?: string;
   };
@@ -30,8 +30,8 @@ export const UsersTable: React.FC<{
     page,
     pageSize,
     filters.registrationChannel,
-    filters.createdAtFrom,
-    filters.createdAtTo,
+    filters.fromDate,
+    filters.toDate,
     filters.pinflSearch,
     filters.usernameSearch
   );
