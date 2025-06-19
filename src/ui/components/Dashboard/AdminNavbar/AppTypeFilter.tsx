@@ -6,7 +6,8 @@ const appTypes = [
   { name: 'ALL', displayName: 'All Apps' },
   { name: 'AGENT_APP', displayName: 'Agent App' },
   { name: 'CITIZEN_APP', displayName: 'Citizen App' },
-  { name: 'AGENT_PORTAL', displayName: 'Agent Portal' }
+  // { name: 'AGENT_PORTAL', displayName: 'Agent Portal' },
+  { name: 'HTTP_CLIENT', displayName: 'Manual addition' }
 ];
 
 export const AppTypeFilter = () => {

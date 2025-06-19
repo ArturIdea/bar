@@ -4,6 +4,7 @@ import {
   loadAgeDistributionMetricsUseCases,
 } from './modules/AgeDistributionMetrics.module';
 import { loadAgentsRepositories, loadAgentsUseCases } from './modules/Agents.Module';
+import { loadAgentOnboardingRepositories, loadAgentOnboardingUseCases } from './modules/AgentOnboarding.module';
 import { loadBenefitsRepositories, loadBenefitsUseCases } from './modules/Benefits.module';
 import { loadCardMetricsRepositories, loadCardMetricsUseCases } from './modules/CardMetrics.module';
 import {
@@ -99,6 +100,7 @@ export const setupDependencies = () => {
   loadUserProfileRepositories(diContainer);
   loadBenefitsRepositories(diContainer);
   loadAgentsRepositories(diContainer);
+  loadAgentOnboardingRepositories(diContainer);
   loadLivenessRepositories(diContainer);
   loadSignupStageMetricsRepositories(diContainer);
   loadSignupFailureRatesRepositories(diContainer);
@@ -130,6 +132,7 @@ export const setupDependencies = () => {
   loadUserProfileUseCases(diContainer);
   loadBenefitsUseCases(diContainer);
   loadAgentsUseCases(diContainer);
+  loadAgentOnboardingUseCases(diContainer);
   loadLivenessUseCases(diContainer);
   loadSignupStageMetricsUseCases(diContainer);
   loadSignupFailureRatesUseCases(diContainer);

@@ -16,8 +16,8 @@ export const UserFilterModal = ({
   onClose: () => void;
   onApply: (
     registrationChannel?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     usernameSearch?: string
   ) => void;
@@ -63,10 +63,10 @@ export const UserFilterModal = ({
 
   const handleApply = () => {
     if (dateRange.startDate && dateRange.endDate) {
-      const createdAtFrom = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
-      const createdAtTo = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
+      const fromDate = `${formatLocalDate(dateRange.startDate)}T${startTime}:00`;
+      const toDate = `${formatLocalDate(dateRange.endDate)}T${endTime}:59`;
 
-      onApply(registrationChannel || undefined, createdAtFrom, createdAtTo, pinfl || undefined);
+      onApply(registrationChannel || undefined, fromDate, toDate, pinfl || undefined);
     } else {
       onApply(registrationChannel || undefined, undefined, undefined, pinfl || undefined);
     }

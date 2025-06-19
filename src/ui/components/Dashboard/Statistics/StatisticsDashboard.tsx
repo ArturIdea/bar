@@ -16,8 +16,8 @@ export const StatisticsDashboard = () => {
     0, // page
     0, // size
     undefined, // registrationChannel
-    undefined, // createdAtFrom
-    undefined, // createdAtTo
+    fromDate, // fromDate
+    toDate, // toDate
     undefined, // pinflSearch
     undefined, // usernameSearch
     undefined, // createdBy

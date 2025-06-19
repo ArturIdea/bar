@@ -14,8 +14,8 @@ import { formatChannelName } from '@/lib/utils';
 
 export const SignUpRequestsTable: React.FC<{
   filters?: {
-    createdAtFrom?: string;
-    createdAtTo?: string;
+    fromDate?: string;
+    toDate?: string;
     pinflSearch?: string;
     statuses?: string;
   };
@@ -28,8 +28,8 @@ export const SignUpRequestsTable: React.FC<{
   const { requests, total, loading } = useSignUpRequests(
     page,
     pageSize,
-    filters.createdAtFrom,
-    filters.createdAtTo,
+    filters.fromDate,
+    filters.toDate,
     filters.pinflSearch,
     filters.statuses
   );

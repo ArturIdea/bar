@@ -10,12 +10,12 @@ export const StatisticsDashboard = () => {
     0, // page
     0, // size
     undefined, // registrationChannel
-    undefined, // createdAtFrom
-    undefined, // createdAtTo
+    undefined, // fromDate
+    undefined, // toDate
     undefined, // pinflSearch
     undefined, // usernameSearch
     undefined, // createdBy
-    'true' // isCitizen,
+    // 'true' // isCitizen,
   );
   const { loading: statsLoading } = useStatistics();
 

@@ -11,12 +11,15 @@ export class UserRepositoryAPI implements UserRepository {
     page: number,
     size: number,
     registrationChannel?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     usernameSearch?: string,
     createdBy?: string,
-    isCitizen?: boolean
+    isCitizen?: boolean,
+    userId?: string,
+    bankType?: string,
+    onboardingChannel?: string
   ): Promise<{ users: User[]; total: number }> {
     const response = await this.apiClient.get<{ content: any[]; totalElements: number }>(
       this.ApiUrl,
@@ -25,12 +28,15 @@ export class UserRepositoryAPI implements UserRepository {
           page,
           size,
           registrationChannel,
-          createdAtFrom,
-          createdAtTo,
+          fromDate,
+          toDate,
           pinflSearch,
           usernameSearch,
           createdBy,
           isCitizen,
+          ...(userId && { userId }),
+          ...(bankType && { bankType }),
+          ...(onboardingChannel && { onboardingChannel }),
           sort: 'createdAt,DESC',
         },
       }
