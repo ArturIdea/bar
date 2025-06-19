@@ -8,23 +8,29 @@ export class GetUsersUseCase {
     page: number,
     size: number,
     registrationChannel?: string,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     usernameSearch?: string,
     createdBy?: string,
-    isCitizen?: boolean
+    isCitizen?: boolean,
+    userId?: string,
+    bankType?: string,
+    onboardingChannel?: string
   ): Promise<{ users: User[]; total: number }> {
     return this.userRepository.getUsers(
       page,
       size,
       registrationChannel,
-      createdAtFrom,
-      createdAtTo,
+      fromDate,
+      toDate,
       pinflSearch,
       usernameSearch,
       createdBy,
-      isCitizen
+      isCitizen,
+      userId,
+      bankType,
+      onboardingChannel
     );
   }
 }

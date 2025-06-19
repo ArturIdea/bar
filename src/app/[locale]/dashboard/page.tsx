@@ -6,12 +6,15 @@ import { AdminUsersTable } from '@/ui/components/Dashboard/SuperAdmin/UserTable/
 import { UsersTable } from '@/ui/components/Dashboard/Users/UsersTable';
 import { useAuth } from '@/ui/hooks/ui/useAuth';
 import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
+import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import Charts from './Charts/page';
 import SignUpRequests from './signup-requests/page';
 
 const DashboardPage = () => {
   const { isAuthenticated } = useAuth();
   const { isAdmin, isSuperAdmin } = useUserRoles();
+  const fromDate = useDateRangeStore((s) => s.fromDate);
+  const toDate = useDateRangeStore((s) => s.toDate);
 
   if (!isAuthenticated) {
     return (
@@ -26,7 +29,7 @@ const DashboardPage = () => {
       <>
         <StatisticsDashboard />
         <Charts />
-        <AdminUsersTable />
+        <AdminUsersTable filters={{ fromDate, toDate }} />
         <AgentsTable />
         <SignUpRequests />
       </>
@@ -38,7 +41,7 @@ const DashboardPage = () => {
       <div>
         <StatisticsDashboard />
         <Charts />
-        <UsersTable />
+        <UsersTable filters={{ fromDate, toDate }} />
         <AgentsTable />
         <SignUpRequests />
       </div>

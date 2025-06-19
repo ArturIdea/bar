@@ -10,8 +10,8 @@ import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 export const useSignUpRequests = (
   page: number,
   size: number,
-  createdAtFrom?: string,
-  createdAtTo?: string,
+  fromDate?: string,
+  toDate?: string,
   pinflSearch?: string,
   statuses?: string,
   createdBy?: string
@@ -31,8 +31,8 @@ export const useSignUpRequests = (
         const { content, totalElements } = await useCase.execute(
           page,
           size,
-          createdAtFrom,
-          createdAtTo,
+          fromDate,
+          toDate,
           pinflSearch,
           statuses,
           selectedAgent?.id,
@@ -48,7 +48,7 @@ export const useSignUpRequests = (
       }
     };
     fetchRequests();
-  }, [page, size, createdAtFrom, createdAtTo, pinflSearch, statuses, createdBy, selectedAgent?.id, selectedBank, selectedAppType]);
+  }, [page, size, fromDate, toDate, pinflSearch, statuses, createdBy, selectedAgent?.id, selectedBank, selectedAppType]);
 
   return { requests, total, loading };
 };

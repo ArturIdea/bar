@@ -8,8 +8,8 @@ export class GetSignUpRequestsUseCase {
   async execute(
     page: number,
     size: number,
-    createdAtFrom?: string,
-    createdAtTo?: string,
+    fromDate?: string,
+    toDate?: string,
     pinflSearch?: string,
     statuses?: string,
     userId?: string,
@@ -19,8 +19,8 @@ export class GetSignUpRequestsUseCase {
     return this.repository.getSignUpRequests(
       page,
       size,
-      createdAtFrom,
-      createdAtTo,
+      fromDate,
+      toDate,
       pinflSearch,
       statuses,
       userId,
