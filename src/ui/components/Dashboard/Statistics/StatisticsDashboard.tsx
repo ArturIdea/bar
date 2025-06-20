@@ -1,33 +1,23 @@
 import React from 'react';
 import { useRegistrationRequestPercentage } from '@/ui/hooks/ui/useRegistrationRequestPercentage';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
-import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { CardTypesPieChart } from '../Charts/CardTypes/CardTypesPieChart';
 import PercentageBarGraph from '../Charts/PercentageGraph/PercentageGraph';
 import LivenessPills from './LivenessPills';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
+import { useCitizensCount } from '@/ui/hooks/ui/useCitizensCount';
 
 export const StatisticsDashboard = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
 
-  const { total, loading: usersLoading } = useUsers(
-    0, // page
-    0, // size
-    undefined, // registrationChannel
-    fromDate, // fromDate
-    toDate, // toDate
-    undefined, // pinflSearch
-    undefined, // usernameSearch
-    undefined, // createdBy
-    // 'true' // isCitizen,
-  );
   const { loading: statsLoading } = useStatistics();
   const { data: registrationData, loading: registrationLoading } = useRegistrationRequestPercentage(
     fromDate,
     toDate
   );
+  const { count: citizensCount, loading: citizensLoading, error: citizensError } = useCitizensCount();
 
   const customColors = {
     total: 'rgb(33, 87, 226)',
@@ -36,7 +26,7 @@ export const StatisticsDashboard = () => {
     dropped_off: 'rgb(255, 165, 0)',
   };
 
-  if (usersLoading) {
+  if (citizensLoading) {
     return (
       <div className="w-full flex justify-end py-2 px-6">
         <div className="h-16 w-64 bg-gray-200 rounded-full animate-pulse" />
@@ -51,7 +41,13 @@ export const StatisticsDashboard = () => {
   return (
     <>
       {/* Total Users and Liveness Pills */}
-      <div className="w-full flex justify-end py-2 px-6 text-[32px]">Onboarded Users: {total}</div>
+      <div className="w-full flex justify-end py-2 px-6 text-[32px]">
+        {citizensError ? (
+          <span className="text-red-500">Error: {citizensError}</span>
+        ) : (
+          <>Onboarded Users: {citizensCount}</>
+        )}
+      </div>
       <LivenessPills />
 
       <div className="flex w-full">

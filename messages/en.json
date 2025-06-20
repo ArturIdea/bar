@@ -243,7 +243,7 @@
   "Filter": {
     "filterBy": "Filter By",
     "pinfl": "PINFL",
-    "searchPlaceHolder": "Search by PINFL & Name",
+    "searchPlaceHolder": "Search by Name",
     "signupReqId": "Sign Up Request ID",
     "docTypeId": "Document Type ID",
     "registrationChannel": {

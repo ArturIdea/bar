@@ -3,12 +3,24 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronLeft, ChevronRight, Plus, Search } from 'lucide-react';
+// import { IconFileTextFilled } from '@tabler/icons-react';
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  CircleSlash,
+  Eye,
+  ListFilter,
+  Pencil,
+  Plus,
+  Search,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useAdminUsers } from '@/ui/hooks/ui/useAdminUsers';
 import { useDeactivateAdmin } from '@/ui/hooks/ui/useDeactivateAdmin';
 import { AddAdminDrawer } from './AddAdminDrawer';
+import { AdminProfileDrawer } from './AdminProfileDrawer';
 
 interface Admin {
   id: string;
@@ -41,6 +53,8 @@ export function AdminList() {
   const [showDropdown, setShowDropdown] = useState<string | null>(null);
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
   const [showDeactivateConfirm, setShowDeactivateConfirm] = useState<string | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
+  const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
 
   const { users, total, loading } = useAdminUsers(page, pageSize, searchTerm);
   const { deactivateAdmin, isLoading: isDeactivating } = useDeactivateAdmin();
@@ -105,6 +119,12 @@ export function AdminList() {
     }
   };
 
+  const filteredUsers = users.filter(
+    (admin) =>
+      `${admin.firstName} ${admin.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (admin.username && admin.username.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="">
       <div className="flex justify-between p-6 items-center">
@@ -113,10 +133,7 @@ export function AdminList() {
         </Link>
         <div className="flex items-center gap-4 ">
           <div className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4">
-            <button
-              type="button"
-              className="cursor-pointer"
-            >
+            <button type="button" className="cursor-pointer">
               <Search size={15} />
             </button>
             <input
@@ -126,39 +143,8 @@ export function AdminList() {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px]"
             />
-            <button
-              type="button"
-              className="cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M10 18H14"
-                  stroke="#0B0B22"
-                  stroke-width="1.4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M7 12H17"
-                  stroke="#0B0B22"
-                  stroke-width="1.4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M3 6H21"
-                  stroke="#0B0B22"
-                  stroke-width="1.4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+            <button type="button" className="cursor-pointer">
+              <ListFilter/>
             </button>
           </div>
           <button
@@ -210,8 +196,8 @@ export function AdminList() {
                     Loading...
                   </td>
                 </tr>
-              ) : users && users.length > 0 ? (
-                users.map((admin) => (
+              ) : filteredUsers.length > 0 ? (
+                filteredUsers.map((admin) => (
                   <tr key={admin.id} className="hover:bg-neutral-50 transition-colors">
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">
                       {`${admin.firstName} ${admin.lastName}`}
@@ -240,30 +226,48 @@ export function AdminList() {
                       {showDropdown === admin.id && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 dropdown-menu">
                           <div className="py-1">
+                            {/* <button
+                              type="button"
+                              className="block px-4 cursor-pointer py-2 text-sm text-[#0B0B22] hover:bg-gray-100 w-full text-left"
+                              onClick={() => {
+                                setSelectedAdmin(admin);
+                                setIsProfileDrawerOpen(true);
+                                setShowDropdown(null);
+                              }}
+                            >
+                              <div className="flex gap-2 items-center">
+                                <IconFileTextFilled /> History Profile
+                              </div>
+                            </button> */}
                             <button
                               type="button"
-                              className="block px-4 py-2 text-sm text-[#0B0B22] hover:bg-gray-100 w-full text-left"
+                              className="block px-4 cursor-pointer py-2 text-sm text-[#0B0B22] hover:bg-gray-100 w-full text-left"
+                              onClick={() => {
+                                setSelectedAdmin(admin);
+                                setIsProfileDrawerOpen(true);
+                                setShowDropdown(null);
+                              }}
                             >
-                              Profile History
+                              <div className="flex gap-2 items-center">
+                                <Eye /> Profile
+                              </div>
                             </button>
                             <button
                               type="button"
-                              className="block px-4 py-2 text-sm text-[#0B0B22] hover:bg-gray-100 w-full text-left"
+                              className="block cursor-pointer px-4 text-[#9D9DA7] py-2 text-sm hover:bg-gray-100 w-full text-left"
                             >
-                              Profile
+                              <div className="flex gap-2 items-center">
+                                <Pencil /> Edit
+                              </div>
                             </button>
                             <button
                               type="button"
-                              className="block px-4 text-[#9D9DA7] py-2 text-sm hover:bg-gray-100 w-full text-left"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              type="button"
-                              className="block px-4 py-2 text-sm text-[#DC1B25] hover:bg-red-100 w-full text-left"
+                              className="block cursor-pointer px-4 py-2 text-sm text-[#DC1B25] hover:bg-red-100 w-full text-left"
                               onClick={() => setShowDeactivateConfirm(admin.id)}
                             >
-                              Deactivate
+                              <div className="flex gap-2 items-center">
+                                <CircleSlash /> Deactivate
+                              </div>
                             </button>
                           </div>
                         </div>
@@ -405,7 +409,8 @@ export function AdminList() {
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">Confirm Deactivation</h3>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to deactivate this admin user? This action can be reversed later.
+              Are you sure you want to deactivate this admin user? This action can be reversed
+              later.
             </p>
             <div className="flex justify-end gap-4">
               <button
@@ -428,6 +433,11 @@ export function AdminList() {
           </div>
         </div>
       )}
+      <AdminProfileDrawer
+        isOpen={isProfileDrawerOpen}
+        onClose={() => setIsProfileDrawerOpen(false)}
+        admin={selectedAdmin}
+      />
     </div>
   );
 }

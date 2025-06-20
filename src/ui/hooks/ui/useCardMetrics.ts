@@ -8,6 +8,7 @@ import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 interface CardMetrics {
   XALQ: number;
   ALOHA: number;
+  NODATA: number;
   totalCardCount: number;
 }
 

@@ -107,26 +107,22 @@ export function AdminSidebar() {
                     >
                       <li>{t('Sidebar.adminList')}</li>
                     </Link>
-                    <Link
+                    {/* <Link
                       href="/dashboard/user-management/agent-list"
                       onClick={() => setShowUserManagementPopover(false)}
                       className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
                     >
                       <li>{t('Sidebar.agentList')}</li>
-                    </Link>
+                    </Link> */}
                   </>
                 )}
-                {isAdmin && (
-                  <>
-                    <Link
-                      href="/dashboard/user-management/baraka-users"
-                      onClick={() => setShowUserManagementPopover(false)}
-                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
-                    >
-                      <li>{t('Sidebar.barakaUsers')}</li>
-                    </Link>
-                  </>
-                )}
+                <Link
+                  href="/dashboard/user-management/baraka-users"
+                  onClick={() => setShowUserManagementPopover(false)}
+                  className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                >
+                  <li>{t('Sidebar.barakaUsers')}</li>
+                </Link>
               </ul>
             </div>
           )}
