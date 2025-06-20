@@ -315,4 +315,33 @@ export class ApiClient {
       }
     }
   }
+
+  /**
+   * Export agents report as PDF
+   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, etc.
+   * @returns PDF Blob
+   */
+  async exportAgentsReportPDF(params: {
+    fromDate?: string;
+    toDate?: string;
+    bankType?: string;
+    pinfl?: string;
+    onboardingChannel?: string;
+    [key: string]: any;
+  } = {}): Promise<Blob> {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.append(key, value);
+      }
+    });
+    const url = `/api/admin/reports/agents/pdf${query.toString() ? `?${query.toString()}` : ""}`;
+    const response = await this.axiosInstance.get(url, {
+      responseType: 'blob',
+      headers: {
+        Accept: 'application/pdf',
+      },
+    });
+    return response.data;
+  }
 }

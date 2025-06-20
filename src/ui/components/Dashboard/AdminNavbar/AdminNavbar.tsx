@@ -16,6 +16,7 @@ import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
 import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
 import { BankFilter } from './BankFilter';
 import { AppTypeFilter } from './AppTypeFilter';
+import { ExportAgentsPdf } from './ExportAgentsPdf';
 
 export default function AdminNavbar() {
   const cookies = new Cookies();
@@ -84,6 +85,7 @@ export default function AdminNavbar() {
           <AgentSearch />
           <BankFilter />
           <AppTypeFilter />
+          <ExportAgentsPdf />
         </div>
         <div>
           <DateRangePicker
