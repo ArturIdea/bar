@@ -24,6 +24,7 @@ export function CardTypesPieChart() {
     () => ({
       XALQ: { label: 'XALQ', color: '#13AB3F' },
       ALOHA: { label: 'ALOHA', color: '#2157E2' },
+      NODATA: { label: 'NODATA', color: '#A0AEC0' },
     }),
     []
   );
@@ -42,6 +43,11 @@ export function CardTypesPieChart() {
         cardType: 'ALOHA',
         holders: metrics.ALOHA,
         fill: chartConfig.ALOHA.color,
+      },
+      {
+        cardType: 'NODATA',
+        holders: metrics.NODATA,
+        fill: chartConfig.NODATA.color,
       },
     ];
   }, [metrics, chartConfig]);
@@ -102,7 +108,8 @@ export function CardTypesPieChart() {
       const percentage = ((data.holders / totalHolders) * 100).toFixed(1);
       const bankNames: { [key: string]: string } = {
         'XALQ': 'Xalq bank',
-        'ALOHA': 'Aloqa bank'
+        'ALOHA': 'Aloqa bank',
+        'NODATA': 'No Data',
       };
       return (
         <div className="bg-white p-2">
@@ -119,7 +126,8 @@ export function CardTypesPieChart() {
     const { payload } = props;
     const bankNames: { [key: string]: string } = {
       'XALQ': 'Xalq bank',
-      'ALOHA': 'Aloqa bank'
+      'ALOHA': 'Aloqa bank',
+      'NODATA': 'No Data',
     };
     return (
       <ul className="flex justify-center gap-4">

@@ -98,11 +98,28 @@ export function AdminSidebar() {
               className="absolute w-32 top-0 left-full mt-0 ml-2 bg-white shadow-md border border-gray-200 rounded-md z-[999]"
             >
               <ul>
+                {isSuperAdmin && (
+                  <>
+                    <Link
+                      href="/dashboard/user-management/admin-list"
+                      onClick={() => setShowUserManagementPopover(false)}
+                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                    >
+                      <li>{t('Sidebar.adminList')}</li>
+                    </Link>
+                    {/* <Link
+                      href="/dashboard/user-management/agent-list"
+                      onClick={() => setShowUserManagementPopover(false)}
+                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                    >
+                      <li>{t('Sidebar.agentList')}</li>
+                    </Link> */}
+                  </>
+                )}
                 <Link
                   href="/dashboard/user-management/baraka-users"
                   onClick={() => setShowUserManagementPopover(false)}
-                  className="block px-4 py-2
-                    text-sm text-gray-600 hover:bg-gray-100"
+                  className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
                 >
                   <li>{t('Sidebar.barakaUsers')}</li>
                 </Link>

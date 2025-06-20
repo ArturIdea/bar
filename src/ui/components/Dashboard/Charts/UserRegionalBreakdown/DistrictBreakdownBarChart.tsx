@@ -138,10 +138,11 @@ const DistrictBreakdownBarChart = () => {
             {districts.map((district: District) => (
               <div
                 key={district.district}
-                className="flex flex-col justify-end items-center mb-[-22px] w-[60px]"
+                className="flex flex-col justify-end items-center mb-[-22px]"
+                style={{ width: '101px' }}
               >
                 <div
-                  className="w-full bg-[#08678E] rounded-t-md transition-all duration-300 ease-in-out min-h-[2px] relative group"
+                  className="w-[101px] bg-[#08678E] rounded-t-md transition-all duration-300 ease-in-out min-h-[2px] relative group"
                   style={{
                     height: `${(district.userCount / maxUserCount) * 100}%`,
                   }}
