@@ -88,16 +88,14 @@ export function SignupStageHighestBarChart() {
   };
 
   const totalRequests = chartData.reduce((sum, d) => sum + d.requests, 0);
-  const weightedDropSum = chartData.reduce((sum, d) => sum + d.requests * d.dropOffPercentage, 0);
-  const overallDropOff = totalRequests > 0 ? weightedDropSum / totalRequests : 0;
 
   return (
     <Card className="w-1/2 shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px] p-3 ">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStageHighest')}</CardTitle>
-          <div className="text-[#DC1B25] text-[12px] font-medium leading-normal tracking-[0px]">
-            Over All Drop Off Percentage: {overallDropOff.toFixed(2)}%
+          <div className="text-[#DC1B25] hidden text-[12px] font-medium leading-normal tracking-[0px]">
+            Over All Drop Off Total: {totalRequests}
           </div>
         </CardHeader>
         <div className="flex items-center gap-2">

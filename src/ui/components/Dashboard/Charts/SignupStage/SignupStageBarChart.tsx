@@ -102,7 +102,7 @@ export function SignupStageBarChart() {
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStages')}</CardTitle>
-          <div className='text-[#DC1B25] text-[12px] font-medium leading-normal tracking-[0px]'>
+          <div className='text-[#DC1B25] hidden text-[12px] font-medium leading-normal tracking-[0px]'>
             {loading
               ? 'Loading...'
               : overallDropOff !== null

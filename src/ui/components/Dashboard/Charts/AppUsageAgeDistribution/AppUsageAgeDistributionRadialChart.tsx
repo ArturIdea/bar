@@ -19,11 +19,11 @@ export function AppUsageAgeDistributionRadialChart() {
   const chartConfig = useMemo(
     () =>
       ({
-        teens: { label: '14-19', color: '#08678E' },
-        twenties: { label: '20-29', color: '#A5BE19' },
-        thirtiesForties: { label: '30-49', color: '#FAB52D' },
-        fiftiesSixties: { label: '50-69', color: '#A53F2B' },
-        seventiesPlus: { label: '70+', color: '#F4743B' },
+        teens: { label: '14-19', color: '#253A60' },
+        twenties: { label: '20-29', color: '#FFB700' },
+        thirtiesForties: { label: '30-49', color: '#2EC4B6' },
+        fiftiesSixties: { label: '50-69', color: '#F4743B' },
+        seventiesPlus: { label: '70+', color: '#BFD7B5' },
       }) satisfies ChartConfig,
     []
   );
@@ -119,7 +119,7 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-full min-h-[634px] rounded-[24px] p-3 flex flex-col border-l-0 border-b-0 border-t-0 border-r-0  2xl:border-b-0 shadow-none ">
+    <Card className="w-full min-h-[690px] rounded-[24px] p-3 flex flex-col border-l-0 border-b-0 border-t-0 border-r-0  2xl:border-b-0 shadow-none ">
       {/* header */}
       <div className="flex justify-between pr-8">
         <CardHeader>
@@ -152,7 +152,7 @@ export function AppUsageAgeDistributionRadialChart() {
       </CardContent>
       {/* Table  */}
       <div className="flex flex-col gap-4 w-full overflow-x-auto">
-        <div className="hidden items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Users2 className="w-4 h-4 text-gray-500" />
           <p className="text-gray-500 text-sm">
             {t('Charts.appUsers')}: {formattedTotal}

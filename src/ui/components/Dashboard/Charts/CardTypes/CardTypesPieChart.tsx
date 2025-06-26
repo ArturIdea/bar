@@ -23,9 +23,9 @@ export function CardTypesPieChart() {
 
   const chartConfig: ChartConfig = useMemo(
     () => ({
-      XALQ: { label: 'XALQ', color: '#13AB3F' },
-      ALOHA: { label: 'ALOHA', color: '#2157E2' },
-      NODATA: { label: 'NODATA', color: '#A0AEC0' },
+      XALQ: { label: 'XALQ', color: '#253A60' },
+      ALOHA: { label: 'ALOHA', color: '#2EC4B6' },
+      NODATA: { label: 'NODATA', color: '#BFD7B5' },
     }),
     []
   );
@@ -130,7 +130,7 @@ export function CardTypesPieChart() {
   };
 
   return (
-    <div className="w-full min-h-[634px] p-6 bg-white rounded-[24px] flex flex-col">
+    <div className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col">
       <h3 className="text-start text-[15px] font-bold mt-2">
         User Enrollment Distribution by Bank
       </h3>
@@ -169,7 +169,7 @@ export function CardTypesPieChart() {
         </div>
       </div>
       {/* Table below chart */}
-      <div className="w-full mt-6">
+      <div className="w-full mt-12">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-gray-500 text-left border-b">
