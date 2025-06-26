@@ -7,6 +7,7 @@ const appTypes = [
   { name: 'AGENT_APP', displayName: 'Agent App' },
   { name: 'CITIZEN_APP', displayName: 'Citizen App' },
   // { name: 'AGENT_PORTAL', displayName: 'Agent Portal' },
+  { name: 'XALQ_FILE', displayName: 'XALQ Pre Approved' },
   { name: 'HTTP_CLIENT', displayName: 'Manual addition' }
 ];
 
