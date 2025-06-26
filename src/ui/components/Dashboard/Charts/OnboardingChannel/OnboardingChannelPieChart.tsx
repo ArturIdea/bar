@@ -9,20 +9,20 @@ import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
 import { ExportDropdown } from '../../ExportDropdown';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 
-type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'WEB_PORTAL';
-
 export function OnboardingChannelPieChart() {
   const t = useTranslations();
   const fromDate = useDateRangeStore((state) => state.fromDate);
   const toDate = useDateRangeStore((state) => state.toDate);
   const { metrics, loading, error } = useChannelMetrics(fromDate, toDate);
 
-  const chartConfig = useMemo(
+  const chartConfig: Record<string, { label: string; color: string }> = useMemo(
     () => ({
       CITIZEN_APP: { label: t('Charts.CITIZEN_APP'), color: '#2157E2' },
       AGENT_APP: { label: t('Charts.AGENT_APP'), color: '#13AB3F' },
       BANK_PORTAL: { label: t('Charts.BANK_PORTAL'), color: '#F6A600' },
       WEB_PORTAL: { label: t('Charts.WEB_PORTAL'), color: '#DC1B25' },
+      XALQ_FILE: { label: t('Charts.XALQ_PORTAL'), color: '#8E44AD' },
+      HTTP_CLIENT: { label: t('Charts.HTTP_CLIENT'), color: '#16A085' },
     }),
     [t]
   );
@@ -31,13 +31,23 @@ export function OnboardingChannelPieChart() {
     if (!metrics) {
       return [];
     }
-    return Object.entries(metrics.channels).map(([key, value]) => ({
-      onboardingChannel: t(`Charts.${key as ChartKeys}`),
-      Total: value.Total,
-      Failed: value.Failed,
-      Success: value.Success,
-      fill: chartConfig[key as keyof typeof chartConfig]?.color || '#000',
-    }));
+    return Object.entries(metrics.channels).map(([key, value]) => {
+      let label = chartConfig[key]?.label;
+      if (!label) {
+        try {
+          label = t(`Charts.${key}` as any);
+        } catch {
+          label = key;
+        }
+      }
+      return {
+        onboardingChannel: label,
+        Total: value.Total,
+        Failed: value.Failed,
+        Success: value.Success,
+        fill: chartConfig[key]?.color || '#000',
+      };
+    });
   }, [metrics, t, chartConfig]);
 
   //total requests
