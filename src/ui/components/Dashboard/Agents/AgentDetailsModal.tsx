@@ -97,7 +97,7 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
   };
 
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] bg-primary/5 transition-opacity">
+    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] transition-opacity">
       <div
         ref={modalRef}
         className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full"
