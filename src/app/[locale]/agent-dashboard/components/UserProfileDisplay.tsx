@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { BasicProfileInfo } from './profile/BasicProfileInfo';
 import { BenefitsInfo } from './profile/BenefitsInfo';
 import { CreatedByInfo } from './profile/CreatedByInfo';
-import { TransactionsInfo } from './profile/TransactionsInfo';
 
 const placeholderUserImage = '/images/placeholder-user.png';
 
@@ -128,7 +127,7 @@ export const UserProfileDisplay = ({ userProfile }: UserProfileDisplayProps) => 
     { id: 'profile', label: 'Profile' },
     { id: 'benefits', label: 'Benefits' },
     { id: 'created', label: 'Created By' },
-    { id: 'transactions', label: 'Transactions' },
+    // { id: 'transactions', label: 'Transactions' }, // Transactions tab hidden
   ];
 
   const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
@@ -176,9 +175,9 @@ export const UserProfileDisplay = ({ userProfile }: UserProfileDisplayProps) => 
         {activeTab === 'profile' && <BasicProfileInfo userProfile={userProfile} />}
         {activeTab === 'benefits' && <BenefitsInfo benefits={userProfile.benefits} />}
         {activeTab === 'created' && <CreatedByInfo createdBy={userProfile.createdBy} />}
-        {activeTab === 'transactions' && (
+        {/* {activeTab === 'transactions' && (
           <TransactionsInfo pinfl={userProfile.pinfl} />
-        )}
+        )} */}
       </div>
     </div>
   );
