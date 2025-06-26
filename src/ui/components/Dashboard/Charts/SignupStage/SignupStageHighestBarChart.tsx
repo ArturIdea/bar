@@ -94,7 +94,7 @@ export function SignupStageHighestBarChart() {
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStageHighest')}</CardTitle>
-          <div className="text-[#DC1B25] hidden text-[12px] font-medium leading-normal tracking-[0px]">
+          <div className="text-[#DC1B25] text-[12px] font-medium leading-normal tracking-[0px]">
             Over All Drop Off Total: {totalRequests}
           </div>
         </CardHeader>
