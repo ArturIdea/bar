@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { Pagination } from '../../Pagination';
@@ -10,6 +10,7 @@ import { TableSkeleton } from '../../TableSkeleton';
 import ViewDetailsButton from '../../ViewDetailsButton';
 import MultiTabUserDetailsModal from './UserDetailsModal';
 import { formatChannelName } from '@/lib/utils';
+import { EyeIcon } from 'lucide-react';
 
 export const AdminUsersTable: React.FC<{
   filters?: {
@@ -101,7 +102,7 @@ export const AdminUsersTable: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col border-tborder-b border-gray-200">
+    <div className="flex flex-col m-3 p-3 bg-white rounded-[24px]">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-gray-200">
         {pathname === '/dashboard/user-management/baraka-users' ? (
@@ -118,8 +119,8 @@ export const AdminUsersTable: React.FC<{
         <div className="overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
-            <thead className="border border-gray-200 z-[999] ">
-              <tr className="text-left text-gray-400 ">
+            <thead className="bg-[#FAFAFA] rounded-[8px] ">
+              <tr className="text-left text-[#9D9DA7]">
                 {columns.map((col) => (
                   <th
                     key={col.key}
@@ -134,7 +135,7 @@ export const AdminUsersTable: React.FC<{
             {/* Table Body */}
             <tbody className="">
               {users.map((user) => (
-                <tr key={user.userId} className={` hover:bg-neutral-50 transition-colors`}>
+                <tr key={user.userId} className={` hover:bg-neutral-50 transition-colors border-b`}>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {user.firstName} {user.lastName}
                   </td>
@@ -158,7 +159,8 @@ export const AdminUsersTable: React.FC<{
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => toggleDropdown(user.userId)}
                     >
-                      <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                      {/* <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" /> */}
+                      <EyeIcon color='#0B0B22'/>
                     </button>
 
                     {/* Dropdown Menu */}
@@ -184,7 +186,7 @@ export const AdminUsersTable: React.FC<{
             </tbody>
           </table>
           {/* Pagination */}
-          <div className="bg-white border border-gray-200">
+          <div className="bg-[#FAFAFA] rounded-[8px]">
             <Pagination
               page={page}
               pageSize={pageSize}

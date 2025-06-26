@@ -194,6 +194,7 @@
     "channels": "Channels",
     "cardTypes": "Card Types",
     "holders": "Holders",
+    "percentage": "Percentage",
     "physicalCard": "Physical Card",
     "virtualCard": "Virtual Card",
     "onboardingChannel": "Onboarding Channel",
@@ -229,9 +230,11 @@
     "dropOffRate": "Drop-off Rate",
     "totalDropOffs": "Abandoned",
     "signupFailureRate": "Onboarding Failure Rate",
-    "dropOffPercentage": "Drop-off Percentage"
+    "dropOffPercentage": "Drop-off Percentage",
+    "signupStageHighest": "Signup Stage Highest Metrics"
   },
   "SignupStages": {
+    "CREATED": "Created",
     "OTP_SENT": "OTP Sent",
     "MOBILE_VERIFIED": "Mobile Verification Complete",
     "PERSONAL_INFO_VERIFIED": "Personal Info from NASP Verified",

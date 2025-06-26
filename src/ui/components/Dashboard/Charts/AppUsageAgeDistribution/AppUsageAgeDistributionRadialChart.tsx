@@ -7,8 +7,8 @@ import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useAgeDistribution } from '@/ui/hooks/ui/useAgeDistributionMetrics';
-import { ExportDropdown } from '../../ExportDropdown';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
+import { ExportDropdown } from '../../ExportDropdown';
 
 export function AppUsageAgeDistributionRadialChart() {
   const t = useTranslations();
@@ -119,7 +119,8 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-1/2 flex flex-col border-l-0 border-b-0 border-t-0 2xl:border-t-0 2xl:border-r-0  2xl:border-b-0 2xl:border-l-0 rounded-none shadow-none ">
+    <Card className="w-full min-h-[634px] rounded-[24px] p-3 flex flex-col border-l-0 border-b-0 border-t-0 border-r-0  2xl:border-b-0 shadow-none ">
+      {/* header */}
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.appUsageAgeDistribution')}</CardTitle>
@@ -133,8 +134,9 @@ export function AppUsageAgeDistributionRadialChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-0 gap-0 items-center 2xl:justify-start h-full pb-0">
-        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[320px]">
+      {/* Pie chart */}
+      <CardContent className="flex items-center justify-center pb-0">
+        <ChartContainer config={chartConfig} className="aspect-square min-h-[320px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
@@ -147,50 +149,51 @@ export function AppUsageAgeDistributionRadialChart() {
             />
           </PieChart>
         </ChartContainer>
-        <div className="flex flex-col gap-4 w-[55%] overflow-x-auto">
-          <div className="flex items-center gap-2">
-            <Users2 className="w-4 h-4 text-gray-500" />
-            <p className="text-gray-500 text-sm">
-              {t('Charts.appUsers')}: {formattedTotal}
-            </p>
-          </div>
-          <table className="min-w-full divide-y divide-gray-200 ">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.ageGroup')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.people')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {chartData.map(({ ageGroup, people, fill }) => {
-                const percentage =
-                  totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
-                return (
-                  <tr key={ageGroup}>
-                    <td className="px-4 py-2 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: fill }} />
-                        <span className="text-sm font-medium">{ageGroup}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {people.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {percentage}%
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
       </CardContent>
+      {/* Table  */}
+      <div className="flex flex-col gap-4 w-full overflow-x-auto">
+        <div className="hidden items-center justify-center gap-2">
+          <Users2 className="w-4 h-4 text-gray-500" />
+          <p className="text-gray-500 text-sm">
+            {t('Charts.appUsers')}: {formattedTotal}
+          </p>
+        </div>
+        <table className="min-w-full divide-y divide-gray-200 ">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.ageGroup')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.people')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {chartData.map(({ ageGroup, people, fill }) => {
+              const percentage =
+                totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
+              return (
+                <tr key={ageGroup}>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full" style={{ backgroundColor: fill }} />
+                      <span className="text-sm font-medium">{ageGroup}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {people.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {percentage}%
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </Card>
   );
 }

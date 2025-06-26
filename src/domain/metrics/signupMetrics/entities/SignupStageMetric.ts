@@ -20,3 +20,11 @@ export class SignupStageMetric {
     public signupRequestsNumber: number
   ) {}
 }
+
+export class SignupStageHighestMetric {
+  constructor(
+    public stage: SignupStage,
+    public signupRequestsNumber: number,
+    public dropPercentage: number
+  ) {}
+}

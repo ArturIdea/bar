@@ -45,7 +45,7 @@ const SignUpRequests: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col mt-10 h-full">
+    <div className="flex flex-col m-3 p-3 bg-white rounded-[24px] h-full">
       {pathname === '/dashboard/signup-requests' && (
         <div className="p-6 justify-end items-center">
           <Link href="/" className="flex items-center gap-2 cursor-pointer">

@@ -22,4 +22,19 @@ export class SignupStageMetricsRepositoryAPI implements SignupStageMetricsReposi
 
     return SignupStageMetricsAdapter.toDomainList(response.data);
   }
+
+  async getSignupStageHighestMetrics(fromDate?: string, toDate?: string) {
+    type HighestMetricsResponse = { stageMetrics: Record<string, { signupRequestsNumber: number; dropPercentage: number }> };
+    const response = await this.apiClient.get<HighestMetricsResponse>('/api/admin/metrics/signup-stage-highest-metrics', {
+      params: { fromDate, toDate },
+    });
+    if (
+      typeof response.data !== 'object' ||
+      Array.isArray(response.data) ||
+      response.data === null
+    ) {
+      throw new Error('API response is not an object');
+    }
+    return SignupStageMetricsAdapter.toHighestDomainList(response.data.stageMetrics);
+  }
 }

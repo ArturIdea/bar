@@ -78,8 +78,8 @@ export default function AdminNavbar() {
   };
 
   return (
-    <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
-      <h1 className="font-semibold text-4xl text-primary">{getTitle()}</h1>
+    <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center bg-[#FAFAFA]">
+      <h1 className="text-[#253A60] text-[24px] font-semibold leading-normal">{getTitle()}</h1>
       <div className="flex items-center gap-4">
         <div className="flex gap-2">
           <AgentSearch />

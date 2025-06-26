@@ -3,21 +3,22 @@
 import { useMemo } from 'react';
 import {
   Cell,
-  Legend,
   Pie,
   PieChart,
   PieLabelRenderProps,
-  ResponsiveContainer,
   Tooltip,
   TooltipProps,
 } from 'recharts';
-import { ChartConfig } from '@/components/ui/chart';
+import { CardContent } from '@/components/ui/card';
+import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { useCardMetrics } from '@/ui/hooks/ui/useCardMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
+import { useTranslations } from 'next-intl';
 
 export function CardTypesPieChart() {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
+  const t = useTranslations();
   const { metrics, loading, error } = useCardMetrics(fromDate, toDate);
 
   const chartConfig: ChartConfig = useMemo(
@@ -107,67 +108,111 @@ export function CardTypesPieChart() {
       const data = payload[0].payload;
       const percentage = ((data.holders / totalHolders) * 100).toFixed(1);
       const bankNames: { [key: string]: string } = {
-        'XALQ': 'Xalq bank',
-        'ALOHA': 'Aloqa bank',
-        'NODATA': 'No Data',
+        XALQ: 'Xalq',
+        ALOHA: 'Aloqa',
+        NODATA: 'No Data',
       };
       return (
-        <div className="bg-white p-2">
-          <p className="font-medium">{bankNames[data.cardType] || data.cardType}</p>
-          <p className="text-sm">Holders: {data.holders}</p>
-          <p className="text-sm">Percentage: {percentage}%</p>
+        <div className="bg-white p-[6px] rounded-lg text-xs w-42">
+          <p className="font-semibold pb-1">{bankNames[data.cardType] || data.cardType}</p>
+          <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.holders')}</p>
+              <p className="text-gray-500 ">{data.holders}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-500">{t('Charts.percentage')}</p>
+              <p className="text-gray-500">{percentage}%</p>
+            </div>
         </div>
       );
     }
     return null;
   };
 
-  const renderLegend = (props: any) => {
-    const { payload } = props;
-    const bankNames: { [key: string]: string } = {
-      'XALQ': 'Xalq bank',
-      'ALOHA': 'Aloqa bank',
-      'NODATA': 'No Data',
-    };
-    return (
-      <ul className="flex justify-center gap-4">
-        {payload.map((entry: any, index: number) => (
-          <li key={`item-${index}`} className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
-            <span>{bankNames[entry.value] || entry.value}</span>
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-1">
-        <h3 className="text-lg font-semibold">User Enrollment Distribution by Bank</h3>
+    <div className="w-full min-h-[634px] p-6 bg-white rounded-[24px] flex flex-col">
+      <h3 className="text-start text-[15px] font-bold mt-2">
+        User Enrollment Distribution by Bank
+      </h3>
+      <div className="relative flex items-center justify-center w-full h-[330px]">
+        <CardContent className="flex items-center pb-0">
+          <ChartContainer config={chartConfig} className="aspect-square min-h-[320px]">
+            <PieChart width={320} height={320}>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                innerRadius={70}
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="holders"
+                label={renderLabel}
+                labelLine={false}
+                nameKey="cardType"
+                isAnimationActive={false}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+        {/* Centered total users */}
+        <div
+          className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center"
+          style={{ transform: 'translate(-50%, -50%)' }}
+        >
+          <span className="text-xs text-gray-500">Total Users</span>
+          <span className="text-lg font-bold">{totalHolders.toLocaleString()}</span>
+        </div>
       </div>
-      <div className="h-[300px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="holders"
-              label={renderLabel}
-              nameKey="cardType"
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
-              ))}
-            </Pie>
-            <Tooltip content={<CustomTooltip />} />
-            <Legend content={renderLegend} />
-          </PieChart>
-        </ResponsiveContainer>
+      {/* Table below chart */}
+      <div className="w-full mt-6">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-gray-500 text-left border-b">
+              <th className="font-normal pb-1">Register Entity</th>
+              <th className="font-normal pb-1 text-right">Number of User</th>
+              <th className="font-normal pb-1 text-right">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {chartData.map((entry) => {
+              const percent = totalHolders
+                ? ((entry.holders / totalHolders) * 100).toFixed(0)
+                : '0';
+              const bankNames: { [key: string]: string } = {
+                XALQ: 'Xalq',
+                ALOHA: 'Aloqa',
+                NODATA: 'No Data',
+              };
+              return (
+                <tr key={entry.cardType} className="border-b last:border-none">
+                  <td className="py-1 flex items-center gap-2">
+                    <span
+                      className="inline-block w-2 h-2 rounded-full"
+                      style={{ backgroundColor: entry.fill }}
+                    />
+                    {bankNames[entry.cardType] || entry.cardType}
+                  </td>
+                  <td className="py-1 text-center">{entry.holders.toLocaleString()}</td>
+                  <td className="py-1 text-center">{percent}%</td>
+                </tr>
+              );
+            })}
+            {/* Total row */}
+            <tr className="font-semibold">
+              <td className="py-1 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
+                Total Registered User
+              </td>
+              <td className="py-1 text-center">{totalHolders.toLocaleString()}</td>
+              <td className="py-1 text-center">100%</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

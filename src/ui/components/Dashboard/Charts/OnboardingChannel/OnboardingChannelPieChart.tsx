@@ -6,8 +6,8 @@ import { Pie, PieChart, PieLabelRenderProps, TooltipProps } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { useChannelMetrics } from '@/ui/hooks/ui/useChannelMetrics';
-import { ExportDropdown } from '../../ExportDropdown';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
+import { ExportDropdown } from '../../ExportDropdown';
 
 type ChartKeys = 'CITIZEN_APP' | 'AGENT_APP' | 'WEB_PORTAL';
 
@@ -128,7 +128,8 @@ export function OnboardingChannelPieChart() {
   };
 
   return (
-    <Card className="w-1/2 flex flex-col border-l-0 border-t-0 border-b-0  2xl:border-b-0 rounded-none shadow-none">
+    <Card className="w-full p-3 flex flex-col min-h-[634px] rounded-[24px] border-l-0 border-t-0 border-b-0 border-r-0 shadow-none">
+      {/* Header */}
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
@@ -146,8 +147,9 @@ export function OnboardingChannelPieChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-0 gap-0 items-center h-full pb-0">
-        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[320px]">
+      {/* Pie chart */}
+      <CardContent className="flex items-center justify-center pb-2">
+        <ChartContainer config={chartConfig} className=" aspect-square min-h-[320px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
@@ -160,75 +162,70 @@ export function OnboardingChannelPieChart() {
             />
           </PieChart>
         </ChartContainer>
-
-        <div className="flex flex-col gap-2 overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.channels')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.totalRequests')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.successfulRequests')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
-                  {t('Charts.failedRequests')}
-                </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {chartData.map((entry) => {
-                const percentage =
-                  totalHolders > 0 ? ((entry.Total / totalHolders) * 100).toFixed(1) : '0.0';
-                return (
-                  <tr key={entry.onboardingChannel}>
-                    <td className="px-4 py-2 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: entry.fill }}
-                        />
-                        <span className="text-sm font-medium">{entry.onboardingChannel}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {entry.Total}
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {entry.Success}
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {entry.Failed}
-                    </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                      {percentage}%
-                    </td>
-                  </tr>
-                );
-              })}
-              {/* Total Requests row */}
-              <tr className="bg-neutral-50 font-semibold">
-                <td className="px-4 py-2 whitespace-nowrap">{t('Charts.totalRequests')}</td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                  {totals.Total}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                  {totals.Success}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-                  {totals.Failed}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">100%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </CardContent>
+      {/* Table */}
+      <div className="flex flex-col gap-2 overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.channels')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.totalRequests')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.successfulRequests')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                {t('Charts.failedRequests')}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {chartData.map((entry) => {
+              const percentage =
+                totalHolders > 0 ? ((entry.Total / totalHolders) * 100).toFixed(1) : '0.0';
+              return (
+                <tr key={entry.onboardingChannel}>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: entry.fill }}
+                      />
+                      <span className="text-sm font-medium">{entry.onboardingChannel}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {entry.Total}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {entry.Success}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {entry.Failed}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    {percentage}%
+                  </td>
+                </tr>
+              );
+            })}
+            {/* Total Requests row */}
+            <tr className="bg-neutral-50 font-semibold">
+              <td className="px-4 py-2 whitespace-nowrap">{t('Charts.totalRequests')}</td>
+              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{totals.Total}</td>
+              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                {totals.Success}
+              </td>
+              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{totals.Failed}</td>
+              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </Card>
   );
 }
-

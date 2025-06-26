@@ -37,3 +37,7 @@ export function formatLastLogin(dateStr: string): string {
 
   return formattedDate.replace(",", "");
 }
+
+export function toTitleCase(str: string): string {
+  return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+}

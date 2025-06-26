@@ -1,6 +1,7 @@
 import {
   SignupStage,
   SignupStageMetric,
+  SignupStageHighestMetric,
 } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
 
 const ORDERED_STAGES: SignupStage[] = [
@@ -28,6 +29,16 @@ export const SignupStageMetricsAdapter = {
     return ORDERED_STAGES.map((stage) => {
       const n = rawObj[stage]?.signupRequestsNumber ?? 0;
       return new SignupStageMetric(stage, n);
+    });
+  },
+
+  toHighestDomainList: (rawObj: Record<string, any>): SignupStageHighestMetric[] => {
+    return Object.entries(rawObj).map(([stage, data]: [string, any]) => {
+      return new SignupStageHighestMetric(
+        stage as SignupStage,
+        data.signupRequestsNumber,
+        data.dropPercentage
+      );
     });
   },
 };

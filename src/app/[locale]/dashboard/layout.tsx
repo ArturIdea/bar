@@ -7,7 +7,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <AdminSidebar />
       <main className="flex-1 flex flex-col overflow-hidden">
         <AdminNavbar />
-        <div className="flex-1 overflow-y-auto">{children}</div>
+        <div className="flex-1 overflow-y-auto bg-[#FAFAFA]">{children}</div>
       </main>
     </div>
   );
