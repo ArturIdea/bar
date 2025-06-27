@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 // import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
@@ -23,7 +23,6 @@ export const SignUpRequestsTable: React.FC<{
 }> = ({ filters = {} }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
-  const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
   const [selectedPinfl, setSelectedPinfl] = useState<string | null>(null);
   const { requests, total, loading } = useSignUpRequests(
@@ -35,7 +34,6 @@ export const SignUpRequestsTable: React.FC<{
     filters.statuses
   );
   const pathname = usePathname();
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations();
 
   useEffect(() => setPage(0), [filters]);
@@ -43,7 +41,6 @@ export const SignUpRequestsTable: React.FC<{
   const openSignupModal = (id: string) => {
     setSelectedRequestId(id);
     setSelectedPinfl(null);
-    setDropdownOpen({});
   };
 
   const openUserDetails = (pinfl: string) => {
@@ -57,24 +54,6 @@ export const SignUpRequestsTable: React.FC<{
     setPageSize(Number(event.target.value));
     setPage(0);
   };
-
-  const toggleDropdown = (id: string) => {
-    setDropdownOpen((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen({});
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   if (loading) {
     return <TableSkeleton />;
@@ -169,26 +148,10 @@ export const SignUpRequestsTable: React.FC<{
                     <button
                       type="button"
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                      onClick={() => toggleDropdown(req.id)}
+                      onClick={() => openSignupModal(req.id)}
                     >
-                      {/* <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" /> */}
                       <EyeIcon color='#0B0B22'/>
                     </button>
-
-                    {dropdownOpen[req.id] && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute right-16 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                      >
-                        <button
-                          type="button"
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => openSignupModal(req.id)}
-                        >
-                          {t('Buttons.viewSignupDetails')}
-                        </button>
-                      </div>
-                    )}
                   </td>
                 </tr>
               ))}

@@ -43,21 +43,21 @@ export const BankFilter = () => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 border border-gray-300 rounded-full py-2.5 px-4 hover:border-gray-400 transition-colors"
+        className="flex items-center gap-2 bg-[#fff] text-[#0B0B22] border border-gray-300 rounded-full py-2.5 px-4 hover:border-gray-400 transition-colors"
       >
-        <span className="text-sm text-gray-700">
+        <span className="text-sm">
           {selectedBank || 'All Banks'}
         </span>
         {selectedBank && (
           <button
             type="button"
             onClick={handleClear}
-            className="text-gray-500 hover:text-gray-700"
+            className="bg-[#fff] text-[#0B0B22] hover:text-gray-700"
           >
             <X size={14} />
           </button>
         )}
-        <ChevronDown size={14} className="text-gray-500" />
+        <ChevronDown size={14} className="bg-[#fff] text-[#0B0B22]" />
       </button>
 
       {isOpen && (

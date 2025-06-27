@@ -21,7 +21,7 @@ export function DateRangeSelector({ selected, onChange }: Props) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-1 px-3 h-[40px] rounded-full border">
+      <DropdownMenuTrigger className="flex items-center bg-[#fff] text-[#0B0B22] gap-1 px-3 h-[43px] rounded-full border">
         {t(`Charts.${selected}`)} <ChevronDown className="h-4 w-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

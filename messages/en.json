@@ -233,7 +233,7 @@
     "totalDropOffs": "Abandoned",
     "signupFailureRate": "Onboarding Failure Rate",
     "dropOffPercentage": "Drop-off Percentage",
-    "signupStageHighest": "Signup Stage Highest Metrics"
+    "signupStageHighest": "Highest Recorded Status for Each Unique PINFL"
   },
   "SignupStages": {
     "CREATED": "Created",

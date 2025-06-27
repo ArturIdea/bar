@@ -13,6 +13,7 @@ import {
 import { useSignupStageHighestMetrics } from '@/ui/hooks/ui/useSignupStageHighestMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
+import { SignupStage } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
 
 export function SignupStageHighestBarChart() {
   const t = useTranslations();
@@ -22,13 +23,15 @@ export function SignupStageHighestBarChart() {
 
   const { metrics, loading, error } = useSignupStageHighestMetrics(startDate, endDate);
 
-  const chartData = metrics.map((m) => {
-    return {
-      stage: t(`SignupStages.${m.stage}` as any),
-      requests: m.signupRequestsNumber,
-      dropOffPercentage: m.dropPercentage,
-    };
-  });
+  const chartData = metrics
+    .filter((m) => m.stage !== SignupStage.CREATED)
+    .map((m) => {
+      return {
+        stage: t(`SignupStages.${m.stage}` as any),
+        requests: m.signupRequestsNumber,
+        dropOffPercentage: m.dropPercentage,
+      };
+    });
 
   const chartConfig = {
     requests: {
@@ -62,10 +65,10 @@ export function SignupStageHighestBarChart() {
   };
 
   const CustomizedLabel = (props: any) => {
-    const { x, y, width, value, index } = props;
-    if (index === 0) {
-      return null;
-    }
+    const { x, y, width, value } = props;
+    // if (index === 0) {
+    //   return null;
+    // }
     const rectHeight = 30;
     const rectX = x;
     const rectY = y - rectHeight;
@@ -81,7 +84,7 @@ export function SignupStageHighestBarChart() {
           dominantBaseline="middle"
           style={{ fontSize: 12, fontWeight: 600 }}
         >
-          {`${Math.round(value)}%`}
+          {`${Math.round(value)}`}
         </text>
       </g>
     );
@@ -94,7 +97,7 @@ export function SignupStageHighestBarChart() {
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.signupStageHighest')}</CardTitle>
-          <div className="text-[#DC1B25] text-[12px] font-medium leading-normal tracking-[0px]">
+          <div className="text-[#DC1B25] hidden text-[12px] font-medium leading-normal tracking-[0px]">
             Over All Drop Off Total: {totalRequests}
           </div>
         </CardHeader>
@@ -152,7 +155,7 @@ export function SignupStageHighestBarChart() {
               />
               <Bar dataKey="requests" fill={chartConfig.requests.color} barSize={75}>
                 <LabelList
-                  dataKey="dropOffPercentage"
+                  dataKey="requests"
                   content={(labelProps) => <CustomizedLabel {...labelProps} />}
                 />
               </Bar>

@@ -56,7 +56,7 @@ export const ExportAgentsPdf: React.FC = () => {
         type="button"
         onClick={handleExport}
         disabled={loading}
-        className="bg-primary text-white px-3 py-2 rounded-full border text-sm"
+        className="bg-[#fff] text-[#0B0B22] px-3 py-2 rounded-full border text-sm"
       >
         {loading ? 'Exporting...' : 'Export PDF'}
       </button>

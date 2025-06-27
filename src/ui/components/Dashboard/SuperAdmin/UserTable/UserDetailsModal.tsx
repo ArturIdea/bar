@@ -82,8 +82,21 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   const cookies = new Cookies();
   const locale = cookies.get('NEXT_LOCALE') || 'en';
   const router = useRouter();
-
+  const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('details');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsVisible(true);
+  }, []);
+
+  function handleClose() {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // match transition duration
+  }
 
   const handleHistoryClick = () => {
     if (user?.createdBy?.userId) {
@@ -607,18 +620,27 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
     }
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-primary/5 backdrop-blur-md transition-opacity">
+    <div
+      className={`z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      style={{ background: 'rgba(11,11,34,0.4)' }}
+    >
       <div
         ref={modalRef}
-        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full"
+        className={`relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full
+          transform transition-transform duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
+        style={{ willChange: 'transform, opacity' }}
       >
         <div className="p-12 flex justify-between items-center">
           <h1 className="text-xl">{t('UserManagement.modalTitle')}</h1>
           <button
             type="button"
             className="cursor-pointer text-neutral-900"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
           >
             <XIcon className="w-6 h-6" />

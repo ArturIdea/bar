@@ -57,7 +57,7 @@ const DateRangePicker = React.forwardRef<{ reset: () => void }, DateRangePickerP
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="h-[40px] w-full flex justify-start text-left font-normal rounded-full cursor-pointer"
+            className="h-[43px] w-full flex justify-start text-left font-normal rounded-full cursor-pointer"
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             <span>

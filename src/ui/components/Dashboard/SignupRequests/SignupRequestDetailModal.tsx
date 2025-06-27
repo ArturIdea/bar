@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
@@ -17,7 +17,19 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
 }) => {
   const { signupRequest, loading, error } = useSignupRequestDetail(id);
   const t = useTranslations();
-  const modalRef = useClickOutside<HTMLDivElement>(onClose);
+  const [isVisible, setIsVisible] = useState(false);
+  const modalRef = useClickOutside<HTMLDivElement>(handleClose);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  function handleClose() {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // match transition duration
+  }
 
   if (!id) {
     return null;
@@ -84,10 +96,10 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
   };
 
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-black/30 backdrop-blur-md">
+    <div className={`z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div
         ref={modalRef}
-        className="relative bg-white w-full max-w-3xl shadow-xl overflow-y-auto h-full p-10"
+        className={`relative bg-white w-full max-w-3xl shadow-xl overflow-y-auto h-full p-10 transform transition-transform duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Loading State */}
         {loading && (
@@ -114,7 +126,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
                 <button
                   type="button"
                   className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                  onClick={onClose}
+                  onClick={handleClose}
                   aria-label="Close modal"
                 >
                   ✕
@@ -134,7 +146,7 @@ const SignupRequestDetailModal: React.FC<SignupRequestDetailModalProps> = ({
                   type="button"
                   className="bg-primary text-white px-4 py-2 rounded-full transition cursor-pointer"
                   onClick={() => {
-                    onClose();
+                    handleClose();
                     onOpenUserDetails(signupRequest.pinfl);
                   }}
                 >
