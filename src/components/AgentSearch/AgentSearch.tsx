@@ -1,5 +1,5 @@
-import React, { FormEvent, useState, useEffect } from 'react';
-import { Search, X } from 'lucide-react';
+import React, { FormEvent, useEffect, useState } from 'react';
+import {  UserSearch, X } from 'lucide-react';
 import { useAgent } from '@/contexts/AgentContext';
 import { agentService } from '@/services/agentService';
 
@@ -51,6 +51,14 @@ export const AgentSearch: React.FC = () => {
     <div className="flex flex-col gap-2">
       <form onSubmit={handleSearch} className="flex gap-2">
         <div className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 max-w-[200px]">
+          <button
+            type="button"
+            disabled={loading}
+            className="cursor-pointer"
+            onClick={handleSearch}
+          >
+            <UserSearch size={18} />
+          </button>
           <input
             type="text"
             value={pinfl}
@@ -58,14 +66,7 @@ export const AgentSearch: React.FC = () => {
             placeholder="Enter Agent PINFL number"
             className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px] max-w-[120px]"
           />
-          <button
-            type="button"
-            disabled={loading}
-            className="cursor-pointer"
-            onClick={handleSearch}
-          >
-            <Search size={15} />
-          </button>
+
           <button type="button" disabled={loading} className="cursor-pointer" onClick={handleReset}>
             {/* <span className='text-[12px] '>Reset</span> */}
             <X size={15} />
@@ -75,7 +76,7 @@ export const AgentSearch: React.FC = () => {
       {error && (
         <div className="alert alert-error">
           <div className="flex gap-2">
-            <span className='text-red-500'>{error}</span>
+            <span className="text-red-500">{error}</span>
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Azizbek Tursunov",
+    "email": "azizbek.tursunov@mail.uz",
+    "mobile": "+998 93 123 45 67",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Dilnoza Karimova",
+    "email": "dilnoza.karimova@umail.uz",
+    "mobile": "+998 94 234 56 78",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Shoxrux Ergashev",
+    "email": "shoxrux.ergashev@tashkent.uz",
+    "mobile": "+998 91 345 67 89",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Nodira Rakhimova",
+    "email": "nodira.rakhimova@uzsoft.uz",
+    "mobile": "+998 95 456 78 90",
+    "role": "Admin",
+    "organisation": "NASP"
+  },
+  {
+    "name": "Javohir Abdullayev",
+    "email": "javohir.abdullayev@baraka.uz",
+    "mobile": "+998 97 567 89 01",
+    "role": "Admin",
+    "organisation": "NASP"
+  },
+  {
+    "name": "Gulnoza Ismailova",
+    "email": "gulnoza.ismailova@edu.uz",
+    "mobile": "+998 90 678 90 12",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Mirjalol Sobirov",
+    "email": "mirjalol.sobirov@itpark.uz",
+    "mobile": "+998 93 789 01 23",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Muxlisa Toirova",
+    "email": "muxlisa.toirova@service.uz",
+    "mobile": "+998 94 890 12 34",
+    "role": "Admin",
+    "organisation": "NASP"
+  },
+  {
+    "name": "Bakhodir Nematov",
+    "email": "bakhodir.nematov@company.uz",
+    "mobile": "+998 91 901 23 45",
+    "role": "Admin",
+    "organisation": "Baraka"
+  },
+  {
+    "name": "Sarvar Mukhamedov",
+    "email": "sarvar.mukhamedov@business.uz",
+    "mobile": "+998 95 012 34 56",
+    "role": "Admin",
+    "organisation": "Baraka"
+  }
+]

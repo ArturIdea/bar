@@ -9,7 +9,6 @@ import InsightsIcon from '@/../public/images/icons/dashboard/sidebar/insightsIco
 import signupRequestsIcon from '@/../public/images/icons/dashboard/sidebar/signupRequestsIcon.svg';
 import UserManagementIcon from '@/../public/images/icons/dashboard/sidebar/userManagementIcon.svg';
 import { Link, usePathname } from '@/i18n/routing';
-import { useClickOutside } from '@/ui/hooks/ui/useClickOutside';
 import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 
 export function AdminSidebar() {
@@ -69,12 +68,6 @@ export function AdminSidebar() {
     setNavItems([...regularNavItems, ...developerNavItems]);
   }, [isAdmin, isAgent, isDeveloper, isSuperAdmin, t]);
 
-  const onClose = () => {
-    setShowUserManagementPopover(false);
-  };
-
-  const modalRef = useClickOutside<HTMLDivElement>(onClose);
-
   const renderNavItem = (item: { link: string; label: string; icon: any }) => {
     if (item.link === '/dashboard/user-management') {
       return (
@@ -83,34 +76,39 @@ export function AdminSidebar() {
             type="button"
             onClick={() => setShowUserManagementPopover(!showUserManagementPopover)}
             className={`w-full flex justify-between items-center p-4 font-medium transition-colors ${
-              pathname === item.link ? 'bg-gray-100 text-primary' : 'text-gray-600 hover:bg-gray-50'
+              pathname === item.link ? 'bg-gray-100 text-primary border-l-8 border-l-[#253A60]' : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
             <div className="flex">
-              <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" />
+              {/* <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" /> */}
               <span className="text-sm font-medium">{item.label}</span>
             </div>
-            <ChevronRight />
+            <ChevronRight className={`${showUserManagementPopover ? 'rotate-90 transition-transform' : ''}`} />
           </button>
           {showUserManagementPopover && (
-            <div
-              ref={modalRef}
-              className="absolute w-32 top-0 left-full mt-0 ml-2 bg-white shadow-md border border-gray-200 rounded-md z-[999]"
-            >
-              <ul>
+            <div className="w-full">
+              <ul className="pl-2">
                 {isSuperAdmin && (
                   <>
                     <Link
                       href="/dashboard/user-management/admin-list"
-                      onClick={() => setShowUserManagementPopover(false)}
-                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                      // onClick={() => setShowUserManagementPopover(false)}
+                      className={`block px-4 py-2 text-sm transition-colors ${
+                        pathname === '/dashboard/user-management/admin-list'
+                          ? 'bg-[#FAFAFA] text-primary border-l-8 border-l-[#253A60]'
+                          : 'text-gray-600 hover:bg-gray-50'
+                      }`}
                     >
                       <li>{t('Sidebar.adminList')}</li>
                     </Link>
                     {/* <Link
                       href="/dashboard/user-management/agent-list"
-                      onClick={() => setShowUserManagementPopover(false)}
-                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                      // onClick={() => setShowUserManagementPopover(false)}
+                      className={`block px-4 py-2 text-sm transition-colors ${
+                        pathname === '/dashboard/user-management/agent-list'
+                          ? 'bg-[#FAFAFA] text-primary border-l-8 border-l-[#253A60]'
+                          : 'text-gray-600 hover:bg-gray-50'
+                      }`}
                     >
                       <li>{t('Sidebar.agentList')}</li>
                     </Link> */}
@@ -118,8 +116,12 @@ export function AdminSidebar() {
                 )}
                 <Link
                   href="/dashboard/user-management/baraka-users"
-                  onClick={() => setShowUserManagementPopover(false)}
-                  className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                  // onClick={() => setShowUserManagementPopover(false)}
+                  className={`block px-4 py-2 text-sm transition-colors ${
+                    pathname === '/dashboard/user-management/baraka-users'
+                      ? 'bg-[#FAFAFA] text-primary border-l-8 border-l-[#253A60]'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
                 >
                   <li>{t('Sidebar.barakaUsers')}</li>
                 </Link>
@@ -135,17 +137,17 @@ export function AdminSidebar() {
         key={item.label}
         href={item.link}
         className={`flex items-center p-4 text-sm font-medium transition-colors ${
-          pathname === item.link ? 'bg-gray-100 text-primary' : 'text-gray-600 hover:bg-gray-50'
+          pathname === item.link ? 'bg-[#FAFAFA] text-primary border-l-8 border-l-[#253A60]' : 'text-gray-600 hover:bg-gray-50'
         }`}
       >
-        <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" />
+        {/* <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" /> */}
         <span>{item.label}</span>
       </Link>
     );
   };
 
   return (
-    <nav className="sticky z-20 top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-r border-gray-200">
+    <nav className="sticky z-20 top-0 lg:w-64 md:w-52 w-48 h-auto bg-white border-gray-200">
       <Link href={isAdmin ? '/dashboard' : isAgent ? '/agent-dashboard' : '/'}>
         <div className="p-6 border-b border-gray-200">
           <Image src="/images/logos/baraka_main_logo.svg" width={107} height={28} alt="logo" />

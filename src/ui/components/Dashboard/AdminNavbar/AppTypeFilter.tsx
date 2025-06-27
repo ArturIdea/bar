@@ -46,7 +46,7 @@ export const AppTypeFilter = () => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 hover:border-gray-400 transition-colors"
+        className="flex items-center gap-2 border border-gray-300 rounded-full py-2.5 px-4 hover:border-gray-400 transition-colors"
       >
         <span className="text-sm text-gray-700">
           {selectedAppType ? appTypes.find(type => type.name === selectedAppType)?.displayName : 'All Apps'}

@@ -43,7 +43,7 @@ export default function LivenessPills() {
   return (
     <div className="px-6">
       {!error && (
-        <div className="bg-[#ADD9F4] p-2 rounded-full flex gap-4">
+        <div className="bg-[#F3F2F4] p-2 rounded-full flex gap-4">
           {liveness.map((item) => {
             const code = Number(item.status);
             let dotColor = 'bg-gray-500';
@@ -63,14 +63,14 @@ export default function LivenessPills() {
 
             return (
               <div key={item.instanceName} className="group relative inline-block">
-                <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white min-w-[150px]">
+                <div className="flex items-center space-x-2 px-2 py-2 rounded-full bg-white min-w-[140px]">
                   <span className={`w-4 h-4 rounded-full ${dotColor}`} />
-                  <span className="text-sm font-medium text-gray-800">{displayName}</span>
+                  <span className="text-[14px] text-gray-800">{displayName}</span>
                 </div>
 
                 {/* popover */}
                 <PopoverBubble>
-                  <span className="text-sm">Uptime:</span>
+                  <span className="text-[14px]">Uptime:</span>
                   <span className="text-xs">{niceUptime}</span>
                 </PopoverBubble>
               </div>

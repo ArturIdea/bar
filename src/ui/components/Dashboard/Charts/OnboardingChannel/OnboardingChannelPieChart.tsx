@@ -17,12 +17,12 @@ export function OnboardingChannelPieChart() {
 
   const chartConfig: Record<string, { label: string; color: string }> = useMemo(
     () => ({
-      CITIZEN_APP: { label: t('Charts.CITIZEN_APP'), color: '#2157E2' },
-      AGENT_APP: { label: t('Charts.AGENT_APP'), color: '#13AB3F' },
+      CITIZEN_APP: { label: t('Charts.CITIZEN_APP'), color: '#2EC4B6' },
+      AGENT_APP: { label: t('Charts.AGENT_APP'), color: '#F4743B' },
       BANK_PORTAL: { label: t('Charts.BANK_PORTAL'), color: '#F6A600' },
       WEB_PORTAL: { label: t('Charts.WEB_PORTAL'), color: '#DC1B25' },
-      XALQ_FILE: { label: t('Charts.XALQ_PORTAL'), color: '#8E44AD' },
-      HTTP_CLIENT: { label: t('Charts.HTTP_CLIENT'), color: '#16A085' },
+      XALQ_FILE: { label: t('Charts.XALQ_PORTAL'), color: '#FFB700' },
+      HTTP_CLIENT: { label: t('Charts.HTTP_CLIENT'), color: '#253A60' },
     }),
     [t]
   );
@@ -138,12 +138,12 @@ export function OnboardingChannelPieChart() {
   };
 
   return (
-    <Card className="w-1/2 flex flex-col border-l-0 border-t-0 border-b-0  2xl:border-b-0 rounded-none shadow-none">
+    <Card className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col border-l-0 border-t-0 border-b-0  2xl:border-b-0 shadow-none">
       <div className="flex justify-between pr-8">
         <CardHeader>
           <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
         </CardHeader>
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center">
           <ExportDropdown
             chartData={chartData}
             fileName={t('Charts.onboardingChannel')}
@@ -156,8 +156,8 @@ export function OnboardingChannelPieChart() {
           />
         </div>
       </div>
-      <CardContent className="flex 2xl:gap-0 gap-0 items-center h-full pb-0">
-        <ChartContainer config={chartConfig} className="h-[25vh] aspect-square min-h-[320px]">
+      <CardContent className="flex items-center justify-center pb-0">
+        <ChartContainer config={chartConfig} className="aspect-square min-h-[320px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Pie
@@ -170,8 +170,8 @@ export function OnboardingChannelPieChart() {
             />
           </PieChart>
         </ChartContainer>
-
-        <div className="flex flex-col gap-2 overflow-x-auto">
+      </CardContent>
+      <div className="flex flex-col gap-2 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
@@ -237,7 +237,6 @@ export function OnboardingChannelPieChart() {
             </tbody>
           </table>
         </div>
-      </CardContent>
     </Card>
   );
 }

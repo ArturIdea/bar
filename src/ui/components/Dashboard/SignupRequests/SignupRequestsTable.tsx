@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { Pagination } from '../Pagination';
@@ -10,7 +10,8 @@ import UserDetailsModal from '../Users/UserDetailsModal';
 import ViewDetailsButton from '../ViewDetailsButton';
 // import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
-import { formatChannelName } from '@/lib/utils';
+import { formatChannelName, toTitleCase } from '@/lib/utils';
+import { EyeIcon } from 'lucide-react';
 
 export const SignUpRequestsTable: React.FC<{
   filters?: {
@@ -81,20 +82,22 @@ export const SignUpRequestsTable: React.FC<{
 
   const getStatusClass = (status: string) => {
     const statusClasses: Record<string, string> = {
-      CREATED: 'bg-blue-300',
-      OTP_SENT: 'bg-blue-400',
-      MOBILE_VERIFIED: 'bg-green-300',
-      AGREEMENTS_ACCEPTED: 'bg-green-400',
-      FACE_VERIFICATION_IN_PROGRESS: 'bg-yellow-500',
-      VERIFICATION_COMPLETED: 'bg-green-400',
-      VERIFICATION_FAILED: 'bg-red-500',
-      FAILED_FINALIZATION: 'bg-red-500',
-      NOT_ELIGIBLE: 'bg-red-500',
-      COMPLETED: 'bg-green-500',
-      DEFAULT: 'bg-gray-400',
+      CREATED: 'bg-[rgba(33,87,226,0.20)] text-[color:var(--Alert-info,#2157E2)]',
+      OTP_SENT: 'bg-[rgba(33,87,226,0.25)] text-[color:var(--Alert-info,#2157E2)]',
+      MOBILE_VERIFIED: 'bg-[rgba(19,171,63,0.20)] text-[color:var(--Alert-success,#13AB3F)]',
+      AGREEMENTS_ACCEPTED: 'bg-[rgba(19,171,63,0.25)] text-[color:var(--Alert-success,#13AB3F)]',
+      FACE_VERIFICATION_IN_PROGRESS: 'bg-[rgba(234,179,8,0.30)] text-[#EAB308]', // you can also use var() if you define it
+      VERIFICATION_COMPLETED: 'bg-[rgba(19,171,63,0.25)] text-[color:var(--Alert-success,#13AB3F)]',
+      VERIFICATION_FAILED: 'bg-[rgba(220,27,37,0.25)] text-[color:var(--Alert-error,#DC1B25)]',
+      FAILED_FINALIZATION: 'bg-[rgba(220,27,37,0.20)] text-[color:var(--Alert-error,#DC1B25)]',
+      NOT_ELIGIBLE: 'bg-[rgba(220,27,37,0.25)] text-[color:var(--Alert-error,#DC1B25)]',
+      COMPLETED: 'bg-[rgba(19,171,63,0.20)] text-[color:var(--Alert-success,#13AB3F)]',
+      DEFAULT: 'bg-[rgba(156,163,175,0.20)] text-[#6B7280]',
     };
+  
     return statusClasses[status] || statusClasses.DEFAULT;
   };
+  
 
   const columns = [
     { key: 'name', label: t('SignupRequests.name') },
@@ -121,10 +124,10 @@ export const SignUpRequestsTable: React.FC<{
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border-spacing-0">
-            <thead className="border-b border-gray-200">
+          <table className="w-full">
+            <thead className="bg-[#FAFAFA] rounded-[8px]">
               <tr className=" text-left text-gray-400">
                 {columns.map((col) => (
                   <th
@@ -136,9 +139,9 @@ export const SignUpRequestsTable: React.FC<{
                 ))}
               </tr>
             </thead>
-            <tbody className="border-b border-gray-200">
+            <tbody className="">
               {requests.map((req) => (
-                <tr key={req.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={req.id} className="hover:bg-gray-50 transition-colors border-b">
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : 'No Data'}
                   </td>
@@ -155,9 +158,9 @@ export const SignUpRequestsTable: React.FC<{
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-white whitespace-nowrap text-xs ${getStatusClass(req.status)}`}
+                      className={`px-3 py-1 rounded-full whitespace-nowrap text-xs ${getStatusClass(req.status)}`}
                     >
-                      {req.status ? req.status.replace(/_/g, ' ') : 'UNKNOWN'}
+                      {req.status ? toTitleCase(req.status.replace(/_/g, ' ')) : 'UNKNOWN'}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.bankType || 'No Data'}</td>
@@ -168,7 +171,8 @@ export const SignUpRequestsTable: React.FC<{
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => toggleDropdown(req.id)}
                     >
-                      <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" />
+                      {/* <Image src={DotsVerticalIcon} alt="Options" className="h-5 w-5" /> */}
+                      <EyeIcon color='#0B0B22'/>
                     </button>
 
                     {dropdownOpen[req.id] && (
@@ -211,7 +215,7 @@ export const SignUpRequestsTable: React.FC<{
       )}
 
       {/* Pagination */}
-      <div className="bg-white border-t border-gray-200">
+      <div className="bg-[#FAFAFA] rounded-[8px]">
         <Pagination
           page={page}
           pageSize={pageSize}

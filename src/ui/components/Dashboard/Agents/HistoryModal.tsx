@@ -50,7 +50,7 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-3 pt-0">
       {loading ? (
         <div className="flex justify-center items-center h-32">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#08678E]" />
@@ -60,20 +60,20 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
           <p className="text-gray-500 text-lg">Data not found</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="">
           {history?.map((user) => (
-            <div key={user.id} className="border rounded-lg p-4 hover:bg-gray-50">
+            <div key={user.id} className="border-b-1 pt-3 pb-3 pr-1 pl-1 hover:bg-gray-50">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-medium text-lg">{user?.fullName}</h3>
-                  <p className="text-gray-600">PINFL: {user?.pinfl}</p>
-                  <p className="text-gray-600">Email: {user?.email}</p>
+                  <h3 className="text-[#0B0B22] text-[14px] font-medium leading-normal">{user?.fullName}</h3>
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">PINFL: {user?.pinfl}</p>
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">Email: {user?.email}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
                     Created: {new Date(user?.createdAt).toLocaleDateString()}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
                     DOB: {new Date(user?.dateOfBirth).toLocaleDateString()}
                   </p>
                 </div>

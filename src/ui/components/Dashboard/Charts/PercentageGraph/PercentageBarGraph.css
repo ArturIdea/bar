@@ -9,3 +9,57 @@
   color: #333;
   margin-bottom: 20px;
 }
+
+.percentage-stats-container {
+  background: "#FAFAFA";
+}
+
+.stats-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-left: 8px;
+  margin-bottom: 16px;
+}
+
+.total-count {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.total-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.stat-item {
+  text-align: left;
+}
+
+.stat-percentage {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.stat-count {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+}

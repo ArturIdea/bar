@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, EyeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
+// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
 import { useAgents } from '@/ui/hooks/ui/useAgents';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
@@ -270,7 +270,7 @@ export const AgentsTable: React.FC = () => {
         </>
       )}
 
-      <div className="flex flex-col border-t-0 border-b border-gray-200">
+      <div className="flex flex-col m-3 p-3 bg-white rounded-[24px]">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-gray-200">
           <h4 className="font-semibold text-[#0B0B22]">{t('Agents.title')} List</h4>
@@ -289,7 +289,7 @@ export const AgentsTable: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               {/* Table Header */}
-              <thead className="border-t border-b border-gray-200 z-[999] ">
+              <thead className="bg-[#FAFAFA] rounded-[8px]">
                 <tr className="text-left text-gray-400 ">
                   {columns.map((col) => (
                     <th
@@ -319,7 +319,7 @@ export const AgentsTable: React.FC = () => {
               <tbody>
                 {agents && agents.length > 0 ? (
                   agents.map((agent: any) => (
-                    <tr key={agent.userId} className="hover:bg-neutral-50 transition-colors">
+                    <tr key={agent.userId} className="hover:bg-neutral-50 transition-colors border-b">
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
                         {agent.firstName} {agent.lastName}
                       </td>
@@ -339,7 +339,8 @@ export const AgentsTable: React.FC = () => {
                           className="text-gray-500 hover:text-gray-700 cursor-pointer"
                           onClick={() => toggleDropdown(agent.userId)}
                         >
-                          <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" />
+                          {/* <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" /> */}
+                          <EyeIcon color='#0B0B22'/>
                         </button>
 
                         {/* Dropdown Menu */}
@@ -372,7 +373,7 @@ export const AgentsTable: React.FC = () => {
           </div>
 
           {/* Pagination */}
-          <div className="sticky bottom-0 bg-white border-t border-gray-200">
+          <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px]">
             <div className="flex items-center justify-between px-6 py-4">
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <span>{t('Pagination.showing')}</span>

@@ -10,40 +10,30 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useSignupStageMetrics } from '@/ui/hooks/ui/useSignupStageMetrics';
+import { useSignupStageHighestMetrics } from '@/ui/hooks/ui/useSignupStageHighestMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
 
-export function SignupStageBarChart() {
+export function SignupStageHighestBarChart() {
   const t = useTranslations();
 
   const startDate = useDateRangeStore((s) => s.fromDate);
   const endDate = useDateRangeStore((s) => s.toDate);
 
-  const { metrics, loading, error } = useSignupStageMetrics(startDate, endDate);
+  const { metrics, loading, error } = useSignupStageHighestMetrics(startDate, endDate);
 
   const chartData = metrics.map((m) => {
     return {
       stage: t(`SignupStages.${m.stage}` as any),
-      reached: m.signupRequestsNumber,
+      requests: m.signupRequestsNumber,
       dropOffPercentage: m.dropPercentage,
     };
   });
 
-  // Calculate overall drop-off percentage
-  let overallDropOff = null;
-  if (metrics.length > 1) {
-    const firstStage = metrics[0]?.signupRequestsNumber || 0;
-    const lastStage = metrics[metrics.length - 1]?.signupRequestsNumber || 0;
-    if (firstStage > 0) {
-      overallDropOff = ((firstStage - lastStage) / firstStage) * 100;
-    }
-  }
-
   const chartConfig = {
-    reached: {
+    requests: {
       label: t('SignupRequests.title2'),
-      color: '#253A60',
+      color: '#2EC4B6',
     },
     dropOffPercentage: {
       label: t('Charts.dropOffPercentage'),
@@ -97,26 +87,24 @@ export function SignupStageBarChart() {
     );
   };
 
+  const totalRequests = chartData.reduce((sum, d) => sum + d.requests, 0);
+
   return (
     <Card className="w-1/2 shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px] p-3 ">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
-          <CardTitle>{t('Charts.signupStages')}</CardTitle>
-          <div className='text-[#DC1B25] hidden text-[12px] font-medium leading-normal tracking-[0px]'>
-            {loading
-              ? 'Loading...'
-              : overallDropOff !== null
-                ? `Over All Drop Off Percentage: ${overallDropOff.toFixed(2)}%`
-                : 'Over All Drop Off Percentage: N/A'}
+          <CardTitle>{t('Charts.signupStageHighest')}</CardTitle>
+          <div className="text-[#DC1B25] text-[12px] font-medium leading-normal tracking-[0px]">
+            Over All Drop Off Total: {totalRequests}
           </div>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown
             chartData={chartData}
-            fileName={t('Charts.signupStages')}
+            fileName={t('Charts.signupStageHighest')}
             labelMapping={{
               stage: t('Charts.stage'),
-              requests: chartConfig.reached.label,
+              requests: chartConfig.requests.label,
             }}
           />
         </div>
@@ -136,12 +124,12 @@ export function SignupStageBarChart() {
             <BarChart data={chartData}>
               <CartesianGrid vertical={false} />
               <YAxis
-                dataKey="reached"
+                dataKey="requests"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
                 label={{
-                  value: chartConfig.reached.label,
+                  value: chartConfig.requests.label,
                   angle: -90,
                   position: 'insideLeft',
                   style: { textAnchor: 'middle', fontSize: '14px', fill: '#9D9DA7' },
@@ -162,7 +150,7 @@ export function SignupStageBarChart() {
                 cursor={false}
                 content={<ChartTooltipContent className="w-40" hideIndicator />}
               />
-              <Bar dataKey="reached" fill={chartConfig.reached.color} barSize={75}>
+              <Bar dataKey="requests" fill={chartConfig.requests.color} barSize={75}>
                 <LabelList
                   dataKey="dropOffPercentage"
                   content={(labelProps) => <CustomizedLabel {...labelProps} />}
@@ -174,4 +162,4 @@ export function SignupStageBarChart() {
       )}
     </Card>
   );
-}
+} 
