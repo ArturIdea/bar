@@ -13,6 +13,7 @@ import {
 import { useSignupStageMetrics } from '@/ui/hooks/ui/useSignupStageMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { ExportDropdown } from '../../ExportDropdown';
+import { SignupStage } from '@/domain/metrics/signupMetrics/entities/SignupStageMetric';
 
 export function SignupStageBarChart() {
   const t = useTranslations();
@@ -22,7 +23,10 @@ export function SignupStageBarChart() {
 
   const { metrics, loading, error } = useSignupStageMetrics(startDate, endDate);
 
-  const chartData = metrics.map((m) => {
+  // Filter out the 'Created' stage
+  const filteredMetrics = metrics.filter((m) => m.stage !== SignupStage.CREATED);
+
+  const chartData = filteredMetrics.map((m) => {
     return {
       stage: t(`SignupStages.${m.stage}` as any),
       reached: m.signupRequestsNumber,
@@ -32,9 +36,9 @@ export function SignupStageBarChart() {
 
   // Calculate overall drop-off percentage
   let overallDropOff = null;
-  if (metrics.length > 1) {
-    const firstStage = metrics[0]?.signupRequestsNumber || 0;
-    const lastStage = metrics[metrics.length - 1]?.signupRequestsNumber || 0;
+  if (filteredMetrics.length > 1) {
+    const firstStage = filteredMetrics[0]?.signupRequestsNumber || 0;
+    const lastStage = filteredMetrics[filteredMetrics.length - 1]?.signupRequestsNumber || 0;
     if (firstStage > 0) {
       overallDropOff = ((firstStage - lastStage) / firstStage) * 100;
     }
@@ -72,10 +76,10 @@ export function SignupStageBarChart() {
   };
 
   const CustomizedLabel = (props: any) => {
-    const { x, y, width, value, index } = props;
-    if (index === 0) {
-      return null;
-    }
+    const { x, y, width, value } = props;
+    // if (index === 0) {
+    //   return null;
+    // }
     const rectHeight = 30;
     const rectX = x;
     const rectY = y - rectHeight;

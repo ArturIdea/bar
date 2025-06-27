@@ -50,7 +50,7 @@ const SignUpRequests: React.FC = () => {
       {pathname === '/dashboard/signup-requests' && (
         <>
           <div className="p-6 justify-end items-center">
-            <Link href="/" className="flex items-center gap-2 cursor-pointer">
+            <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
               <ArrowLeft /> {t('Buttons.back')}
             </Link>
             <div>

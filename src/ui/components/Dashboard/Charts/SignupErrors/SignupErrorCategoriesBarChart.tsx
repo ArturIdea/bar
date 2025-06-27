@@ -9,27 +9,31 @@ import { ExportDropdown } from '../../ExportDropdown';
 export function SignupErrorCategoriesBarChart() {
   const { data, loading, error } = useSignupErrorCategories();
 
-  // Flatten categories for chart
-  const chartData = data.map((cat) => ({
-    name: cat.name,
-    count: cat.count,
-    subcategories: cat.subcategories,
-  }));
+  // Flatten subcategories for chart
+  const chartData = data.flatMap(cat =>
+    cat.subcategories && cat.subcategories.length > 0
+      ? cat.subcategories.map(sub => ({
+          category: cat.name,
+          name: sub.name,
+          count: sub.count,
+        }))
+      : [{
+          category: cat.name,
+          name: cat.name,
+          count: cat.count,
+        }]
+  );
 
   // Helper to truncate long names
   const truncate = (str: string, max: number) =>
     str.length > max ? `${str.slice(0, max - 1)}…` : str;
 
   // Prepare export data and label mapping
-  const exportData = chartData.flatMap((cat) =>
-    cat.subcategories && cat.subcategories.length > 0
-      ? cat.subcategories.map((sub) => ({
-          Category: cat.name,
-          Subcategory: sub.name,
-          Count: sub.count,
-        }))
-      : [{ Category: cat.name, Subcategory: '', Count: cat.count }]
-  );
+  const exportData = chartData.map(row => ({
+    Category: row.category,
+    Subcategory: row.name,
+    Count: row.count,
+  }));
   const labelMapping = {
     Category: 'Category',
     Subcategory: 'Subcategory',
@@ -40,7 +44,7 @@ export function SignupErrorCategoriesBarChart() {
     <Card className="m-3 p-3 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
-          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>Error For Failed Finalization</CardTitle>
+          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>Error On Failed Finalization</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown
@@ -70,12 +74,12 @@ export function SignupErrorCategoriesBarChart() {
               <YAxis
                 dataKey="name"
                 type="category"
-                width={220}
+                width={260}
                 tick={({ x, y, payload }) => {
                   const fullText = payload.value;
                   const displayText = truncate(fullText, 150);
                   return (
-                    <text x={x} y={y + 5} textAnchor="end" className='text-[#0B0B22] text-right font-normal text-[12px] leading-normal'>
+                    <text x={x} y={y + 5} textAnchor="end" className='text-[#0B0B22] text-left font-normal text-[12px] leading-normal'>
                       <title>{fullText}</title>
                       {displayText}
                     </text>
@@ -88,22 +92,12 @@ export function SignupErrorCategoriesBarChart() {
                   if (!active || !payload || !payload.length) {
                     return null;
                   }
-                  const { name, subcategories } = payload[0].payload;
+                  const { name, count } = payload[0].payload;
                   return (
                     <div className="bg-white p-3 rounded text-xs">
-                      <div className="font-bold mb-1">{name}</div>
-                      {subcategories && subcategories.length > 0 && (
-                        <ul className="list-disc ml-4">
-                          {subcategories.map((sub: any) => {
-                            const subDisplay = truncate(sub.name, 150);
-                            return (
-                              <li key={sub.name}>
-                                <span title={sub.name}>{subDisplay}</span>: <b>{sub.count}</b>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      )}
+                      <div className="font-bold mb-1" title={name}>{truncate(name, 150)}</div>
+                      {/* <div className="text-gray-500 mb-1">Category: {category}</div> */}
+                      <div>Count: <b>{count}</b></div>
                     </div>
                   );
                 }}

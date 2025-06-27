@@ -15,7 +15,6 @@ export const AgentsTable: React.FC = () => {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [dropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [excludeZeroUsers, setExcludeZeroUsers] = useState(true);
   const [sortBy, setSortBy] = useState('firstName');
@@ -55,13 +54,6 @@ export const AgentsTable: React.FC = () => {
     if (e.key === 'Enter') {
       handleSearch();
     }
-  };
-
-  const toggleDropdown = (id: string) => {
-    setDropdownOpen((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
   };
 
   const handleSort = (column: string) => {
@@ -337,27 +329,10 @@ export const AgentsTable: React.FC = () => {
                         <button
                           type="button"
                           className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                          onClick={() => toggleDropdown(agent.userId)}
+                          onClick={() => setSelectedAgent(agent)}
                         >
-                          {/* <Image src={DotsVerticalIcon} alt="vertical dots" className="h-5 w-5" /> */}
                           <EyeIcon color='#0B0B22'/>
                         </button>
-
-                        {/* Dropdown Menu */}
-                        {dropdownOpen[agent.userId] && (
-                          <div className="absolute right-16 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                            <button
-                              type="button"
-                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                              onClick={() => {
-                                setSelectedAgent(agent);
-                                setDropdownOpen({});
-                              }}
-                            >
-                              View Agent Details
-                            </button>
-                          </div>
-                        )}
                       </td>
                     </tr>
                   ))

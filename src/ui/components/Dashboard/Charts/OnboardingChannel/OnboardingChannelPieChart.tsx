@@ -138,8 +138,8 @@ export function OnboardingChannelPieChart() {
   };
 
   return (
-    <Card className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col border-l-0 border-t-0 border-b-0  2xl:border-b-0 shadow-none">
-      <div className="flex justify-between pr-8">
+    <Card className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col border-l-0 border-t-0 border-b-0 border-r-0 shadow-none">
+      <div className="flex justify-between items-center pr-8 mt-[-12px]">
         <CardHeader>
           <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>
         </CardHeader>
@@ -171,26 +171,26 @@ export function OnboardingChannelPieChart() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <div className="flex flex-col gap-2 overflow-x-auto">
+      <div className="flex flex-col gap-2 overflow-x-auto mt-9">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                <th className="px-4 py-2 text-left text-sm font-medium">
                   {t('Charts.channels')}
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                <th className="px-4 py-2 text-left text-sm font-medium">
                   {t('Charts.totalRequests')}
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                <th className="px-4 py-2 text-left text-sm font-medium">
                   {t('Charts.successfulRequests')}
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+                <th className="px-4 py-2 text-left text-sm font-medium">
                   {t('Charts.failedRequests')}
                 </th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+                <th className="px-4 py-2 text-left text-sm font-medium ">%</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody>
               {chartData.map((entry) => {
                 const percentage =
                   totalHolders > 0 ? ((entry.Total / totalHolders) * 100).toFixed(1) : '0.0';
@@ -205,34 +205,34 @@ export function OnboardingChannelPieChart() {
                         <span className="text-sm font-medium">{entry.onboardingChannel}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-4 py-2 whitespace-nowrap text-sm ">
                       {entry.Total}
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-4 py-2 whitespace-nowrap text-sm ">
                       {entry.Success}
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-4 py-2 whitespace-nowrap text-sm ">
                       {entry.Failed}
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-4 py-2 whitespace-nowrap text-sm ">
                       {percentage}%
                     </td>
                   </tr>
                 );
               })}
               {/* Total Requests row */}
-              <tr className="bg-neutral-50 font-semibold">
+              <tr className="font-semibold border-t-1">
                 <td className="px-4 py-2 whitespace-nowrap">{t('Charts.totalRequests')}</td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-4 py-2 whitespace-nowrap text-sm ">
                   {totals.Total}
                 </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-4 py-2 whitespace-nowrap text-sm ">
                   {totals.Success}
                 </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-4 py-2 whitespace-nowrap text-sm ">
                   {totals.Failed}
                 </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">100%</td>
+                <td className="px-4 py-2 whitespace-nowrap text-sm ">100%</td>
               </tr>
             </tbody>
           </table>

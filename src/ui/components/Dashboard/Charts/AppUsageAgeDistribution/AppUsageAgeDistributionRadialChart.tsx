@@ -151,26 +151,26 @@ export function AppUsageAgeDistributionRadialChart() {
         </ChartContainer>
       </CardContent>
       {/* Table  */}
-      <div className="flex flex-col gap-4 w-full overflow-x-auto">
-        <div className="flex items-center justify-center gap-2">
+      <div className="flex flex-col gap-4 w-full mt-9 overflow-x-auto">
+        <div className="hidden items-center justify-center gap-2">
           <Users2 className="w-4 h-4 text-gray-500" />
           <p className="text-gray-500 text-sm">
             {t('Charts.appUsers')}: {formattedTotal}
           </p>
         </div>
-        <table className="min-w-full divide-y divide-gray-200 ">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+              <th className="px-4 py-2 text-left text-sm font-medium">
                 {t('Charts.ageGroup')}
               </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">
+              <th className="px-4 py-2 text-left text-sm font-medium">
                 {t('Charts.people')}
               </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 ">%</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">%</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody>
             {chartData.map(({ ageGroup, people, fill }) => {
               const percentage =
                 totalPeople > 0 ? ((people / totalPeople) * 100).toFixed(1) : '0.0';
@@ -182,10 +182,10 @@ export function AppUsageAgeDistributionRadialChart() {
                       <span className="text-sm font-medium">{ageGroup}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-4 py-2 whitespace-nowrap text-sm">
                     {people.toLocaleString()}
                   </td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-4 py-2 whitespace-nowrap text-sm">
                     {percentage}%
                   </td>
                 </tr>

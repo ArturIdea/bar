@@ -131,7 +131,7 @@ export function CardTypesPieChart() {
 
   return (
     <div className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col">
-      <h3 className="text-start text-[15px] font-bold mt-2">
+      <h3 className="text-start text-[15px] font-bold mt-2 mb-[10px]">
         User Enrollment Distribution by Bank
       </h3>
       <div className="relative flex items-center justify-center w-full h-[330px]">
@@ -169,13 +169,13 @@ export function CardTypesPieChart() {
         </div>
       </div>
       {/* Table below chart */}
-      <div className="w-full mt-12">
+      <div className="w-full mt-10">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-500 text-left border-b">
-              <th className="font-normal pb-1">Register Entity</th>
-              <th className="font-normal pb-1 text-right">Number of User</th>
-              <th className="font-normal pb-1 text-right">%</th>
+            <tr className="text-left border-b">
+              <th className="font-normal px-4 py-2">Register Entity</th>
+              <th className="font-normal px-4 py-2 text-center">Number of User</th>
+              <th className="font-normal px-4 py-2 text-center">%</th>
             </tr>
           </thead>
           <tbody>
@@ -189,27 +189,27 @@ export function CardTypesPieChart() {
                 NODATA: 'No Data',
               };
               return (
-                <tr key={entry.cardType} className="border-b last:border-none">
-                  <td className="py-1 flex items-center gap-2">
+                <tr key={entry.cardType}>
+                  <td className="px-4 py-2 flex items-center gap-2">
                     <span
                       className="inline-block w-2 h-2 rounded-full"
                       style={{ backgroundColor: entry.fill }}
                     />
                     {bankNames[entry.cardType] || entry.cardType}
                   </td>
-                  <td className="py-1 text-center">{entry.holders.toLocaleString()}</td>
-                  <td className="py-1 text-center">{percent}%</td>
+                  <td className="px-4 py-2 text-center">{entry.holders.toLocaleString()}</td>
+                  <td className="px-4 py-2 text-center">{percent}%</td>
                 </tr>
               );
             })}
             {/* Total row */}
             <tr className="font-semibold">
-              <td className="py-1 flex items-center gap-2">
+              <td className="px-4 py-2 flex items-center gap-2">
                 <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
                 Total Registered User
               </td>
-              <td className="py-1 text-center">{totalHolders.toLocaleString()}</td>
-              <td className="py-1 text-center">100%</td>
+              <td className="px-4 py-2 text-center">{totalHolders.toLocaleString()}</td>
+              <td className="px-4 py-2 text-center">100%</td>
             </tr>
           </tbody>
         </table>

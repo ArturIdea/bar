@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Loader2, XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -28,11 +28,23 @@ interface MultiTabUserDetailsModalProps {
 
 const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ userId, onClose }) => {
   const t = useTranslations();
-  const modalRef = useClickOutside<HTMLDivElement>(onClose);
+  const modalRef = useClickOutside<HTMLDivElement>(handleClose);
 
   const [activeTab, setActiveTab] = useState<string>('details');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  function handleClose() {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // match transition duration
+  }
 
   const { userDetail, loading: userLoading, error: userError } = useUserDetail(userId);
   const {
@@ -200,10 +212,10 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
   };
 
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md">
+    <div className={`z-[999] fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div
         ref={modalRef}
-        className="rounded-xl relative bg-white w-[90%] h-[90%] shadow-xl overflow-y-auto"
+        className={`rounded-xl relative bg-white w-[90%] h-[90%] shadow-xl overflow-y-auto transform transition-all duration-300 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
       >
         <div className="p-4 flex justify-between items-center shadow-md">
           <div className="flex items-center gap-6 px-4">
@@ -239,7 +251,7 @@ const MultiTabUserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({ use
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
             className="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
           >

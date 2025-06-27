@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -33,14 +33,26 @@ interface AgentDetailsModalProps {
 
 const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose }) => {
   const t = useTranslations();
-  const modalRef = useClickOutside<HTMLDivElement>(onClose);
+  const modalRef = useClickOutside<HTMLDivElement>(handleClose);
   const [activeTab, setActiveTab] = useState<string>('personal');
+  const [isVisible, setIsVisible] = useState(false);
 
   // Default date range (last 30 days)
   const defaultToDate = new Date().toISOString().split('T')[0];
   const defaultFromDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
   const [fromDate] = useState(defaultFromDate);
   const [toDate] = useState(defaultToDate);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  function handleClose() {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // match transition duration
+  }
 
   const PersonalInfoSection = ({ agent }: { agent: AgentDetailsModalProps['agent'] }) => {
     const fields = [
@@ -97,17 +109,17 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
   };
 
   return (
-    <div className="z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] transition-opacity">
+    <div className={`z-[999] fixed inset-0 flex items-center justify-end bg-[rgba(11,11,34,0.4)] transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div
         ref={modalRef}
-        className="relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full"
+        className={`relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full transform transition-transform duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="p-12 flex justify-between items-center">
           <h1 className="text-xl">{t('Agents.title')}</h1>
           <button
             type="button"
             className="cursor-pointer text-neutral-900"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
           >
             <XIcon className="w-6 h-6" />

@@ -14,7 +14,7 @@ export default function Charts() {
   return (
     <div className="flex flex-col gap-3 m-3">
       <RegistrationRequestsAreaChart />
-      <div className="w-[99%] flex gap-3">
+      <div className="w-[99.9%] flex gap-3">
         <div className="w-[32%]">
           <CardTypesPieChart />
         </div>

@@ -60,6 +60,7 @@ export function useSignupStageMetrics(
         );
 
         const FUNNEL_STAGES: SignupStage[] = [
+          SignupStage.CREATED,
           SignupStage.OTP_SENT,
           SignupStage.MOBILE_VERIFIED,
           SignupStage.PERSONAL_INFO_VERIFIED,
