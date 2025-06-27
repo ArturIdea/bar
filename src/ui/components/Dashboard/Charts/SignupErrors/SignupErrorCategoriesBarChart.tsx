@@ -77,7 +77,7 @@ export function SignupErrorCategoriesBarChart() {
                 width={260}
                 tick={({ x, y, payload }) => {
                   const fullText = payload.value;
-                  const displayText = truncate(fullText, 150);
+                  const displayText = truncate(fullText, 50);
                   return (
                     <text x={x} y={y + 5} textAnchor="end" className='text-[#0B0B22] text-left font-normal text-[12px] leading-normal'>
                       <title>{fullText}</title>
