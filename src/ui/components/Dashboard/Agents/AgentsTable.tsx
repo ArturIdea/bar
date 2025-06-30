@@ -310,12 +310,12 @@ export const AgentsTable: React.FC = () => {
               {/* Table Body */}
               <tbody>
                 {agents && agents.length > 0 ? (
-                  agents.map((agent: any) => (
-                    <tr key={agent.userId} className="hover:bg-neutral-50 transition-colors border-b">
+                  agents.map((agent: any, index: number) => (
+                    <tr key={agent.userId || `agent-${index}`} className="hover:bg-neutral-50 transition-colors border-b">
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                        {agent.firstName} {agent.lastName}
+                        {agent.firstName || ''} {agent.lastName || ''}
                       </td>
-                      <td className="px-6 py-4 text-[#0B0B22] text-sm">{agent?.pinfl}</td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">{agent?.pinfl || 'N/A'}</td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
                         {agent.totalRequests || 'N/A'}
                       </td>

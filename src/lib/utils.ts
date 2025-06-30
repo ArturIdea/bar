@@ -18,13 +18,34 @@ export const formatChannelName = (channel: string): string => {
     .toUpperCase();
 };
 
-export function formatLastLogin(dateStr: string): string {
+export function formatLastLogin(dateStr: string | null | undefined): string {
+  // Check if dateStr is null, undefined, or empty
+  if (!dateStr || typeof dateStr !== 'string') {
+    return 'N/A';
+  }
+
   // Original format: "19:06:2025 12:04"
   const [datePart, timePart] = dateStr.split(" ");
+  
+  // Check if we have both date and time parts
+  if (!datePart || !timePart) {
+    return 'N/A';
+  }
+  
   const [day, month, year] = datePart.split(":").map(Number);
   const [hour, minute] = timePart.split(":").map(Number);
 
+  // Validate that we have all required parts
+  if (!day || !month || !year || hour === undefined || minute === undefined) {
+    return 'N/A';
+  }
+
   const date = new Date(year, month - 1, day, hour, minute);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return 'N/A';
+  }
 
   const formattedDate = date.toLocaleString("en-GB", {
     day: "2-digit",
