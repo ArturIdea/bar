@@ -10,7 +10,7 @@ import { formatLastLogin } from '@/lib/utils';
 
 interface AgentDetailsModalProps {
   agent: {
-    lastLogin: string;
+    lastLogin: string | null | undefined;
     userId: string;
     firstName: string;
     lastName: string;
@@ -57,13 +57,13 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
   const PersonalInfoSection = ({ agent }: { agent: AgentDetailsModalProps['agent'] }) => {
     const fields = [
       { label: 'Email', value: agent?.email || 'N/A' },
-      { label: 'PINFL No', value: agent?.pinfl },
-      { label: 'Nationality', value: agent?.nationality },
-      { label: 'Citizenship', value: agent?.citizenship },
-      { label: 'Birth Country', value: agent?.birthCountry },
-      { label: 'Date Of Birth', value: agent?.dateOfBirth },
-      { label: 'Social Number', value: agent?.socialNumber },
-      { label: 'Created At', value: new Date(agent?.createdAt)?.toLocaleString() },
+      { label: 'PINFL No', value: agent?.pinfl || 'N/A' },
+      { label: 'Nationality', value: agent?.nationality || 'N/A' },
+      { label: 'Citizenship', value: agent?.citizenship || 'N/A' },
+      { label: 'Birth Country', value: agent?.birthCountry || 'N/A' },
+      { label: 'Date Of Birth', value: agent?.dateOfBirth || 'N/A' },
+      { label: 'Social Number', value: agent?.socialNumber || 'N/A' },
+      { label: 'Created At', value: agent?.createdAt ? new Date(agent.createdAt).toLocaleString() : 'N/A' },
       { label: 'Total Requests', value: agent.totalRequests || 'N/A' },
       { label: 'Successful Requests', value: agent.successfulRequests || 'N/A' },
       { label: 'Failed Requests', value: agent.failedRequests || 'N/A' },
@@ -136,7 +136,7 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
           />
           <div>
             <h2 className="text-2xl font-semibold">
-              {agent.firstName} {agent.lastName}
+              {agent.firstName || ''} {agent.lastName || ''}
             </h2>
           </div>
           <div className="flex-1 text-right">
