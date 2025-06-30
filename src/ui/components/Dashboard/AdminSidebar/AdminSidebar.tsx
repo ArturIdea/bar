@@ -16,6 +16,7 @@ export function AdminSidebar() {
   const t = useTranslations();
   const { isAdmin, isDeveloper, isAgent, isSuperAdmin } = useUserRoles();
   const [showUserManagementPopover, setShowUserManagementPopover] = useState(false);
+  const [showAgentManagementPopover, setShowAgentManagementPopover] = useState(false);
   const [navItems, setNavItems] = useState<Array<{ link: string; label: string; icon: any }>>([]);
 
   useEffect(() => {
@@ -26,6 +27,11 @@ export function AdminSidebar() {
           {
             link: '/dashboard/user-management',
             label: t('Sidebar.userManagement'),
+            icon: UserManagementIcon,
+          },
+          {
+            link: '/dashboard/user-management/baraka-agents',
+            label: t('Sidebar.agentManagement'),
             icon: UserManagementIcon,
           },
           { link: '/agent-dashboard', label: t('Sidebar.agentDashboard'), icon: InsightsIcon },
@@ -39,6 +45,11 @@ export function AdminSidebar() {
           {
             link: '/dashboard/user-management',
             label: t('Sidebar.userManagement'),
+            icon: UserManagementIcon,
+          },
+          {
+            link: '/dashboard/user-management/baraka-agents',
+            label: t('Sidebar.agentManagement'),
             icon: UserManagementIcon,
           },
         ]
@@ -124,6 +135,42 @@ export function AdminSidebar() {
                   }`}
                 >
                   <li>{t('Sidebar.barakaUsers')}</li>
+                </Link>
+              </ul>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (item.link === '/dashboard/user-management/baraka-agents') {
+      return (
+        <div key={item.label} className="relative w-full">
+          <button
+            type="button"
+            onClick={() => setShowAgentManagementPopover(!showAgentManagementPopover)}
+            className={`w-full flex justify-between items-center p-4 font-medium transition-colors ${
+              pathname === '/dashboard/user-management/baraka-agents/NSPS' ? 'bg-gray-100 text-primary border-l-8 border-l-[#253A60]' : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            <div className="flex">
+              {/* <Image alt="nav list icon" src={item.icon} className="h-5 w-5 mr-2" /> */}
+              <span className="text-sm font-medium">{item.label}</span>
+            </div>
+            <ChevronRight className={`${showAgentManagementPopover ? 'rotate-90 transition-transform' : ''}`} />
+          </button>
+          {showAgentManagementPopover && (
+            <div className="w-full">
+              <ul className="pl-2">
+                <Link
+                  href="/dashboard/user-management/baraka-agents"
+                  className={`block px-4 py-2 text-sm transition-colors ${
+                    pathname === '/dashboard/user-management/baraka-agents'
+                      ? 'bg-[#FAFAFA] text-primary border-l-8 border-l-[#253A60]'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <li>{t('Sidebar.agentList')}</li>
                 </Link>
               </ul>
             </div>

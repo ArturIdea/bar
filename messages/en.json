@@ -16,8 +16,9 @@
     "agentDashboard": "Agent Dashboard",
     "superAdminDashboard": "Super Admin Dashboard",
     "systemSettings": "System Settings",
-    "agentList": "NASP Agents",
-    "adminList": "Admin"
+    "agentList": "Agents List",
+    "adminList": "Admin",
+    "agentManagement":"Agent Management"
   },
   "Dev": {
     "basicInfo": "Basic Information",
