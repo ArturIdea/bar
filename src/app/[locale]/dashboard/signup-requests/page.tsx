@@ -10,6 +10,9 @@ import { SignupErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
+import { OnboardingStatusDonutChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusDonutChart';
+import { OnboardingStatusBox } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusBox';
+import { BankAssociatedByStatusBarChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/BankAssociatedByStatusBarChart';
 
 const SignUpRequests: React.FC = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -63,6 +66,9 @@ const SignUpRequests: React.FC = () => {
               </button>
             </div>
           </div>
+          <OnboardingStatusBox />
+          <OnboardingStatusDonutChart />
+          <BankAssociatedByStatusBarChart/>
           <SignupErrorCategoriesBarChart />
         </>
       )}
