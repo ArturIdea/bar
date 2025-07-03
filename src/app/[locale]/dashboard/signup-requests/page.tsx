@@ -6,14 +6,15 @@ import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'use-intl';
 import FilterLinesIcon from '@/../public/images/icons/dashboard/filterLines.svg';
 import { Link, usePathname } from '@/i18n/routing';
+import { BankAssociatedByStatusBarChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/BankAssociatedByStatusBarChart';
+import { OnboardingStatusBox } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusBox';
+import { OnboardingStatusDonutChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusDonutChart';
+import { AgreementsAcceptedErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/SignupErrors/AgreementsAcceptedErrorCategoriesBarChart';
+import { OtpSendErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/SignupErrors/OtpSendErrorCategoriesBarChart';
 import { SignupErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/SignupErrors/SignupErrorCategoriesBarChart';
 import { SignupRequestsFilterModal } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsFilterModal';
 import { SignUpRequestsTable } from '@/ui/components/Dashboard/SignupRequests/SignupRequestsTable';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
-import { OnboardingStatusDonutChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusDonutChart';
-import { OnboardingStatusBox } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusBox';
-import { BankAssociatedByStatusBarChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/BankAssociatedByStatusBarChart';
-import { OtpSendErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/SignupErrors/OtpSendErrorCategoriesBarChart';
 
 const SignUpRequests: React.FC = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -69,9 +70,12 @@ const SignUpRequests: React.FC = () => {
           </div>
           <OnboardingStatusBox />
           <OnboardingStatusDonutChart />
-          <BankAssociatedByStatusBarChart/>
+          <BankAssociatedByStatusBarChart />
+          <div className="flex">
+            <AgreementsAcceptedErrorCategoriesBarChart />
+            <OtpSendErrorCategoriesBarChart />
+          </div>
           <SignupErrorCategoriesBarChart />
-          <OtpSendErrorCategoriesBarChart />
         </>
       )}
       <div className="pt-0 mt-0 m-3 p-3 bg-white rounded-[24px]">

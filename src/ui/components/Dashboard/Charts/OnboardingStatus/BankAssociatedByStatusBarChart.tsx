@@ -109,7 +109,7 @@ export function BankAssociatedByStatusBarChart() {
   }, [data]);
 
   return (
-    <Card className="m-3 mt-0 mb-0 p-3 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
+    <Card className="m-3 mt-0 p-3 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle className="text-[#0B0B22] font-semibold text-[16px] leading-normal">
