@@ -13,6 +13,7 @@ import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { OnboardingStatusDonutChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusDonutChart';
 import { OnboardingStatusBox } from '@/ui/components/Dashboard/Charts/OnboardingStatus/OnboardingStatusBox';
 import { BankAssociatedByStatusBarChart } from '@/ui/components/Dashboard/Charts/OnboardingStatus/BankAssociatedByStatusBarChart';
+import { OtpSendErrorCategoriesBarChart } from '@/ui/components/Dashboard/Charts/SignupErrors/OtpSendErrorCategoriesBarChart';
 
 const SignUpRequests: React.FC = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -70,6 +71,7 @@ const SignUpRequests: React.FC = () => {
           <OnboardingStatusDonutChart />
           <BankAssociatedByStatusBarChart/>
           <SignupErrorCategoriesBarChart />
+          <OtpSendErrorCategoriesBarChart />
         </>
       )}
       <div className="pt-0 mt-0 m-3 p-3 bg-white rounded-[24px]">
