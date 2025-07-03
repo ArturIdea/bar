@@ -21,17 +21,17 @@ const COLORS = [
 
 // Mapping from API status codes to user-friendly labels
 const STATUS_LABELS: Record<string, string> = {
-  CREATED: 'PNFL verification Failed',
-  OTP_SENT: 'OTP Sent',
-  NASP_FAILED: 'NASP API Failed',
-  MOBILE_VERIFIED: 'Abandoned at OTP verification completed',
-  PERSONAL_INFO_VERIFIED: 'Abandoned at personal verification completed',
-  AGREEMENTS_ACCEPTED: 'Abandoned at T&C accepted',
-  FACE_VERIFICATION_IN_PROGRESS: 'Abandoned while face verification in progress',
-  VERIFICATION_COMPLETED: 'Abandoned at face verification completed',
-  VERIFICATION_FAILED: 'Face verification failed',
+  VERIFICATION_FAILED: 'FaceID failed',
+  VERIFICATION_COMPLETED: 'Exited after FaceID completion',
+  PERSONAL_INFO_VERIFIED: 'Exited After Personal Information',
+  OTP_SENT: 'OTP Was Sent And The Journey',
+  MOBILE_VERIFIED: 'OTP Verified Then Didn\'t Proceed',
   FAILED_FINALIZATION: 'Failed Finalization',
-  COMPLETED: 'Bank Sign up successful',
+  AGREEMENTS_ACCEPTED: 'Agreements Accepted',
+  NASP_FAILED: 'The NASP process has failed',
+  CREATED: 'Creation was unsuccessful',
+  COMPLETED: 'Completed',
+  FACE_VERIFICATION_IN_PROGRESS: 'Face Started Then User Dropped Off',
 };
 
 // Custom label with line and text outside the pie
@@ -42,28 +42,23 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
   const textAnchor = x > cx ? 'start' : 'end';
   const label = STATUS_LABELS[payload.status] || payload.status.replace(/_/g, ' ');
-  // Ensure percentage is always a valid number
+  
   let percent = Number(payload.percentage);
   if (!isFinite(percent) || isNaN(percent)) {
     percent = 0;
   }
-  // Calculate label box width and position for better spacing
-  const labelBoxWidth = 700;
-  const labelBoxX = textAnchor === 'start' ? x : x - labelBoxWidth;
-  // Calculate the connector line color
-  const connectorColor = '#9D9DA7';
-  // Custom y position for specific labels to avoid overlap
-  let customY = y;
-  if (label === 'Abandoned at OTP verification completed') {
-    customY = 10.263389;
-  } else if (label === 'NASP API Failed') {
-    customY = 49.736875;
-  } 
+
+  // Adjust y for specific label
+  let foreignObjectY = y;
+  if (label === "OTP Verified Then Didn't Proceed") {
+    foreignObjectY = 15.30290897253988;
+  }
+
   return (
     <g>
       {/* Connector line from arc to label */}
       <polyline
-        stroke={connectorColor}
+        stroke="#9D9DA7"
         strokeWidth={1}
         fill="none"
         points={`
@@ -72,30 +67,26 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
           ${x},${y}
         `}
       />
-      <foreignObject x={labelBoxX} y={customY} width={labelBoxWidth} height="40">
+      <foreignObject 
+        x={x > cx ? x : x - 200} 
+        y={foreignObjectY - 10} 
+        width={200} 
+        height={40}
+      >
         <div
           style={{
-            fontSize: 14,
+            fontSize: '14px',
             color: '#9D9DA7',
-            fontWeight: 400,
+            fontWeight: '400',
             textAlign: textAnchor,
-            lineHeight: 1.2,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'normal', // allow wrapping
-            maxHeight: 48, // limit height to 2-3 lines
-            display: 'block',
+            lineHeight: '1.2',
           }}
-          title={label}
         >
           {label}
           <span
             style={{
               color: '#0B0B22',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 14,
-              fontWeight: 300,
-              lineHeight: 'normal',
+              fontWeight: '400',
               paddingLeft: '5px',
             }}
           >
@@ -138,38 +129,35 @@ export function OnboardingStatusDonutChart() {
   }
 
   return (
-    <>
-      <Card className="m-3 p-3 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
-        <div className="flex justify-between items-center pr-8">
-          <CardHeader>
-            <CardTitle className="text-[#0B0B22] text-[16px] font-semibold leading-normal">
-              Onboarding Status
-            </CardTitle>
-          </CardHeader>
-          <div className="flex justify-center">
-            <ExportDropdown
-              chartData={chartData}
-              fileName="Onboarding Status"
-              labelMapping={{
-                status: 'Status',
-                count: 'Count',
-                percentage: 'Percentage (%)',
-              }}
-            />
-          </div>
-        </div>
-        <CardContent className="w-full flex justify-center items-center min-h-[440px]">
-            <PieChart width={1200} style={{left:"50px"}} height={400}>
+    <Card className="bg-white m-3 rounded-[24px] border-none shadow-none">
+      <div className="flex justify-between items-center p-6">
+        <CardHeader className="p-0">
+          <CardTitle className="text-[#0B0B22] text-[16px] font-semibold">
+            Onboarding Status
+          </CardTitle>
+        </CardHeader>
+        <ExportDropdown
+          chartData={chartData}
+          fileName="Onboarding Status"
+          labelMapping={{
+            status: 'Status',
+            count: 'Count',
+            percentage: 'Percentage (%)',
+          }}
+        />
+      </div>
+      <CardContent className="pb-8 w-full">
+        <div className="w-full flex justify-center">
+          <PieChart width={Math.min(800, window.innerWidth - 64)} height={400}>
             <Pie
               data={chartData}
               dataKey="count"
               nameKey="status"
-              style={{ display: 'flex', justifyContent: 'center' }}
-              cx={450}
-              cy={200}
+              cx="50%"
+              cy="50%"
               innerRadius={70}
-              outerRadius={140}
-              labelLine
+              outerRadius={120}
+              labelLine={false}
               label={renderCustomizedLabel}
               paddingAngle={0}
               isAnimationActive={false}
@@ -186,8 +174,8 @@ export function OnboardingStatusDonutChart() {
               ]}
             />
           </PieChart>
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
