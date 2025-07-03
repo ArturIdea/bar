@@ -133,7 +133,7 @@ export function OnboardingStatusDonutChart() {
           </div>
         </div>
         <CardContent className="flex justify-center items-center min-h-[440px]">
-          <PieChart width={900} height={400}>
+          <PieChart width={1024} height={400}>
             <Pie
               data={chartData}
               dataKey="count"

@@ -5,19 +5,19 @@ import { useAgent } from '@/contexts/AgentContext';
 import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
 import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
-export interface SignupErrorCategory {
+export interface OtpSendErrorCategory {
   name: string;
   count: number;
   subcategories: { name: string; count: number }[];
 }
 
-export function useSignupErrorCategories() {
+export function useOtpSendErrorCategories() {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const { selectedAgent } = useAgent();
   const selectedBank = useBankFilterStore((state) => state.selectedBank);
   const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
-  const [data, setData] = useState<SignupErrorCategory[]>([]);
+  const [data, setData] = useState<OtpSendErrorCategory[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,6 +29,7 @@ export function useSignupErrorCategories() {
     setError(null);
 
     const params = new URLSearchParams({
+      status: 'OTP_SENT',
       fromDate,
       toDate,
     });
@@ -43,11 +44,11 @@ export function useSignupErrorCategories() {
     }
 
     ApiClient.shared
-      .get<{ errorCategories: SignupErrorCategory[] }>(
-        `/api/admin/signup-errors?${params.toString()}`
+      .get<{ errorCategories: OtpSendErrorCategory[] }>(
+        `/api/admin/signup-request-errors?${params.toString()}`
       )
       .then((res) => setData(res.data.errorCategories))
-      .catch((err) => setError(err.message || 'Failed to fetch error categories'))
+      .catch((err) => setError(err.message || 'Failed to fetch OTP send error categories'))
       .finally(() => setLoading(false));
   }, [fromDate, toDate, selectedAgent, selectedBank, selectedAppType]);
 
