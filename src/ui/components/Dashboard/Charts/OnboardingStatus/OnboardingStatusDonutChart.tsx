@@ -47,11 +47,23 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
   if (!isFinite(percent) || isNaN(percent)) {
     percent = 0;
   }
+  // Calculate label box width and position for better spacing
+  const labelBoxWidth = 700;
+  const labelBoxX = textAnchor === 'start' ? x : x - labelBoxWidth;
+  // Calculate the connector line color
+  const connectorColor = '#9D9DA7';
+  // Custom y position for specific labels to avoid overlap
+  let customY = y;
+  if (label === 'Abandoned at OTP verification completed') {
+    customY = 10.263389;
+  } else if (label === 'NASP API Failed') {
+    customY = 49.736875;
+  } 
   return (
     <g>
-      {/* Line from arc to label */}
+      {/* Connector line from arc to label */}
       <polyline
-        stroke="#888"
+        stroke={connectorColor}
         strokeWidth={1}
         fill="none"
         points={`
@@ -60,20 +72,34 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
           ${x},${y}
         `}
       />
-      <foreignObject x={textAnchor === 'start' ? x : x - 400} y={y - 10} width="400" height="40">
+      <foreignObject x={labelBoxX} y={customY} width={labelBoxWidth} height="40">
         <div
           style={{
             fontSize: 14,
             color: '#9D9DA7',
             fontWeight: 400,
-            whiteSpace: 'normal',
             textAlign: textAnchor,
+            lineHeight: 1.2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'normal', // allow wrapping
+            maxHeight: 48, // limit height to 2-3 lines
+            display: 'block',
           }}
-          title={`${label} ${percent.toFixed(1)}%`}
+          title={label}
         >
-          {label}{' '}
-          <span className="text-[#0B0B22] font-inter text-[14px] font-light leading-normal">
-            ({percent.toFixed(1)}%)
+          {label}
+          <span
+            style={{
+              color: '#0B0B22',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 14,
+              fontWeight: 300,
+              lineHeight: 'normal',
+              paddingLeft: '5px',
+            }}
+          >
+            {percent.toFixed(1)}%
           </span>
         </div>
       </foreignObject>
@@ -132,12 +158,13 @@ export function OnboardingStatusDonutChart() {
             />
           </div>
         </div>
-        <CardContent className="flex justify-center items-center min-h-[440px]">
-          <PieChart width={1024} height={400}>
+        <CardContent className="w-full flex justify-center items-center min-h-[440px]">
+            <PieChart width={1200} style={{left:"50px"}} height={400}>
             <Pie
               data={chartData}
               dataKey="count"
               nameKey="status"
+              style={{ display: 'flex', justifyContent: 'center' }}
               cx={450}
               cy={200}
               innerRadius={70}

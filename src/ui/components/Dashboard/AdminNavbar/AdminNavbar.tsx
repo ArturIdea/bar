@@ -8,7 +8,7 @@ import Cookies from 'universal-cookie';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
 import { AgentSearch } from '@/components/AgentSearch/AgentSearch';
 import DateRangePicker from '@/components/ui/DateRangePicker';
-import { KEYCLOAK_URL } from '@/core/config';
+import { KEYCLOAK_URL, REDIRECT_URI } from '@/core/config';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
@@ -33,9 +33,16 @@ export default function AdminNavbar() {
   const dateRangePickerRef = useRef<{ reset: () => void }>(null);
 
   const logoutUser = () => {
+    const idToken = cookies.get('idToken');
+    // const redirectUri = REDIRECT_URI || 'http://localhost:3000/';
     const logoutURL = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/logout`);
+    if (idToken) {
+      logoutURL.searchParams.set('id_token_hint', idToken);
+    }
+    logoutURL.searchParams.set('post_logout_redirect_uri', REDIRECT_URI);
     cookies.remove('accessToken');
     cookies.remove('refreshToken');
+    cookies.remove('idToken');
     router.push(logoutURL.toString());
   };
 
