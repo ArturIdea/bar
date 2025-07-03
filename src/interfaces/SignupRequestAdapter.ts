@@ -11,7 +11,7 @@ export const SignUpRequestAdapter = {
       raw.createdAt ? raw.createdAt : 'No Data',
       raw.status === null ? 'No Data' : raw.status,
       raw.bankType || 'No Data',
-      raw.channel || 'No Data'
+      raw.onboardingChannel || 'No Data'
     );
   },
 };
