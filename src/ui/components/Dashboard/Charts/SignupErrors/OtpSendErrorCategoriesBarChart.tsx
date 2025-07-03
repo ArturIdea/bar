@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { useOtpSendErrorCategories } from '@/ui/hooks/ui/useOtpSendErrorCategories';
 import { ExportDropdown } from '../../ExportDropdown';
@@ -102,7 +102,7 @@ export function OtpSendErrorCategoriesBarChart() {
                 }}
               />
               <Bar dataKey="count" fill="#2EC4B6" barSize={24}>
-                <LabelList dataKey="count" position="center"/>
+                {/* <LabelList dataKey="count" position="center"/> */}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

@@ -3,11 +3,11 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { useSignupErrorCategories } from '@/ui/hooks/ui/useSignupErrorCategories';
+import { useAgreementsAcceptedErrorCategories } from '@/ui/hooks/ui/useAgreementsAcceptedErrorCategories';
 import { ExportDropdown } from '../../ExportDropdown';
 
-export function SignupErrorCategoriesBarChart() {
-  const { data, loading, error } = useSignupErrorCategories();
+export function AgreementsAcceptedErrorCategoriesBarChart() {
+  const { data, loading, error } = useAgreementsAcceptedErrorCategories();
 
   // Flatten subcategories for chart
   const chartData = data.flatMap(cat =>
@@ -41,15 +41,15 @@ export function SignupErrorCategoriesBarChart() {
   };
 
   return (
-    <Card className="m-3 p-3 mt-0 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
+    <Card className="m-3 w-1/2 mr-0 p-3 mt-0 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
-          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>Error On Failed Finalization</CardTitle>
+          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>Errors For Agreements Accepted</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown
             chartData={exportData}
-            fileName="Error For Failed Finalization"
+            fileName="Errors For Agreements Accepted"
             labelMapping={labelMapping}
           />
         </div>
@@ -62,7 +62,7 @@ export function SignupErrorCategoriesBarChart() {
         )}
         {error && <p className="text-red-500 px-4">{error}</p>}
         {!loading && !error && (
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={220}>
             <BarChart
               data={chartData}
               layout="vertical"
@@ -70,14 +70,14 @@ export function SignupErrorCategoriesBarChart() {
               barCategoryGap={16}
             >
               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-              <XAxis type="number" allowDecimals={false} />
+              <XAxis type="number" allowDecimals={false} domain={[0, 'dataMax']} />
               <YAxis
                 dataKey="name"
                 type="category"
-                width={260}
+                width={180}
                 tick={({ x, y, payload }) => {
                   const fullText = payload.value;
-                  const displayText = truncate(fullText, 50);
+                  const displayText = truncate(fullText, 30);
                   return (
                     <text x={x} y={y + 5} textAnchor="end" className='text-[#0B0B22] text-left font-normal text-[12px] leading-normal'>
                       <title>{fullText}</title>
@@ -96,14 +96,13 @@ export function SignupErrorCategoriesBarChart() {
                   return (
                     <div className="bg-white p-3 rounded text-xs">
                       <div className="font-bold mb-1" title={name}>{truncate(name, 150)}</div>
-                      {/* <div className="text-gray-500 mb-1">Category: {category}</div> */}
                       <div>Count: <b>{count}</b></div>
                     </div>
                   );
                 }}
               />
               <Bar dataKey="count" fill="#08678E" barSize={24}>
-                {/* <LabelList dataKey="count" position="right" /> */}
+                {/* <LabelList dataKey="count" color='#fff' position="center"/> */}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
