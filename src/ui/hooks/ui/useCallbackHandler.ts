@@ -42,7 +42,7 @@ export const useCallbackHandler = () => {
 
         await setServerCookie({ name: 'accessToken', value: tokenData.accessToken });
         await setServerCookie({ name: 'refreshToken', value: tokenData.refreshToken });
-        // await setServerCookie('idToken', tokenData.idToken);
+        await setServerCookie({ name: 'idToken', value: tokenData.idToken });
 
         // Decode the token to check roles immediately
         const decodedToken = JSON.parse(atob(tokenData.accessToken.split('.')[1]));
