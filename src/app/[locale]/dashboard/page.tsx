@@ -30,7 +30,13 @@ const DashboardPage = () => {
         <StatisticsDashboard />
         <Charts />
         <AdminUsersTable filters={{ fromDate, toDate }} />
-        <AgentsTable />
+        <AgentsTable
+          search=""
+          excludeZeroUsers
+          sortBy="fullName"
+          sortDirection="asc"
+          setSortDirection={() => {}}
+        />
         <SignUpRequests />
       </>
     );
@@ -42,7 +48,13 @@ const DashboardPage = () => {
         <StatisticsDashboard />
         <Charts />
         <UsersTable filters={{ fromDate, toDate }} />
-        <AgentsTable />
+        <AgentsTable
+          search=""
+          excludeZeroUsers
+          sortBy="fullName"
+          sortDirection="asc"
+          setSortDirection={() => {}}
+        />
         <SignUpRequests />
       </div>
     );
