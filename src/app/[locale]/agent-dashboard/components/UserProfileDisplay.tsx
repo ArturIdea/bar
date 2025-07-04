@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BasicProfileInfo } from './profile/BasicProfileInfo';
 import { BenefitsInfo } from './profile/BenefitsInfo';
 import { CreatedByInfo } from './profile/CreatedByInfo';
+import { useLogActivity } from '@/ui/hooks/ui/useLogActivity';
 
 const placeholderUserImage = '/images/placeholder-user.png';
 
@@ -123,12 +124,27 @@ interface UserProfileDisplayProps {
 export const UserProfileDisplay = ({ userProfile }: UserProfileDisplayProps) => {
   const [activeTab, setActiveTab] = useState('profile');
 
+  // Use the custom hook for logging activity
+  const { logActivity } = useLogActivity();
+
   const tabs = [
     { id: 'profile', label: 'Profile' },
     { id: 'benefits', label: 'Benefits' },
     { id: 'created', label: 'Created By' },
-    // { id: 'transactions', label: 'Transactions' }, // Transactions tab hidden
+    // { id: 'transactions', label: 'Transactions' },
   ];
+
+  const handleTabClick = (tabId: string) => {
+    if (tabId !== activeTab) {
+      if (tabId === 'benefits') {
+        logActivity(4, userProfile.pinfl, userProfile.dateOfBirth);
+      }
+      if (tabId === 'transactions') {
+        logActivity(3, userProfile.pinfl, userProfile.dateOfBirth);
+      }
+      setActiveTab(tabId);
+    }
+  };
 
   const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
 
@@ -158,7 +174,7 @@ export const UserProfileDisplay = ({ userProfile }: UserProfileDisplayProps) => 
             <button
               type="button"
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabClick(tab.id)}
               className={`whitespace-nowrap py-4 px-1 border-b-4 font-medium text-sm ${
                 activeTab === tab.id
                   ? 'border-[#add9f4] text-[#add9f4]'
@@ -176,7 +192,7 @@ export const UserProfileDisplay = ({ userProfile }: UserProfileDisplayProps) => 
         {activeTab === 'benefits' && <BenefitsInfo benefits={userProfile.benefits} />}
         {activeTab === 'created' && <CreatedByInfo createdBy={userProfile.createdBy} />}
         {/* {activeTab === 'transactions' && (
-          <TransactionsInfo pinfl={userProfile.pinfl} />
+          <div className="text-gray-500 text-center py-10">Transactions tab content goes here.</div>
         )} */}
       </div>
     </div>
