@@ -1,34 +1,35 @@
 import { useState } from 'react';
 // import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Search, X, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, EyeIcon } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, EyeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
+// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useAgents } from '@/ui/hooks/ui/useAgents';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
 import AgentDetailsModal from './AgentDetailsModal';
 
-export const AgentsTable: React.FC = () => {
+interface AgentsTableProps {
+  search: string;
+  excludeZeroUsers: boolean;
+  sortBy: string;
+  sortDirection: 'asc' | 'desc';
+  setSortDirection: (dir: 'asc' | 'desc') => void;
+}
+
+export const AgentsTable: React.FC<AgentsTableProps> = ({
+  search,
+  excludeZeroUsers,
+  sortBy,
+  sortDirection,
+  setSortDirection,
+}) => {
   const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [excludeZeroUsers, setExcludeZeroUsers] = useState(true);
-  const [sortBy, setSortBy] = useState('firstName');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<any>(null);
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const pathname = usePathname();
-
-  const sortOptions = [
-    { value: 'fullName', label: 'Name' },
-    { value: 'totalRequests', label: 'Total Users' },
-  ];
 
   const { agents, loading, error, pagination } = useAgents({
     search,
@@ -41,47 +42,30 @@ export const AgentsTable: React.FC = () => {
   });
   const t = useTranslations();
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleSearch = () => {
-    setSearch(inputValue);
-    setPage(0); // Reset to first page when searching
-  };
-
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   const handleSort = (column: string) => {
-    const sortColumn = column === 'totalUsers' 
-      ? 'totalRequests' 
-      : column === 'name' 
-        ? 'fullName' 
-        : column;
-    
+    const sortColumn =
+      column === 'totalUsers' ? 'totalRequests' : column === 'name' ? 'fullName' : column;
+
     if (sortBy === sortColumn) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
-      setSortBy(sortColumn);
-      setSortDirection('asc');
+      // setSortBy(sortColumn); // This line was removed from the props, so it's removed here.
+      setSortDirection('asc'); // This line was removed from the props, so it's removed here.
     }
   };
 
   const getSortIcon = (column: string) => {
-    const sortColumn = column === 'totalUsers' 
-      ? 'totalRequests' 
-      : column === 'name' 
-        ? 'fullName' 
-        : column;
-    
+    const sortColumn =
+      column === 'totalUsers' ? 'totalRequests' : column === 'name' ? 'fullName' : column;
+
     if (sortBy !== sortColumn) {
       return <ChevronDown size={16} className="text-gray-400" />;
     }
-    return sortDirection === 'asc' ? <ArrowUp size={16} className="text-blue-600" /> : <ArrowDown size={16} className="text-blue-600" />;
+    return sortDirection === 'asc' ? (
+      <ArrowUp size={16} className="text-blue-600" />
+    ) : (
+      <ArrowDown size={16} className="text-blue-600" />
+    );
   };
 
   if (loading) {
@@ -91,10 +75,10 @@ export const AgentsTable: React.FC = () => {
   const columns = [
     { key: 'name', label: t('UserManagement.name'), sortable: true },
     { key: 'pinfl', label: 'PINFL No' },
-    { 
-      key: 'totalUsers', 
+    {
+      key: 'totalUsers',
       label: t('Agents.totalUsers'),
-      sortable: true 
+      sortable: true,
     },
     { key: 'totalFailedCases', label: t('Agents.totalFailedCases') },
     { key: 'dailyAvg', label: t('Agents.dailyAvg') },
@@ -103,171 +87,14 @@ export const AgentsTable: React.FC = () => {
 
   return (
     <>
-      {pathname === '/dashboard/user-management/baraka-agents' && (
-        <>
-          <div className="p-6">
-            <div className="flex justify-between items-center">
-              <Link href="/" className="flex items-center gap-2 cursor-pointer">
-                <ArrowLeft /> {t('Buttons.back')}
-              </Link>
-
-              <div className="flex items-center gap-4 ">
-                {/* Toggle for excludeZeroUsers */}
-                <div className="flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setExcludeZeroUsers(!excludeZeroUsers)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                      excludeZeroUsers ? 'bg-blue-600' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        excludeZeroUsers ? 'translate-x-6' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4">
-                  <button type="button" className="cursor-pointer" onClick={handleSearch}>
-                    <Search size={15} />
-                  </button>
-                  <input
-                    type="text"
-                    placeholder={t('Filter.searchPlaceHolder')}
-                    value={inputValue}
-                    onChange={handleSearchChange}
-                    onKeyDown={handleSearchKeyDown}
-                    className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px]"
-                  />
-                  <button
-                    type="button"
-                    className="cursor-pointer"
-                    onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M10 18H14"
-                        stroke="#0B0B22"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M7 12H17"
-                        stroke="#0B0B22"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M3 6H21"
-                        stroke="#0B0B22"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Filter Box */}
-            {isFilterOpen && (
-              <div className="fixed top-37 right-0 z-50">
-                <div className="w-[300px]">
-                  <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-lg">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-semibold text-gray-700">
-                        {t('Filter.filterBy')}
-                      </h3>
-                      <button
-                        type="button"
-                        onClick={() => setIsFilterOpen(false)}
-                        className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                      >
-                        <X size={20} />
-                      </button>
-                    </div>
-                    <div className="space-y-4">
-                      {/* Toggle for excludeZeroUsers */}
-                      <div className="flex items-center justify-between">
-                        <label className="text-sm font-medium text-gray-700">
-                          Exclude Agent with Zero Users
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setExcludeZeroUsers(!excludeZeroUsers)}
-                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                            excludeZeroUsers ? 'bg-blue-600' : 'bg-gray-200'
-                          }`}
-                        >
-                          <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                              excludeZeroUsers ? 'translate-x-6' : 'translate-x-1'
-                            }`}
-                          />
-                        </button>
-                      </div>
-                      {/* Sort Dropdown */}
-                      <div className="relative">
-                        <div className="flex justify-between items-center">
-                          <h3>Sort by: </h3>
-                          <button
-                            type="button"
-                            onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                            className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 text-[10px] text-gray-700 hover:bg-gray-50"
-                          >
-                            {sortOptions.find((option) => option.value === sortBy)?.label}
-                            <ChevronDown size={16} />
-                          </button>
-                        </div>
-
-                        {isSortDropdownOpen && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                            {sortOptions.map((option) => (
-                              <button
-                                key={option.value}
-                                type="button"
-                                onClick={() => {
-                                  setSortBy(option.value);
-                                  setIsSortDropdownOpen(false);
-                                }}
-                                className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                                  sortBy === option.value
-                                    ? 'text-blue-600 bg-blue-50'
-                                    : 'text-gray-700'
-                                }`}
-                              >
-                                {option.label}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-
       <div className="flex flex-col m-3 p-3 bg-white rounded-[24px]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-gray-200">
-          <h4 className="font-semibold text-[#0B0B22]">{t('Agents.title')} List</h4>
-          <ViewDetailsButton href="/user-management/baraka-agents" />
-        </div>
+        {pathname === '/dashboard' && (
+          <div className="flex items-center justify-between p-6 border-gray-200">
+            <h4 className="font-semibold text-[#0B0B22]">{t('Agents.title')} List</h4>
+            <ViewDetailsButton href="/user-management/baraka-agents" />
+          </div>
+        )}
 
         {/* Error Message */}
         {/* {error && (
@@ -311,7 +138,10 @@ export const AgentsTable: React.FC = () => {
               <tbody>
                 {agents && agents.length > 0 ? (
                   agents.map((agent: any, index: number) => (
-                    <tr key={agent.userId || `agent-${index}`} className="hover:bg-neutral-50 transition-colors border-b">
+                    <tr
+                      key={agent.userId || `agent-${index}`}
+                      className="hover:bg-neutral-50 transition-colors border-b"
+                    >
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
                         {agent.firstName || ''} {agent.lastName || ''}
                       </td>
@@ -331,7 +161,7 @@ export const AgentsTable: React.FC = () => {
                           className="text-gray-500 hover:text-gray-700 cursor-pointer"
                           onClick={() => setSelectedAgent(agent)}
                         >
-                          <EyeIcon color='#0B0B22'/>
+                          <EyeIcon color="#0B0B22" />
                         </button>
                       </td>
                     </tr>
@@ -382,27 +212,33 @@ export const AgentsTable: React.FC = () => {
 
                 {(() => {
                   const totalVisiblePages = 5;
-                  const startPage = Math.max(
-                    0,
-                    Math.min(page - Math.floor(totalVisiblePages / 2), pagination.totalPages - totalVisiblePages)
-                  );
-                  const endPage = Math.min(startPage + totalVisiblePages, pagination.totalPages);
+                  const totalPages = pagination.totalPages;
+                  let startPage = Math.max(0, page - Math.floor(totalVisiblePages / 2));
+                  let endPage = startPage + totalVisiblePages;
+                  if (endPage > totalPages) {
+                    endPage = totalPages;
+                    startPage = Math.max(0, endPage - totalVisiblePages);
+                  }
 
                   const pageButtons = [];
                   if (startPage > 0) {
                     pageButtons.push(
                       <button
-                        key="start-ellipsis"
+                        key="first"
                         type="button"
                         onClick={() => setPage(0)}
                         className="px-3 py-1 rounded-full text-primary cursor-pointer"
                       >
                         1
-                      </button>,
-                      <span key="ellipsis-start" className="px-2">
-                        ...
-                      </span>
+                      </button>
                     );
+                    if (startPage > 1) {
+                      pageButtons.push(
+                        <span key="ellipsis-start" className="px-2">
+                          ...
+                        </span>
+                      );
+                    }
                   }
 
                   for (let i = startPage; i < endPage; i++) {
@@ -420,18 +256,22 @@ export const AgentsTable: React.FC = () => {
                     );
                   }
 
-                  if (endPage < pagination.totalPages) {
+                  if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                      pageButtons.push(
+                        <span key="ellipsis-end" className="px-2">
+                          ...
+                        </span>
+                      );
+                    }
                     pageButtons.push(
-                      <span key="ellipsis-end" className="px-2">
-                        ...
-                      </span>,
                       <button
-                        key="end-ellipsis"
+                        key="last"
                         type="button"
-                        onClick={() => setPage(pagination.totalPages - 1)}
+                        onClick={() => setPage(totalPages - 1)}
                         className="px-3 py-1 rounded-full text-primary cursor-pointer"
                       >
-                        {pagination.totalPages}
+                        {totalPages}
                       </button>
                     );
                   }

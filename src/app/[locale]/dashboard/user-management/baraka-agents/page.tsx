@@ -1,11 +1,11 @@
 'use client';
 
-import { AgentsTable } from '@/ui/components/Dashboard/Agents/AgentsTable';
+import AgentTabs from '@/ui/components/Dashboard/Agents/AgentTabs';
 
 export default function BarakaAgentsPage() {
   return (
     <div>
-      <AgentsTable />
+      <AgentTabs />
     </div>
   );
 }
