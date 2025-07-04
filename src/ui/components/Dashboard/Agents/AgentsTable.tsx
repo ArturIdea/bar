@@ -113,7 +113,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}`}
+                      className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''} ${col.key === 'name' ? 'min-w-[180px]' : ''}`}
                     >
                       {col.sortable ? (
                         <button
@@ -142,7 +142,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
                       key={agent.userId || `agent-${index}`}
                       className="hover:bg-neutral-50 transition-colors border-b"
                     >
-                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm min-w-[200px]">
                         {agent.firstName || ''} {agent.lastName || ''}
                       </td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">{agent?.pinfl || 'N/A'}</td>

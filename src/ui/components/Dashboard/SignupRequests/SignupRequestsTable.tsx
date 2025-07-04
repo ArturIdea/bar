@@ -111,7 +111,7 @@ export const SignUpRequestsTable: React.FC<{
                 {columns.map((col) => (
                   <th
                     key={col.key}
-                    className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}`}
+                    className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}${col.key === 'createdAt' ? ' min-w-[170px]' : ''}`}
                   >
                     {col.label}
                   </th>
@@ -125,7 +125,7 @@ export const SignUpRequestsTable: React.FC<{
                     {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : 'No Data'}
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'No Data'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                  <td className={`px-6 py-4 text-[#0B0B22] text-sm${' min-w-[170px]'}`}>
                     {req.createdAt ? new Date(req.createdAt).toLocaleString('uz-UZ', {
                       timeZone: 'Asia/Tashkent',
                       year: 'numeric',

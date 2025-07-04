@@ -43,7 +43,7 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
     { key: 'agentPinfl', label: 'Agent PNFL' },
     { key: 'totalPinflAccessed', label: 'Total PINFL Accessed' },
     { key: 'uniquePinflAccessed', label: 'Unique PINFL Accessed' },
-    { key: 'transactionHistoryViewed', label: 'Transaction History Viewed' },
+    // { key: 'transactionHistoryViewed', label: 'Transaction History Viewed' },
     { key: 'perPinflBenefitScreenViewed', label: 'Benefit Screen Viewed' },
     { key: 'dobMismatchCount', label: 'DOB Mismatch Count' },
   ];
@@ -129,7 +129,7 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
             <thead className="bg-[#FAFAFA] rounded-[8px]">
               <tr className="text-left text-gray-400 ">
                 {columns?.map((col) => (
-                  <th key={col?.key} className="px-6 py-3 font-normal">
+                  <th key={col?.key} className={`px-6 py-3 font-normal ${col.key === 'agentName' ? 'min-w-[180px]' : ''}`}>
                     <button
                       type="button"
                       onClick={() => handleSort(col?.key)}
@@ -170,9 +170,9 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">{log?.agentPinfl}</td>
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">{log?.totalPinflAccessed}</td>
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">{log?.uniquePinflAccessed}</td>
-                    <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {/* <td className="px-6 py-4 text-[#0B0B22] text-sm">
                       {log?.transactionHistoryViewed}
-                    </td>
+                    </td> */}
                     <td className="px-6 py-4 text-[#0B0B22] text-sm">
                       {log?.perPinflBenefitScreenViewed}
                     </td>

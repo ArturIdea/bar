@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { LanguagesIcon, UserCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
 import placeholderUserImage from '@/../public/images/icons/dashboard/placeholderUserImage.jpg';
-import { KEYCLOAK_URL } from '@/core/config';
+import { KEYCLOAK_URL, REDIRECT_URI } from '@/core/config';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
@@ -50,11 +50,27 @@ export default function AgentNavbar() {
   }, [pathname, t]);
 
   const logoutUser = () => {
+    const idToken = cookies.get('idToken');
+    // const redirectUri = REDIRECT_URI || 'http://localhost:3000/';
     const logoutURL = new URL(`${KEYCLOAK_URL}/realms/datawise/protocol/openid-connect/logout`);
+    if (idToken) {
+      logoutURL.searchParams.set('id_token_hint', idToken);
+    }
+    logoutURL.searchParams.set('post_logout_redirect_uri', REDIRECT_URI);
     cookies.remove('accessToken');
     cookies.remove('refreshToken');
+    cookies.remove('idToken');
     router.push(logoutURL.toString());
   };
+
+  if (loading) {
+    return (
+      <div className="sticky top-0 z-10 p-[18px] flex justify-between items-center border-b border-gray-200 bg-white">
+        <h1 className="font-semibold text-4xl text-primary">{t('Navbar.dashboard')}</h1>
+        <LocaleSwitcher />
+      </div>
+    );
+  }
 
   if (loading) {
     return (
