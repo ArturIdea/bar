@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { EyeIcon } from 'lucide-react';
 // import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 // import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
+import { formatChannelName } from '@/lib/utils';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { Pagination } from '../Pagination';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
 import MultiTabUserDetailsModal from './UserDetailsModal';
-import { formatChannelName } from '@/lib/utils';
-import { EyeIcon } from 'lucide-react';
 
 export const UsersTable: React.FC<{
   filters?: {
@@ -74,7 +74,7 @@ export const UsersTable: React.FC<{
     { key: 'createdAt', label: t('UserManagement.createdAt') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    
+    { key: 'action', label: 'Action' },
   ];
 
   return (
@@ -95,14 +95,16 @@ export const UsersTable: React.FC<{
         <div className="overflow-x-auto">
           <table className="w-full">
             {/* Table Header */}
-            <thead className="bg-[#FAFAFA] rounded-[8px]">
-              <tr className="text-left text-gray-400 ">
+            <thead className="bg-[#FAFAFA] rounded-[8px] ">
+              <tr className="text-left text-[#9D9DA7]">
                 {columns.map((col) => (
-                  <th key={col.key} className="lg:w-1/7 w-1/6 px-6 py-3 font-normal">
+                  <th
+                    key={col.key}
+                    className={`px-6 py-3 font-normal ${col.key === 'action' ? 'flex justify-end' : ''}`}
+                  >
                     {col.label}
                   </th>
                 ))}
-                <th className="px-6 py-3 lg:w-3/7 w-2/6" />
               </tr>
             </thead>
 
@@ -126,14 +128,16 @@ export const UsersTable: React.FC<{
                     })}
                   </td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.bankType || 'No Data'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{formatChannelName(user.channel)}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {formatChannelName(user.channel)}
+                  </td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => handleViewDetails(user.pinfl, user.userId)}
                     >
-                      <EyeIcon color='#0B0B22'/>
+                      <EyeIcon color="#0B0B22" />
                     </button>
                   </td>
                 </tr>
@@ -169,14 +173,14 @@ export const UsersTable: React.FC<{
         
       )} */}
       <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px]">
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            total={total}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-          />
-        </div>
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </div>
   );
 };

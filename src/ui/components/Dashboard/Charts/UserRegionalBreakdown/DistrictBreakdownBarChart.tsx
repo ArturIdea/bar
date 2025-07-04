@@ -81,7 +81,7 @@ const DistrictBreakdownBarChart = () => {
   }
 
   return (
-    <div className="p-6 pr-15 bg-white w-full">
+    <div className="p-6 pr-15 bg-white rounded-[24px] w-full">
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-semibold leading-none tracking-tight">Users by District</h2>
         <div className="w-48">
@@ -139,12 +139,13 @@ const DistrictBreakdownBarChart = () => {
               <div
                 key={district.district}
                 className="flex flex-col justify-end items-center mb-[-22px]"
-                style={{ width: '101px' }}
+                style={{ width: '100%', maxWidth: '60px' }}
               >
                 <div
-                  className="w-[101px] bg-[#08678E] rounded-t-md transition-all duration-300 ease-in-out min-h-[2px] relative group"
+                  className="w-full bg-[#08678E] rounded-t-md transition-all duration-300 ease-in-out min-h-[2px] relative group"
                   style={{
                     height: `${(district.userCount / maxUserCount) * 100}%`,
+                    maxWidth: '60px',
                   }}
                   onMouseEnter={() => setHoveredDistrict(district)}
                   onMouseLeave={() => setHoveredDistrict(null)}

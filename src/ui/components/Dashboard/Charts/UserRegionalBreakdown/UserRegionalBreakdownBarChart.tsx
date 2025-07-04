@@ -10,7 +10,7 @@ const UserRegionalBreakdownBarChart = () => {
 
   if (loading) {
     return (
-      <div className="p-6 pr-15 bg-white w-full">
+      <div className="p-6 pr-15 bg-white rounded-[24px] w-full">
         <div className="mb-6">
           <h2 className="font-semibold leading-none tracking-tight">Users by Region</h2>
         </div>
