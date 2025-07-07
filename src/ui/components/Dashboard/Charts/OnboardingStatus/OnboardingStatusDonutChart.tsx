@@ -33,7 +33,6 @@ const STATUS_LABELS: Record<string, string> = {
   FACE_VERIFICATION_IN_PROGRESS: 'Face Started Then User Dropped Off',
 };
 
-// Function to calculate label positions without overlap
 const renderCustomizedLabel = ({ 
   cx, 
   cy, 
@@ -55,27 +54,25 @@ const renderCustomizedLabel = ({
     percent = 0;
   }
 
-  // Adjust y position for specific problematic labels
+  // Adjust y position based on angle to prevent overlaps
   let adjustedY = y;
-  let adjustedX = x;
-  
-  // Special adjustments for specific labels that might overlap
-  if (label === "OTP Verified Then Didn't Proceed") {
+  if (midAngle > 180) {
+    // Left side adjustments
+    if (midAngle > 270) {
+      adjustedY = y - 15; // Top-left quadrant
+    } else {
+      adjustedY = y + 15; // Bottom-left quadrant
+    }
+  } else if (midAngle > 90) {
+    // Right side adjustments - Bottom-right quadrant
+    adjustedY = y + 15;
+  } else {
+    // Right side adjustments - Top-right quadrant
     adjustedY = y - 15;
-  } else if (label === "Exited after FaceID completion") {
-    adjustedY = y + 10;
-  } else if (label === "Exited After Personal Information") {
-    adjustedY = y - 10;
-  }
-
-  // For labels on the left side, adjust x to prevent overflow
-  if (x < cx) {
-    adjustedX = Math.max(x, 20); // Ensure label stays within viewport
   }
 
   return (
     <g>
-      {/* Connector line from arc to label */}
       <polyline
         stroke="#9D9DA7"
         strokeWidth={1}
@@ -83,11 +80,11 @@ const renderCustomizedLabel = ({
         points={`
           ${cx + outerRadius * Math.cos(-midAngle * RADIAN)},${cy + outerRadius * Math.sin(-midAngle * RADIAN)}
           ${cx + (outerRadius + 12) * Math.cos(-midAngle * RADIAN)},${cy + (outerRadius + 12) * Math.sin(-midAngle * RADIAN)}
-          ${adjustedX},${adjustedY}
+          ${x},${adjustedY}
         `}
       />
       <foreignObject 
-        x={adjustedX > cx ? adjustedX : adjustedX - 200} 
+        x={x > cx ? x : x - 200} 
         y={adjustedY - 10} 
         width={200} 
         height={40}
@@ -123,9 +120,8 @@ export function OnboardingStatusDonutChart() {
   const { data, loading, error } = useOnboardingStatusMetrics();
 
   const chartData = React.useMemo(() => {
-    if (!data?.statusCounts) {
-      return [];
-    }
+    if (!data?.statusCounts) {return [];}
+    
     const total = data.totalOnboardingApplications || 1;
     return Object.entries(data.statusCounts)
       .filter(([status, count]) => STATUS_LABELS[status] && count > 0)
@@ -134,7 +130,6 @@ export function OnboardingStatusDonutChart() {
         count,
         percentage: (count / total) * 100,
       }))
-      // Sort by percentage descending to help with label placement
       .sort((a, b) => b.percentage - a.percentage);
   }, [data]);
 
@@ -171,8 +166,8 @@ export function OnboardingStatusDonutChart() {
       <CardContent className="pb-8 w-full">
         <div className="w-full flex justify-center">
           <PieChart 
-            width={Math.min(800, window.innerWidth - 64)} 
-            height={450} // Increased height to accommodate labels
+            width={Math.min(1000, window.innerWidth - 64)} 
+            height={500}
             margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
             <Pie
@@ -181,11 +176,11 @@ export function OnboardingStatusDonutChart() {
               nameKey="status"
               cx="50%"
               cy="50%"
-              innerRadius={70}
-              outerRadius={120}
+              innerRadius={80}
+              outerRadius={140}
               labelLine={false}
-              label={(props) => renderCustomizedLabel({...props, viewBox: { width: 800, height: 450 }})}
-              paddingAngle={1} // Small padding to separate slices
+              label={renderCustomizedLabel}
+              paddingAngle={1}
               isAnimationActive={false}
             >
               {chartData.map((_, index) => (
