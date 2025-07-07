@@ -19,7 +19,6 @@ const COLORS = [
   '#11403D',
 ];
 
-// Mapping from API status codes to user-friendly labels
 const STATUS_LABELS: Record<string, string> = {
   VERIFICATION_FAILED: 'FaceID failed',
   VERIFICATION_COMPLETED: 'Exited after FaceID completion',
@@ -34,8 +33,16 @@ const STATUS_LABELS: Record<string, string> = {
   FACE_VERIFICATION_IN_PROGRESS: 'Face Started Then User Dropped Off',
 };
 
-// Custom label with line and text outside the pie
-const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) => {
+// Function to calculate label positions without overlap
+const renderCustomizedLabel = ({ 
+  cx, 
+  cy, 
+  midAngle, 
+  outerRadius, 
+  payload,
+  // index,
+  // viewBox
+}: any) => {
   const RADIAN = Math.PI / 180;
   const radius = outerRadius + 30;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -48,10 +55,22 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
     percent = 0;
   }
 
-  // Adjust y for specific label
-  let foreignObjectY = y;
+  // Adjust y position for specific problematic labels
+  let adjustedY = y;
+  let adjustedX = x;
+  
+  // Special adjustments for specific labels that might overlap
   if (label === "OTP Verified Then Didn't Proceed") {
-    foreignObjectY = 15.30290897253988;
+    adjustedY = y - 15;
+  } else if (label === "Exited after FaceID completion") {
+    adjustedY = y + 10;
+  } else if (label === "Exited After Personal Information") {
+    adjustedY = y - 10;
+  }
+
+  // For labels on the left side, adjust x to prevent overflow
+  if (x < cx) {
+    adjustedX = Math.max(x, 20); // Ensure label stays within viewport
   }
 
   return (
@@ -64,14 +83,15 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
         points={`
           ${cx + outerRadius * Math.cos(-midAngle * RADIAN)},${cy + outerRadius * Math.sin(-midAngle * RADIAN)}
           ${cx + (outerRadius + 12) * Math.cos(-midAngle * RADIAN)},${cy + (outerRadius + 12) * Math.sin(-midAngle * RADIAN)}
-          ${x},${y}
+          ${adjustedX},${adjustedY}
         `}
       />
       <foreignObject 
-        x={x > cx ? x : x - 200} 
-        y={foreignObjectY - 10} 
+        x={adjustedX > cx ? adjustedX : adjustedX - 200} 
+        y={adjustedY - 10} 
         width={200} 
         height={40}
+        style={{ overflow: 'visible' }}
       >
         <div
           style={{
@@ -80,6 +100,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
             fontWeight: '400',
             textAlign: textAnchor,
             lineHeight: '1.2',
+            whiteSpace: 'nowrap',
           }}
         >
           {label}
@@ -101,7 +122,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, payload }: any) 
 export function OnboardingStatusDonutChart() {
   const { data, loading, error } = useOnboardingStatusMetrics();
 
-  // Transform statusCounts to array for the chart
   const chartData = React.useMemo(() => {
     if (!data?.statusCounts) {
       return [];
@@ -113,7 +133,9 @@ export function OnboardingStatusDonutChart() {
         status,
         count,
         percentage: (count / total) * 100,
-      }));
+      }))
+      // Sort by percentage descending to help with label placement
+      .sort((a, b) => b.percentage - a.percentage);
   }, [data]);
 
   if (loading) {
@@ -148,7 +170,11 @@ export function OnboardingStatusDonutChart() {
       </div>
       <CardContent className="pb-8 w-full">
         <div className="w-full flex justify-center">
-          <PieChart width={Math.min(800, window.innerWidth - 64)} height={400}>
+          <PieChart 
+            width={Math.min(800, window.innerWidth - 64)} 
+            height={450} // Increased height to accommodate labels
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
             <Pie
               data={chartData}
               dataKey="count"
@@ -158,8 +184,8 @@ export function OnboardingStatusDonutChart() {
               innerRadius={70}
               outerRadius={120}
               labelLine={false}
-              label={renderCustomizedLabel}
-              paddingAngle={0}
+              label={(props) => renderCustomizedLabel({...props, viewBox: { width: 800, height: 450 }})}
+              paddingAngle={1} // Small padding to separate slices
               isAnimationActive={false}
             >
               {chartData.map((_, index) => (
