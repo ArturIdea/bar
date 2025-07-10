@@ -1,3 +1,15 @@
+export type BenefitStatus = {
+  userCount: number;
+  totalAmount: { priceValue: number };
+  averageAmountPerUser: { priceValue: number };
+};
+
+export type Statuses = {
+  ACTIVE?: BenefitStatus;
+  EXPIRED?: BenefitStatus;
+  [key: string]: BenefitStatus | undefined;
+};
+
 export class BenefitType {
   constructor(
     public id: number,
@@ -15,6 +27,7 @@ export class BenefitType {
 export class Benefit {
   constructor(
     public benefitType: BenefitType,
-    public users: number
+    public users: number,
+    public statuses?: Statuses // Add statuses field
   ) {}
 }

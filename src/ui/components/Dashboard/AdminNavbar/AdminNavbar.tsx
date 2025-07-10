@@ -13,10 +13,10 @@ import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useUserProfile } from '@/ui/hooks/ui/useUserProfile';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
-import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
-import { BankFilter } from './BankFilter';
 import { AppTypeFilter } from './AppTypeFilter';
+import { BankFilter } from './BankFilter';
 import { ExportAgentsPdf } from './ExportAgentsPdf';
+import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
 
 export default function AdminNavbar() {
   const cookies = new Cookies();
@@ -63,7 +63,7 @@ export default function AdminNavbar() {
         return t('UserManagement.navbarTitle.barakaUsers');
       case '/dashboard/user-management/admin-list':
         return t('UserManagement.navbarTitle.barakaAdmin');
-      case '/dashboard/user-management/agent-list':
+      case '/dashboard/user-management/baraka-agents':
         return t('UserManagement.navbarTitle.barakaAgent');
       case '/dashboard/dev/user-management/baraka-users':
         return `Dev ${t('UserManagement.navbarTitle.barakaUsers')}`;
@@ -76,6 +76,8 @@ export default function AdminNavbar() {
       case '/dashboard/history':
         return t('Navbar.history');
       case '/dashboard/benefits':
+        return t('Sidebar.benefits');
+      case '/dashboard/benefits/users':
         return t('Sidebar.benefits');
       case '/agent-dashboard':
         return t('Sidebar.agentDashboard');

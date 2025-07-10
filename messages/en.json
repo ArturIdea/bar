@@ -3,7 +3,22 @@
     "dashboard": "Dashboard",
     "logout": "Logout",
     "profile": "Profile",
-    "history": "History"
+    "history": "History",
+    "search": "Search",
+    "AgentsearchPlaceholder": "Please enter an Agent PINFL number",
+    "InvalidPinfl": "Invalid PINFL number",
+    "PlaceholderAgentPINFL": "Enter Agent PINFL number",
+    "ExportPDF": "Export PDF",
+    "Exporting": "Exporting...",
+    "AllBanks": "All Banks",
+    "ALOQA": "ALOQA",
+    "XALQ": "XALQ",
+    "All": "All",
+    "AllApps": "All Apps",
+    "OnboardingStatus": "Onboarding Status",
+    "ErrorsForAgreementsAccepted": "Errors for Agreements Accepted",
+    "ErrorsForOTPSend": "Errors For OTP Send",
+    "ErrorOnFailedFinalization": "Error On Failed Finalization"
   },
   "Sidebar": {
     "insights": "Insights",
@@ -18,7 +33,7 @@
     "systemSettings": "System Settings",
     "agentList": "Agents",
     "adminList": "Admin",
-    "agentManagement":"Agent Management"
+    "agentManagement": "Agent Management"
   },
   "Dev": {
     "basicInfo": "Basic Information",
@@ -188,6 +203,8 @@
     "totalRequests": "Total Requests",
     "successfulRequests": "Successful Requests",
     "failedRequests": "Failed Requests",
+    "AbandonedRequest": "Abandoned Requests",
+    "Count": "Count",
     "newAccounts": "New Accounts",
     "period": "Period",
     "accounts": "Accounts",
@@ -234,7 +251,21 @@
     "totalDropOffs": "Abandoned",
     "signupFailureRate": "Onboarding Failure Rate",
     "dropOffPercentage": "Drop-off Percentage",
-    "signupStageHighest": "Highest Recorded Status for Each Unique PINFL"
+    "signupStageHighest": "Highest Recorded Status for Each Unique PINFL",
+    "UserEnrollmentDistributionbyBank": "User Enrollment Distribution by Bank",
+    "bank": "Bank",
+    "ResisteredUsers": "Registered Users",
+    "NumberOfUers": "Number of Users",
+    "Xalq": "Xalq",
+    "Aloqa": "Aloqa",
+    "NoData": "No Data",
+    "TotalRegisteredUsers": "Total Registered Users",
+    "UserByRegion": "Users by Region",
+    "ErrorLoadingData": "Error loading data",
+    "NoDataAvailable": "No data available",
+    "Users": "Users",
+    "NoRegion": "No region added",
+    "UsersByDistrict": "Users by District"
   },
   "SignupStages": {
     "CREATED": "Created",
@@ -245,6 +276,36 @@
     "FACE_VERIFICATION_IN_PROGRESS": "Face Verification In Progress",
     "VERIFICATION_COMPLETED": "Verification/KYC Completed",
     "COMPLETED": "Bank Signup Successful"
+  },
+  "OnboardingStatus": {
+    "CREATED": "PNFL verification Failed",
+    "OTP_SENT": "OTP Sent",
+    "NASP_FAILED": "NASP API Failed",
+    "MOBILE_VERIFIED": "Abandoned at OTP verification completed",
+    "PERSONAL_INFO_VERIFIED": "Abandoned at personal verification completed",
+    "AGREEMENTS_ACCEPTED": "Abandoned at T&C accepted",
+    "FACE_VERIFICATION_IN_PROGRESS": "Abandoned while face verification in progress",
+    "VERIFICATION_COMPLETED": "Abandoned at face verification completed",
+    "VERIFICATION_FAILED": "Face verification failed",
+    "FAILED_FINALIZATION": "Failed Finalization",
+    "COMPLETED": "Completed",
+    "TotalOnboardingApplications":"Total Onboarding Applications",
+    "Successful":"Successful",
+    "HighestError":"Highest Error",
+    "BankAssociatedByStatus":"Bank Associated By Status"
+  },
+  "OnboardingStatusDonutChart":{
+    "VERIFICATION_FAILED":"FaceID failed",
+    "VERIFICATION_COMPLETED":"Exited after FaceID completion",
+    "PERSONAL_INFO_VERIFIED": "Exited After Personal Information",
+    "OTP_SENT": "OTP Was Sent And The Journey",
+    "MOBILE_VERIFIED": "OTP Verified Then Didn't Proceed",
+    "FAILED_FINALIZATION": "Failed Finalization",
+    "AGREEMENTS_ACCEPTED": "Agreements Accepted",
+    "NASP_FAILED": "The NASP process has failed",
+    "CREATED": "Creation was unsuccessful",
+    "COMPLETED": "Completed",
+    "FACE_VERIFICATION_IN_PROGRESS": "Face Started Then User Dropped Off"
   },
   "Filter": {
     "filterBy": "Filter By",
@@ -275,7 +336,10 @@
     "cancel": "Cancel",
     "applyFilters": "Apply Filters",
     "clearFilters": "Clear",
-    "done": "Done"
+    "done": "Done",
+    "apply": " Apply",
+    "TopErrorReason": "Top Error Reason",
+    "NoChartDataAvailable": "No chart data available"
   },
   "SignupRequests": {
     "title": "Latest Sign Up Requests",
@@ -378,8 +442,46 @@
   },
   "Agents": {
     "title": "Agents",
+    "AgentList": "Agent List",
+    "AgentDashboardAccessLog": "Agent Dashboard Access Log",
     "totalUsers": "Total Users",
     "totalFailedCases": "Total Failed Cases",
-    "dailyAvg": "Daily Average Successful Registration"
+    "dailyAvg": "Daily Average Successful Registration",
+    "ExcludeAgentwithZeroUsers": "Exclude Agents with Zero Users",
+    "SortBy": "Sort by",
+    "PINFLNo": "PINFL No",
+    "Action": "Action",
+    "NoAgentsFound": "No agents found",
+    "AgentDailyAvg": "Daily Average",
+    "Datanotfound": "Data not found",
+    "Loading": "Loading...",
+    "AgentPNFL": "Agent PNFL",
+    "TotalPINFLAccessed": "Total PINFL Accessed",
+    "UniquePINFLAccessed": "Unique PINFL Accessed",
+    "BenefitScreenViewed": "Benefit Screen Viewed",
+    "DOBMismatchCount": "DOB Mismatch Count",
+    "MobileVerified":" Mobile Verified",
+    "PersonalInfoVerified":"Personal Info Verified",
+    "VerificationCompleted":"Verification Completed",
+    "VerificationFailed":"Verification Failed"
+  },
+
+  "LivenessPills": {
+    "HASHICORP_VAULT": "Hashicorp Vault",
+    "MINIO": "Minio",
+    "BARAKA_API": "Baraka Server",
+    "SDK_FINANCE_API": "Core Banking Service",
+    "AUTHENTICATOR": "Authenticator"
+  },
+  "StatisticsDashboard": {
+    "Error": "Error",
+    "citizensCount": "Onboarded Users",
+    "NoData": "No Data Available",
+    "Active": "Active",
+    "Expired": "Expired",
+    "Sources": "Sources",
+    "ActiveBenefit": "Active Benefit",
+    "ExpiredBenefit": "Expired Benefit",
+    "Nobenefitsfoundstatus":"No benefits found for this status"
   }
 }
