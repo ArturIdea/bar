@@ -23,9 +23,9 @@ export function CardTypesPieChart() {
 
   const chartConfig: ChartConfig = useMemo(
     () => ({
-      XALQ: { label: 'XALQ', color: '#253A60' },
-      ALOHA: { label: 'ALOHA', color: '#2EC4B6' },
-      NODATA: { label: 'NODATA', color: '#BFD7B5' },
+      XALQ: { label: t('Charts.Xalq'), color: '#253A60' },
+      ALOHA: { label: t('Charts.Aloqa'), color: '#2EC4B6' },
+      NODATA: { label:  t('Charts.NoData'), color: '#BFD7B5' },
     }),
     []
   );
@@ -108,9 +108,9 @@ export function CardTypesPieChart() {
       const data = payload[0].payload;
       const percentage = ((data.holders / totalHolders) * 100).toFixed(1);
       const bankNames: { [key: string]: string } = {
-        XALQ: 'Xalq',
-        ALOHA: 'Aloqa',
-        NODATA: 'No Data',
+        XALQ:  t('Charts.Xalq'),
+        ALOHA:  t('Charts.Aloqa'),
+        NODATA:  t('Charts.NoData'),
       };
       return (
         <div className="bg-white p-[6px] rounded-lg text-xs w-42">
@@ -132,7 +132,7 @@ export function CardTypesPieChart() {
   return (
     <div className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col">
       <h3 className="text-start text-[15px] font-bold mt-2 mb-[10px]">
-        User Enrollment Distribution by Bank
+        {t('Charts.UserEnrollmentDistributionbyBank')}
       </h3>
       <div className="relative flex items-center justify-center w-full h-[330px]">
         <CardContent className="flex items-center pb-0">
@@ -164,7 +164,7 @@ export function CardTypesPieChart() {
           className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center"
           style={{ transform: 'translate(-50%, -50%)' }}
         >
-          <span className="text-xs text-gray-500">Total Users</span>
+          <span className="text-xs text-gray-500"> {t('Statistics.totalUsers')}</span> 
           <span className="text-lg font-bold">{totalHolders.toLocaleString()}</span>
         </div>
       </div>
@@ -173,8 +173,8 @@ export function CardTypesPieChart() {
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left border-b">
-              <th className="font-normal px-4 py-2">Register Entity</th>
-              <th className="font-normal px-4 py-2 text-center">Number of User</th>
+              <th className="font-normal px-4 py-2">{t('Charts.ResisteredUsers')}</th>
+              <th className="font-normal px-4 py-2 text-center">{t('Charts.NumberOfUers')}</th>
               <th className="font-normal px-4 py-2 text-center">%</th>
             </tr>
           </thead>
@@ -184,9 +184,9 @@ export function CardTypesPieChart() {
                 ? ((entry.holders / totalHolders) * 100).toFixed(0)
                 : '0';
               const bankNames: { [key: string]: string } = {
-                XALQ: 'Xalq',
-                ALOHA: 'Aloqa',
-                NODATA: 'No Data',
+                XALQ:  t('Charts.Xalq'),
+                ALOHA:  t('Charts.Aloqa'),
+                NODATA:  t('Charts.NoData'),
               };
               return (
                 <tr key={entry.cardType}>
@@ -205,8 +205,8 @@ export function CardTypesPieChart() {
             {/* Total row */}
             <tr className="font-semibold">
               <td className="px-4 py-2 flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
-                Total Registered User
+                <span className="inline-block w-2 h-2 rounded-full bg-blue-500" /> 
+                { t('Charts.TotalRegisteredUsers')}
               </td>
               <td className="px-4 py-2 text-center">{totalHolders.toLocaleString()}</td>
               <td className="px-4 py-2 text-center">100%</td>

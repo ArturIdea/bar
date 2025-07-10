@@ -30,6 +30,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const pathname = usePathname();
+  const t = useTranslations();
 
   const { agents, loading, error, pagination } = useAgents({
     search,
@@ -40,7 +41,6 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
     fromDate,
     toDate,
   });
-  const t = useTranslations();
 
   const handleSort = (column: string) => {
     const sortColumn =
@@ -74,7 +74,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
 
   const columns = [
     { key: 'name', label: t('UserManagement.name'), sortable: true },
-    { key: 'pinfl', label: 'PINFL No' },
+    { key: 'pinfl', label: t('Agents.PINFLNo') },
     {
       key: 'totalUsers',
       label: t('Agents.totalUsers'),
@@ -82,7 +82,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
     },
     { key: 'totalFailedCases', label: t('Agents.totalFailedCases') },
     { key: 'dailyAvg', label: t('Agents.dailyAvg') },
-    { key: 'action', label: 'Action' },
+    { key: 'action', label: t('Agents.Action') },
   ];
 
   return (
@@ -91,18 +91,10 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
         {/* Header */}
         {pathname === '/dashboard' && (
           <div className="flex items-center justify-between p-6 border-gray-200">
-            <h4 className="font-semibold text-[#0B0B22]">{t('Agents.title')} List</h4>
+            <h4 className="font-semibold text-[#0B0B22]">{t('Agents.AgentList')}</h4>
             <ViewDetailsButton href="/user-management/baraka-agents" />
           </div>
         )}
-
-        {/* Error Message */}
-        {/* {error && (
-          <div className="px-6 py-4 text-red-500 text-sm">
-            Failed to fetch agents. Please try again later.
-          </div>
-        )} */}
-
         {/* Table */}
         <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="overflow-x-auto">
@@ -133,7 +125,6 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
                   ))}
                 </tr>
               </thead>
-
               {/* Table Body */}
               <tbody>
                 {agents && agents.length > 0 ? (
@@ -169,14 +160,13 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
                 ) : (
                   <tr>
                     <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
-                      {error ? 'No data available' : 'No agents found'}
+                      {error ? t('Charts.NoDataAvailable') : t('Agents.NoAgentsFound')}
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-
           {/* Pagination */}
           <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px]">
             <div className="flex items-center justify-between px-6 py-4">
@@ -292,7 +282,6 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
           </div>
         </div>
       </div>
-
       {/* Agent Details Modal */}
       {selectedAgent && (
         <AgentDetailsModal agent={selectedAgent} onClose={() => setSelectedAgent(null)} />

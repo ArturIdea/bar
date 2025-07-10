@@ -1,14 +1,7 @@
 import { useLiveness } from '@/ui/hooks/ui/useLiveness';
 import PillsSkeleton from './PillsSkeleton';
 import { PopoverBubble } from './PopoverBubble';
-
-const nameMap: Record<string, string> = {
-  HASHICORP_VAULT: 'Hashicorp Vault',
-  MINIO: 'Minio',
-  BARAKA_API: 'Baraka Server',
-  SDK_FINANCE_API: 'Core Banking Service',
-  AUTHENTICATOR: 'Authenticator',
-};
+import { useTranslations } from 'next-intl';
 
 function formatUptime(secondsRaw: number): string {
   const total = Math.floor(secondsRaw);
@@ -36,6 +29,7 @@ function formatUptime(secondsRaw: number): string {
 
 export default function LivenessPills() {
   const { liveness, error, loading } = useLiveness();
+  const t = useTranslations('LivenessPills');
   if (loading) {
     return <PillsSkeleton />;
   }
@@ -58,7 +52,10 @@ export default function LivenessPills() {
               dotColor = 'bg-red-500';
             }
 
-            const displayName = nameMap[item.instanceName] ?? item.instanceName;
+            let displayName = t(item.instanceName as any);
+            if (displayName === item.instanceName) {
+              displayName = item.instanceName;
+            }
             const niceUptime = formatUptime(item.uptime);
 
             return (

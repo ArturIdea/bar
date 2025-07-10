@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Bar,
   BarChart,
@@ -17,25 +18,6 @@ const BANK_COLORS: Record<string, string> = {
   NODATA: '#08678E', // No Data
   XALQ: '#2EC4B6', // XALQ
   ALOQA: '#A5BE19', // ALOQA
-};
-
-const BANK_LABELS: Record<string, string> = {
-  NODATA: 'No Data',
-  XALQ: 'XALQ',
-  ALOQA: 'ALOQA',
-};
-
-// Mapping from API status codes to user-friendly labels
-const STATUS_LABELS: Record<string, string> = {
-  AGREEMENTS_ACCEPTED: 'Agreements Accepted',
-  COMPLETED: 'Completed',
-  FACE_VERIFICATION_IN_PROGRESS: 'Face Verification in progress',
-  FAILED_FINALIZATION: 'Failed Finalization',
-  MOBILE_VERIFIED: 'Mobile Verified',
-  OTP_SENT: 'OTP Sent',
-  PERSONAL_INFO_VERIFIED: 'Personal Info Verified',
-  VERIFICATION_COMPLETED: 'Verification Completed',
-  VERIFICATION_FAILED: 'Verification Failed',
 };
 
 // Order of statuses
@@ -93,6 +75,25 @@ const renderTotalLabel = (props: any) => {
 
 export function BankAssociatedByStatusBarChart() {
   const { data, loading, error } = useBankAssociatedByStatus();
+  const t = useTranslations();
+
+  const BANK_LABELS: Record<string, string> = {
+    NODATA: t('Charts.NoData'),
+    XALQ: t('Navbar.XALQ'),
+    ALOQA: t('Navbar.ALOQA'),
+  };
+
+  const STATUS_LABELS: Record<string, string> = {
+    AGREEMENTS_ACCEPTED: t('OnboardingStatusDonutChart.AGREEMENTS_ACCEPTED'),
+    COMPLETED: t('OnboardingStatusDonutChart.COMPLETED'),
+    FACE_VERIFICATION_IN_PROGRESS: t('SignupStages.FACE_VERIFICATION_IN_PROGRESS'),
+    FAILED_FINALIZATION: t('OnboardingStatus.FAILED_FINALIZATION'),
+    MOBILE_VERIFIED: t('Agents.MobileVerified'),
+    OTP_SENT: t('SignupStages.OTP_SENT'),
+    PERSONAL_INFO_VERIFIED: t('Agents.PersonalInfoVerified'),
+    VERIFICATION_COMPLETED: t('Agents.VerificationCompleted'),
+    VERIFICATION_FAILED: t('Agents.VerificationFailed')
+  };
 
   const chartData = React.useMemo(() => {
     if (!data) {
@@ -113,7 +114,7 @@ export function BankAssociatedByStatusBarChart() {
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
           <CardTitle className="text-[#0B0B22] font-semibold text-[16px] leading-normal">
-            Bank Associated By Status
+            {t('OnboardingStatus.BankAssociatedByStatus')}
           </CardTitle>
         </CardHeader>
         <div className="flex justify-center">

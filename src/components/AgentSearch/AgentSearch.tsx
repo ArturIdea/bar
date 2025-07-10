@@ -2,10 +2,12 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import {  UserSearch, X } from 'lucide-react';
 import { useAgent } from '@/contexts/AgentContext';
 import { agentService } from '@/services/agentService';
+import { useTranslations } from 'next-intl';
 
 export const AgentSearch: React.FC = () => {
   const [pinfl, setPinfl] = useState('');
   const [loading, setLoading] = useState(false);
+  const t = useTranslations();
   const [error, setError] = useState<string | null>(null);
   const { setSelectedAgent } = useAgent();
 
@@ -23,7 +25,7 @@ export const AgentSearch: React.FC = () => {
     e.preventDefault();
 
     if (!pinfl) {
-      setError('Please enter an Agent PINFL number');
+      setError(t('Navbar.AgentsearchPlaceholder'));
       return;
     }
 
@@ -34,7 +36,7 @@ export const AgentSearch: React.FC = () => {
       const agent = await agentService.searchAgentByPinfl(pinfl);
       setSelectedAgent(agent);
     } catch (err) {
-      setError('Invalid PINFL number');
+      setError(t('Navbar.InvalidPinfl'));
       setSelectedAgent(null);
     } finally {
       setLoading(false);
@@ -62,13 +64,12 @@ export const AgentSearch: React.FC = () => {
           <input
             type="text"
             value={pinfl}
-            onChange={(e) => setPinfl(e.target.value)}
-            placeholder="Enter Agent PINFL number"
+            onChange={(e) => setPinfl(e.target.value)} 
+            placeholder={(t('Navbar.PlaceholderAgentPINFL'))}
             className="outline-none bg-transparent text-sm placeholder:text-gray-400 placeholder:text-[14px] max-w-[120px]"
           />
 
           <button type="button" disabled={loading} className="cursor-pointer" onClick={handleReset}>
-            {/* <span className='text-[12px] '>Reset</span> */}
             <X size={15} />
           </button>
         </div>
@@ -77,19 +78,6 @@ export const AgentSearch: React.FC = () => {
         <div className="alert alert-error">
           <div className="flex gap-2">
             <span className="text-red-500">{error}</span>
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg> */}
           </div>
         </div>
       )}

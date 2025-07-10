@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './PercentageBarGraph.css';
+import { useTranslations } from 'next-intl';
 
 interface PercentageBarGraphProps {
   data: Array<{
@@ -19,6 +20,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
   const successfulItem = data.find((item) => item.classification.toLowerCase() === 'successful');
   const failedItem = data.find((item) => item.classification.toLowerCase() === 'failed');
   const abandonedItem = data.find((item) => item.classification.toLowerCase() === 'dropped_off');
+  const t = useTranslations();
 
   const defaultColors = {
     total: 'rgb(33, 87, 226)',
@@ -31,7 +33,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
   const cardData = [
     {
       key: 'total',
-      label: 'Total Request',
+      label: t('Charts.totalRequests'),
       value: totalItem?.count ?? 0,
       percentage: undefined,
       color: colors?.total || defaultColors.total,
@@ -40,7 +42,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
     },
     {
       key: 'successful',
-      label: 'Successful Request',
+      label: t('Charts.successfulRequests'),
       value: successfulItem?.percentage ?? 0,
       percentage: successfulItem?.percentage,
       color: colors?.successful || defaultColors.successful,
@@ -49,7 +51,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
     },
     {
       key: 'failed',
-      label: 'Failed Request',
+      label: t('Charts.failedRequests'),
       value: failedItem?.percentage ?? 0,
       percentage: failedItem?.percentage,
       color: colors?.failed || defaultColors.failed,
@@ -58,7 +60,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
     },
     {
       key: 'dropped_off',
-      label: 'Abandoned Request',
+      label: t('Charts.AbandonedRequest'),
       value: abandonedItem?.percentage ?? 0,
       percentage: abandonedItem?.percentage,
       color: colors?.dropped_off || defaultColors.dropped_off,
@@ -81,7 +83,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
             </div>
             {item.isPercentage && (
               <div className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
-                Count: {item.count}
+              { t('Charts.Count')}: {item.count}
               </div>
             )}
           </div>

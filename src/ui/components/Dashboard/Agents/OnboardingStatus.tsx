@@ -7,6 +7,7 @@ import { useAgentOnboardingStatus } from '@/ui/hooks/ui/useAgentOnboardingStatus
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import { useTranslations } from 'next-intl';
 
 interface ChartDataItem {
   name: string;
@@ -92,6 +93,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<'custom' | 'month' | 'week' | 'day'>('custom');
+  const t = useTranslations();
 
   // Temporary date range for the picker
   const [tempDateRange, setTempDateRange] = useState<{
@@ -190,7 +192,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
     return <div className="text-red-500">{error}</div>;
   }
   if (!data) {
-    return <div>No data available</div>;
+    return <div>{t('Charts.NoDataAvailable')}</div>;
   }
 
   const chartData = transformDistributionToChartData(data.distribution);
@@ -201,7 +203,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2 gap-4">
         <div>
           <div className="text-2xl font-semibold text-gray-900 mb-2">
-            Total Failed Cases: <span className="font-bold">{data.totalCases}</span>
+            {t('Agents.totalFailedCases')}: <span className="font-bold">{data.totalCases}</span>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -266,14 +268,14 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
                       onClick={handleCancel}
                       className="px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
                     >
-                      Cancel
+                      {t('Filter.cancel')}
                     </button>
                     <button
                       type="button"
                       onClick={handleApplyDateRange}
                       className="px-3 py-1.5 text-xs bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
                     >
-                      Apply
+                       {t('Filter.apply')}
                     </button>
                   </div>
                 </div>
@@ -284,7 +286,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
       </div>
       <div className="mt-4">
         <div className="flex items-center mt-2">
-          <span className="text-lg mr-2">Top Error Reason:</span>
+          <span className="text-lg mr-2">{t('Filter.TopErrorReason')}:</span>
           <span className="bg-red-500 text-white px-2 py-0 rounded-lg font-semibold text-lg">
             {data.topErrorReason || 'No data available'}
           </span>
@@ -314,7 +316,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
             <Tooltip formatter={(value: number, name: string) => [`${value}`, name]} />
           </PieChart>
         ) : (
-          <div className="text-gray-500 text-lg">No chart data available</div>
+          <div className="text-gray-500 text-lg"> {t('Filter.NoChartDataAvailable')}</div>
         )}
       </div>
     </div>

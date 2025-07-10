@@ -1,20 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, X } from 'lucide-react';
 import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
-
-const appTypes = [
-  { name: 'ALL', displayName: 'All Apps' },
-  { name: 'AGENT_APP', displayName: 'Agent App' },
-  { name: 'CITIZEN_APP', displayName: 'Citizen App' },
-  // { name: 'AGENT_PORTAL', displayName: 'Agent Portal' },
-  { name: 'XALQ_FILE', displayName: 'XALQ Pre Approved' },
-  { name: 'HTTP_CLIENT', displayName: 'Manual addition' }
-];
+import { useTranslations } from 'next-intl';
 
 export const AppTypeFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { selectedAppType, setSelectedAppType } = useAppTypeFilterStore();
+  const t = useTranslations();
+
+  const appTypes = [
+    { name: 'ALL', displayName: t('Navbar.AllApps') },
+    { name: 'AGENT_APP', displayName: t('Charts.AGENT_APP') },
+    { name: 'CITIZEN_APP', displayName: t('Charts.CITIZEN_APP') },
+    // { name: 'AGENT_PORTAL', displayName: 'Agent Portal' },
+    { name: 'XALQ_FILE', displayName: t('Charts.XALQ_PORTAL') },
+    { name: 'HTTP_CLIENT', displayName: t('Charts.HTTP_CLIENT') },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,7 +51,9 @@ export const AppTypeFilter = () => {
         className="flex items-center gap-2 border bg-[#fff] text-[#0B0B22] border-gray-300 rounded-full py-2.5 px-4 hover:border-gray-400 transition-colors"
       >
         <span className="text-sm">
-          {selectedAppType ? appTypes.find(type => type.name === selectedAppType)?.displayName : 'All Apps'}
+          {selectedAppType
+            ? appTypes.find((type) => type.name === selectedAppType)?.displayName
+            : t('Navbar.AllApps')}
         </span>
         {selectedAppType && (
           <button
@@ -71,8 +75,8 @@ export const AppTypeFilter = () => {
               type="button"
               onClick={() => handleSelect(appType.name)}
               className={`w-full px-4 py-2 text-[12px] text-left text-sm hover:bg-gray-100 ${
-                (selectedAppType === appType.name || (!selectedAppType && appType.name === 'ALL')) 
-                  ? 'bg-gray-50 text-primary' 
+                selectedAppType === appType.name || (!selectedAppType && appType.name === 'ALL')
+                  ? 'bg-gray-50 text-primary'
                   : 'text-gray-700'
               }`}
             >
@@ -83,4 +87,4 @@ export const AppTypeFilter = () => {
       )}
     </div>
   );
-}; 
+};
