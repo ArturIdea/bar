@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ApiClient } from '@/core/ApiClient';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 
-export const useUsersByBenefit = (page: number, size: number, benefitTypeId?: string) => {
+export const useUsersByBenefit = (page: number, size: number, benefitId?: string) => {
   const [users, setUsers] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ export const useUsersByBenefit = (page: number, size: number, benefitTypeId?: st
   const toDate = useDateRangeStore((s) => s.toDate);
 
   useEffect(() => {
-    if (!benefitTypeId) {
+    if (!benefitId) {
       setUsers([]);
       setTotal(0);
       return;
@@ -18,7 +18,7 @@ export const useUsersByBenefit = (page: number, size: number, benefitTypeId?: st
     setLoading(true);
     ApiClient.shared
       .get<{ content: any[]; totalElements: number }>(
-        '/api/admin/users',
+        '/api/admin/benefits/active-users',
         {
           params: {
             fromDate,
@@ -26,7 +26,7 @@ export const useUsersByBenefit = (page: number, size: number, benefitTypeId?: st
             page,
             size,
             sort: 'createdAt,DESC',
-            benefitTypeId,
+            benefitId,
           },
         }
       )
@@ -40,7 +40,7 @@ export const useUsersByBenefit = (page: number, size: number, benefitTypeId?: st
         // Optionally log error
       })
       .finally(() => setLoading(false));
-  }, [page, size, benefitTypeId, fromDate, toDate]);
+  }, [page, size, benefitId, fromDate, toDate]);
 
   return { users, total, loading, fromDate, toDate };
 }; 

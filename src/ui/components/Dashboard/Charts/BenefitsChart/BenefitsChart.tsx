@@ -48,10 +48,6 @@ export default function BenefitsChart() {
 
   return (
     <div className="p-6 pr-15 bg-white rounded-[24px] w-full">
-      {/* <div className="mb-12 p-1 flex justify-between items-center pr-8">
-        <h2 className="font-semibold leading-none tracking-tight">Benefit Status</h2>
-        
-      </div> */}
       <div className="flex justify-between mb-5 items-center">
         <CardHeader>
           <CardTitle>Benefit Status</CardTitle>

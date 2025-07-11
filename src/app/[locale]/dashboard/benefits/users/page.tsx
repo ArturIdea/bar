@@ -25,6 +25,20 @@ const channelDisplayNames: Record<string, string> = {
   HTTP_CLIENT: 'Manual addition',
 };
 
+// Helper to get status class for user status
+const getStatusClass = (status: string) => {
+  switch ((status || '').toLowerCase()) {
+    case 'active':
+      return 'bg-[rgba(19,171,63,0.20)] text-[#13AB3F]';
+    case 'failed':
+      return 'bg-[rgba(220,27,37,0.20)] text-[#DC1B25]';
+    case 'pending':
+      return 'bg-[rgba(255,183,0,0.20)] text-[#FFB700]';
+    default:
+      return 'bg-[rgba(156,163,175,0.20)] text-[#6B7280]';
+  }
+};
+
 export default function UsersByBenefitPage() {
   const searchParams = useSearchParams();
   const benefitTypeId = searchParams.get('benefitTypeId');
@@ -111,7 +125,6 @@ export default function UsersByBenefitPage() {
             <Link href="/dashboard/benefits" className="flex items-center gap-2 cursor-pointer">
               <ArrowLeft /> {t('Buttons.back')}
             </Link>
-            
           </div>
         </>
       )}
@@ -156,9 +169,7 @@ export default function UsersByBenefitPage() {
                       key={user.userId || idx}
                       className="hover:bg-gray-50 transition-colors border-b"
                     >
-                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                        {user?.firstName} {user.lastName}
-                      </td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">{user?.name || '-'}</td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">{user?.email || '-'}</td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">{user?.mobile || '-'}</td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">{user?.role || '-'}</td>
@@ -174,58 +185,64 @@ export default function UsersByBenefitPage() {
                             })
                           : 'No Data'}
                       </td>
-                      <td className="px-6 py-4 text-[#0B0B22] text-sm">{user?.status || '-'}</td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                        {channelDisplayNames[user?.channel] || user?.channel || '-'}
+                        <span className={`px-3 py-1 rounded-full whitespace-nowrap text-xs ${getStatusClass(user?.status)}`}>
+                          {user?.status || '-'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                        {channelDisplayNames[user?.onboardingChannel] ||
+                          user?.onboardingChannel ||
+                          '-'}
                       </td>
                     </tr>
                   ))
                 )}
               </tbody>
             </table>
-          </div>
-          {/* Pagination */}
-          <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px] mt-4 p-4 flex flex-col gap-2">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span>Showing</span>
-                <select
-                  className="border border-gray-300 rounded-xl px-4 py-2"
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                    setPage(0);
-                  }}
-                >
-                  {[10, 20, 30, 50].map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-                <span>
-                  {total === 0 ? 0 : page * pageSize + 1} - {Math.min((page + 1) * pageSize, total)}{' '}
-                  of {total} entries
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  disabled={page === 0}
-                  onClick={() => setPage(page - 1)}
-                  className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
-                >
-                  <ChevronLeft />
-                </button>
-                {renderPageNumbers()}
-                <button
-                  type="button"
-                  disabled={page >= totalPages - 1}
-                  onClick={() => setPage(page + 1)}
-                  className={`px-3 py-1 ${page >= totalPages - 1 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
-                >
-                  <ChevronRight />
-                </button>
+            {/* Pagination */}
+            <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px] mt-4 p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span>Showing</span>
+                  <select
+                    className="border border-gray-300 rounded-xl px-4 py-2"
+                    value={pageSize}
+                    onChange={(e) => {
+                      setPageSize(Number(e.target.value));
+                      setPage(0);
+                    }}
+                  >
+                    {[10, 20, 30, 50].map((size) => (
+                      <option key={size} value={size}>
+                        {size}
+                      </option>
+                    ))}
+                  </select>
+                  <span>
+                    {total === 0 ? 0 : page * pageSize + 1} -{' '}
+                    {Math.min((page + 1) * pageSize, total)} of {total} entries
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={page === 0}
+                    onClick={() => setPage(page - 1)}
+                    className={`px-3 py-1 ${page === 0 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
+                  >
+                    <ChevronLeft />
+                  </button>
+                  {renderPageNumbers()}
+                  <button
+                    type="button"
+                    disabled={page >= totalPages - 1}
+                    onClick={() => setPage(page + 1)}
+                    className={`px-3 py-1 ${page >= totalPages - 1 ? 'text-gray-300' : 'text-blue-600 cursor-pointer'}`}
+                  >
+                    <ChevronRight />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

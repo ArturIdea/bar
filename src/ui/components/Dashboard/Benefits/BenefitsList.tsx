@@ -100,7 +100,7 @@ export default function BenefitsList() {
                   </div>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-4">
                     <div>
-                      <div className="text-xl font-semibold text-gray-900">{benefit.users}</div>
+                      <div className="text-xl font-semibold text-gray-900">{benefit?.statuses?.[activeTab]?.userCount}</div>
                       <div className="text-xs text-gray-500">{t('Statistics.totalUsers')}</div>
                     </div>
                     <div>
