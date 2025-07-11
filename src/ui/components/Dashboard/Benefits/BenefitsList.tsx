@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 // import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Cookies from 'universal-cookie';
@@ -10,7 +11,6 @@ import { truncate } from '@/core/utils/truncate';
 import { useBenefits } from '@/ui/hooks/ui/useBenefits';
 import BenefitsChart from '../Charts/BenefitsChart/BenefitsChart';
 import BenefitsSkeleton from './BenefitsSkeleton';
-import { useRouter } from 'next/navigation';
 
 export default function BenefitsList() {
   const t = useTranslations();
@@ -100,7 +100,9 @@ export default function BenefitsList() {
                   </div>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-4">
                     <div>
-                      <div className="text-xl font-semibold text-gray-900">{benefit?.statuses?.[activeTab]?.userCount}</div>
+                      <div className="text-xl font-semibold text-gray-900">
+                        {benefit?.statuses?.[activeTab]?.userCount}
+                      </div>
                       <div className="text-xs text-gray-500">{t('Statistics.totalUsers')}</div>
                     </div>
                     <div>
@@ -112,9 +114,7 @@ export default function BenefitsList() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-xl font-semibold text-gray-900">
-                        {status?.totalAmount?.priceValue ?? '-'}
-                      </div>
+                      <div className="text-xl font-semibold text-gray-900">0</div>
                       <div className="text-xs text-gray-500">
                         {t('UserManagement.benefits.usedFund')}
                       </div>
@@ -128,13 +128,19 @@ export default function BenefitsList() {
                       </div>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    className="mt-auto border border-primary text-primary rounded-xl py-2 font-medium hover:bg-primary hover:text-white transition-colors duration-150"
-                    onClick={() => router.push(`/${locale}/dashboard/benefits/users?benefitTypeId=${benefit.benefitType.id}`)}
-                  >
-                    {t('UserProfile.users')}
-                  </button>
+                  {activeTab === 'ACTIVE' && (
+                    <button
+                      type="button"
+                      className="mt-auto border border-primary text-primary rounded-xl py-2 font-medium hover:bg-primary hover:text-white transition-colors duration-150"
+                      onClick={() =>
+                        router.push(
+                          `/${locale}/dashboard/benefits/users?benefitTypeId=${benefit.benefitType.id}`
+                        )
+                      }
+                    >
+                      {t('UserProfile.users')}
+                    </button>
+                  )}
                 </div>
               );
             })}
