@@ -14,6 +14,7 @@ import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { useCardMetrics } from '@/ui/hooks/ui/useCardMetrics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { useTranslations } from 'next-intl';
+import { ExportDropdown } from '../../ExportDropdown';
 
 export function CardTypesPieChart() {
   const fromDate = useDateRangeStore((s) => s.fromDate);
@@ -131,9 +132,20 @@ export function CardTypesPieChart() {
 
   return (
     <div className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col">
-      <h3 className="text-start text-[15px] font-bold mt-2 mb-[10px]">
-        {t('Charts.UserEnrollmentDistributionbyBank')}
-      </h3>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-start text-[15px] font-bold mt-2 mb-[10px]">
+          {t('Charts.UserEnrollmentDistributionbyBank')}
+        </h3>
+        <ExportDropdown
+          chartData={chartData}
+          fileName={t('Charts.UserEnrollmentDistributionbyBank')}
+          keysToExclude={['fill']}
+          labelMapping={{
+            cardType: t('Charts.ResisteredUsers'),
+            holders: t('Charts.NumberOfUers'),
+          }}
+        />
+      </div>
       <div className="relative flex items-center justify-center w-full h-[330px]">
         <CardContent className="flex items-center pb-0">
           <ChartContainer config={chartConfig} className="aspect-square min-h-[320px]">

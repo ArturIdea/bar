@@ -2,6 +2,7 @@ import React from 'react';
 
 import './PercentageBarGraph.css';
 import { useTranslations } from 'next-intl';
+import { ExportDropdown } from '../../ExportDropdown';
 
 interface PercentageBarGraphProps {
   data: Array<{
@@ -69,9 +70,35 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
     },
   ];
 
+  // Prepare export data
+  const exportData = [
+    {
+      [t('Charts.totalRequests')]: totalItem?.count ?? 0,
+      [t('Charts.successfulRequests')]: `${Number(successfulItem?.percentage ?? 0).toFixed(2)}% (${successfulItem?.count ?? 0})`,
+      [t('Charts.failedRequests')]: `${Number(failedItem?.percentage ?? 0).toFixed(2)}% (${failedItem?.count ?? 0})`,
+      [t('Charts.AbandonedRequest')]: `${Number(abandonedItem?.percentage ?? 0).toFixed(2)}% (${abandonedItem?.count ?? 0})`,
+    },
+  ];
+
+  // Label mapping for ExportDropdown
+  const labelMapping = {
+    [t('Charts.totalRequests')]: t('Charts.totalRequests'),
+    [t('Charts.successfulRequests')]: t('Charts.successfulRequests'),
+    [t('Charts.failedRequests')]: t('Charts.failedRequests'),
+    [t('Charts.AbandonedRequest')]: t('Charts.AbandonedRequest'),
+  };
+
   return (
     <div className="percentage-stats-container p-3">
-      <h2 className="stats-title">Final Status per User Registration Attempt</h2>
+      <div className="flex justify-between items-center p-2">
+        <h2 className="stats-title">Final Status per User Registration Attempt</h2>
+        <ExportDropdown
+          chartData={exportData}
+          fileName={t('Charts.registrationOverview')}
+          labelMapping={labelMapping}
+        />
+      </div>
+      
       <div className="stats-grid grid-cols-4">
         {cardData.map((item) => (
           <div key={item.key} className="stat-item p-4 bg-white rounded-[16px]">

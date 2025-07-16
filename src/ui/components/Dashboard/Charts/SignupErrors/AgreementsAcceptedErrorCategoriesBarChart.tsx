@@ -5,9 +5,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { useAgreementsAcceptedErrorCategories } from '@/ui/hooks/ui/useAgreementsAcceptedErrorCategories';
 import { ExportDropdown } from '../../ExportDropdown';
+import { useTranslations } from 'next-intl';
 
 export function AgreementsAcceptedErrorCategoriesBarChart() {
   const { data, loading, error } = useAgreementsAcceptedErrorCategories();
+  const t = useTranslations()
 
   // Flatten subcategories for chart
   const chartData = data.flatMap(cat =>
@@ -44,7 +46,7 @@ export function AgreementsAcceptedErrorCategoriesBarChart() {
     <Card className="m-3 w-1/2 mr-0 p-3 mt-0 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
       <div className="flex justify-between items-center pr-8">
         <CardHeader>
-          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>Errors For Agreements Accepted</CardTitle>
+          <CardTitle className='text-[#0B0B22] font-semibold text-[16px] leading-normal'>{t('Navbar.ErrorsForAgreementsAccepted')}</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown

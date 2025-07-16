@@ -27,7 +27,7 @@
     "naspAgents": "NASP Agents",
     "bankAgents": "Bank Agents",
     "signupRequests": "Sign Up Requests",
-    "benefits": "Benefits",
+    "benefits": "Social Benefits",
     "agentDashboard": "Agent Dashboard",
     "superAdminDashboard": "Super Admin Dashboard",
     "systemSettings": "System Settings",
@@ -48,16 +48,16 @@
     "bankCode": "Bank Code",
     "masterBankCode": "Master Bank Account Number",
     "subBank": "Sub Bank Account Number",
-    "userBenefits": "User Benefits",
+    "userBenefits": "User Social Benefits",
     "appointedPinfl": "Appointed PINFL",
     "deductionName": "Deduction Name",
     "deduction": "Deduction",
-    "benefitPeriod": "Benefit Period",
+    "benefitPeriod": "Social Benefit Period",
     "cancelledOn": "Cancelled On",
     "userDetails": "User Details",
     "impersonations": "Impersonation/OTPs",
     "documents": "Documents",
-    "benefitBankAcc": "Benefit Bank Account",
+    "benefitBankAcc": "Social Benefit Bank Account",
     "vouchers": "Vouchers",
     "userVouchers": "User Vouchers",
     "devices": "Devices",
@@ -185,7 +185,7 @@
     "pickDate": "Pick a date range",
     "doubleClickToReset": "Double tap on a day to reset the range",
     "reset": "Reset",
-    "addUser": "Add "
+    "addUser": "Add"
   },
   "Statistics": {
     "newAccounts": "New Accounts",
@@ -289,14 +289,14 @@
     "VERIFICATION_FAILED": "Face verification failed",
     "FAILED_FINALIZATION": "Failed Finalization",
     "COMPLETED": "Completed",
-    "TotalOnboardingApplications":"Total Onboarding Applications",
-    "Successful":"Successful",
-    "HighestError":"Highest Error",
-    "BankAssociatedByStatus":"Bank Associated By Status"
+    "TotalOnboardingApplications": "Total Onboarding Applications",
+    "Successful": "Successful",
+    "HighestError": "Highest Error",
+    "BankAssociatedByStatus": "Bank Associated By Status"
   },
-  "OnboardingStatusDonutChart":{
-    "VERIFICATION_FAILED":"FaceID failed",
-    "VERIFICATION_COMPLETED":"Exited after FaceID completion",
+  "OnboardingStatusDonutChart": {
+    "VERIFICATION_FAILED": "FaceID failed",
+    "VERIFICATION_COMPLETED": "Exited after FaceID completion",
     "PERSONAL_INFO_VERIFIED": "Exited After Personal Information",
     "OTP_SENT": "OTP Was Sent And The Journey",
     "MOBILE_VERIFIED": "OTP Verified Then Didn't Proceed",
@@ -420,15 +420,15 @@
       "location": "Location"
     },
     "benefits": {
-      "title": "Benefits",
-      "benefitType": "Benefit Type",
+      "title": "Social Benefits",
+      "benefitType": "Social Benefit Type",
       "totalUsers": "Total Users",
       "fundsAllocated": "Funds Allocated",
       "usedFund": "Used Fund",
       "avgUsage": "Average Usage of Fund",
       "addedOn": "Added On",
-      "benefitAmount": "Benefit Amount",
-      "benefitStatus": "Benefit Status",
+      "benefitAmount": "Social Benefit Amount",
+      "benefitStatus": "Social Benefit Status",
       "deductionAmount": "Deduction Amount"
     },
     "modalTitle": "Profile",
@@ -460,12 +460,11 @@
     "UniquePINFLAccessed": "Unique PINFL Accessed",
     "BenefitScreenViewed": "Benefit Screen Viewed",
     "DOBMismatchCount": "DOB Mismatch Count",
-    "MobileVerified":" Mobile Verified",
-    "PersonalInfoVerified":"Personal Info Verified",
-    "VerificationCompleted":"Verification Completed",
-    "VerificationFailed":"Verification Failed"
+    "MobileVerified": " Mobile Verified",
+    "PersonalInfoVerified": "Personal Info Verified",
+    "VerificationCompleted": "Verification Completed",
+    "VerificationFailed": "Verification Failed"
   },
-
   "LivenessPills": {
     "HASHICORP_VAULT": "Hashicorp Vault",
     "MINIO": "Minio",
@@ -481,6 +480,7 @@
     "Expired": "Expired",
     "Sources": "Sources",
     "ActiveBenefit": "Active Benefit",
-    "ExpiredBenefit": "Expired Benefit"
+    "ExpiredBenefit": "Expired Benefit",
+    "Nobenefitsfoundstatus": "No benefits found for this status"
   }
 }
