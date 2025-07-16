@@ -16,8 +16,8 @@ const AgentTabs = () => {
   const t = useTranslations();
 
   const sortOptions = [
-    { value: 'fullName', label: 'Name' },
-    { value: 'totalRequests', label: 'Total Users' },
+    { value: 'fullName', label: t("SignupRequests.name") },
+    { value: 'totalRequests', label: t("Agents.totalUsers") },
   ];
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,14 +44,14 @@ const AgentTabs = () => {
             className={`px-4 py-2 cursor-pointer ${activeTab === 'list' ? 'border-b-2 border-blue-600 font-semibold' : 'text-gray-500'}`}
             onClick={() => setActiveTab('list')}
           >
-            Agent List
+            { t('Agents.AgentList')}
           </button>
           <button
             type="button"
             className={`px-4 py-2 cursor-pointer ${activeTab === 'log' ? 'border-b-2 border-blue-600 font-semibold' : 'text-gray-500'}`}
             onClick={() => setActiveTab('log')}
           >
-            Agent Dashboard Access Log
+             {t('Agents.AgentDashboardAccessLog')}
           </button>
         </div>
         <AgentTableFilterBar

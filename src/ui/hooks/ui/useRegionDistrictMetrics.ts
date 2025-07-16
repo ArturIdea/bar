@@ -6,6 +6,7 @@ import { ApiClient } from '../../../core/ApiClient';
 import { useAgent } from '@/contexts/AgentContext';
 import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
 import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
+import { useTranslations } from 'next-intl';
 
 export interface District {
   district: string;
@@ -25,6 +26,7 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { selectedAgent } = useAgent(); 
+  const t = useTranslations();
   const selectedBank = useBankFilterStore((state) => state.selectedBank);
   const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
@@ -48,7 +50,7 @@ export function useRegionDistrictMetrics(fromDate: string, toDate: string) {
         const response = await ApiClient.shared.get<RegionData>(url);
         const modifiedData = response.data.map(region => ({
           ...region,
-          region: region.region || 'No region added',
+          region: region.region || t('Charts.NoRegion'), 
         }));
         setData(modifiedData);
       } catch (err) {

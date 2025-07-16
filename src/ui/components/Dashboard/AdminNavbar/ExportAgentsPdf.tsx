@@ -3,11 +3,12 @@ import { ApiClient } from '@/core/ApiClient';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { useBankFilterStore } from '@/ui/stores/useBankFilterStore';
 import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
+import { useTranslations } from 'next-intl';
 
 export const ExportAgentsPdf: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const t = useTranslations();
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const selectedBank = useBankFilterStore((s) => s.selectedBank);
@@ -50,7 +51,7 @@ export const ExportAgentsPdf: React.FC = () => {
         disabled={loading}
         className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
       >
-        {loading ? 'Exporting...' : 'Export PDF'}
+        {loading ? '...' : 'Export PDF'}
       </button> */}
       <button
         type="button"
@@ -58,7 +59,7 @@ export const ExportAgentsPdf: React.FC = () => {
         disabled={loading}
         className="bg-[#fff] text-[#0B0B22] px-3 py-2 rounded-full border text-sm"
       >
-        {loading ? 'Exporting...' : 'Export PDF'}
+        {loading ? t('Navbar.Exporting') : t('Navbar.ExportPDF')}
       </button>
       <div className="hidden">
         {error && <span className="text-red-500 text-xs ml-2">{error}</span>}

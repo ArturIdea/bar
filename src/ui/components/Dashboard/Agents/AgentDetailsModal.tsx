@@ -37,7 +37,6 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
   const [activeTab, setActiveTab] = useState<string>('personal');
   const [isVisible, setIsVisible] = useState(false);
 
-  // Default date range (last 30 days)
   const defaultToDate = new Date().toISOString().split('T')[0];
   const defaultFromDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
   const [fromDate] = useState(defaultFromDate);
@@ -51,24 +50,24 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
     setIsVisible(false);
     setTimeout(() => {
       onClose();
-    }, 300); // match transition duration
+    }, 300); 
   }
 
   const PersonalInfoSection = ({ agent }: { agent: AgentDetailsModalProps['agent'] }) => {
     const fields = [
-      { label: 'Email', value: agent?.email || 'N/A' },
-      { label: 'PINFL No', value: agent?.pinfl || 'N/A' },
-      { label: 'Nationality', value: agent?.nationality || 'N/A' },
-      { label: 'Citizenship', value: agent?.citizenship || 'N/A' },
-      { label: 'Birth Country', value: agent?.birthCountry || 'N/A' },
-      { label: 'Date Of Birth', value: agent?.dateOfBirth || 'N/A' },
-      { label: 'Social Number', value: agent?.socialNumber || 'N/A' },
-      { label: 'Created At', value: agent?.createdAt ? new Date(agent.createdAt).toLocaleString() : 'N/A' },
-      { label: 'Total Requests', value: agent.totalRequests || 'N/A' },
-      { label: 'Successful Requests', value: agent.successfulRequests || 'N/A' },
-      { label: 'Failed Requests', value: agent.failedRequests || 'N/A' },
+      { label: t('SignupRequests.email'), value: agent?.email || 'N/A' },
+      { label: t('Agents.PINFLNo'), value: agent?.pinfl || 'N/A' },
+      { label: t('ProfilePage.nationality'), value: agent?.nationality || 'N/A' },
+      { label: t('SignupRequests.citizenship'), value: agent?.citizenship || 'N/A' },
+      { label: t('SignupRequests.birthCountry'), value: agent?.birthCountry || 'N/A' },
+      { label: t('Agent.dateOfBirth'), value: agent?.dateOfBirth || 'N/A' },
+      { label: t('Dev.socialNumber'), value: agent?.socialNumber || 'N/A' },
+      { label: t('Dev.createdAtLabel'), value: agent?.createdAt ? new Date(agent.createdAt).toLocaleString() : 'N/A' },
+      { label: t('Charts.totalRequests'), value: agent.totalRequests || 'N/A' },
+      { label: t('Statistics.successfulRequests'), value: agent.successfulRequests || 'N/A' },
+      { label: t('Charts.failedRequests'), value: agent.failedRequests || 'N/A' },
       {
-        label: 'Daily Average',
+        label: t('Agents.AgentDailyAvg'),
         value: agent.dailyAverageSuccessfulRequests
           ? agent.dailyAverageSuccessfulRequests.toFixed(2)
           : 'N/A',
@@ -147,9 +146,9 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
 
         <div className="flex gap-6 px-12 overflow-x-auto">
           {[
-            { id: 'personal', title: "Profile" },
-            { id: 'transactions', title: "History" },
-            { id: 'onboarding', title: "Onboarding Status" },
+            { id: 'personal', title: t('Navbar.profile') },
+            { id: 'transactions', title: t('Navbar.history') },
+            { id: 'onboarding', title: t('Navbar.OnboardingStatus') },
           ].map((tab) => (
             <button
               type="button"

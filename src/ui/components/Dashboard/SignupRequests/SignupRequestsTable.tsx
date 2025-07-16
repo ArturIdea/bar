@@ -85,7 +85,7 @@ export const SignUpRequestsTable: React.FC<{
     { key: 'status', label: t('SignupRequests.status') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    { key: 'action', label: 'Action' },
+    { key: 'action', label: t("UserManagement.action") },
   ];
 
   return (

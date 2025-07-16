@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { CardHeader, CardTitle } from '@/components/ui/card';
 import { ExportDropdown } from '@/ui/components/Dashboard/ExportDropdown';
 import { useBenefits } from '@/ui/hooks/ui/useBenefits';
+import { useTranslations } from 'next-intl';
 
 export default function BenefitsChart() {
   const [page] = useState(0);
   const [pageSize] = useState(16);
   const { benefits } = useBenefits(page, pageSize);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const t = useTranslations();
 
   // Prepare data for chart
   const chartData = benefits.map((benefit) => {
@@ -50,7 +52,7 @@ export default function BenefitsChart() {
     <div className="p-6 pr-15 bg-white rounded-[24px] w-full">
       <div className="flex justify-between mb-5 items-center">
         <CardHeader>
-          <CardTitle>Benefit Status</CardTitle>
+          <CardTitle>{t('UserManagement.benefits.benefitStatus')}</CardTitle>
         </CardHeader>
         <div className="flex items-center gap-2">
           <ExportDropdown chartData={chartData} fileName="Benefits" labelMapping={labelMapping} />
@@ -59,8 +61,8 @@ export default function BenefitsChart() {
       <div className="space-y-4 w-full">
         <div className="relative h-[320px] w-full">
           {/* Y-axis label */}
-          <div className="absolute left-[-25px] top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-gray-500">
-            Users
+          <div className="absolute left-[-40px] top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-gray-500">
+            {t('UserProfile.users')}
           </div>
           {/* Y-axis values */}
           <div className="absolute left-[16px] top-0 bottom-0 w-12 flex flex-col-reverse justify-between text-xs text-gray-500">

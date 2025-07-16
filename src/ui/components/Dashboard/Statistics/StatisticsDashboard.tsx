@@ -3,14 +3,15 @@ import { useCitizensCount } from '@/ui/hooks/ui/useCitizensCount';
 import { useRegistrationRequestPercentage } from '@/ui/hooks/ui/useRegistrationRequestPercentage';
 import { useStatistics } from '@/ui/hooks/ui/useStatistics';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
-// import { CardTypesPieChart } from '../Charts/CardTypes/CardTypesPieChart';
 import PercentageBarGraph from '../Charts/PercentageGraph/PercentageGraph';
 import LivenessPills from './LivenessPills';
 import { StatisticsSkeleton } from './StatisticsSkeleton';
+import { useTranslations } from 'next-intl';
 
 export const StatisticsDashboard = () => {
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
+  const t = useTranslations();
 
   const { loading: statsLoading } = useStatistics();
   const { data: registrationData, loading: registrationLoading } = useRegistrationRequestPercentage(
@@ -51,9 +52,9 @@ export const StatisticsDashboard = () => {
         </div>
         <div className="py-2 px-6 text-[24px]">
           {citizensError ? (
-            <span className="text-red-500">Error: {citizensError}</span>
+            <span className="text-red-500">{t('StatisticsDashboard.Error')}: {citizensError}</span>
           ) : (
-            <span className='text-[#0B0B22] font-medium leading-normal'>Onboarded Users: {citizensCount}</span>
+            <span className='text-[#0B0B22] font-medium leading-normal'>{t('StatisticsDashboard.citizensCount')}: {citizensCount}</span>
           )}
         </div>
       </div>
@@ -67,11 +68,8 @@ export const StatisticsDashboard = () => {
             toDate={toDate}
           />
         ) : (
-          <div className="w-full text-center text-gray-500">No data available</div>
+          <div className="w-full text-center text-gray-500">{t('StatisticsDashboard.NoData')}</div>
         )}
-        {/* <div className="w-1/3 p-10">
-          <CardTypesPieChart />
-        </div> */}
       </div>
     </>
   );

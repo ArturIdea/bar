@@ -7,16 +7,6 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
 import { useUsersByBenefit } from '@/ui/hooks/ui/useUsersByBenefit';
 
-const columns = [
-  { key: 'name', label: 'Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'mobile', label: 'Mobile' },
-  { key: 'role', label: 'Role' },
-  { key: 'createdAt', label: 'Created At' },
-  { key: 'status', label: 'Status' },
-  { key: 'sources', label: 'Sources' },
-];
-
 // Channel display name mapping
 const channelDisplayNames: Record<string, string> = {
   AGENT_APP: 'Agent App',
@@ -48,6 +38,16 @@ export default function UsersByBenefitPage() {
   const totalPages = Math.ceil(total / pageSize);
   const t = useTranslations();
   const pathname = usePathname();
+
+  const columns = [
+    { key: 'name', label: t('SignupRequests.name') },
+    { key: 'email', label: t('SignupRequests.email') },
+    { key: 'mobile', label: t('SignupRequests.mobile') },
+    { key: 'role', label: t('UserManagement.role') },
+    { key: 'createdAt', label: t('Dev.createdAtLabel') },
+    { key: 'status', label: t('Student.status') },
+    { key: 'sources', label: t('StatisticsDashboard.Sources') },
+  ];
 
   // Reset page to 0 when benefitTypeId changes
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function UsersByBenefitPage() {
       <div className="flex flex-col m-3 bg-white rounded-[24px] h-full border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between p-6">
-          <h4 className="font-semibold text-[#0B0B22]">Users</h4>
+          <h4 className="font-semibold text-[#0B0B22]">{t('UserProfile.users')}</h4>
         </div>
 
         {/* Table */}
@@ -186,7 +186,9 @@ export default function UsersByBenefitPage() {
                           : 'No Data'}
                       </td>
                       <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                        <span className={`px-3 py-1 rounded-full whitespace-nowrap text-xs ${getStatusClass(user?.status)}`}>
+                        <span
+                          className={`px-3 py-1 rounded-full whitespace-nowrap text-xs ${getStatusClass(user?.status)}`}
+                        >
                           {user?.status || '-'}
                         </span>
                       </td>
@@ -204,7 +206,7 @@ export default function UsersByBenefitPage() {
             <div className="sticky bottom-0 bg-[#FAFAFA] rounded-[8px] mt-4 p-4 flex flex-col gap-2">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <span>Showing</span>
+                  <span>{t('Pagination.showing')}</span>
                   <select
                     className="border border-gray-300 rounded-xl px-4 py-2"
                     value={pageSize}
@@ -220,8 +222,8 @@ export default function UsersByBenefitPage() {
                     ))}
                   </select>
                   <span>
-                    {total === 0 ? 0 : page * pageSize + 1} -{' '}
-                    {Math.min((page + 1) * pageSize, total)} of {total} entries
+                    
+                    {t('Pagination.itemsOf')} {total} {t('Pagination.entries')}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">

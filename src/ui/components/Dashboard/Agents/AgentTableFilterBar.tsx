@@ -124,7 +124,7 @@ const AgentTableFilterBar: React.FC<AgentTableFilterBarProps> = ({
                 {/* Toggle for excludeZeroUsers */}
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium text-gray-700">
-                    Exclude Agent with Zero Users
+                     {t('Agents.ExcludeAgentwithZeroUsers')}
                   </label>
                   <button
                     type="button"
@@ -143,7 +143,7 @@ const AgentTableFilterBar: React.FC<AgentTableFilterBarProps> = ({
                 {/* Sort Dropdown */}
                 <div className="relative">
                   <div className="flex justify-between items-center">
-                    <h3>Sort by: </h3>
+                    <h3>{t('Agents.SortBy')}: </h3>
                     <button
                       type="button"
                       onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}

@@ -40,12 +40,12 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
 
   const columns = [
     { key: 'agentName', label: t('UserManagement.name'), sortable: true },
-    { key: 'agentPinfl', label: 'Agent PNFL' },
-    { key: 'totalPinflAccessed', label: 'Total PINFL Accessed' },
-    { key: 'uniquePinflAccessed', label: 'Unique PINFL Accessed' },
+    { key: 'agentPinfl', label: t('Agents.AgentPNFL') },
+    { key: 'totalPinflAccessed', label: t('Agents.TotalPINFLAccessed') },
+    { key: 'uniquePinflAccessed', label: t('Agents.UniquePINFLAccessed') },
     // { key: 'transactionHistoryViewed', label: 'Transaction History Viewed' },
-    { key: 'perPinflBenefitScreenViewed', label: 'Benefit Screen Viewed' },
-    { key: 'dobMismatchCount', label: 'DOB Mismatch Count' },
+    { key: 'perPinflBenefitScreenViewed', label: t('Agents.BenefitScreenViewed') },
+    { key: 'dobMismatchCount', label: t('Agents.DOBMismatchCount') },
   ];
 
   // Add handleSort and getSortIcon functions
@@ -120,7 +120,7 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
     <div className="flex flex-col m-3 p-3 bg-white rounded-[24px]">
       {/* Header */}
       <div className="hidden items-center justify-between p-6 border-gray-200">
-        <h4 className="font-semibold text-[#0B0B22]">Agent Dashboard Access Log</h4>
+        <h4 className="font-semibold text-[#0B0B22]">{t('Agents.AgentDashboardAccessLog')}</h4>
       </div>
       {/* Table */}
       <div className="flex-1 min-h-0 overflow-y-auto">
@@ -148,19 +148,19 @@ const AgentDashboardAccessLogTable: React.FC<AgentDashboardAccessLogTableProps> 
               {loading ? (
                 <tr>
                   <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
-                    Loading...
+                    {t('Agents.Loading')}
                   </td>
                 </tr>
               ) : logs.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
-                    No Data
+                    {t('Charts.NoData')}
                   </td>
                 </tr>
               ) : error ? (
                 <tr>
                   <td colSpan={columns.length} className="px-6 py-4 text-center text-red-500">
-                    {error || 'No Data'}
+                    {error || t('Charts.NoData')}
                   </td>
                 </tr>
               ) : (

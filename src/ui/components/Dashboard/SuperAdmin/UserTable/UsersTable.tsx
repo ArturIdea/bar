@@ -89,7 +89,7 @@ export const AdminUsersTable: React.FC<{
     { key: 'createdAt', label: t('UserManagement.createdAt') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    { key: 'action', label: 'Action' },
+    { key: 'action', label: t("UserManagement.action") },
   ];
 
   return (

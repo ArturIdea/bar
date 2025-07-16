@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ApiClient } from '@/core/ApiClient';
 
 interface UserHistory {
@@ -27,6 +28,7 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
   const [history, setHistory] = useState<UserHistory[]>([]);
   const [loading, setLoading] = useState(false);
   const apiClient = ApiClient.shared;
+  const t = useTranslations();
 
   useEffect(() => {
     if (createdById) {
@@ -57,7 +59,7 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
         </div>
       ) : history?.length === 0 ? (
         <div className="flex justify-center items-center h-32">
-          <p className="text-gray-500 text-lg">Data not found</p>
+          <p className="text-gray-500 text-lg">{t('Agents.Datanotfound')}</p>
         </div>
       ) : (
         <div className="">
@@ -65,16 +67,22 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
             <div key={user.id} className="border-b-1 pt-3 pb-3 pr-1 pl-1 hover:bg-gray-50">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-[#0B0B22] text-[14px] font-medium leading-normal">{user?.fullName}</h3>
-                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">PINFL: {user?.pinfl}</p>
-                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">Email: {user?.email}</p>
+                  <h3 className="text-[#0B0B22] text-[14px] font-medium leading-normal">
+                    {user?.fullName}
+                  </h3>
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
+                    {t('UserProfile.pinfl')}: {user?.pinfl}
+                  </p>
+                  <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
+                    {t('SignupRequests.email')}: {user?.email}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
-                    Created: {new Date(user?.createdAt).toLocaleDateString()}
+                    {t('SignupStages.CREATED')}: {new Date(user?.createdAt).toLocaleDateString()}
                   </p>
                   <p className="text-[#9D9DA7] text-[14px] font-normal leading-normal">
-                    DOB: {new Date(user?.dateOfBirth).toLocaleDateString()}
+                    {t('UserManagement.dob')}: {new Date(user?.dateOfBirth).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -85,4 +93,3 @@ export const HistoryModal = ({ createdById }: HistoryModalProps) => {
     </div>
   );
 };
-
