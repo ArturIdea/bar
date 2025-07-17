@@ -118,19 +118,19 @@ export default function BenefitsChart() {
                       >
                         <div className="text-base font-semibold mb-1 text-black">{d.name}</div>
                         <div className="flex justify-between mb-1">
-                          <span>Active Users</span>
+                          <span>{t('StatisticsDashboard.ActiveBenefit')}</span>
                           <span className="font-semibold">{d.active.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between mb-1">
-                          <span>Expired Users</span>
+                          <span>{t('StatisticsDashboard.ExpiredBenefit')}</span>
                           <span className="font-semibold">{d.expired.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between mb-1">
-                          <span>Total Value</span>
+                          <span>{t('StatisticsDashboard.TotalValues')}</span>
                           <span className="font-semibold">лв {d.totalValue.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>Avg. per User</span>
+                          <span>{t('StatisticsDashboard.AvgperUser')}</span>
                           <span className="font-semibold">лв {d.avgPerUser.toLocaleString()}</span>
                         </div>
                       </div>
@@ -143,7 +143,7 @@ export default function BenefitsChart() {
                       {d.expired > 0 && (
                         <div className="text-center">
                           <div className="text-base text-gray">{d.expired}</div>
-                          <div className="text-xs text-gray-500">Expired</div>
+                          <div className="text-xs text-gray-500">{t('StatisticsDashboard.Expired')}</div>
                         </div>
                       )}
                     </div>
@@ -155,7 +155,7 @@ export default function BenefitsChart() {
                       {d.active > 0 && (
                         <div className="text-center">
                           <div className="text-base font-semibold text-black">{d.active}</div>
-                          <div className="text-xs text-black">Active</div>
+                          <div className="text-xs text-black">{t('StatisticsDashboard.Active')}</div>
                         </div>
                       )}
                     </div>
@@ -176,11 +176,11 @@ export default function BenefitsChart() {
         <div className="flex gap-4 mt-13 justify-end">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-teal-400 inline-block" />
-            <span className="text-xs text-gray-600">Active Benefit</span>
+            <span className="text-xs text-gray-600">{t('StatisticsDashboard.ActiveBenefit')}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-gray-200 inline-block" />
-            <span className="text-xs text-gray-600">Expired Benefit</span>
+            <span className="text-xs text-gray-600">{t('StatisticsDashboard.ExpiredBenefit')}</span>
           </div>
         </div>
       </div>

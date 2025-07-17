@@ -18,7 +18,8 @@
     "OnboardingStatus": "Ro‘yxatdan o‘tish holati",
     "ErrorsForAgreementsAccepted": "Shartnomalarni qabul qilishdagi xatolar",
     "ErrorsForOTPSend": "Tasdiqlash kodini yuborishda xatoliklar",
-    "ErrorOnFailedFinalization": "Jarayon muvaffaqiyatsiz yakunlanganda xatolik yuz berdi"
+    "ErrorOnFailedFinalization": "Jarayon muvaffaqiyatsiz yakunlanganda xatolik yuz berdi",
+    "FinalStatusperUserRegistrationAttempt":"Foydalanuvchi ro‘yxatdan o‘tish urinishiga bo‘yicha yakuniy holat"
   },
   "Sidebar": {
     "insights": "Tahlil",
@@ -245,18 +246,18 @@
       "december": "Dekabr"
     },
     "signupStages": "Foydalanuvchilarni ro‘yxatdan o‘tkazish bosqichlari bo‘yicha holati",
-    "stage ": "Bosqich",
-    "totalDropOffRate ": "Yakunlanmagan amallarning umumiy foizi",
-    "dropOffRate ": "Yakunlanmagan amallarning foizi",
+    "stage": "Bosqich",
+    "totalDropOffRate": "Yakunlanmagan amallarning umumiy foizi",
+    "dropOffRate": "Yakunlanmagan amallarning foizi",
     "totalDropOffs": "To‘xtatilgan",
     "signupFailureRate ": "Ro‘yxatdan o‘tishdagi xatoliklar foizi",
     "dropOffPercentage": "Muddatidan oldin chiqish foizi",
     "signupStageHighest": "Har bir unikal JSHSHIR bo‘yicha erishilgan eng yaxshi holat",
     "UserEnrollmentDistributionbyBank": "Ro‘yxatdan o‘tgan foydalanuvchilarni banklar bo‘yicha taqsimlash",
-    "bank ": "Bank",
-    "ResisteredUsers ": "Ro‘yxatdan o‘tgan foydalanuvchilar",
+    "bank": "Bank",
+    "ResisteredUsers": "Ro‘yxatdan o‘tgan foydalanuvchilar",
     "NumberOfUers": "Foydalanuvchilar soni\r\r\n",
-    "Xalq ": "Xalq",
+    "Xalq": "Xalq",
     "Aloqa": "Aloqa",
     "NoData": "Ma’lumotlar yo‘q",
     "TotalRegisteredUsers": "Jami ro‘yxatdan o‘tgan foydalanuvchilar",
@@ -307,7 +308,7 @@
     "applyFilters": "Filtrlarni qo‘llash",
     "clearFilters": "Tozalash",
     "done": "Tayyor",
-    "apply": " qo‘llash",
+    "apply": "qo‘llash",
     "TopErrorReason": "Asosiy xato sababi",
     "NoChartDataAvailable": "Grafik ma’lumotlar mavjud emas"
   },
@@ -426,7 +427,7 @@
     "PersonalInfoVerified": "Shaxsiy ma’lumotlar tasdiqlandi",
     "VerificationCompleted": "Tekshiruv yakunlandi",
     "VerificationFailed": "Tekshiruvdan o‘tmadi",
-    "totalUsers ": "Jami foydalanuvchilar",
+    "totalUsers": "Jami foydalanuvchilar",
     "totalFailedCases": "Jami muvaffaqiyatsiz holatlar",
     "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni"
   },
@@ -451,7 +452,9 @@
     "Sources": "Manbalar",
     "Nobenefitsfoundstatus": "",
     "ActiveBenefit": "Faol ijtimoiy nafaqa",
-    "ExpiredBenefit": "Muddati o‘tgan ijtimoiy nafaqa"
+    "ExpiredBenefit": "Muddati o‘tgan ijtimoiy nafaqa",
+    "TotalValues":"Jami qiymatlar",
+    "AvgperUser": "Har bir foydalanuvchi bo‘yicha o‘rtacha"
   },
   "OnboardingStatus": {
     "CREATED": "JSHSHIR tekshiruvida xatolik",

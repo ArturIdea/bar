@@ -18,7 +18,8 @@
     "OnboardingStatus": "Статус регистрации",
     "ErrorsForAgreementsAccepted": "Ошибки при принятии соглашений",
     "ErrorsForOTPSend": "Ошибки при отправке кода подтверждения",
-    "ErrorOnFailedFinalization": "Ошибка при неудачном завершении процесса"
+    "ErrorOnFailedFinalization": "Ошибка при неудачном завершении процесса",
+    "FinalStatusperUserRegistrationAttempt":"Финальный статус каждой попытки регистрации пользователя"
   },
   "Sidebar": {
     "insights": "Аналитика",
@@ -451,7 +452,9 @@
     "Sources": "Источники",
     "Nobenefitsfoundstatus": "No benefits found for this status",
     "ActiveBenefit": "Активное социальное пособие",
-    "ExpiredBenefit": "Истекшее социальное пособие"
+    "ExpiredBenefit": "Истекшее социальное пособие",
+    "TotalValues":"Общие значения",
+    "AvgperUser": "Среднее на пользователя"
   },
   "OnboardingStatus": {
     "CREATED": "Ошибка при проверке ПИНФЛ",
