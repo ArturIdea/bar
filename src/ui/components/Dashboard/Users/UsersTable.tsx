@@ -37,7 +37,6 @@ export const UsersTable: React.FC<{
   const pathname = usePathname();
   const t = useTranslations();
 
-   // Mapping for bankType codes to translated labels
    const bankTypeLabels: Record<string, string> = {
     XALQ: t('Navbar.XALQ'),
     ALOQA: t('Navbar.ALOQA'),
@@ -46,7 +45,6 @@ export const UsersTable: React.FC<{
     'N/A': t('Charts.NoData'),
   };
 
-  // Mapping for onboarding channel codes to translated labels
   const channelLabels: Record<string, string> = {
     CITIZEN_APP: t('Charts.CITIZEN_APP'),
     AGENT_APP: t('Charts.AGENT_APP'),
