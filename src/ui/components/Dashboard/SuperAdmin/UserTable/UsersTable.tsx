@@ -38,6 +38,7 @@ export const AdminUsersTable: React.FC<{
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations();
 
+  // Mapping for bankType codes to translated labels
   const bankTypeLabels: Record<string, string> = {
     XALQ: t('Navbar.XALQ'),
     ALOQA: t('Navbar.ALOQA'),
@@ -46,6 +47,7 @@ export const AdminUsersTable: React.FC<{
     'N/A': t('Charts.NoData'),
   };
 
+  // Mapping for onboarding channel codes to translated labels
   const channelLabels: Record<string, string> = {
     CITIZEN_APP: t('Charts.CITIZEN_APP'),
     AGENT_APP: t('Charts.AGENT_APP'),
