@@ -18,7 +18,8 @@
     "OnboardingStatus": "Рўйхатдан ўтиш ҳолати",
     "ErrorsForAgreementsAccepted": "Шартномаларни қабул қилишдаги хатолар",
     "ErrorsForOTPSend": "Тасдиқлаш кодини юборишда хатоликлар",
-    "ErrorOnFailedFinalization": "Жараён муваффақиятсиз якунланганда хатолик юз берди"
+    "ErrorOnFailedFinalization": "Жараён муваффақиятсиз якунланганда хатолик юз берди",
+    "FinalStatusperUserRegistrationAttempt":"Фойдаланувчи рўйхатдан ўтиш уринишига бўйича якуний ҳолат"
   },
   "Sidebar": {
     "insights": "Таҳлил",
@@ -451,7 +452,9 @@
     "Sources": "Манбалар",
     "Nobenefitsfoundstatus": "No benefits found for this status",
     "ActiveBenefit": "Фаол ижтимоий нафақа",
-    "ExpiredBenefit": "Муддати ўтган ижтимоий нафақа"
+    "ExpiredBenefit": "Муддати ўтган ижтимоий нафақа",
+    "TotalValues":"Жами қийматлар",
+    "AvgperUser": "Ҳар бир фойдаланувчи бўйича ўртача"
   },
   "OnboardingStatus": {
     "CREATED": "ЖШШИР текширувида хатолик",

@@ -91,7 +91,7 @@ const PercentageBarGraph: React.FC<PercentageBarGraphProps> = ({ data, colors })
   return (
     <div className="percentage-stats-container p-3">
       <div className="flex justify-between items-center p-2">
-        <h2 className="stats-title">Final Status per User Registration Attempt</h2>
+        <h2 className="stats-title">{t('Navbar.FinalStatusperUserRegistrationAttempt')}</h2>
         <ExportDropdown
           chartData={exportData}
           fileName={t('Charts.registrationOverview')}

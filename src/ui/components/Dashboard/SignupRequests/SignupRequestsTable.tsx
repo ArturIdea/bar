@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { EyeIcon } from 'lucide-react';
 // import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 // import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
@@ -10,8 +11,6 @@ import UserDetailsModal from '../Users/UserDetailsModal';
 import ViewDetailsButton from '../ViewDetailsButton';
 // import ViewDetailsButton from '../ViewDetailsButton';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
-import { formatChannelName, toTitleCase } from '@/lib/utils';
-import { EyeIcon } from 'lucide-react';
 
 export const SignUpRequestsTable: React.FC<{
   filters?: {
@@ -59,6 +58,76 @@ export const SignUpRequestsTable: React.FC<{
     return <TableSkeleton />;
   }
 
+  // Mapping for bankType codes to translated labels
+  const getBankTypeLabel = (bankType: string) => {
+    switch ((bankType || '').toUpperCase().trim()) {
+      case 'XALQ':
+        return t('Navbar.XALQ');
+      case 'ALOQA':
+        return t('Navbar.ALOQA');
+      case 'NODATA':
+      case 'NO DATA':
+      case 'N/A':
+        return t('Charts.NoData');
+      default:
+        return t('Charts.NoData');
+    }
+  };
+
+  // Mapping for onboarding channel codes to translated labels
+  const getChannelLabel = (channel: string) => {
+    switch ((channel || '').toUpperCase().trim()) {
+      case 'CITIZEN_APP':
+        return t('Charts.CITIZEN_APP');
+      case 'AGENT_APP':
+        return t('Charts.AGENT_APP');
+      case 'BANK_PORTAL':
+        return t('Charts.BANK_PORTAL');
+      case 'WEB_PORTAL':
+        return t('Charts.WEB_PORTAL');
+      case 'XALQ_FILE':
+        return t('Charts.XALQ_PORTAL');
+      case 'HTTP_CLIENT':
+        return t('Charts.HTTP_CLIENT');
+      case 'NODATA':
+      case 'NO DATA':
+      case 'N/A':
+        return t('Charts.NoData');
+      default:
+        return t('Charts.NoData');
+    }
+  };
+
+  // Mapping for status codes to translated labels
+  const getStatusLabel = (status: string) => {
+    switch ((status || '').toUpperCase().trim()) {
+      case 'CREATED':
+        return t('OnboardingStatus.CREATED');
+      case 'OTP_SENT':
+        return t('OnboardingStatus.OTP_SENT');
+      case 'MOBILE_VERIFIED':
+        return t('OnboardingStatus.MOBILE_VERIFIED');
+      case 'AGREEMENTS_ACCEPTED':
+        return t('OnboardingStatus.AGREEMENTS_ACCEPTED');
+      case 'FACE_VERIFICATION_IN_PROGRESS':
+        return t('OnboardingStatus.FACE_VERIFICATION_IN_PROGRESS');
+      case 'VERIFICATION_COMPLETED':
+        return t('OnboardingStatus.VERIFICATION_COMPLETED');
+      case 'VERIFICATION_FAILED':
+        return t('OnboardingStatus.VERIFICATION_FAILED');
+      case 'FAILED_FINALIZATION':
+        return t('OnboardingStatus.FAILED_FINALIZATION');
+      case 'COMPLETED':
+        return t('OnboardingStatus.COMPLETED');
+      case 'NODATA':
+      case 'NO DATA':
+      case 'N/A':
+        return t('Charts.NoData');
+      default:
+        return t('Charts.NoData');
+    }
+  };
+
   const getStatusClass = (status: string) => {
     const statusClasses: Record<string, string> = {
       CREATED: 'bg-[rgba(33,87,226,0.20)] text-[color:var(--Alert-info,#2157E2)]',
@@ -69,14 +138,14 @@ export const SignUpRequestsTable: React.FC<{
       VERIFICATION_COMPLETED: 'bg-[rgba(19,171,63,0.25)] text-[color:var(--Alert-success,#13AB3F)]',
       VERIFICATION_FAILED: 'bg-[rgba(220,27,37,0.25)] text-[color:var(--Alert-error,#DC1B25)]',
       FAILED_FINALIZATION: 'bg-[rgba(220,27,37,0.20)] text-[color:var(--Alert-error,#DC1B25)]',
-      NOT_ELIGIBLE: 'bg-[rgba(220,27,37,0.25)] text-[color:var(--Alert-error,#DC1B25)]',
       COMPLETED: 'bg-[rgba(19,171,63,0.20)] text-[color:var(--Alert-success,#13AB3F)]',
       DEFAULT: 'bg-[rgba(156,163,175,0.20)] text-[#6B7280]',
     };
-  
+
     return statusClasses[status] || statusClasses.DEFAULT;
   };
-  
+
+  const getNoDataLabel = () => t('Charts.NoData');
 
   const columns = [
     { key: 'name', label: t('SignupRequests.name') },
@@ -85,7 +154,7 @@ export const SignUpRequestsTable: React.FC<{
     { key: 'status', label: t('SignupRequests.status') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    { key: 'action', label: t("UserManagement.action") },
+    { key: 'action', label: t('UserManagement.action') },
   ];
 
   return (
@@ -122,35 +191,41 @@ export const SignUpRequestsTable: React.FC<{
               {requests.map((req) => (
                 <tr key={req.id} className="hover:bg-gray-50 transition-colors border-b">
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : 'No Data'}
+                    {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : getNoDataLabel()}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || 'No Data'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || t('Charts.NoData')}</td>
                   <td className={`px-6 py-4 text-[#0B0B22] text-sm${' min-w-[170px]'}`}>
-                    {req.createdAt ? new Date(req.createdAt).toLocaleString('uz-UZ', {
-                      timeZone: 'Asia/Tashkent',
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    }) : 'No Data'}
+                    {req.createdAt
+                      ? new Date(req.createdAt).toLocaleString('uz-UZ', {
+                          timeZone: 'Asia/Tashkent',
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : t('Charts.NoData')}
                   </td>
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-full whitespace-nowrap text-xs ${getStatusClass(req.status)}`}
                     >
-                      {req.status ? toTitleCase(req.status.replace(/_/g, ' ')) : 'UNKNOWN'}
+                      {getStatusLabel(req.status)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.bankType || 'No Data'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{formatChannelName(req.channel)}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {getBankTypeLabel(req.bankType)}
+                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {getChannelLabel(req.channel)}
+                  </td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => openSignupModal(req.id)}
                     >
-                      <EyeIcon color='#0B0B22'/>
+                      <EyeIcon color="#0B0B22" />
                     </button>
                   </td>
                 </tr>

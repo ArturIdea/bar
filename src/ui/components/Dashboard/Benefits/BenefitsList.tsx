@@ -65,14 +65,14 @@ export default function BenefitsList() {
           className={`pb-2 border-b-2 text-lg font-medium transition-colors duration-150 ${activeTab === 'ACTIVE' ? 'border-primary text-primary' : 'border-transparent text-gray-400'}`}
           onClick={() => setActiveTab('ACTIVE')}
         >
-          Active
+          {t('StatisticsDashboard.Active')}
         </button>
         <button
           type="button"
           className={`pb-2 border-b-2 text-lg font-medium transition-colors duration-150 ${activeTab === 'EXPIRED' ? 'border-primary text-primary' : 'border-transparent text-gray-400'}`}
           onClick={() => setActiveTab('EXPIRED')}
         >
-          Expired
+          {t('StatisticsDashboard.Expired')}
         </button>
       </div>
       <div className="relative p-6">

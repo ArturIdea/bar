@@ -4,7 +4,6 @@ import { EyeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 // import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
-import { formatChannelName } from '@/lib/utils';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { Pagination } from '../Pagination';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
@@ -37,6 +36,28 @@ export const UsersTable: React.FC<{
   );
   const pathname = usePathname();
   const t = useTranslations();
+
+   // Mapping for bankType codes to translated labels
+   const bankTypeLabels: Record<string, string> = {
+    XALQ: t('Navbar.XALQ'),
+    ALOQA: t('Navbar.ALOQA'),
+    NODATA: t('Charts.NoData'),
+    'NO DATA': t('Charts.NoData'),
+    'N/A': t('Charts.NoData'),
+  };
+
+  // Mapping for onboarding channel codes to translated labels
+  const channelLabels: Record<string, string> = {
+    CITIZEN_APP: t('Charts.CITIZEN_APP'),
+    AGENT_APP: t('Charts.AGENT_APP'),
+    BANK_PORTAL: t('Charts.BANK_PORTAL'),
+    WEB_PORTAL: t('Charts.WEB_PORTAL'),
+    XALQ_FILE: t('Charts.XALQ_PORTAL'),
+    HTTP_CLIENT: t('Charts.HTTP_CLIENT'),
+    NODATA: t('Charts.NoData'),
+    'NO DATA': t('Charts.NoData'),
+    'N/A': t('Charts.NoData'),
+  };
 
   //resets page when filters change
   useEffect(() => {
@@ -127,10 +148,12 @@ export const UsersTable: React.FC<{
                       minute: '2-digit',
                     })}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.bankType || 'No Data'}</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {formatChannelName(user.channel)}
-                  </td>
+                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{
+                    bankTypeLabels[(user.bankType || '').toUpperCase().trim()] || t('Charts.NoData')
+                  }</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{
+                    channelLabels[(user.channel || '').toUpperCase().trim()] || t('Charts.NoData')
+                  }</td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"

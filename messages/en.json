@@ -18,7 +18,8 @@
     "OnboardingStatus": "Onboarding Status",
     "ErrorsForAgreementsAccepted": "Errors for Agreements Accepted",
     "ErrorsForOTPSend": "Errors For OTP Send",
-    "ErrorOnFailedFinalization": "Error On Failed Finalization"
+    "ErrorOnFailedFinalization": "Error On Failed Finalization",
+    "FinalStatusperUserRegistrationAttempt":"Final Status per User Registration Attempt"
   },
   "Sidebar": {
     "insights": "Insights",
@@ -481,6 +482,8 @@
     "Sources": "Sources",
     "ActiveBenefit": "Active Benefit",
     "ExpiredBenefit": "Expired Benefit",
-    "Nobenefitsfoundstatus": "No benefits found for this status"
+    "Nobenefitsfoundstatus": "No benefits found for this status",
+    "TotalValues":" Total Values",
+    "AvgperUser": "Avg per User"
   }
 }

@@ -18,7 +18,8 @@
     "OnboardingStatus": "Dizimnen ótiw jaǵdayı",
     "ErrorsForAgreementsAccepted": "Shártnamalardı qabıl etiwdegi qáteler",
     "ErrorsForOTPSend": "Tastıyıqlaw kodın jiberiwde qátelikler",
-    "ErrorOnFailedFinalization": "Process sátsiz tamamlanganda qáte júz berdi."
+    "ErrorOnFailedFinalization": "Process sátsiz tamamlanganda qáte júz berdi.",
+    "FinalStatusperUserRegistrationAttempt":"Paydalanıwshı dizimnen ótiw urınıshına qaray aqırǵı jaǵday"
   },
   "Sidebar": {
     "insights": "Statistika",
@@ -451,7 +452,9 @@
     "Sources": "Derekler",
     "Nobenefitsfoundstatus": "No benefits found for this status",
     "ActiveBenefit": "Aktiv sociallıq napaqa",
-    "ExpiredBenefit": "Múddeti ótken sociallıq napaqa"
+    "ExpiredBenefit": "Múddeti ótken sociallıq napaqa",
+    "TotalValues":"Jami qánigeler",
+    "AvgperUser": "Paydalanıwshı basında ortasha"
   },
   "OnboardingStatus": {
     "CREATED": "JSHSHIR tekseriwinde qátelik",
