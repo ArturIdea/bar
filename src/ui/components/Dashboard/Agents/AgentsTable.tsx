@@ -1,14 +1,13 @@
 import { useState } from 'react';
-// import Image from 'next/image';
 import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, EyeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from '@/i18n/routing';
-// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { useAgents } from '@/ui/hooks/ui/useAgents';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
 import AgentDetailsModal from './AgentDetailsModal';
+import ExportAgentsListDropdown from './ExportAgentsListDropdown';
 
 interface AgentsTableProps {
   search: string;
@@ -49,8 +48,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
     if (sortBy === sortColumn) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
-      // setSortBy(sortColumn); // This line was removed from the props, so it's removed here.
-      setSortDirection('asc'); // This line was removed from the props, so it's removed here.
+      setSortDirection('asc');
     }
   };
 
@@ -92,7 +90,25 @@ export const AgentsTable: React.FC<AgentsTableProps> = ({
         {pathname === '/dashboard' && (
           <div className="flex items-center justify-between p-6 border-gray-200">
             <h4 className="font-semibold text-[#0B0B22]">{t('Agents.AgentList')}</h4>
-            <ViewDetailsButton href="/user-management/baraka-agents" />
+            <div className="flex items-center gap-2">
+              <ViewDetailsButton href="/user-management/baraka-agents" />
+            </div>
+          </div>
+        )}
+        {pathname === '/dashboard/user-management/baraka-agents' && (
+          <div className="flex items-center justify-between p-6 border-gray-200">
+            <h4 className="font-semibold text-[#0B0B22]">{t('Agents.AgentList')}</h4>
+            <div className="flex items-center gap-2">
+              {/* Export Dropdown */}
+              <ExportAgentsListDropdown
+                filters={{
+                  search,
+                  excludeZeroUsers,
+                  fromDate,
+                  toDate,
+                }}
+              />
+            </div>
           </div>
         )}
         {/* Table */}

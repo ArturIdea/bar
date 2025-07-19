@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { EyeIcon } from 'lucide-react';
-// import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-// import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
 import { usePathname } from '@/i18n/routing';
 import { useSignUpRequests } from '@/ui/hooks/ui/useSignupRequests';
 import { Pagination } from '../Pagination';
 import { TableSkeleton } from '../TableSkeleton';
 import UserDetailsModal from '../Users/UserDetailsModal';
 import ViewDetailsButton from '../ViewDetailsButton';
-// import ViewDetailsButton from '../ViewDetailsButton';
+import ExportSignupRequestsDropdown from './ExportSignupRequestsDropdown';
 import SignupRequestDetailModal from './SignupRequestDetailModal';
 
 export const SignUpRequestsTable: React.FC<{
@@ -168,7 +166,15 @@ export const SignUpRequestsTable: React.FC<{
               : 'Statistics.requests'
           )}
         </h4>
-        <ViewDetailsButton href="signup-requests" />
+        <div className="flex items-center gap-2">
+          <ViewDetailsButton href="signup-requests" />
+          {/* Export Dropdown */}
+          {pathname === '/dashboard/signup-requests' && (
+            <>
+              <ExportSignupRequestsDropdown filters={filters} />
+            </>
+          )}
+        </div>
       </div>
 
       {/* Table */}
@@ -191,9 +197,13 @@ export const SignUpRequestsTable: React.FC<{
               {requests.map((req) => (
                 <tr key={req.id} className="hover:bg-gray-50 transition-colors border-b">
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {req.firstName && req.lastName ? `${req.firstName} ${req.lastName}` : getNoDataLabel()}
+                    {req.firstName && req.lastName
+                      ? `${req.firstName} ${req.lastName}`
+                      : getNoDataLabel()}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{req.pinfl || t('Charts.NoData')}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {req.pinfl || t('Charts.NoData')}
+                  </td>
                   <td className={`px-6 py-4 text-[#0B0B22] text-sm${' min-w-[170px]'}`}>
                     {req.createdAt
                       ? new Date(req.createdAt).toLocaleString('uz-UZ', {

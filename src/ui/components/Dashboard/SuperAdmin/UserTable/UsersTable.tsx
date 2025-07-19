@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { EyeIcon } from 'lucide-react';
 // import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 // import DotsVerticalIcon from '@/../public/images/icons/dashboard/dotsVertical.svg';
@@ -8,8 +9,8 @@ import { Pagination } from '../../Pagination';
 import SignupRequestDetailModal from '../../SignupRequests/SignupRequestDetailModal';
 import { TableSkeleton } from '../../TableSkeleton';
 import ViewDetailsButton from '../../ViewDetailsButton';
+import ExportUserRegistrationsDropdown from './ExportUserRegistrationsDropdown';
 import MultiTabUserDetailsModal from './UserDetailsModal';
-import { EyeIcon } from 'lucide-react';
 
 export const AdminUsersTable: React.FC<{
   filters?: {
@@ -110,7 +111,7 @@ export const AdminUsersTable: React.FC<{
     { key: 'createdAt', label: t('UserManagement.createdAt') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    { key: 'action', label: t("UserManagement.action") },
+    { key: 'action', label: t('UserManagement.action') },
   ];
 
   return (
@@ -123,7 +124,12 @@ export const AdminUsersTable: React.FC<{
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
         )}
 
-        <ViewDetailsButton href="user-management/baraka-users" />
+        <div className="flex">
+          <ViewDetailsButton href="user-management/baraka-users" />
+          {pathname === '/dashboard/user-management/baraka-users' && (
+            <ExportUserRegistrationsDropdown filters={filters} />
+          )}
+        </div>
       </div>
 
       {/* Table */}
@@ -163,19 +169,20 @@ export const AdminUsersTable: React.FC<{
                       minute: '2-digit',
                     })}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{
-                    bankTypeLabels[(user.bankType || '').toUpperCase().trim()] || t('Charts.NoData')
-                  }</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{
-                    channelLabels[(user.channel || '').toUpperCase().trim()] || t('Charts.NoData')
-                  }</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {bankTypeLabels[(user.bankType || '').toUpperCase().trim()] ||
+                      t('Charts.NoData')}
+                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {channelLabels[(user.channel || '').toUpperCase().trim()] || t('Charts.NoData')}
+                  </td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => handleViewDetails(user.pinfl, user.userId)}
                     >
-                      <EyeIcon color='#0B0B22'/>
+                      <EyeIcon color="#0B0B22" />
                     </button>
                   </td>
                 </tr>

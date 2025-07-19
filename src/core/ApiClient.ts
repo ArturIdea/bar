@@ -344,4 +344,115 @@ export class ApiClient {
     });
     return response.data;
   }
+
+  /**
+   * Export agents report as Excel
+   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, etc.
+   * @returns Excel Blob
+   */
+  async exportAgentsReportExcel(params: {
+    fromDate?: string;
+    toDate?: string;
+    bankType?: string;
+    pinfl?: string;
+    onboardingChannel?: string;
+    [key: string]: any;
+  } = {}): Promise<Blob> {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.append(key, value);
+      }
+    });
+    const url = `/api/admin/reports/agents/excel${query.toString() ? `?${query.toString()}` : ""}`;
+    const response = await this.axiosInstance.get(url, {
+      responseType: 'blob',
+      headers: {
+        Accept: '*/*',
+      },
+    });
+    return response.data;
+  }
+
+  /**
+   * Export registration requests report as PDF or Excel
+   * @param params Optional query parameters: fromDate, toDate, format ("pdf" or "excel"), etc.
+   * @returns Blob (PDF or Excel)
+   */
+  async exportRegistrationRequestsReport(params: {
+    fromDate?: string;
+    toDate?: string;
+    format?: 'pdf' | 'excel';
+    [key: string]: any;
+  } = {}): Promise<Blob> {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.append(key, value);
+      }
+    });
+    const url = `/api/admin/reports/registration-requests${query.toString() ? `?${query.toString()}` : ""}`;
+    const response = await this.axiosInstance.get(url, {
+      responseType: 'blob',
+      headers: {
+        Accept: '*/*',
+      },
+    });
+    return response.data;
+  }
+
+  /**
+   * Export agents list report as PDF or Excel
+   * @param params Optional query parameters: fromDate, toDate, format ("pdf" or "excel"), etc.
+   * @returns Blob (PDF or Excel)
+   */
+  async exportAgentsListReport(params: {
+    fromDate?: string;
+    toDate?: string;
+    format?: 'pdf' | 'excel';
+    [key: string]: any;
+  } = {}): Promise<Blob> {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.append(key, value);
+      }
+    });
+    const url = `/api/admin/reports/agents-list${query.toString() ? `?${query.toString()}` : ""}`;
+    const response = await this.axiosInstance.get(url, {
+      responseType: 'blob',
+      headers: {
+        Accept: '*/*',
+      },
+    });
+    return response.data;
+  }
+
+  /**
+   * Export user registrations report as PDF or Excel
+   * @param params Optional query parameters: fromDate, toDate, format ("pdf" or "excel"), etc.
+   * @returns Blob (PDF or Excel)
+   */
+  async exportUserRegistrationsReport(params: {
+    fromDate?: string;
+    toDate?: string;
+    format?: 'pdf' | 'excel';
+    [key: string]: any;
+  } = {}): Promise<Blob> {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        query.append(key, String(value));
+      }
+    });
+
+    const response = await this.axiosInstance.get(`/api/admin/reports/user-registrations?${query.toString()}`, {
+      responseType: 'blob',
+      headers: {
+        Accept: '*/*',
+      },
+    });
+
+    return response.data;
+  }
 }
