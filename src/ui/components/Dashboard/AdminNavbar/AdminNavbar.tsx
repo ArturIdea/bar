@@ -15,7 +15,7 @@ import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
 import { LocaleSwitcher } from '../../LocaleSwitcher/LocalSwitcher';
 import { AppTypeFilter } from './AppTypeFilter';
 import { BankFilter } from './BankFilter';
-import { ExportAgentsPdf } from './ExportAgentsPdf';
+import { ExportDropdown } from './ExportDropdown';
 import { DateRangeSelector as GlobalDateSelector } from './GlobalDateSelector';
 
 export default function AdminNavbar() {
@@ -94,7 +94,7 @@ export default function AdminNavbar() {
           <AgentSearch />
           <BankFilter />
           <AppTypeFilter />
-          <ExportAgentsPdf />
+          <ExportDropdown />
         </div>
         <div>
           <DateRangePicker

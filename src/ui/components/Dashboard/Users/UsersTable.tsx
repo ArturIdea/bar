@@ -7,6 +7,7 @@ import { usePathname } from '@/i18n/routing';
 import { useUsers } from '@/ui/hooks/ui/useUsers';
 import { Pagination } from '../Pagination';
 import SignupRequestDetailModal from '../SignupRequests/SignupRequestDetailModal';
+import ExportUserRegistrationsDropdown from '../SuperAdmin/UserTable/ExportUserRegistrationsDropdown';
 import { TableSkeleton } from '../TableSkeleton';
 import ViewDetailsButton from '../ViewDetailsButton';
 import MultiTabUserDetailsModal from './UserDetailsModal';
@@ -37,7 +38,7 @@ export const UsersTable: React.FC<{
   const pathname = usePathname();
   const t = useTranslations();
 
-   const bankTypeLabels: Record<string, string> = {
+  const bankTypeLabels: Record<string, string> = {
     XALQ: t('Navbar.XALQ'),
     ALOQA: t('Navbar.ALOQA'),
     NODATA: t('Charts.NoData'),
@@ -93,7 +94,7 @@ export const UsersTable: React.FC<{
     { key: 'createdAt', label: t('UserManagement.createdAt') },
     { key: 'bank', label: t('UserManagement.bank') },
     { key: 'onboardingChannel', label: t('UserManagement.onboardingChannel') },
-    { key: 'action', label: t("UserManagement.action") },
+    { key: 'action', label: t('UserManagement.action') },
   ];
 
   return (
@@ -105,8 +106,12 @@ export const UsersTable: React.FC<{
         ) : (
           <h4 className="font-semibold text-[#0B0B22]">{t('UserManagement.title')}</h4>
         )}
-
-        <ViewDetailsButton href="user-management/baraka-users" />
+        <div className="flex">
+          <ViewDetailsButton href="user-management/baraka-users" />
+          {pathname === '/dashboard/user-management/baraka-users' && (
+            <ExportUserRegistrationsDropdown filters={filters} />
+          )}
+        </div>
       </div>
 
       {/* Table */}
@@ -146,12 +151,13 @@ export const UsersTable: React.FC<{
                       minute: '2-digit',
                     })}
                   </td>
-                   <td className="px-6 py-4 text-[#0B0B22] text-sm">{
-                    bankTypeLabels[(user.bankType || '').toUpperCase().trim()] || t('Charts.NoData')
-                  }</td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{
-                    channelLabels[(user.channel || '').toUpperCase().trim()] || t('Charts.NoData')
-                  }</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {bankTypeLabels[(user.bankType || '').toUpperCase().trim()] ||
+                      t('Charts.NoData')}
+                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
+                    {channelLabels[(user.channel || '').toUpperCase().trim()] || t('Charts.NoData')}
+                  </td>
                   <td className="px-6 py-4 flex items-center justify-end relative">
                     <button
                       type="button"
