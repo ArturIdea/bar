@@ -155,7 +155,7 @@ const DistrictBreakdownBarChart = () => {
                   {hoveredDistrict?.district === district.district && (
                     <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-white text-black text-xs rounded shadow-lg whitespace-nowrap">
                       <div>{district.district}</div>
-                      <div>Users: {district.userCount.toLocaleString()}</div>
+                      <div>{t('UserProfile.users')}: {district.userCount.toLocaleString()}</div>
                     </div>
                   )}
                 </div>

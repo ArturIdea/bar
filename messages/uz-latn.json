@@ -313,7 +313,8 @@
     "done": "Tayyor",
     "apply": "qo‘llash",
     "TopErrorReason": "Asosiy xato sababi",
-    "NoChartDataAvailable": "Grafik ma’lumotlar mavjud emas"
+    "NoChartDataAvailable": "Grafik ma’lumotlar mavjud emas",
+    "Filters":"Filtrlar"
   },
   "SignupRequests": {
     "title": "Oxirgi ro‘yxatdan o‘tish so‘rovlari",
@@ -437,7 +438,8 @@
     "totalFailedCases": "Jami muvaffaqiyatsiz holatlar",
     "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni",
     "LastLogin": "Oxirgi kirish",
-    "CustomRange":"Maxsus oraliq"
+    "CustomRange":"Maxsus oraliq",
+    "TransactionHistory":"Tranzaksiya tarixi"
   },
   "Pagination": {
     "showing": "Ko‘rsatilganlar soni",

@@ -264,7 +264,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
         return userCard ? (
           <UserCardSection uri={userCard.uri} />
         ) : (
-          <p className="text-center text-gray-500">No card available</p>
+          <p className="text-center text-gray-500">{t('SignupRequests.NoCardAvailable')}</p>
         );
 
       case 'signup':
