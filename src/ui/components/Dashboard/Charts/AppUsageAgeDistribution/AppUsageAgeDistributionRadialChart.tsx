@@ -108,10 +108,10 @@ export function AppUsageAgeDistributionRadialChart() {
     const data = payload[0].payload;
 
     return (
-      <div className="bg-white p-[6px] rounded-lg shadow-md text-xs w-20">
+      <div className="bg-white p-[6px] rounded-lg shadow-md text-xs">
         <p className="font-semibold pb-1">{data.ageGroup}</p>
         <div className="flex justify-between">
-          <p className="text-gray-500">{t('Charts.people')}</p>
+          <p className="text-gray-500 mr-2">{t('Charts.people')}</p>
           <p className="text-gray-500">{data.people.toLocaleString()}</p>
         </div>
       </div>
@@ -119,7 +119,7 @@ export function AppUsageAgeDistributionRadialChart() {
   };
 
   return (
-    <Card className="w-full min-h-[690px] rounded-[24px] p-3 flex flex-col border-l-0 border-b-0 border-t-0 border-r-0  2xl:border-b-0 shadow-none ">
+    <Card className="w-full min-h-[713px] rounded-[24px] p-3 flex flex-col border-l-0 border-b-0 border-t-0 border-r-0  2xl:border-b-0 shadow-none ">
       {/* header */}
       <div className="flex justify-between pr-8">
         <CardHeader>

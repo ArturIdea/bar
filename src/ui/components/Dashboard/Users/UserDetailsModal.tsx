@@ -175,7 +175,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
               </div>
             );
           })}
-          {filtered.length === 0 && <p className="text-center text-gray-500 mt-10">Empty</p>}
+          {filtered.length === 0 && <p className="text-center text-gray-500 mt-10">{t('SignupRequests.Empty')}</p>}
         </div>
       </div>
     );
@@ -244,13 +244,13 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
 
       case 'benefits':
         if (!user.benefits) {
-          return <p className="text-center text-gray-500">Empty</p>;
+          return <p className="text-center text-gray-500">{t('SignupRequests.Empty')}</p>;
         }
         return <BenefitsSection benefits={user.benefits} getBenefitName={getBenefitName} t={t} />;
 
       case 'createdBy':
         if (!user.createdBy) {
-          return <p className="text-center text-gray-500">Empty</p>;
+          return <p className="text-center text-gray-500">{t('SignupRequests.Empty')}</p>;
         }
         return (
           <CreatedBySection
@@ -269,7 +269,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
 
       case 'signup':
         if (!user.signupRequestId) {
-          return <p className="text-center text-gray-500">Empty</p>;
+          return <p className="text-center text-gray-500">{t('SignupRequests.Empty')}</p>;
         }
         return (
           <div className="text-center">

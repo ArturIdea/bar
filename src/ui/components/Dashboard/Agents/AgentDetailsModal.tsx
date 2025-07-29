@@ -139,7 +139,7 @@ const AgentDetailsModal: React.FC<AgentDetailsModalProps> = ({ agent, onClose })
             </h2>
           </div>
           <div className="flex-1 text-right">
-            <h3>Last Login</h3>
+            <h3>{t('Agents.LastLogin')}</h3>
             <h3>{formatLastLogin(agent.lastLogin)}</h3>
           </div>
         </div>
