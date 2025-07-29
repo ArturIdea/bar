@@ -174,7 +174,11 @@ export function BankAssociatedByStatusBarChart() {
                 />
                 <Tooltip
                   cursor={{ fill: '#f5f5f5' }}
-                  formatter={(value, name) => [value, BANK_LABELS[name as string] || name]}
+                  formatter={(value, name) => [
+                    value,
+                    BANK_LABELS[name as string] || name
+                  ]}
+                  labelFormatter={(label) => STATUS_LABELS[label as string] || label}
                 />
                 <Bar
                   dataKey="NODATA"

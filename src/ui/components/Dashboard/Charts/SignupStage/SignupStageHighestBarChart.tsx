@@ -108,6 +108,7 @@ export function SignupStageHighestBarChart() {
             labelMapping={{
               stage: t('Charts.stage'),
               requests: chartConfig.requests.label,
+              dropOffPercentage: chartConfig.dropOffPercentage.label,
             }}
           />
         </div>
@@ -165,4 +166,4 @@ export function SignupStageHighestBarChart() {
       )}
     </Card>
   );
-} 
+}

@@ -7,6 +7,7 @@ import { useAgentOnboardingStatus } from '@/ui/hooks/ui/useAgentOnboardingStatus
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+
 import { useTranslations } from 'next-intl';
 
 interface ChartDataItem {
@@ -36,13 +37,6 @@ const STATUS_COLORS: Record<string, string> = {
   NOT_ELIGIBLE: '#bdbdbd',
   COMPLETED: '#00C49F',
 };
-
-const QUICK_FILTERS = {
-  month: 'Last 30 Days',
-  week: 'Last 7 Days',
-  day: 'Today',
-  custom: 'Custom Range',
-} as const;
 
 function transformDistributionToChartData(distribution: Record<string, number>): ChartDataItem[] {
   return Object.entries(distribution)
@@ -117,6 +111,13 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
     apiDateRange.fromDate,
     apiDateRange.toDate
   );
+
+  const QUICK_FILTERS = {
+    month: t('Charts.lastMonth'),
+    week: t('Charts.week'),
+    day: t('Buttons.today'),
+    custom: t('Agents.CustomRange'),
+  } as const;
 
   const handleRangeChange = (ranges: any) => {
     setActiveFilter('custom');
@@ -195,7 +196,11 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
     return <div>{t('Charts.NoDataAvailable')}</div>;
   }
 
-  const chartData = transformDistributionToChartData(data.distribution);
+  // Get raw chart data, then add translated label in-place
+  const chartData = transformDistributionToChartData(data.distribution).map((item) => ({
+    ...item,
+    label: t(`OnboardingStatus.${item.name}` as any),
+  }));
 
   return (
     <div className="bg-white p-4 min-h-[475px]">
@@ -275,7 +280,7 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
                       onClick={handleApplyDateRange}
                       className="px-3 py-1.5 text-xs bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
                     >
-                       {t('Filter.apply')}
+                      {t('Filter.apply')}
                     </button>
                   </div>
                 </div>
@@ -288,7 +293,9 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
         <div className="flex items-center mt-2">
           <span className="text-lg mr-2">{t('Filter.TopErrorReason')}:</span>
           <span className="bg-red-500 text-white px-2 py-0 rounded-lg font-semibold text-lg">
-            {data.topErrorReason || 'No data available'}
+            {data.topErrorReason
+              ? t(`OnboardingStatus.${data.topErrorReason}` as any)
+              : t('Filter.NoChartDataAvailable')}
           </span>
         </div>
       </div>
@@ -307,13 +314,18 @@ const OnboardingStatus: React.FC<OnboardingStatusProps> = ({
               paddingAngle={2}
               dataKey="value"
               labelLine
-              label={({ name, percent }) => `${name}\n${(percent * 100).toFixed(1)}%`}
+              label={({ label, percent }) => `${label}\n${(percent * 100).toFixed(1)}%`}
             >
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip formatter={(value: number, name: string) => [`${value}`, name]} />
+            <Tooltip
+              formatter={(value: number, _name: string, props: any) => [
+                `${value}`,
+                props.payload.label,
+              ]}
+            />
           </PieChart>
         ) : (
           <div className="text-gray-500 text-lg"> {t('Filter.NoChartDataAvailable')}</div>

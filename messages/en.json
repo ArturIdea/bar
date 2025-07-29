@@ -231,6 +231,7 @@
     "appUsers": "App Users",
     "day": "Day",
     "week": "Past 7 Days",
+    "lastMonth": "Past 30 Days",
     "month": "Month",
     "custom": "Custom",
     "months": {
@@ -369,7 +370,10 @@
     "termsOfServices": "Terms of Services",
     "privacyPolicy": " Privacy Policy",
     "accepted": "Accepted",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "NoTransactionsAvailable":"No Transactions available",
+    "Empty":"Empty",
+    "NoCardAvailable":"No Card Available"
   },
   "UserManagement": {
     "details": {
@@ -466,7 +470,9 @@
     "MobileVerified": " Mobile Verified",
     "PersonalInfoVerified": "Personal Info Verified",
     "VerificationCompleted": "Verification Completed",
-    "VerificationFailed": "Verification Failed"
+    "VerificationFailed": "Verification Failed",
+    "LastLogin": "Last Login",
+    "CustomRange":"Custom Range"
   },
   "LivenessPills": {
     "HASHICORP_VAULT": "Hashicorp Vault",

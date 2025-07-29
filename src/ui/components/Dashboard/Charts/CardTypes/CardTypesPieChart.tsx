@@ -131,7 +131,7 @@ export function CardTypesPieChart() {
   };
 
   return (
-    <div className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col">
+    <div className="w-full min-h-[713px] p-6 bg-white rounded-[24px] flex flex-col">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-start text-[15px] font-bold mt-2 mb-[10px]">
           {t('Charts.UserEnrollmentDistributionbyBank')}
@@ -181,7 +181,7 @@ export function CardTypesPieChart() {
         </div>
       </div>
       {/* Table below chart */}
-      <div className="w-full mt-10">
+      <div className="w-full overflow-x-auto mt-2">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left border-b">

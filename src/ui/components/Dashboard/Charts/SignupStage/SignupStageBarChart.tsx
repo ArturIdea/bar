@@ -120,7 +120,8 @@ export function SignupStageBarChart() {
             fileName={t('Charts.signupStages')}
             labelMapping={{
               stage: t('Charts.stage'),
-              requests: chartConfig.reached.label,
+              reached: chartConfig.reached.label, 
+              dropOffPercentage: chartConfig.dropOffPercentage.label,
             }}
           />
         </div>

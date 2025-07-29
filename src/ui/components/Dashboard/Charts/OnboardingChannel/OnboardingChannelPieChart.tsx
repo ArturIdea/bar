@@ -138,7 +138,7 @@ export function OnboardingChannelPieChart() {
   };
 
   return (
-    <Card className="w-full min-h-[690px] p-6 bg-white rounded-[24px] flex flex-col border-l-0 border-t-0 border-b-0 border-r-0 shadow-none">
+    <Card className="w-full min-h-[713px] p-6 bg-white rounded-[24px] flex flex-col border-l-0 border-t-0 border-b-0 border-r-0 shadow-none">
       <div className="flex justify-between items-center pr-8 mt-[-12px]">
         <CardHeader>
           <CardTitle>{t('Charts.onboardingChannel')}</CardTitle>

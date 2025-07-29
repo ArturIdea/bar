@@ -183,7 +183,7 @@
     "back": "Orqaga",
     "history": "Tarix",
     "exportToPDF": "PDF'ga eksport qilish",
-    "exportToExcel": "Excel'ga eksport",
+    "exportToExcel": "Excel'ga eksport qilish",
     "today": "Bugun",
     "pickDate": "Sana oralig‘ini tanlash",
     "doubleClickToReset": "Diapazonni tiklash uchun sanani ikki marta bosing",
@@ -231,6 +231,7 @@
     "appUsers": "Ilova foydalanuvchilari",
     "day": "Kun",
     "week": "Oxirgi 7 kun",
+    "lastMonth": "O‘tgan 30 kun",
     "month": "Oy",
     "custom": "O‘z sanasi",
     "months": {
@@ -339,7 +340,10 @@
     "termsOfServices": "Xizmat ko‘rsatish shartlari",
     "privacyPolicy": "Maxfiylik siyosati",
     "accepted": "Qabul qilingan",
-    "rejected": "Rad etilgan"
+    "rejected": "Rad etilgan",
+    "NoTransactionsAvailable":"Tranzaksiyalar mavjud emas",
+    "Empty":"Bo‘sh",
+    "NoCardAvailable":"Karta mavjud emas"
   },
   "UserManagement": {
     "details": {
@@ -431,7 +435,9 @@
     "VerificationFailed": "Tekshiruvdan o‘tmadi",
     "totalUsers": "Jami foydalanuvchilar",
     "totalFailedCases": "Jami muvaffaqiyatsiz holatlar",
-    "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni"
+    "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni",
+    "LastLogin": "Oxirgi kirish",
+    "CustomRange":"Maxsus oraliq"
   },
   "Pagination": {
     "showing": "Ko‘rsatilganlar soni",
