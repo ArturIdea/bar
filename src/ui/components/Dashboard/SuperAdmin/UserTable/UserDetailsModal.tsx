@@ -368,7 +368,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
     });
 
     if (loading) {
-      return <div className="bg-white p-4">Loading...</div>;
+      return <div className="bg-white p-4">{t('Agents.Loading')}</div>;
     }
 
     if (error) {
@@ -376,7 +376,7 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
     }
 
     if (!transactions || transactions.length === 0) {
-      return <div className="bg-white p-4 text-gray-500">No transactions found</div>;
+      return <div className="bg-white p-4 text-gray-500">{t('SignupRequests.NoCardAvailable')}</div>;
     }
 
     return (
@@ -401,10 +401,10 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
         </div>
 
         <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-4">Transaction History</h3>
+          <h3 className="text-lg font-semibold mb-4"> {t('Agents.TransactionHistory')}</h3>
 
           <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-6">
-            <h4 className="text-base font-semibold text-gray-900 mb-4">Filters</h4>
+            <h4 className="text-base font-semibold text-gray-900 mb-4">{t('Filter.Filters')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex flex-col">
                 <label htmlFor="startDate" className="text-sm font-medium text-gray-700 mb-1">

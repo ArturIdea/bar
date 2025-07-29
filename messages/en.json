@@ -343,7 +343,8 @@
     "done": "Done",
     "apply": " Apply",
     "TopErrorReason": "Top Error Reason",
-    "NoChartDataAvailable": "No chart data available"
+    "NoChartDataAvailable": "No chart data available",
+    "Filters":"Filters"
   },
   "SignupRequests": {
     "title": "Latest Sign Up Requests",
@@ -472,7 +473,8 @@
     "VerificationCompleted": "Verification Completed",
     "VerificationFailed": "Verification Failed",
     "LastLogin": "Last Login",
-    "CustomRange":"Custom Range"
+    "CustomRange":"Custom Range",
+    "TransactionHistory":"Transaction History"
   },
   "LivenessPills": {
     "HASHICORP_VAULT": "Hashicorp Vault",

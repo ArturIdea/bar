@@ -196,7 +196,7 @@ export function OnboardingStatusDonutChart() {
               outerRadius={140}
               labelLine={false}
               label={renderCustomizedLabel}
-              paddingAngle={1}
+              paddingAngle={5}
               isAnimationActive={false}
             >
               {chartData.map((_, index) => (

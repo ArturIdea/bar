@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ApiClient } from '@/core/ApiClient';
 import { useUserRoles } from '@/ui/hooks/ui/useUserRoles';
 import { UserProfileDisplay } from './UserProfileDisplay';
+// import { useTranslations } from 'next-intl';
 
 interface UserProfile {
   userId: string;
@@ -125,6 +126,7 @@ const UserLookup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isSuperAdmin } = useUserRoles();
+  // const t = useTranslations();
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
