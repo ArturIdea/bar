@@ -37,17 +37,17 @@ export function CardTypesPieChart() {
     }
     return [
       {
-        cardType: 'XALQ',
+        cardType: t('Charts.Xalq'),
         holders: metrics.XALQ,
         fill: chartConfig.XALQ.color,
       },
       {
-        cardType: 'ALOHA',
+        cardType: t('Charts.Aloqa'),
         holders: metrics.ALOHA,
         fill: chartConfig.ALOHA.color,
       },
       {
-        cardType: 'NODATA',
+        cardType: t('Charts.NoData'),
         holders: metrics.NODATA,
         fill: chartConfig.NODATA.color,
       },
@@ -63,7 +63,7 @@ export function CardTypesPieChart() {
     return (
       <div className="w-full">
         <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-semibold">User Enrollment Distribution by Bank</h3>
+          <h3 className="text-lg font-semibold">{t('Charts.UserEnrollmentDistributionbyBank')}</h3>
         </div>
         <div className="flex items-center justify-center h-[300px]">
           <div className="w-8 h-8 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin" />
@@ -114,7 +114,7 @@ export function CardTypesPieChart() {
         NODATA:  t('Charts.NoData'),
       };
       return (
-        <div className="bg-white p-[6px] rounded-lg text-xs w-42">
+        <div className="bg-white p-[6px] rounded-lg text-xs w-42 z-[10]">
           <p className="font-semibold pb-1">{bankNames[data.cardType] || data.cardType}</p>
           <div className="flex justify-between">
               <p className="text-gray-500">{t('Charts.holders')}</p>

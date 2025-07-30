@@ -8,7 +8,7 @@ export const LOCALES = [
   },
   {
     code: 'uz-latn',
-    label: 'Uzbek (latin)',
+    label: "O'zbek (lotin)",
   },
   {
     code: 'uz-cyrl',
@@ -16,7 +16,7 @@ export const LOCALES = [
   },
   {
     code: 'kaa',
-    label: 'Karakalpak',
+    label: 'Qaraqalpaq',
   },
   {
     code: 'ru',

@@ -29,7 +29,7 @@ export function OnboardingStatusDonutChart() {
 
   React.useEffect(() => {
     function updateWidth() {
-      setChartWidth(Math.min(1000, window.innerWidth - 64));
+      setChartWidth(Math.min(1200, window.innerWidth - 64));
     }
     updateWidth();
     window.addEventListener('resize', updateWidth);
@@ -184,7 +184,7 @@ export function OnboardingStatusDonutChart() {
           <PieChart
             width={chartWidth}
             height={500}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            margin={{ top: 10, right: 20, bottom: 20, left: 10 }}
           >
             <Pie
               data={chartData}
