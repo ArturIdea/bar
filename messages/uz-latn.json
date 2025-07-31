@@ -451,8 +451,8 @@
     "entries": "yozuvlar"
   },
   "LivenessPills": {
-    "HASHICORP_VAULT": "Maxfiy ma’lumotlarni xavfsiz saqlash tizimi (HashiCorp Vault)",
-    "MINIO": "Minio fayllarni saqlash tizimi",
+    "HASHICORP_VAULT": "Maxfiy ma’lumotlarni xavfsiz saqlash tizimi",
+    "MINIO": "Fayllarni saqlash tizimi",
     "BARAKA_API": "Baraka serveri",
     "SDK_FINANCE_API": "Asosiy bank xizmatlarini ko‘rsatish servisi",
     "AUTHENTICATOR": "Autentifikator"
