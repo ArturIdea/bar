@@ -51,7 +51,7 @@ export function SignupErrorCategoriesBarChart() {
         <div className="flex items-center gap-2">
           <ExportDropdown
             chartData={exportData}
-            fileName="Error For Failed Finalization"
+            fileName={t('Navbar.ErrorOnFailedFinalization')}
             labelMapping={labelMapping}
           />
         </div>

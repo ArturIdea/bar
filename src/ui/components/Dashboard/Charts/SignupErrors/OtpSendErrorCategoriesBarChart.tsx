@@ -51,7 +51,7 @@ export function OtpSendErrorCategoriesBarChart() {
         <div className="flex items-center gap-2">
           <ExportDropdown
             chartData={exportData}
-            fileName="Errors For OTP Send"
+            fileName={t('Navbar.ErrorsForOTPSend')}
             labelMapping={labelMapping}
           />
         </div>

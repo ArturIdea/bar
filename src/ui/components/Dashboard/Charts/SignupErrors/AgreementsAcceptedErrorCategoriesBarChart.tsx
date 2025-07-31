@@ -51,7 +51,7 @@ export function AgreementsAcceptedErrorCategoriesBarChart() {
         <div className="flex items-center gap-2">
           <ExportDropdown
             chartData={exportData}
-            fileName="Errors For Agreements Accepted"
+            fileName={t('Navbar.ErrorsForAgreementsAccepted')}
             labelMapping={labelMapping}
           />
         </div>
