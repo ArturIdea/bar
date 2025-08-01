@@ -96,7 +96,8 @@
   "Student": {
     "university": "University",
     "fullName": "Full Name",
-    "status": "Status"
+    "status": "Status",
+    "total": "Total"
   },
   "Latin": {
     "identityProviderDataLatin": "Identity Provider Data (Latin)",
@@ -208,6 +209,8 @@
     "failedRequests": "Failed Requests",
     "AbandonedRequest": "Abandoned Requests",
     "Count": "Count",
+    "Category":"Category",
+    "Subcategory":"Subcategory",
     "newAccounts": "New Accounts",
     "period": "Period",
     "accounts": "Accounts",

@@ -8,19 +8,19 @@ export const LOCALES = [
   },
   {
     code: 'uz-latn',
-    label: 'Uzbek (latin)',
+    label: "o'zbek(lotin)",
   },
   {
     code: 'uz-cyrl',
-    label: 'Uzbek (cyrillic)',
+    label: 'Йзбекча (Кирилл)',
   },
   {
     code: 'kaa',
-    label: 'Karakalpak',
+    label: 'Qaraqalpaq',
   },
   {
     code: 'ru',
-    label: 'Russian',
+    label: 'Русский',
   },
 ];
 

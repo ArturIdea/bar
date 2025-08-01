@@ -117,7 +117,7 @@ export default function AdminNavbar() {
         />
         {/* User Profile Dropdown */}
         {userProfile && (
-          <div className="relative">
+          <div className="relative min-w-10">
             <div className="flex items-center">
               <button
                 type="button"

@@ -29,7 +29,7 @@ export function OnboardingStatusDonutChart() {
 
   React.useEffect(() => {
     function updateWidth() {
-      setChartWidth(Math.min(1000, window.innerWidth - 64));
+      setChartWidth(Math.min(1200, window.innerWidth - 64));
     }
     updateWidth();
     window.addEventListener('resize', updateWidth);
@@ -142,12 +142,13 @@ export function OnboardingStatusDonutChart() {
     return Object.entries(data.statusCounts)
       .filter(([status, count]) => STATUS_LABELS[status] && count > 0)
       .map(([status, count]) => ({
+        label: STATUS_LABELS[status] || status.replace(/_/g, ' '),
         status,
         count,
         percentage: (count / total) * 100,
       }))
       .sort((a, b) => b.percentage - a.percentage);
-  }, [data]);
+  }, [data, STATUS_LABELS]);
 
   if (loading) {
     return (
@@ -170,12 +171,16 @@ export function OnboardingStatusDonutChart() {
           </CardTitle>
         </CardHeader>
         <ExportDropdown
-          chartData={chartData}
-          fileName="Onboarding Status"
+          chartData={chartData.map(({ label, count, percentage }) => ({
+            label,
+            count,
+            percentage,
+          }))}
+          fileName={t('Navbar.OnboardingStatus')}
           labelMapping={{
-            status: 'Status',
-            count: 'Count',
-            percentage: 'Percentage (%)',
+            label: t('Student.status'),
+            count: t('Charts.Count'),
+            percentage: t('Disability.percentage'),
           }}
         />
       </div>
@@ -184,12 +189,12 @@ export function OnboardingStatusDonutChart() {
           <PieChart
             width={chartWidth}
             height={500}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            margin={{ top: 10, right: 20, bottom: 20, left: 10 }}
           >
             <Pie
               data={chartData}
               dataKey="count"
-              nameKey="status"
+              nameKey="label"
               cx="50%"
               cy="50%"
               innerRadius={80}
@@ -206,8 +211,7 @@ export function OnboardingStatusDonutChart() {
             <Tooltip
               formatter={(value: number, _: string, props: any) => [
                 value,
-                STATUS_LABELS[chartData[props.payload.index]?.status] ||
-                  chartData[props.payload.index]?.status,
+                chartData[props.payload.index]?.label || chartData[props.payload.index]?.status,
               ]}
             />
           </PieChart>
