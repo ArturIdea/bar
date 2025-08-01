@@ -102,12 +102,12 @@ export function BankAssociatedByStatusBarChart() {
     return STATUS_ORDER.map((status) => {
       const banks = data[status] || { NODATA: 0, XALQ: 0, ALOQA: 0 };
       return {
-        status,
+        status: STATUS_LABELS[status] || status.replace(/_/g, ' '),
         ...banks,
         total: (banks.NODATA || 0) + (banks.XALQ || 0) + (banks.ALOQA || 0),
       };
     }).filter((row) => row.total > 0);
-  }, [data]);
+  }, [data, STATUS_LABELS]);
 
   return (
     <Card className="m-3 mt-0 p-3 bg-white shadow-none border-t-0 border-b-0 border-l-0 border-r-0 rounded-[24px]">
@@ -120,13 +120,13 @@ export function BankAssociatedByStatusBarChart() {
         <div className="flex justify-center">
           <ExportDropdown
             chartData={chartData}
-            fileName="Bank Associated By Status"
+            fileName={t('OnboardingStatus.BankAssociatedByStatus')}
             labelMapping={{
-              status: 'Status',
+              status: t('Student.status'),
               NODATA: BANK_LABELS.NODATA,
               XALQ: BANK_LABELS.XALQ,
               ALOQA: BANK_LABELS.ALOQA,
-              total: 'Total',
+              total: t('Student.total'),
             }}
             keysToExclude={[]}
           />

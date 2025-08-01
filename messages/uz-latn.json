@@ -96,7 +96,8 @@
   "Student": {
     "university": "Universitet",
     "fullName": "To‘liq ism",
-    "status": "Holat"
+    "status": "Holat",
+    "total": "Jami"
   },
   "Latin": {
     "identityProviderDataLatin": "Lotin alifbosidagi shaxsiy ma’lumotlar",
@@ -212,6 +213,8 @@
     "failedRequests": "Muvaffaqiyatsiz so‘rovlar",
     "AbandonedRequest": "Yakunlanmagan arizalar",
     "Count": "Miqdor",
+    "Category":"Kategoriya",
+    "Subcategory":"Subkategoriya",
     "newAccounts": "Yangi hisoblar",
     "period": "Davr",
     "accounts": "Hisoblar",
@@ -266,7 +269,7 @@
     "NumberOfUers": "Foydalanuvchilar soni\r\r\n",
     "Xalq": "Xalq",
     "Aloqa": "Aloqa",
-    "NoData": "Ma’lumotlar yo‘q",
+    "NoData": "Ma’lumot yo‘q",
     "TotalRegisteredUsers": "Jami ro‘yxatdan o‘tgan foydalanuvchilar",
     "UserByRegion": "Hududlar bo‘yicha foydalanuvchilar",
     "ErrorLoadingData": "Ma’lumotlar yuklanmadi",
@@ -441,8 +444,8 @@
     "totalUsers": "Jami foydalanuvchilar",
     "totalFailedCases": "Jami muvaffaqiyatsiz holatlar",
     "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni",
-    "LastLogin": "Oxirgi kirish",
-    "CustomRange":"Maxsus oraliq",
+    "LastLogin": "Oxirgi login",
+    "CustomRange":"Foydalanuvchi diapazoni",
     "TransactionHistory":"Tranzaksiya tarixi"
   },
   "Pagination": {

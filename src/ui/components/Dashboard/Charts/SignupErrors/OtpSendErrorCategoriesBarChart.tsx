@@ -37,9 +37,9 @@ export function OtpSendErrorCategoriesBarChart() {
     Count: row.count,
   }));
   const labelMapping = {
-    Category: 'Category',
-    Subcategory: 'Subcategory',
-    Count: 'Count',
+    Category: t('Charts.Category' as any),
+    Subcategory: t('Charts.Subcategory' as any),
+    Count: t('Charts.Count' as any),
   };
 
   return (
@@ -98,7 +98,7 @@ export function OtpSendErrorCategoriesBarChart() {
                   return (
                     <div className="bg-white p-3 rounded text-xs">
                       <div className="font-bold mb-1" title={name}>{truncate(name, 150)}</div>
-                      <div>Count: <b>{count}</b></div>
+                      <div>{t('Charts.Count')}: <b>{count}</b></div>
                     </div>
                   );
                 }}
