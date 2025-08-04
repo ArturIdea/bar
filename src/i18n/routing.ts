@@ -10,14 +10,14 @@ export const LOCALES = [
     code: 'uz-latn',
     label: "o'zbek(lotin)",
   },
-  {
-    code: 'uz-cyrl',
-    label: 'Йзбекча (Кирилл)',
-  },
-  {
-    code: 'kaa',
-    label: 'Qaraqalpaq',
-  },
+  // {
+  //   code: 'uz-cyrl',
+  //   label: 'Йзбекча (Кирилл)',
+  // },
+  // {
+  //   code: 'kaa',
+  //   label: 'Qaraqalpaq',
+  // },
   {
     code: 'ru',
     label: 'Русский',
