@@ -231,6 +231,7 @@
     "appUsers": "Пользователи приложения",
     "day": "День",
     "week": "Последние 7 дней",
+    "lastMonth": "Последние 30 дней",
     "month": "Месяц",
     "custom": "Своя дата",
     "months": {
@@ -258,7 +259,7 @@
     "UserEnrollmentDistributionbyBank": "Распределение зарегистрированных пользователей по банкам",
     "bank": "Банк",
     "ResisteredUsers": "Зарегистрированные пользователи",
-    "NumberOfUers": "Количество пользователей<br>",
+    "NumberOfUers": "Количество пользователей",
     "Xalq": "Xalq",
     "Aloqa": "Aloqa",
     "NoData": "Нет данных",
@@ -339,7 +340,10 @@
     "termsOfServices": "Условия обслуживания",
     "privacyPolicy": "Политика конфиденциальности",
     "accepted": "Принято",
-    "rejected": "Отклонено"
+    "rejected": "Отклонено",
+    "Empty":"Пустой",
+    "NoTransactionsAvailable":"Нет доступных транзакций",
+    "NoCardAvailable":"Нет доступной карты"
   },
   "UserManagement": {
     "details": {
@@ -431,7 +435,9 @@
     "VerificationFailed": "Проверка не пройдена",
     "totalUsers": "Всего пользователей",
     "totalFailedCases": "Всего неудачных случаев",
-    "dailyAvg": "Среднесуточное количество успешных регистраций"
+    "dailyAvg": "Среднесуточное количество успешных регистраций",
+    "LastLogin": "Последний логин",
+    "CustomRange":"Пользовательский диапазон"
   },
   "Pagination": {
     "showing": "Отображаются",
