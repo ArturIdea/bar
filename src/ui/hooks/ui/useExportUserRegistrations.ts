@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { ApiClient } from '@/core/ApiClient';
+import { useTranslations } from 'next-intl';
+import React from 'react';
 
 export const useExportUserRegistrations = () => {
   const [loading, setLoading] = useState<'pdf' | 'excel' | null>(null);
   const [error, setError] = useState<string | null>(null);
+   const t = useTranslations();
 
   /**
    * Export user registrations with language detection from URL if not provided.
@@ -47,7 +50,7 @@ export const useExportUserRegistrations = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `user-registrations-${format}-${new Date().toISOString().split('T')[0]}.${format}`;
+      link.download = `${t('UserManagement.title2')}-${format}-${new Date().toISOString().split('T')[0]}.${format}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

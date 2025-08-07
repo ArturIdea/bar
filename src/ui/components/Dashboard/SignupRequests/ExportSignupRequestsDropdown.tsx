@@ -35,7 +35,7 @@ const ExportSignupRequestsDropdown: React.FC<{ filters: any }> = ({ filters }) =
       if (selectedAppType) { params.selectedAppType = selectedAppType; }
       
       const blob = await exportRegistrationRequests(params, format);
-      const fileName = `registration_requests_${Date.now()}.${format === 'pdf' ? 'pdf' : 'xlsx'}`;
+      const fileName = `${t('Statistics.requests')}_${Date.now()}.${format === 'pdf' ? 'pdf' : 'xlsx'}`;
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

@@ -28,8 +28,6 @@ const ExportUserRegistrationsDropdown: React.FC<{ filters: any }> = ({ filters }
       if (filters.registrationChannel) { params.registrationChannel = filters.registrationChannel; }
       if (filters.pinflSearch) { params.pinflSearch = filters.pinflSearch; }
       if (filters.usernameSearch) { params.usernameSearch = filters.usernameSearch; }
-
-      // Add optional parameters
       if (selectedAgent) { 
         params.userId = selectedAgent.id || selectedAgent.toString();
       }

@@ -437,7 +437,8 @@
     "totalFailedCases": "Всего неудачных случаев",
     "dailyAvg": "Среднесуточное количество успешных регистраций",
     "LastLogin": "Последний логин",
-    "CustomRange":"Пользовательский диапазон"
+    "CustomRange":"Пользовательский диапазон",
+    "Agents_Report": "otchet_agentov"
   },
   "Pagination": {
     "showing": "Отображаются",

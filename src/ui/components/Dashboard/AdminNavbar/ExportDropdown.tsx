@@ -35,7 +35,7 @@ export const ExportDropdown: React.FC = () => {
       const url = window.URL.createObjectURL(pdfBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'agents_report.pdf';
+      a.download = `${t('Agents.Agents_Report')}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -58,7 +58,7 @@ export const ExportDropdown: React.FC = () => {
       const url = window.URL.createObjectURL(excelBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'agents_report.xlsx';
+      a.download =  `${t('Agents.Agents_Report')}.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
