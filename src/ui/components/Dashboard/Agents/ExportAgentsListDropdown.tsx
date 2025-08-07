@@ -38,7 +38,7 @@ const ExportAgentsListDropdown: React.FC<{ filters: any }> = ({ filters }) => {
       if (selectedAppType) { params.selectedAppType = selectedAppType; }
       
       const blob = await exportAgentsList(params, format);
-      const fileName = `agents_list_${Date.now()}.${format === 'pdf' ? 'pdf' : 'xlsx'}`;
+      const fileName = `${t('Agents.agentList')}${Date.now()}.${format === 'pdf' ? 'pdf' : 'xlsx'}`;
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

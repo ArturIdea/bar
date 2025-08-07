@@ -446,7 +446,9 @@
     "dailyAvg": "Kunlik o‘rtacha muvaffaqiyatli ro‘yxatdan o‘tishlar soni",
     "LastLogin": "Oxirgi login",
     "CustomRange":"Foydalanuvchi diapazoni",
-    "TransactionHistory":"Tranzaksiya tarixi"
+    "TransactionHistory":"Tranzaksiya tarixi",
+    "Agents_Report": "agentlar_hisoboti",
+    "agentList": "agentlar_ro'yxati"
   },
   "Pagination": {
     "showing": "Ko‘rsatilganlar soni",

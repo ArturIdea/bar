@@ -477,7 +477,9 @@
     "VerificationFailed": "Verification Failed",
     "LastLogin": "Last Login",
     "CustomRange":"Custom Range",
-    "TransactionHistory":"Transaction History"
+    "TransactionHistory":"Transaction History",
+    "Agents_Report": "agents_report",
+    "agentList": "agent_list"
   },
   "LivenessPills": {
     "HASHICORP_VAULT": "Hashicorp Vault",
