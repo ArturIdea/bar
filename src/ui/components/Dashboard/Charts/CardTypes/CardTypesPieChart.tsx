@@ -113,17 +113,21 @@ export function CardTypesPieChart() {
         ALOHA:  t('Charts.Aloqa'),
         NODATA:  t('Charts.NoData'),
       };
+      // Tooltip will be absolutely positioned above the chart center
       return (
-        <div className="bg-white p-[6px] rounded-lg text-xs w-42 z-[10]">
+        <div
+          className="bg-white p-[6px] rounded-lg text-xs w-42 shadow-lg"
+          style={{  transform: 'translate(95%, 0)', zIndex: 9999 }}
+        >
           <p className="font-semibold pb-1">{bankNames[data.cardType] || data.cardType}</p>
           <div className="flex justify-between">
-              <p className="text-gray-500">{t('Charts.holders')}</p>
-              <p className="text-gray-500 ">{data.holders}</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="text-gray-500">{t('Charts.percentage')}</p>
-              <p className="text-gray-500">{percentage}%</p>
-            </div>
+            <p className="text-gray-500">{t('Charts.holders')}</p>
+            <p className="text-gray-500 ">{data.holders}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="text-gray-500">{t('Charts.percentage')}</p>
+            <p className="text-gray-500">{percentage}%</p>
+          </div>
         </div>
       );
     }
@@ -181,7 +185,7 @@ export function CardTypesPieChart() {
         </div>
       </div>
       {/* Table below chart */}
-      <div className="w-full overflow-x-auto mt-2">
+      <div className="w-full overflow-x-auto mt-8">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left border-b">

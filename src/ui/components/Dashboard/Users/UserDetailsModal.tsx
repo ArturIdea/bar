@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { ArrowRight, Loader2, XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -123,23 +123,26 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
 
   const BenefitsSection = ({ benefits, getBenefitName, t }: any) => {
     const [filter, setFilter] = useState<'ACTIVE' | 'EXPIRED'>('ACTIVE');
+    const STATUS: { key: 'ACTIVE' | 'EXPIRED'; label: string }[] = [
+      { key: 'ACTIVE', label: t('UserManagement.details.active') },
+      { key: 'EXPIRED', label: t('UserManagement.details.expired') },
+    ];
     const filtered = benefits.filter((b: any) => b.status === filter);
-    const STATUS = [t('UserManagement.details.active'), t('UserManagement.details.expired')];
     const colors = useMemo(() => assignDotColors(benefits), [benefits]);
 
     return (
       <div className="flex flex-col gap-6 h-[60vh]">
         <div className="flex bg-gray-100 rounded-full justify-evenly p-2 mb-4">
-          {STATUS.map((status) => (
+          {STATUS.map(({ key, label }) => (
             <button
               type="button"
-              key={status}
-              onClick={() => setFilter(status as any)}
+              key={key}
+              onClick={() => setFilter(key)}
               className={`px-9 py-2 rounded-full whitespace-nowrap w-full ${
-                filter === status ? 'bg-primary text-white' : 'text-primary'
+                filter === key ? 'bg-primary text-white' : 'text-primary'
               }`}
             >
-              {status}
+              {label}
             </button>
           ))}
         </div>
@@ -175,7 +178,9 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
               </div>
             );
           })}
-          {filtered.length === 0 && <p className="text-center text-gray-500 mt-10">{t('SignupRequests.Empty')}</p>}
+          {filtered.length === 0 && (
+            <p className="text-center text-gray-500 mt-10">{t('SignupRequests.Empty')}</p>
+          )}
         </div>
       </div>
     );
@@ -289,7 +294,9 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
   };
 
   return (
-    <div className={`z-[999] fixed inset-0 flex items-center justify-end bg-primary/5 backdrop-blur-md transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div
+      className={`z-[999] fixed inset-0 flex items-center justify-end bg-primary/5 backdrop-blur-md transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div
         ref={modalRef}
         className={`relative bg-white w-full max-w-lg md:max-w-2xl lg:max-w-4xl shadow-xl overflow-y-auto h-full transform transition-transform duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}

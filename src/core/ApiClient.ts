@@ -318,7 +318,7 @@ export class ApiClient {
 
   /**
    * Export agents report as PDF
-   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, etc.
+   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, language, etc.
    * @returns PDF Blob
    */
   async exportAgentsReportPDF(params: {
@@ -327,10 +327,30 @@ export class ApiClient {
     bankType?: string;
     pinfl?: string;
     onboardingChannel?: string;
+    language?: string;
     [key: string]: any;
   } = {}): Promise<Blob> {
     const query = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
+    
+    // Add language detection if not provided
+    const processedParams = { ...params };
+    if (!processedParams.language) {
+      // Try to detect language from URL: expects /en/ or /uz-latn/ etc. after host
+      const match = window.location.pathname.match(/^\/?([a-zA-Z\-_]+)/);
+      if (match && match[1]) {
+        if (match[1].toLowerCase() === 'en') {
+          processedParams.language = 'en';
+        } else if (match[1].toLowerCase().replace(/_/g, '-').startsWith('uz-latn')) {
+          processedParams.language = 'uz_Latn';
+        } else {
+          processedParams.language = match[1];
+        }
+      } else {
+        processedParams.language = 'en'; // fallback
+      }
+    }
+    
+    Object.entries(processedParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {
         query.append(key, value);
       }
@@ -347,7 +367,7 @@ export class ApiClient {
 
   /**
    * Export agents report as Excel
-   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, etc.
+   * @param params Optional query parameters: fromDate, toDate, bankType, pinfl, onboardingChannel, language, etc.
    * @returns Excel Blob
    */
   async exportAgentsReportExcel(params: {
@@ -356,10 +376,30 @@ export class ApiClient {
     bankType?: string;
     pinfl?: string;
     onboardingChannel?: string;
+    language?: string;
     [key: string]: any;
   } = {}): Promise<Blob> {
     const query = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
+    
+    // Add language detection if not provided
+    const processedParams = { ...params };
+    if (!processedParams.language) {
+      // Try to detect language from URL: expects /en/ or /uz-latn/ etc. after host
+      const match = window.location.pathname.match(/^\/?([a-zA-Z\-_]+)/);
+      if (match && match[1]) {
+        if (match[1].toLowerCase() === 'en') {
+          processedParams.language = 'en';
+        } else if (match[1].toLowerCase().replace(/_/g, '-').startsWith('uz-latn')) {
+          processedParams.language = 'uz_Latn';
+        } else {
+          processedParams.language = match[1];
+        }
+      } else {
+        processedParams.language = 'en'; // fallback
+      }
+    }
+    
+    Object.entries(processedParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {
         query.append(key, value);
       }
