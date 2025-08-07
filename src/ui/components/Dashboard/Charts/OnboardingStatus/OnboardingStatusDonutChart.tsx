@@ -29,7 +29,7 @@ export function OnboardingStatusDonutChart() {
 
   React.useEffect(() => {
     function updateWidth() {
-      setChartWidth(Math.min(1200, window.innerWidth - 64));
+      setChartWidth(Math.min(1100, window.innerWidth - 64));
     }
     updateWidth();
     window.addEventListener('resize', updateWidth);
@@ -109,7 +109,7 @@ export function OnboardingStatusDonutChart() {
         >
           <div
             style={{
-              fontSize: '14px',
+              fontSize: '13px',
               color: '#9D9DA7',
               fontWeight: '400',
               textAlign: textAnchor,
