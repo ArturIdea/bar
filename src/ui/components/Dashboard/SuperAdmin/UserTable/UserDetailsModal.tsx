@@ -176,23 +176,26 @@ const UserDetailsModal: React.FC<MultiTabUserDetailsModalProps> = ({
 
   const BenefitsSection = ({ benefits, getBenefitName, t }: any) => {
     const [filter, setFilter] = useState<'ACTIVE' | 'EXPIRED'>('ACTIVE');
+    const STATUS: { key: 'ACTIVE' | 'EXPIRED'; label: string }[] = [
+      { key: 'ACTIVE', label: t('UserManagement.details.active') },
+      { key: 'EXPIRED', label: t('UserManagement.details.expired') }
+    ];
     const filtered = benefits.filter((b: any) => b.status === filter);
-    const STATUS = [t('UserManagement.details.active'), t('UserManagement.details.expired')];
     const colors = useMemo(() => assignDotColors(benefits), [benefits]);
 
     return (
       <div className="flex flex-col gap-6 h-[60vh]">
         <div className="flex bg-gray-100 rounded-full justify-evenly p-2 mb-4">
-          {STATUS.map((status) => (
+          {STATUS.map(({ key, label }) => (
             <button
               type="button"
-              key={status}
-              onClick={() => setFilter(status as any)}
+              key={key}
+              onClick={() => setFilter(key)}
               className={`px-9 py-2 rounded-full whitespace-nowrap w-full ${
-                filter === status ? 'bg-primary text-white' : 'text-primary'
+                filter === key ? 'bg-primary text-white' : 'text-primary'
               }`}
             >
-              {status}
+              {label}
             </button>
           ))}
         </div>

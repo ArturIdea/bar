@@ -43,7 +43,6 @@ export const useUserRoles = (): IUserRoles => {
 
         const userRoles = decoded?.resource_access?.baraka?.roles || [];
         setRoles(userRoles);
-        console.log('User roles:', userRoles);
       } else {
         setRoles([]);
         setToken(null);

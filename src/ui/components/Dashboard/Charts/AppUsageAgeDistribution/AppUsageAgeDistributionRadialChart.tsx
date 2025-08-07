@@ -151,7 +151,7 @@ export function AppUsageAgeDistributionRadialChart() {
         </ChartContainer>
       </CardContent>
       {/* Table  */}
-      <div className="flex flex-col gap-4 w-full mt-9 overflow-x-auto">
+      <div className="flex flex-col gap-4 w-full mt-14 overflow-x-auto">
         <div className="hidden items-center justify-center gap-2">
           <Users2 className="w-4 h-4 text-gray-500" />
           <p className="text-gray-500 text-sm">

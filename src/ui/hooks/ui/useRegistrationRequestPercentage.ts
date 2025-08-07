@@ -21,8 +21,6 @@ export const useRegistrationRequestPercentage = (fromDate?: string, toDate?: str
   const selectedBank = useBankFilterStore((state) => state.selectedBank);
   const selectedAppType = useAppTypeFilterStore((state) => state.selectedAppType);
 
-  console.log(selectedAgent?.id)
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

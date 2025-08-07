@@ -124,7 +124,7 @@ export function SignupStageHighestBarChart() {
 
       {!loading && !error && (
         <CardContent>
-          <ChartContainer className="h-[25vh] w-full" config={chartConfig}>
+          <ChartContainer className="h-[30vh] w-full" config={chartConfig}>
             <BarChart data={chartData}>
               <CartesianGrid vertical={false} />
               <YAxis
