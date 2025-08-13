@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 interface Agent {
   id: string;
@@ -28,4 +28,4 @@ export const useAgent = () => {
     throw new Error('useAgent must be used within an AgentProvider');
   }
   return context;
-}; 
+};
