@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useUsersWithoutCards } from '@/ui/hooks/ui/useUsersWithoutCards';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
@@ -11,16 +11,14 @@ interface UsersWithoutCardsTableProps {
   onClose: () => void;
 }
 
-export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
-  onClose,
-}) => {
+export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({ onClose }) => {
   const [page, setPage] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [pageSize, setPageSize] = useState(10);
-  
+
   const fromDate = useDateRangeStore((s) => s.fromDate);
   const toDate = useDateRangeStore((s) => s.toDate);
   const t = useTranslations();
@@ -32,6 +30,17 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
     size: pageSize,
     search: search || undefined,
   });
+
+  const handleSearch = () => {
+    setSearch(searchInput);
+    setPage(0); // Reset to first page when searching
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const handleSort = (column: string) => {
     if (sortBy === column) {
@@ -71,32 +80,42 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
   ];
 
   return (
-    <div className="w-full bg-white rounded-lg p-6 border border-gray-200">
+    <div className="w-full bg-white rounded-lg pb-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">
-          {t('Charts.UsersWithNoCardIssued')}
-        </h2>
+        <h2 className="text-sm font-bold p-2 text-gray-800">{t('Charts.UsersWithNoCardIssued')}</h2>
         <div className="flex items-center gap-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          >
-            {t('Buttons.hideDetails')}
-          </button>
+          <div className="flex w-[270px] gap-2 border border-gray-300 rounded-full py-2 px-4">
+            <input
+              type="text"
+              placeholder={t('Filter.searchPlaceHolder')}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="outline-none bg-transparent text-sm placeholder:text-gray-400"
+            />
+            <button type="button" onClick={handleSearch} className="cursor-pointer">
+              <Search size={20} />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Search */}
-      {/* <div className="mb-4">
-        <input
-          type="text"
-          placeholder={t('Filter.searchPlaceHolder')}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      {/* <div className="flex justify-end mb-4">
+        <div className="flex w-[270px] gap-2 border border-gray-300 rounded-full py-2 px-4">
+          <input
+            type="text"
+            placeholder={t('Filter.searchPlaceHolder')}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="outline-none bg-transparent text-sm placeholder:text-gray-400"
+          />
+          <button type="button" onClick={handleSearch} className="cursor-pointer">
+            <Search size={20} />
+          </button>
+        </div>
       </div> */}
 
       {/* Table */}
@@ -106,10 +125,7 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
           <thead className="bg-[#FAFAFA] rounded-[8px]">
             <tr className="text-left text-gray-400">
               {columns.map((col) => (
-                <th
-                  key={col.key}
-                  className="px-6 py-3 font-normal"
-                >
+                <th key={col.key} className="px-6 py-3 font-normal">
                   {col.sortable ? (
                     <button
                       type="button"
@@ -117,9 +133,9 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
                       className="flex items-center gap-1 hover:text-gray-600 w-full text-left group"
                     >
                       <span>{col.label}</span>
-                      <span className="inline-flex items-center opacity-50 group-hover:opacity-100">
+                      {/* <span className="inline-flex items-center opacity-50 group-hover:opacity-100">
                         {getSortIcon(col.key)}
-                      </span>
+                      </span> */}
                     </button>
                   ) : (
                     col.label
@@ -139,21 +155,13 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {user.firstName || ''} {user.lastName || ''}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                      {user.pinfl || '-'}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {user.socialNumber || '-'}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {user.channel || '-'}
-                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.pinfl || '-'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.socialNumber || '-'}</td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.channel || '-'}</td>
                   <td className="px-6 py-4 text-[#0B0B22] text-sm">
                     {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-'}
                   </td>
-                  <td className="px-6 py-4 text-[#0B0B22] text-sm">
-                    {user.bankType || '-'}
-                  </td>
+                  <td className="px-6 py-4 text-[#0B0B22] text-sm">{user.bankType || '-'}</td>
                 </tr>
               ))
             ) : (

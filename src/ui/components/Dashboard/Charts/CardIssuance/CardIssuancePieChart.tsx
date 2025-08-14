@@ -19,9 +19,9 @@ export function CardIssuancePieChart() {
 
   const chartConfig: ChartConfig = useMemo(
     () => ({
-      cardsPrinted: { label: t('Charts.CardsPrinted'), color: '#253A60' },
-      cardsPendingPrinting: { label: t('Charts.CardsPendingPrinting'), color: '#2EC4B6' },
-      usersWithNoCardIssued: { label: t('Charts.UsersWithNoCardIssued'), color: '#BFD7B5' },
+      cardsPrinted: { label: t('Charts.CardsPrinted'), color: '#13AB3F' },
+      cardsPendingPrinting: { label: t('Charts.CardsPendingPrinting'), color: '#DC1B25' },
+      usersWithNoCardIssued: { label: t('Charts.UsersWithNoCardIssued'), color: '#FFA500' },
     }),
     [t]
   );
@@ -177,7 +177,7 @@ export function CardIssuancePieChart() {
             className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center"
             style={{ transform: 'translate(-50%, -50%)' }}
           >
-            <span className="text-xs text-gray-500">{t('Statistics.totalCards')}</span>
+            <span className="text-xs text-gray-500">{t('Statistics.totalUsers')}</span>
             <span className="text-lg font-bold">{totalUsers.toLocaleString()}</span>
           </div>
         </div>

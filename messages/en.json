@@ -279,7 +279,8 @@
     "CardsPrinted": "Cards Printed",
     "CardsPendingPrinting": "Cards Pending Printing",
     "UsersWithNoCardIssued": "Users with No Card Issued",
-    "TotalOnboardedBeneficiaries": "Total Onboarded Beneficiaries"
+    "TotalOnboardedBeneficiaries": "Total Onboarded Beneficiaries",
+    "CitizenBatchOnboarding":"Citizen Batch Onboarding"
   },
   "SignupStages": {
     "CREATED": "Created",
