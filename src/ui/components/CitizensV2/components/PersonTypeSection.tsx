@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Group, Text } from '@mantine/core';
+import { Box, Flex, Group, Image, Text } from '@mantine/core';
 
 interface PersonTypeConfig {
   title: string;
@@ -10,38 +10,74 @@ interface PersonTypeConfig {
 }
 
 interface PersonTypeData {
-  type: 'disability' | 'student' | 'pensioner' | 'veteran' | (string & {});
+  type: 'disability' | 'student' | 'regular' | 'pensioner' | 'veteran' | (string & {});
+  disabilityGroup?: string | null;
+  disabilityReason?: string | null;
+  universityName?: string | null;
 }
+const personTypeConfig: Record<string, PersonTypeConfig> = {
+  disability: {
+    title: 'Person with disability',
+    color: '#280067',
+    bgColor: '#DADFFF',
+    icon: <Image src="/images/icons/disabledPerson.svg" alt="Disability Icon" />,
+  },
+  student: {
+    title: 'Student',
+    color: '#640000',
+    bgColor: '#FFF7EB',
+    icon: <Image src="/images/icons/student.svg" alt="Student Icon" />,
+  },
+  regular: {
+    title: 'No benefits',
+    color: '#050718',
+    bgColor: '#F9FAFB',
+    icon: <Image src="/images/icons/citizen.svg" alt="Regular Citizen Icon" />,
+  },
+  pensioner: {
+    title: 'Pensioner',
+    color: '#059669',
+    bgColor: '#F0FDF4',
+    icon: <Image src="/images/icons/pensioner.svg" alt="Pensioner Icon" />,
+  },
+  veteran: {
+    title: 'Veteran',
+    color: '#2563EB',
+    bgColor: '#EFF6FF',
+    icon: <Image src="/images/icons/veteran.svg" alt="Veteran Icon" />,
+  },
+};
 
 interface PersonTypeSectionProps {
   data: PersonTypeData;
-  config: PersonTypeConfig;
 }
 
-export const PersonTypeSection = ({ data, config }: PersonTypeSectionProps) => {
+export const PersonTypeSection = ({ data }: PersonTypeSectionProps) => {
+  const config = personTypeConfig[data.type || 'regular'];
+
   return (
     <Box
       style={{
-        backgroundColor: '#DADFFF',
+        backgroundColor: config.bgColor,
         marginInline: '-16px',
         padding: '16px 26px 16px 26px',
       }}
     >
-      <Group gap="xs" mb="xs">
+      <Group gap="xs">
         <Text size="lg">{config.icon}</Text>
-        <Text fw={600} c="#280067" size="20px">
+        <Text fw={600} c={config.color} size="20px">
           {config.title}
         </Text>
       </Group>
 
       {data.type === 'disability' && (
-        <Flex direction="column" gap="sm">
+        <Flex direction="column" gap="sm" mt="md">
           <Flex justify="space-between" gap="xs">
             <Text size="sm" c="#070707">
-              Type
+              Reason
             </Text>
             <Text size="sm" fw={500}>
-              Type of disability
+              {data.disabilityReason || 'Not specified'}
             </Text>
           </Flex>
           <Flex justify="space-between" gap="xs">
@@ -49,7 +85,7 @@ export const PersonTypeSection = ({ data, config }: PersonTypeSectionProps) => {
               Group
             </Text>
             <Text size="sm" fw={500}>
-              Group of Disability
+              {data.disabilityGroup || 'Not specified'}
             </Text>
           </Flex>
         </Flex>
