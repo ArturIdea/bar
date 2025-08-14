@@ -181,6 +181,7 @@
     "viewDetails": "View Details",
     "viewSignupDetails": "View Sign Up Details",
     "viewUserDetails": "View User Details",
+    "hideDetails": "Hide Details",
     "back": "Back",
     "history": "History",
     "exportToPDF": "Export to PDF",
@@ -199,6 +200,7 @@
     "successfulRequests": "Successful Requests",
     "failedRequests": "Rejected Requests",
     "totalUsers": "Total Users",
+    "totalCards": "Total Cards",
     "thisWeek": "this week",
     "pastWeek": "past week"
   },
@@ -272,7 +274,13 @@
     "NoDataAvailable": "No data available",
     "Users": "Users",
     "NoRegion": "No region added",
-    "UsersByDistrict": "Users by District"
+    "UsersByDistrict": "Users by District",
+    "CardIssuanceOverview": "Users Card Issuance Overview",
+    "CardsPrinted": "Cards Printed",
+    "CardsPendingPrinting": "Cards Pending Printing",
+    "UsersWithNoCardIssued": "Users with No Card Issued",
+    "TotalOnboardedBeneficiaries": "Total Onboarded Beneficiaries",
+    "CitizenBatchOnboarding":"Citizen Batch Onboarding"
   },
   "SignupStages": {
     "CREATED": "Created",

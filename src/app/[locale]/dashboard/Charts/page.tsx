@@ -1,4 +1,5 @@
 import { AppUsageAgeDistributionRadialChart } from '@/ui/components/Dashboard/Charts/AppUsageAgeDistribution/AppUsageAgeDistributionRadialChart';
+import { CardIssuancePieChart } from '@/ui/components/Dashboard/Charts/CardIssuance/CardIssuancePieChart';
 import { CardTypesPieChart } from '@/ui/components/Dashboard/Charts/CardTypes/CardTypesPieChart';
 // import { CardTypesPieChart } from '@/ui/components/Dashboard/Charts/CardTypes/CardTypesPieChart';
 // import { NewAccountsAreaChart } from '@/ui/components/Dashboard/Charts/NewAccounts/NewAccountsAreaChart';
@@ -24,6 +25,10 @@ export default function Charts() {
         <div className="w-[32%]">
           <AppUsageAgeDistributionRadialChart />
         </div>
+      </div>
+      {/* New chart comming here */}
+      <div className="flex items-center">
+        <CardIssuancePieChart />
       </div>
       <div className="flex gap-3">
         <SignupStageBarChart />

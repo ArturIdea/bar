@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, X } from 'lucide-react';
-import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 import { useTranslations } from 'next-intl';
+import { useAppTypeFilterStore } from '@/ui/stores/useAppTypeFilterStore';
 
 export const AppTypeFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +16,7 @@ export const AppTypeFilter = () => {
     // { name: 'AGENT_PORTAL', displayName: 'Agent Portal' },
     { name: 'XALQ_FILE', displayName: t('Charts.XALQ_PORTAL') },
     { name: 'HTTP_CLIENT', displayName: t('Charts.HTTP_CLIENT') },
+    { name: 'CBO', displayName: t('Charts.CitizenBatchOnboarding') },
   ];
 
   useEffect(() => {
