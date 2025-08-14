@@ -146,7 +146,7 @@ export function CardIssuancePieChart() {
       </div>
 
       <div className="flex justify-between p-10">
-        <div className="relative flex items-center justify-center w-1/6 h-[330px]">
+        <div className="relative flex items-center justify-center w-1/4 h-[330px]">
           <CardContent className="flex items-center pb-0">
             <ChartContainer config={chartConfig} className="aspect-square min-h-[320px]">
               <PieChart width={320} height={320}>
@@ -186,15 +186,20 @@ export function CardIssuancePieChart() {
         <div className="flex justify-between items-center">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {chartData.map((entry) => (
-              <div 
-                key={entry.key} 
+              <div
+                key={entry.key}
                 className={`bg-gray-50 p-4 rounded-lg text-start ${
-                  entry.key === 'usersWithNoCardIssued' ? 'cursor-pointer hover:bg-gray-100 transition-colors' : ''
+                  entry.key === 'usersWithNoCardIssued'
+                    ? 'cursor-pointer hover:bg-gray-100 transition-colors'
+                    : ''
                 }`}
                 role={entry.key === 'usersWithNoCardIssued' ? 'button' : undefined}
                 tabIndex={entry.key === 'usersWithNoCardIssued' ? 0 : undefined}
                 onKeyDown={(e) => {
-                  if (entry.key === 'usersWithNoCardIssued' && (e.key === 'Enter' || e.key === ' ')) {
+                  if (
+                    entry.key === 'usersWithNoCardIssued' &&
+                    (e.key === 'Enter' || e.key === ' ')
+                  ) {
                     e.preventDefault();
                     setShowUsersTable(!showUsersTable);
                   }
@@ -205,14 +210,13 @@ export function CardIssuancePieChart() {
                   }
                 }}
               >
-                <div className="text-2xl font-bold text-black-800">
+                <div className="text-2xl font-bold" style={{ color: entry.fill }}>
                   {entry.value.toLocaleString()}
                 </div>
                 <div className="text-sm font-bold text-black-600 mt-1">{entry.category}</div>
                 <div className="text-sm text-black-500 mt-1">
-                  <span className='font-bold '>{t('Charts.percentage')}:</span> {entry.percentage.toFixed(1)}%
+                  {t('Charts.percentage')}: {entry.percentage.toFixed(1)}%
                 </div>
-
               </div>
             ))}
           </div>
@@ -222,9 +226,7 @@ export function CardIssuancePieChart() {
       {/* Users Without Cards Table - Inline */}
       {showUsersTable && (
         <div>
-          <UsersWithoutCardsTable
-            onClose={() => setShowUsersTable(false)}
-          />
+          <UsersWithoutCardsTable onClose={() => setShowUsersTable(false)} />
         </div>
       )}
     </div>
