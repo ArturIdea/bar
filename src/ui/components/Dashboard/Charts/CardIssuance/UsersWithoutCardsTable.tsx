@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useUsersWithoutCards } from '@/ui/hooks/ui/useUsersWithoutCards';
 import { useDateRangeStore } from '@/ui/stores/useDateRangeStore';
@@ -11,6 +11,7 @@ interface UsersWithoutCardsTableProps {
   onClose: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({ onClose }) => {
   const [page, setPage] = useState(0);
   const [searchInput, setSearchInput] = useState('');
@@ -51,16 +52,16 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({ 
     }
   };
 
-  const getSortIcon = (column: string) => {
-    if (sortBy !== column) {
-      return <ChevronDown size={16} className="text-gray-400" />;
-    }
-    return sortDirection === 'asc' ? (
-      <ArrowUp size={16} className="text-blue-600" />
-    ) : (
-      <ArrowDown size={16} className="text-blue-600" />
-    );
-  };
+  // const getSortIcon = (column: string) => {
+  //   if (sortBy !== column) {
+  //     return <ChevronDown size={16} className="text-gray-400" />;
+  //   }
+  //   return sortDirection === 'asc' ? (
+  //     <ArrowUp size={16} className="text-blue-600" />
+  //   ) : (
+  //     <ArrowDown size={16} className="text-blue-600" />
+  //   );
+  // };
 
   if (loading) {
     return (
@@ -85,6 +86,7 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({ 
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-sm font-bold p-2 text-gray-800">{t('Charts.UsersWithNoCardIssued')}</h2>
         <div className="flex items-center gap-4">
+          {/* Search */}
           <div className="flex w-[270px] gap-2 border border-gray-300 rounded-full py-2 px-4">
             <input
               type="text"
@@ -100,23 +102,6 @@ export const UsersWithoutCardsTable: React.FC<UsersWithoutCardsTableProps> = ({ 
           </div>
         </div>
       </div>
-
-      {/* Search */}
-      {/* <div className="flex justify-end mb-4">
-        <div className="flex w-[270px] gap-2 border border-gray-300 rounded-full py-2 px-4">
-          <input
-            type="text"
-            placeholder={t('Filter.searchPlaceHolder')}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="outline-none bg-transparent text-sm placeholder:text-gray-400"
-          />
-          <button type="button" onClick={handleSearch} className="cursor-pointer">
-            <Search size={20} />
-          </button>
-        </div>
-      </div> */}
 
       {/* Table */}
       <div className="overflow-x-auto">
